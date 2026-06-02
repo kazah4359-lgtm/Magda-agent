@@ -1,3 +1,7 @@
 aiogram==3.4.1
-pydantic==2.6.1
+pydantic>=2.4.1,<2.6
 python-dotenv==1.0.1
+openai==1.14.3
+chromadb==0.4.24
+tiktoken==0.6.0
+numpy<2.0
