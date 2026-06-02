@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  agent:
+    build: .
+    container_name: magda_agent
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./magda_agent:/app/magda_agent
+    restart: unless-stopped
