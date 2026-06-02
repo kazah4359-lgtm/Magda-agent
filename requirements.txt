@@ -1,3 +1,4 @@
 aiogram==3.15.0
 pydantic<2.10,>=2.4.1
 pydantic-settings==2.7.0
+openai>=1.0.0
