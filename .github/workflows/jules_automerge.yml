@@ -13,9 +13,10 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt || pip install pytest
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio
       - name: Run test suite
-        run: pytest
+        run: export PYTHONPATH=$(pwd) && pytest tests/
       - name: Auto-approve and Merge PR
         if: success()
         env:
