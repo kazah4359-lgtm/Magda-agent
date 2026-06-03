@@ -8,6 +8,7 @@ from magda_agent.memory.storage import MemorySystem
 from magda_agent.skills import initialize_skills
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
+from magda_agent.memory.long_term import LongTermMemory
 
 @pytest.mark.asyncio
 async def test_integration():
@@ -24,7 +25,10 @@ async def test_integration():
     memory = MemorySystem()
     skills = initialize_skills()
 
-    consciousness = Consciousness(llm, emotions, memory, skills)
+    # Use EphemeralClient for tests
+    long_term_memory = LongTermMemory(persist_directory=":memory:")
+
+    consciousness = Consciousness(llm, emotions, memory, skills, long_term_memory=long_term_memory)
     subconsciousness = Subconsciousness(llm, emotions, memory, interval=1)
 
     # 1. Test Consciousness processing
