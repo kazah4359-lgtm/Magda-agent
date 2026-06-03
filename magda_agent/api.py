@@ -4,8 +4,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+from typing import Optional
+
 from magda_agent.llm_client import LLMClient
 from magda_agent.emotions.engine import EmotionalEngine
+from magda_agent.emotions.attachment import AttachmentModel
 from magda_agent.memory.storage import MemorySystem
 from magda_agent.skills import initialize_skills
 from magda_agent.planning.planner import Planner
@@ -25,6 +28,7 @@ habit_tracker = HabitTracker()
 planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tracker)
 long_term_memory = LongTermMemory()
 evaluator = Evaluator(llm=llm_client, memory=memory_system)
+attachment_model = AttachmentModel()
 
 consciousness = Consciousness(
     llm=llm_client,
@@ -34,7 +38,8 @@ consciousness = Consciousness(
     planner=planner,
     long_term_memory=long_term_memory,
     evaluator=evaluator,
-    habit_tracker=habit_tracker
+    habit_tracker=habit_tracker,
+    attachment=attachment_model
 )
 
 subconsciousness = Subconsciousness(
@@ -56,13 +61,14 @@ app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)
 
 class ProcessInputRequest(BaseModel):
     text: str
+    user_id: Optional[int] = None
 
 class ProcessInputResponse(BaseModel):
     response: str
 
 @app.post("/process", response_model=ProcessInputResponse)
 async def process_input(req: ProcessInputRequest):
-    resp = await consciousness.process_input(req.text)
+    resp = await consciousness.process_input(req.text, req.user_id)
     return ProcessInputResponse(response=resp)
 
 class StateResponse(BaseModel):
