@@ -21,6 +21,11 @@ def test_state_endpoint():
     assert response.status_code == 200
     assert "state" in response.json()
 
+def test_healthcheck_endpoint():
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok"}
+
 def test_process_endpoint():
     # Start up the app tasks
     with TestClient(app) as client_with_startup:

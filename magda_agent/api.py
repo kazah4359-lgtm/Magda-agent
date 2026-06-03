@@ -59,3 +59,10 @@ class StateResponse(BaseModel):
 @app.get("/state", response_model=StateResponse)
 async def get_state():
     return StateResponse(state=consciousness.get_internal_state())
+
+class HealthResponse(BaseModel):
+    status: str
+
+@app.get("/health", response_model=HealthResponse)
+async def healthcheck():
+    return HealthResponse(status="ok")
