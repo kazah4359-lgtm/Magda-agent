@@ -1,17 +1,24 @@
 name: 2. Trigger Next Self-Improvement Task
+
 on:
   pull_request:
     types: [closed]
     branches: [main]
   workflow_dispatch:
+
 jobs:
   next-task:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && github.event.pull_request.user.login == 'google-jules[bot]')
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       (github.event.pull_request.user.login == 'google-jules[bot]' ||
+        contains(github.event.pull_request.labels.*.name, 'jules')))
+
     steps:
       - name: Trigger Google Jules via Official API
         run: |
-          curl 'https://jules.googleapis.com/v1alpha/sessions' \
+          curl -f 'https://jules.googleapis.com/v1alpha/sessions' \
             -X POST \
             -H "Content-Type: application/json" \
             -H "X-Goog-Api-Key: ${{ secrets.JULES_API_KEY }}" \
