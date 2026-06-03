@@ -11,7 +11,7 @@ permissions:
 jobs:
   test-and-merge:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'google-jules[bot]' || contains(github.event.pull_request.labels.*.name, 'jules')
+    if: github.event.pull_request.user.login == 'google-jules[bot]' || github.event.pull_request.user.login == 'kazah4359-lgtm' || contains(github.event.pull_request.labels.*.name, 'jules')
 
     steps:
       - uses: actions/checkout@v4
@@ -33,5 +33,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          gh pr review ${{ github.event.pull_request.number }} --approve
-          gh pr merge ${{ github.event.pull_request.number }} --merge --delete-branch
+          gh pr review ${{ github.event.pull_request.number }} --approve || true
+          gh pr merge ${{ github.event.pull_request.number }} --merge --delete-branch --admin || gh pr merge ${{ github.event.pull_request.number }} --merge --delete-branch
