@@ -58,6 +58,29 @@ async def command_start_handler(message: Message) -> None:
     """
     await message.answer(f"Hello, {message.from_user.full_name}! I am Magda, your AGI agent.")
 
+@dp.message()
+async def process_message_handler(message: Message) -> None:
+    """
+    This handler receives all other messages and forwards them to consciousness.
+    """
+    import httpx
+    consciousness_url = os.getenv("CONSCIOUSNESS_URL", "http://consciousness:8000")
+
+    if message.text:
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    f"{consciousness_url}/process",
+                    json={"input_text": message.text},
+                    timeout=30.0
+                )
+                response.raise_for_status()
+                data = response.json()
+                await message.answer(data.get("thoughts", "No thoughts..."))
+        except Exception as e:
+            logging.error(f"Failed to communicate with consciousness: {e}", exc_info=True)
+            await message.answer("My consciousness is currently unreachable.")
+
 async def main() -> None:
     # Initialize Bot instance with default bot properties which will be passed to all API calls
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
