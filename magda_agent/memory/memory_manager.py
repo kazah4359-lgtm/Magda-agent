@@ -67,19 +67,28 @@ class MemoryManager:
         except Exception as e:
             print(f"Error in memory consolidation: {e}")
 
-    def retrieve_long_term(self, query: str, n_results: int = 2) -> str:
+    def retrieve_long_term(self, query: str, n_results: int = 3, threshold: float = 1.5) -> str:
         """
-        Поиск релевантных воспоминаний по запросу.
+        Поиск релевантных воспоминаний по запросу с фильтрацией по расстоянию.
         """
         if self.collection.count() == 0:
             return ""
 
         results = self.collection.query(
             query_texts=[query],
-            n_results=min(n_results, self.collection.count())
+            n_results=min(n_results, self.collection.count()),
+            include=["documents", "distances"]
         )
 
+        relevant_memories = []
         if results and results['documents'] and results['documents'][0]:
-            memories = "\n- ".join(results['documents'][0])
+            for doc, distance in zip(results['documents'][0], results['distances'][0]):
+                # Чем меньше distance, тем ближе вектор. Отсекаем "мусорные" воспоминания.
+                if distance < threshold:
+                    relevant_memories.append(doc)
+
+        if relevant_memories:
+            memories = "\n- ".join(relevant_memories)
             return f"Relevant past memories:\n- {memories}"
+
         return ""

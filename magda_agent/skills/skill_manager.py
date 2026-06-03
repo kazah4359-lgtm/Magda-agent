@@ -43,13 +43,26 @@ class SkillManager:
         """
         # Базовая защита: убедимся, что имя файла безопасно
         safe_name = "".join([c for c in skill_name if c.isalnum() or c == '_'])
+
+        if not safe_name:
+            return "Error: Invalid skill name provided."
+
         filepath = os.path.join(self.skills_dir, f"{safe_name}.py")
+
+        # Предварительная проверка синтаксиса
+        try:
+            compile(code, filepath, 'exec')
+        except SyntaxError as se:
+            return f"Error creating skill: Syntax Error in code. {se}"
 
         try:
             with open(filepath, "w", encoding="utf-8") as f:
                 f.write(code)
             self._load_skill(safe_name)
-            return f"Skill '{safe_name}' successfully created and loaded."
+            if safe_name in self.skills:
+                return f"Skill '{safe_name}' successfully created and loaded."
+            else:
+                return f"Error: Skill '{safe_name}' created but 'execute' function was not found."
         except Exception as e:
             return f"Error creating skill: {e}"
 

@@ -39,6 +39,10 @@ class Consciousness:
         # Получаем текущее эмоциональное состояние
         emotional_context = self.personality.get_emotional_state()
 
+        # Если агенту страшно, он должен быть осторожным
+        if self.personality.drives.get("fear", 0) > 50:
+            emotional_context += "\nYou are currently very afraid. Be extremely cautious and hesitant before executing any new code or making decisions."
+
         # Получаем релевантные долгосрочные воспоминания
         long_term_context = self.memory.retrieve_long_term(user_input)
 
@@ -100,7 +104,10 @@ class Consciousness:
                 kwargs = json.loads(tool_call.function.arguments)
 
                 if func_name == "system_execute_code":
-                    result = self.skill_manager.execute_skill("system_execute_code", **kwargs)
+                    if self.personality.drives.get("fear", 0) > 80:
+                         result = "I am too scared to execute this code right now..."
+                    else:
+                         result = self.skill_manager.execute_skill("system_execute_code", **kwargs)
                 elif func_name == "create_new_skill":
                     result = self.skill_manager.create_new_skill(**kwargs)
                 else:
