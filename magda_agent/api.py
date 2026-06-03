@@ -13,6 +13,7 @@ from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
+from magda_agent.learning.habits import HabitTracker
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,7 +21,8 @@ llm_client = LLMClient()
 emotional_engine = EmotionalEngine()
 memory_system = MemorySystem()
 skill_registry = initialize_skills()
-planner = Planner(llm=llm_client, skills=skill_registry)
+habit_tracker = HabitTracker()
+planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tracker)
 long_term_memory = LongTermMemory()
 evaluator = Evaluator(llm=llm_client, memory=memory_system)
 
@@ -31,7 +33,8 @@ consciousness = Consciousness(
     skills=skill_registry,
     planner=planner,
     long_term_memory=long_term_memory,
-    evaluator=evaluator
+    evaluator=evaluator,
+    habit_tracker=habit_tracker
 )
 
 subconsciousness = Subconsciousness(

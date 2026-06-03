@@ -3,6 +3,7 @@ import logging
 from typing import List, Dict, Any, Optional
 from magda_agent.llm_client import LLMClient
 from magda_agent.skills.registry import SkillRegistry
+from magda_agent.learning.habits import HabitTracker
 
 class Planner:
     """
@@ -11,9 +12,10 @@ class Planner:
     selecting which skills to use, and maintaining state.
     """
 
-    def __init__(self, llm: LLMClient, skills: SkillRegistry):
+    def __init__(self, llm: LLMClient, skills: SkillRegistry, habit_tracker: Optional[HabitTracker] = None):
         self.llm = llm
         self.skills = skills
+        self.habit_tracker = habit_tracker
         self.current_plan: List[Dict[str, Any]] = []
         self.completed_steps: List[Dict[str, Any]] = []
 
@@ -41,6 +43,11 @@ class Planner:
             "'description' (what to do) and 'skill' (the name of the skill to use, or null if none). "
             "Only output the JSON array, nothing else."
         )
+
+        if self.habit_tracker:
+            suggested_strategy = self.habit_tracker.suggest_strategy(user_input)
+            if suggested_strategy:
+                system_prompt += f"\n\nSuggested strategy based on past success: consider using the '{suggested_strategy}' skill."
 
         messages = [
             {"role": "system", "content": system_prompt},
