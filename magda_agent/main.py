@@ -3,6 +3,7 @@ import logging
 import os
 import sys
 from typing import Any, Awaitable, Callable, Dict
+import httpx
 
 from aiogram import BaseMiddleware, Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
@@ -10,32 +11,8 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, ErrorEvent
 
-from magda_agent.llm_client import LLMClient
-from magda_agent.emotions.engine import EmotionalEngine
-from magda_agent.memory.storage import MemorySystem
-from magda_agent.skills import initialize_skills
-from magda_agent.consciousness.core import Consciousness
-from magda_agent.subconsciousness.reflection import Subconsciousness
-
-# Initialize Components
-llm_client = LLMClient()
-emotional_engine = EmotionalEngine()
-memory_system = MemorySystem()
-skill_registry = initialize_skills()
-
-consciousness = Consciousness(
-    llm=llm_client,
-    emotions=emotional_engine,
-    memory=memory_system,
-    skills=skill_registry
-)
-
-subconsciousness = Subconsciousness(
-    llm=llm_client,
-    emotions=emotional_engine,
-    memory=memory_system,
-    interval=300 # Reflect every 5 minutes in production
-)
+# API URL for Consciousness Microservice
+CONSCIOUSNESS_API_URL = os.getenv("CONSCIOUSNESS_API_URL", "http://consciousness:8000")
 
 # Initialize Bot and Dispatcher
 BOT_TOKEN = os.getenv("BOT_TOKEN", "dummy_token")
@@ -76,28 +53,41 @@ async def command_start_handler(message: Message) -> None:
 
 @dp.message(Command("state"))
 async def command_state_handler(message: Message) -> None:
-    """Returns the internal state of the agent."""
-    state_info = consciousness.get_internal_state()
-    await message.answer(f"<b>My Internal State:</b>\n<pre>{state_info}</pre>")
+    """Returns the internal state of the agent from the microservice."""
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            response = await client.get(f"{CONSCIOUSNESS_API_URL}/state")
+            response.raise_for_status()
+            state_info = response.json().get("state", "No state information.")
+            await message.answer(f"<b>My Internal State:</b>\n<pre>{state_info}</pre>")
+    except Exception as e:
+        logging.error(f"Failed to get state: {e}")
+        await message.answer("Error: Could not retrieve internal state from Consciousness API.")
 
 @dp.message()
 async def main_message_handler(message: Message) -> None:
-    """Processes all incoming messages through Magda's Consciousness."""
+    """Processes all incoming messages through Magda's Consciousness microservice."""
     if not message.text:
         return
 
     # Show typing status to user
     await message.bot.send_chat_action(chat_id=message.chat.id, action="typing")
 
-    # Process through consciousness
-    response = await consciousness.process_input(message.text)
-    await message.answer(response)
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            response = await client.post(
+                f"{CONSCIOUSNESS_API_URL}/process",
+                json={"text": message.text}
+            )
+            response.raise_for_status()
+            resp_text = response.json().get("response", "No response from API.")
+            await message.answer(resp_text)
+    except Exception as e:
+        logging.error(f"Failed to process input: {e}")
+        await message.answer("Error: Consciousness API is unreachable or returned an error.")
 
 async def main() -> None:
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-
-    # Start Subconsciousness in background
-    asyncio.create_task(subconsciousness.start())
 
     # Start Polling
     logging.info("Magda Agent is starting...")
@@ -112,5 +102,3 @@ if __name__ == "__main__":
             logging.info("Magda Agent stopped.")
     else:
         logging.info("Dummy token detected. Running in test mode.")
-        # Minimal verification that modules are linked
-        print(consciousness.get_internal_state())
