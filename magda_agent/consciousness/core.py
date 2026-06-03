@@ -6,6 +6,7 @@ from magda_agent.memory.storage import MemorySystem
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.planning.planner import Planner
 from magda_agent.memory.long_term import LongTermMemory
+from magda_agent.metacognition.evaluator import Evaluator
 
 class Consciousness:
     """
@@ -19,7 +20,8 @@ class Consciousness:
         memory: MemorySystem,
         skills: SkillRegistry,
         planner: Optional[Planner] = None,
-        long_term_memory: Optional[LongTermMemory] = None
+        long_term_memory: Optional[LongTermMemory] = None,
+        evaluator: Optional[Evaluator] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -27,6 +29,7 @@ class Consciousness:
         self.skills = skills
         self.planner = planner
         self.long_term_memory = long_term_memory
+        self.evaluator = evaluator
 
     async def process_input(self, user_input: str) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -67,6 +70,11 @@ class Consciousness:
         if plan_str:
             system_prompt += f"\n\n{plan_str}\nFollow the plan when generating the response."
 
+        if self.evaluator:
+            eval_feedback = self.evaluator.get_feedback_for_prompt()
+            if eval_feedback:
+                system_prompt += f"\n\n{eval_feedback}"
+
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_input}
@@ -90,6 +98,10 @@ class Consciousness:
 
         # Gradual emotional decay after processing
         self.emotions.decay()
+
+        # 6. Metacognition (Self-Evaluation)
+        if self.evaluator:
+            await self.evaluator.evaluate_response(user_input, response)
 
         return response
 
