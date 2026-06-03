@@ -7,6 +7,7 @@ from magda_agent.skills.registry import SkillRegistry
 from magda_agent.planning.planner import Planner
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
+from magda_agent.learning.habits import HabitTracker
 
 class Consciousness:
     """
@@ -21,7 +22,8 @@ class Consciousness:
         skills: SkillRegistry,
         planner: Optional[Planner] = None,
         long_term_memory: Optional[LongTermMemory] = None,
-        evaluator: Optional[Evaluator] = None
+        evaluator: Optional[Evaluator] = None,
+        habit_tracker: Optional[HabitTracker] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -30,6 +32,7 @@ class Consciousness:
         self.planner = planner
         self.long_term_memory = long_term_memory
         self.evaluator = evaluator
+        self.habit_tracker = habit_tracker
 
     async def process_input(self, user_input: str) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -102,6 +105,15 @@ class Consciousness:
         # 6. Metacognition (Self-Evaluation)
         if self.evaluator:
             await self.evaluator.evaluate_response(user_input, response)
+
+            # Record habit if we have an evaluation and a tracker
+            if self.habit_tracker and self.evaluator.last_evaluation:
+                avg_score = self.evaluator.last_evaluation.get("average_score", 0.0)
+                if self.planner and self.planner.current_plan:
+                    for step in self.planner.current_plan:
+                        skill = step.get("skill")
+                        if skill:
+                            self.habit_tracker.record_usage(user_input, skill, float(avg_score))
 
         return response
 
