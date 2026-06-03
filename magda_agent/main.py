@@ -75,9 +75,13 @@ async def main_message_handler(message: Message) -> None:
 
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
+            payload = {"text": message.text}
+            if message.from_user and message.from_user.id:
+                payload["user_id"] = message.from_user.id
+
             response = await client.post(
                 f"{CONSCIOUSNESS_API_URL}/process",
-                json={"text": message.text}
+                json=payload
             )
             response.raise_for_status()
             resp_text = response.json().get("response", "No response from API.")

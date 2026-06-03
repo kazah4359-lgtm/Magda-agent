@@ -8,6 +8,7 @@ from magda_agent.planning.planner import Planner
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
 from magda_agent.learning.habits import HabitTracker
+from magda_agent.emotions.attachment import AttachmentModel
 
 class Consciousness:
     """
@@ -23,7 +24,8 @@ class Consciousness:
         planner: Optional[Planner] = None,
         long_term_memory: Optional[LongTermMemory] = None,
         evaluator: Optional[Evaluator] = None,
-        habit_tracker: Optional[HabitTracker] = None
+        habit_tracker: Optional[HabitTracker] = None,
+        attachment: Optional[AttachmentModel] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -33,8 +35,9 @@ class Consciousness:
         self.long_term_memory = long_term_memory
         self.evaluator = evaluator
         self.habit_tracker = habit_tracker
+        self.attachment = attachment
 
-    async def process_input(self, user_input: str) -> str:
+    async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
 
         # 1. Perception & Emotion Update (Initial reaction)
@@ -66,9 +69,16 @@ class Consciousness:
                 # For this task, integrating the planner before generation is required.
 
         # 4. LLM Reasoning
+        emotion_summary = self.emotions.get_summary()
+        if self.attachment and user_id is not None:
+            self.attachment.record_interaction(user_id)
+            attachment_prompt = self.attachment.get_attachment_prompt(user_id)
+            if attachment_prompt:
+                emotion_summary += f"\n{attachment_prompt}"
+
         system_prompt = self.llm.get_system_prompt(
             context=context_str,
-            emotions=self.emotions.get_summary()
+            emotions=emotion_summary
         )
         if plan_str:
             system_prompt += f"\n\n{plan_str}\nFollow the plan when generating the response."
