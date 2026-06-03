@@ -1,0 +1,40 @@
+name: 1. Auto-Validate and Merge Jules PRs
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-merge:
+    runs-on: ubuntu-latest
+    # Запускаем только если PR создан ботом Jules
+    if: github.event.pull_request.user.login == 'google-jules[bot]' || contains(github.event.pull_request.labels.*.name, 'jules')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          # Если для тестов нужны дополнительные пакеты, ставим их сюда
+
+      - name: Run test suite
+        run: |
+          pytest
+
+      - name: Auto-approve and Merge PR
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Автоматическое одобрение изменений
+          gh pr review ${{ github.event.pull_request.number }} --approve
+          # Слияние ветки и удаление временной ветки агента
+          gh pr merge ${{ github.event.pull_request.number }} --merge --delete-branch
