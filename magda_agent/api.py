@@ -8,6 +8,7 @@ from magda_agent.llm_client import LLMClient
 from magda_agent.emotions.engine import EmotionalEngine
 from magda_agent.memory.storage import MemorySystem
 from magda_agent.skills import initialize_skills
+from magda_agent.planning.planner import Planner
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 
@@ -17,12 +18,14 @@ llm_client = LLMClient()
 emotional_engine = EmotionalEngine()
 memory_system = MemorySystem()
 skill_registry = initialize_skills()
+planner = Planner(llm=llm_client, skills=skill_registry)
 
 consciousness = Consciousness(
     llm=llm_client,
     emotions=emotional_engine,
     memory=memory_system,
-    skills=skill_registry
+    skills=skill_registry,
+    planner=planner
 )
 
 subconsciousness = Subconsciousness(
