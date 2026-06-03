@@ -5,6 +5,7 @@ from magda_agent.emotions.engine import EmotionalEngine
 from magda_agent.memory.storage import MemorySystem
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.planning.planner import Planner
+from magda_agent.memory.long_term import LongTermMemory
 
 class Consciousness:
     """
@@ -17,13 +18,15 @@ class Consciousness:
         emotions: EmotionalEngine,
         memory: MemorySystem,
         skills: SkillRegistry,
-        planner: Optional[Planner] = None
+        planner: Optional[Planner] = None,
+        long_term_memory: Optional[LongTermMemory] = None
     ):
         self.llm = llm
         self.emotions = emotions
         self.memory = memory
         self.skills = skills
         self.planner = planner
+        self.long_term_memory = long_term_memory
 
     async def process_input(self, user_input: str) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -35,6 +38,11 @@ class Consciousness:
         # 2. Memory Retrieval
         relevant_memories = self.memory.retrieve_relevant(user_input)
         context_str = "\n".join([f"- {m.content}" for m in relevant_memories])
+
+        if self.long_term_memory:
+            long_term_memories = self.long_term_memory.recall(user_input)
+            if long_term_memories:
+                context_str += "\nLong Term Memories:\n" + "\n".join([f"- {m}" for m in long_term_memories])
 
         # 3. Planning (Prefrontal Cortex)
         plan_str = ""
@@ -69,12 +77,16 @@ class Consciousness:
         response = await self.llm.chat_completion(messages)
 
         # 5. Post-processing & Memory Storage
+        memory_content = f"User said: {user_input} | I replied: {response}"
         self.memory.add_memory(
-            content=f"User said: {user_input} | I replied: {response}",
+            content=memory_content,
             importance=0.5,
             emotional_state=self.emotions.state,
             tags=["conversation"]
         )
+
+        if self.long_term_memory:
+            self.long_term_memory.store(text=memory_content, metadata={"type": "conversation"})
 
         # Gradual emotional decay after processing
         self.emotions.decay()

@@ -18,3 +18,4 @@ venv.bak/
 
 # Docker
 .dockerignore
+memory_db/

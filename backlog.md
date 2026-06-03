@@ -18,7 +18,7 @@
   Интеграция: Consciousness вызывает Planner перед генерацией ответа.
   Тесты: mock LLM, проверить что план генерируется и шаги выполняются последовательно.
 
-* [ ] MODULE: **Hippocampus (Долгосрочная память с RAG)** — модуль `magda_agent/memory/long_term.py`.
+* [x] MODULE: **Hippocampus (Долгосрочная память с RAG)** — модуль `magda_agent/memory/long_term.py`. (2026-06-03)
   Векторное хранилище (ChromaDB) для всех диалогов и фактов.
   Метод `store(text, metadata)` — сохранить факт/сообщение с эмбеддингом.
   Метод `recall(query, top_k=5)` — найти релевантные воспоминания по семантике.
