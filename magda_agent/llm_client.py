@@ -1,11 +1,12 @@
 import os
 import logging
+import asyncio
 from typing import List, Dict, Any, Optional
 
 try:
-    from openai import OpenAI
+    from openai import AsyncOpenAI
 except ImportError:
-    OpenAI = None
+    AsyncOpenAI = None
 
 class LLMClient:
     """
@@ -16,26 +17,23 @@ class LLMClient:
         self.model = model
         self.client = None
 
-        if OpenAI and self.api_key:
-            self.client = OpenAI(api_key=self.api_key)
+        if AsyncOpenAI and self.api_key:
+            self.client = AsyncOpenAI(api_key=self.api_key)
         else:
-            if not OpenAI:
-                logging.warning("OpenAI library not installed.")
+            if not AsyncOpenAI:
+                logging.warning("OpenAI library (Async) not installed.")
             if not self.api_key:
                 logging.warning("OPENAI_API_KEY not found in environment.")
 
     async def chat_completion(self, messages: List[Dict[str, str]], temperature: float = 0.7) -> str:
         """
-        Sends a list of messages to the LLM and returns the response content.
+        Sends a list of messages to the LLM and returns the response content asynchronously.
         """
         if not self.client:
             return "Error: LLM Client not initialized. Please check OPENAI_API_KEY."
 
         try:
-            # We use the sync client for simplicity in this PoC,
-            # but wrapping it in an async-friendly way if needed.
-            # In a real app, one would use the async client.
-            response = self.client.chat.completions.create(
+            response = await self.client.chat.completions.create(
                 model=self.model,
                 messages=messages,
                 temperature=temperature
