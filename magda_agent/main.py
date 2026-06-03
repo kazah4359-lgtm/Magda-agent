@@ -8,7 +8,7 @@ from aiogram import BaseMiddleware, Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram.types import Message, ErrorEvent
 
 # Initialize Bot and Dispatcher
 # In a real setup, BOT_TOKEN would be loaded from an environment variable.
@@ -42,6 +42,14 @@ class WhitelistMiddleware(BaseMiddleware):
 
 dp = Dispatcher()
 dp.message.middleware(WhitelistMiddleware())
+
+@dp.errors()
+async def error_handler(event: ErrorEvent) -> None:
+    """
+    Global error handler to catch all asynchronous errors in aiogram handlers.
+    """
+    logging.error(f"Update: {event.update}\nException: {event.exception}", exc_info=True)
+
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
