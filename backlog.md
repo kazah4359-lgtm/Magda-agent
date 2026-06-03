@@ -13,3 +13,4 @@
 
 ## 🔵 Новое
 * [x] FEATURE: Добавить healthcheck для сервисов.
+* [x] FEATURE: Добавить обработку голосовых сообщений (STT через whisper-tiny и TTS через speecht5_tts)

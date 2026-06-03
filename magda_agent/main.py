@@ -8,8 +8,13 @@ import httpx
 from aiogram import BaseMiddleware, Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+import tempfile
+from pydub import AudioSegment
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, ErrorEvent
+from aiogram.types import Message, ErrorEvent, FSInputFile
+from aiogram import F
+
+from magda_agent.speech import speech_processor
 
 # API URL for Consciousness Microservice
 CONSCIOUSNESS_API_URL = os.getenv("CONSCIOUSNESS_API_URL", "http://consciousness:8000")
@@ -63,6 +68,69 @@ async def command_state_handler(message: Message) -> None:
     except Exception as e:
         logging.error(f"Failed to get state: {e}")
         await message.answer("Error: Could not retrieve internal state from Consciousness API.")
+
+@dp.message(F.voice)
+async def voice_message_handler(message: Message) -> None:
+    """Processes incoming voice messages."""
+    await message.bot.send_chat_action(chat_id=message.chat.id, action="record_voice")
+
+    try:
+        # Download voice message
+        voice = await message.bot.get_file(message.voice.file_id)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            ogg_path = os.path.join(temp_dir, "input.ogg")
+            wav_path = os.path.join(temp_dir, "input.wav")
+            out_wav_path = os.path.join(temp_dir, "output.wav")
+            out_ogg_path = os.path.join(temp_dir, "output.ogg")
+
+            await message.bot.download_file(voice.file_path, ogg_path)
+
+            # Convert OGG to WAV using pydub in a thread to not block event loop
+            def convert_to_wav():
+                audio = AudioSegment.from_ogg(ogg_path)
+                audio.export(wav_path, format="wav")
+
+            await asyncio.to_thread(convert_to_wav)
+
+            # STT
+            text = await asyncio.to_thread(speech_processor.stt, wav_path)
+
+            if not text:
+                await message.answer("Sorry, I couldn't understand the audio.")
+                return
+
+            # Send to Consciousness API
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                response = await client.post(
+                    f"{CONSCIOUSNESS_API_URL}/process",
+                    json={"text": text}
+                )
+                response.raise_for_status()
+                resp_text = response.json().get("response", "No response from API.")
+
+            # TTS
+            success = await asyncio.to_thread(speech_processor.tts, resp_text, out_wav_path)
+
+            if success:
+                # Convert WAV back to OGG using pydub
+                def convert_to_ogg():
+                    audio = AudioSegment.from_wav(out_wav_path)
+                    # Telegram requires OPUS codec for voice messages
+                    audio.export(out_ogg_path, format="ogg", codec="libopus")
+
+                await asyncio.to_thread(convert_to_ogg)
+
+                # Send voice message
+                voice_file = FSInputFile(out_ogg_path)
+                await message.answer_voice(voice_file)
+            else:
+                # Fallback to text
+                await message.answer(resp_text)
+
+    except Exception as e:
+        logging.error(f"Failed to process voice input: {e}")
+        await message.answer("Error processing voice message.")
 
 @dp.message()
 async def main_message_handler(message: Message) -> None:

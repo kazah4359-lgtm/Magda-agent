@@ -7,3 +7,9 @@ pytest-asyncio
 fastapi
 uvicorn
 httpx
+torch
+transformers
+soundfile
+pydub
+anyascii
+datasets
