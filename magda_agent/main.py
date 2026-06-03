@@ -10,35 +10,11 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, ErrorEvent
 
-from magda_agent.llm_client import LLMClient
-from magda_agent.emotions.engine import EmotionalEngine
-from magda_agent.memory.storage import MemorySystem
-from magda_agent.skills import initialize_skills
-from magda_agent.consciousness.core import Consciousness
-from magda_agent.subconsciousness.reflection import Subconsciousness
-
-# Initialize Components
-llm_client = LLMClient()
-emotional_engine = EmotionalEngine()
-memory_system = MemorySystem()
-skill_registry = initialize_skills()
-
-consciousness = Consciousness(
-    llm=llm_client,
-    emotions=emotional_engine,
-    memory=memory_system,
-    skills=skill_registry
-)
-
-subconsciousness = Subconsciousness(
-    llm=llm_client,
-    emotions=emotional_engine,
-    memory=memory_system,
-    interval=300 # Reflect every 5 minutes in production
-)
+import httpx
 
 # Initialize Bot and Dispatcher
 BOT_TOKEN = os.getenv("BOT_TOKEN", "dummy_token")
+CONSCIOUSNESS_URL = os.getenv("CONSCIOUSNESS_URL", "http://localhost:8000")
 
 class WhitelistMiddleware(BaseMiddleware):
     def __init__(self):
@@ -77,7 +53,15 @@ async def command_start_handler(message: Message) -> None:
 @dp.message(Command("state"))
 async def command_state_handler(message: Message) -> None:
     """Returns the internal state of the agent."""
-    state_info = consciousness.get_internal_state()
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(f"{CONSCIOUSNESS_URL}/state", timeout=10.0)
+            resp.raise_for_status()
+            state_info = resp.json().get("state", "Unknown state")
+    except Exception as e:
+        logging.error(f"Error fetching state from consciousness service: {e}")
+        state_info = f"Error fetching state: {e}"
+
     await message.answer(f"<b>My Internal State:</b>\n<pre>{state_info}</pre>")
 
 @dp.message()
@@ -90,14 +74,23 @@ async def main_message_handler(message: Message) -> None:
     await message.bot.send_chat_action(chat_id=message.chat.id, action="typing")
 
     # Process through consciousness
-    response = await consciousness.process_input(message.text)
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.post(
+                f"{CONSCIOUSNESS_URL}/process",
+                json={"text": message.text},
+                timeout=60.0
+            )
+            resp.raise_for_status()
+            response = resp.json().get("response", "No response returned.")
+    except Exception as e:
+        logging.error(f"Error calling consciousness service: {e}")
+        response = "Sorry, I am having trouble connecting to my cognitive systems right now."
+
     await message.answer(response)
 
 async def main() -> None:
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-
-    # Start Subconsciousness in background
-    asyncio.create_task(subconsciousness.start())
 
     # Start Polling
     logging.info("Magda Agent is starting...")
@@ -112,5 +105,3 @@ if __name__ == "__main__":
             logging.info("Magda Agent stopped.")
     else:
         logging.info("Dummy token detected. Running in test mode.")
-        # Minimal verification that modules are linked
-        print(consciousness.get_internal_state())

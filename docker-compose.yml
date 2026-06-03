@@ -1,8 +1,25 @@
 version: '3.8'
 
 services:
-  magda_bot:
+  magda_consciousness:
     build: .
+    command: uvicorn magda_agent.consciousness.api:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
     env_file:
       - .env
+    environment:
+      - PYTHONPATH=/app
+    restart: unless-stopped
+
+  magda_bot:
+    build: .
+    command: python magda_agent/main.py
+    env_file:
+      - .env
+    environment:
+      - CONSCIOUSNESS_URL=http://magda_consciousness:8000
+      - PYTHONPATH=/app
+    depends_on:
+      - magda_consciousness
     restart: unless-stopped
