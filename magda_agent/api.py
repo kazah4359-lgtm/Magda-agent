@@ -12,6 +12,7 @@ from magda_agent.planning.planner import Planner
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.memory.long_term import LongTermMemory
+from magda_agent.metacognition.evaluator import Evaluator
 
 logging.basicConfig(level=logging.INFO)
 
@@ -21,6 +22,7 @@ memory_system = MemorySystem()
 skill_registry = initialize_skills()
 planner = Planner(llm=llm_client, skills=skill_registry)
 long_term_memory = LongTermMemory()
+evaluator = Evaluator(llm=llm_client, memory=memory_system)
 
 consciousness = Consciousness(
     llm=llm_client,
@@ -28,7 +30,8 @@ consciousness = Consciousness(
     memory=memory_system,
     skills=skill_registry,
     planner=planner,
-    long_term_memory=long_term_memory
+    long_term_memory=long_term_memory,
+    evaluator=evaluator
 )
 
 subconsciousness = Subconsciousness(
