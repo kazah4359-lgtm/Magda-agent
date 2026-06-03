@@ -19,13 +19,38 @@ jobs:
     steps:
       - name: Trigger Google Jules via Official API
         run: |
+          PROMPT=$(cat <<'EOF'
+          You are building a digital brain for Magda AI Agent (Python, asyncio, aiogram Telegram bot).
+
+          TASK:
+          1. Open backlog.md in the repo root.
+          2. Find the FIRST task with status [ ] in section "Архитектура мозга".
+          3. Implement the ENTIRE module as described (code + integration + pytest tests).
+          4. Update backlog.md: mark the task [x] and add today's date.
+          5. If you find bugs or improvements, add them to "Обнаружено" section as new [ ] items.
+
+          STRICT RULES:
+          - Implement the full module in one PR. Do NOT split into smaller PRs.
+          - Every function MUST have type hints and a docstring.
+          - Write pytest tests that use mocks for LLM calls (never call real APIs in tests).
+          - Keep existing tests passing. Run pytest mentally before submitting.
+          - Do NOT refactor or modify code outside the scope of your task.
+          - Follow existing code style (see magda_agent/consciousness/core.py as reference).
+          - Use existing dependencies from requirements.txt where possible. If you need a new dependency, add it to requirements.txt.
+          - Integration: wire your module into the existing architecture as described in the task.
+          EOF
+          )
+
           curl -f 'https://jules.googleapis.com/v1alpha/sessions' \
             -X POST \
             -H "Content-Type: application/json" \
             -H "X-Goog-Api-Key: ${{ secrets.JULES_API_KEY }}" \
-            -d '{
-              "prompt": "Read backlog.md. Take the first [ ] task, implement code + pytest tests, update backlog.md to [x], add new tasks if found, create PR.",
-              "sourceContext": {"source": "sources/github/${{ github.repository }}", "githubRepoContext": {"startingBranch": "main"}},
-              "automationMode": "AUTO_CREATE_PR",
-              "title": "Autonomous Self-Improvement Step"
-            }'
+            -d "$(jq -n \
+              --arg prompt "$PROMPT" \
+              --arg source "sources/github/${{ github.repository }}" \
+              '{
+                "prompt": $prompt,
+                "sourceContext": {"source": $source, "githubRepoContext": {"startingBranch": "main"}},
+                "automationMode": "AUTO_CREATE_PR",
+                "title": "Brain Module Implementation"
+              }')"
