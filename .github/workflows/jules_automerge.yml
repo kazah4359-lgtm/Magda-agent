@@ -2,6 +2,10 @@ name: 1. Auto-Validate and Merge Jules PRs
 on:
   pull_request:
     branches: [main]
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
   test-and-merge:
     runs-on: ubuntu-latest
