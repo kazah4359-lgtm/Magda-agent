@@ -40,7 +40,8 @@ class Planner:
             "Available skills:\n"
             f"{skills_desc}\n"
             "Return a JSON array of steps. Each step must be a JSON object with keys: "
-            "'description' (what to do) and 'skill' (the name of the skill to use, or null if none). "
+            "'description' (what to do), 'skill' (the name of the skill to use, or null if none), "
+            "and 'skill_kwargs' (a dictionary of arguments to pass to the skill, or null if no skill). "
             "Only output the JSON array, nothing else."
         )
 

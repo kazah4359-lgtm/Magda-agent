@@ -62,11 +62,29 @@ class Consciousness:
 
             plan = self.planner.get_current_plan()
             if plan:
-                plan_str = "Current Plan:\n" + "\n".join(
-                    [f"- Step {i+1}: {step.get('description')} (Skill: {step.get('skill')})" for i, step in enumerate(plan)]
-                )
-                # In a real system we might execute the steps here and collect results.
-                # For this task, integrating the planner before generation is required.
+                import asyncio
+                # Execute the steps and collect results
+                while self.planner.get_current_plan():
+                    step = self.planner.get_current_plan()[0]
+                    skill_name = step.get('skill')
+                    kwargs = step.get('skill_kwargs') or {}
+
+                    if skill_name:
+                        # Execute heavy skills in a separate thread to avoid blocking the event loop
+                        try:
+                            result = await asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
+                        except Exception as e:
+                            logging.error(f"Error executing skill {skill_name}: {e}")
+                            result = f"Error: {e}"
+                    else:
+                        result = "No skill executed for this step."
+
+                    self.planner.mark_step_completed(0, str(result))
+
+                plan_str = "Executed Plan Results:\n"
+                for i, step in enumerate(self.planner.completed_steps):
+                    plan_str += f"- Step {i+1}: {step.get('description')} (Skill: {step.get('skill')})\n"
+                    plan_str += f"  Result: {step.get('result')}\n"
 
         # 4. LLM Reasoning
         emotion_summary = self.emotions.get_summary()
@@ -81,7 +99,7 @@ class Consciousness:
             emotions=emotion_summary
         )
         if plan_str:
-            system_prompt += f"\n\n{plan_str}\nFollow the plan when generating the response."
+            system_prompt += f"\n\n{plan_str}\nUse the plan results to generate the final response."
 
         if self.evaluator:
             eval_feedback = self.evaluator.get_feedback_for_prompt()
@@ -119,8 +137,8 @@ class Consciousness:
             # Record habit if we have an evaluation and a tracker
             if self.habit_tracker and self.evaluator.last_evaluation:
                 avg_score = self.evaluator.last_evaluation.get("average_score", 0.0)
-                if self.planner and self.planner.current_plan:
-                    for step in self.planner.current_plan:
+                if self.planner and self.planner.completed_steps:
+                    for step in self.planner.completed_steps:
                         skill = step.get("skill")
                         if skill:
                             self.habit_tracker.record_usage(user_input, skill, float(avg_score))
