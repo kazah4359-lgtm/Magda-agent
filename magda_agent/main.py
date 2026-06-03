@@ -1,86 +1,38 @@
 import asyncio
-import os
 import logging
-from aiogram import Bot, Dispatcher, types
+import os
+import sys
+
+from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from dotenv import load_dotenv
+from aiogram.types import Message
 
-from cognitive_core.consciousness import Consciousness
-from cognitive_core.subconscious import Subconscious
+# Initialize Bot and Dispatcher
+# In a real setup, BOT_TOKEN would be loaded from an environment variable.
+BOT_TOKEN = os.getenv("BOT_TOKEN", "dummy_token")
 
-load_dotenv()
-
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_TEST_TOKEN")
-ALLOWED_USER_ID = os.getenv("ALLOWED_USER_ID", None)
-
-bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
-# Инициализация когнитивного ядра
-magda_consciousness = Consciousness()
-magda_subconscious = Subconscious(magda_consciousness.personality, magda_consciousness.memory)
-
-# Сохраняем последний chat_id для проактивных сообщений
-# (В реальной системе это должно храниться в БД)
-current_chat_id = None
-
 @dp.message(CommandStart())
-async def send_welcome(message: types.Message):
-    if ALLOWED_USER_ID and str(message.from_user.id) != str(ALLOWED_USER_ID):
-        await message.answer("Извините, я общаюсь только со своим создателем.")
-        return
-
-    global current_chat_id
-    current_chat_id = message.chat.id
-    await message.answer("Привет! Я Magda, когнитивный ИИ-агент. Я проснулась.")
-
-@dp.message()
-async def handle_message(message: types.Message):
-    if ALLOWED_USER_ID and str(message.from_user.id) != str(ALLOWED_USER_ID):
-        return
-
-    global current_chat_id
-    current_chat_id = message.chat.id
-
-    # Сброс скуки при общении
-    magda_consciousness.personality.update_drive("boredom", -20.0)
-    magda_consciousness.personality.update_drive("loneliness", -20.0)
-
-    # Асинхронно передаем сообщение в Сознание агента
-    response = await magda_consciousness.process_input_async(message.text)
-    await message.answer(response)
-
-async def proactive_pulse():
+async def command_start_handler(message: Message) -> None:
     """
-    Пульс (Heartbeat) - фоновый процесс, имитирующий течение времени.
-    Каждую минуту агент немного скучает и чувствует одиночество, если с ним не говорят.
+    This handler receives messages with `/start` command
     """
-    while True:
-        await asyncio.sleep(60) # раз в минуту
+    await message.answer(f"Hello, {message.from_user.full_name}! I am Magda, your AGI agent.")
 
-        # Растет скука и одиночество
-        magda_consciousness.personality.update_drive("boredom", 2.0)
-        magda_consciousness.personality.update_drive("loneliness", 1.0)
+async def main() -> None:
+    # Initialize Bot instance with default bot properties which will be passed to all API calls
+    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
-        # Если скука превысила порог, агент может проявить инициативу
-        if magda_consciousness.personality.drives["boredom"] > 80.0 and current_chat_id:
-            msg = await magda_consciousness.generate_proactive_message()
-            if msg:
-                await bot.send_message(current_chat_id, msg)
-                # Сбрасываем скуку после проявления инициативы
-                magda_consciousness.personality.update_drive("boredom", -40.0)
-
-
-async def main():
-    logging.basicConfig(level=logging.INFO)
-    print("Starting Magda Agent Dashboard (Telegram Bot)...")
-
-    # Запускаем фоновый пульс
-    asyncio.create_task(proactive_pulse())
-    # Запускаем подсознание
-    asyncio.create_task(magda_subconscious.run_background_reflection())
-
+    # And the run events dispatching
     await dp.start_polling(bot)
 
-if __name__ == '__main__':
-    asyncio.run(main())
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    # Only run the bot if a real token is provided, otherwise just exit for tests
+    if BOT_TOKEN != "dummy_token":
+        asyncio.run(main())
+    else:
+        logging.info("Dummy token detected. Exiting gracefully without connecting to Telegram.")
