@@ -13,7 +13,8 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt || pip install pytest
+          pip install pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run test suite
         run: pytest
       - name: Auto-approve and Merge PR
