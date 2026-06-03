@@ -1,0 +1,32 @@
+name: 2. Trigger Next Self-Improvement Task
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+  workflow_dispatch: # Позволяет запустить или перезапустить петлю вручную кнопкой
+
+jobs:
+  next-task:
+    runs-on: ubuntu-latest
+    # Запускаем цикл дальше, только если PR был успешно СЛИТ (merged), а не просто закрыт
+    if: |
+      github.event_name == 'workflow_dispatch' || 
+      (github.event.pull_request.merged == true && github.event.pull_request.user.login == 'google-jules[bot]')
+      
+    steps:
+      - name: Run Google Jules Agent
+        uses: google-labs-code/jules-action@v1
+        with:
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            Твоя единственная цель — автономное улучшение архитектуры Magda Agent.
+            Найди в корне репозитория файл бэклога (например, backlog.md).
+            Строго следуй инструкциям, написанным в начале этого файла:
+            1. Возьми первый доступный пункт со статусом `[ ]`.
+            2. Полностью реализуй его (напиши чистый рабочий код и тесты к нему).
+            3. Обнови файл бэклога: отметь выполненный пункт как `[x]` и зафиксируй дату обновления.
+            4. Если в процессе работы ты заметил баги, уязвимости или архитектурные зоны роста — обязательно впиши их в соответствующий раздел бэклога (Критично/Важно/Улучшения) как новые задачи со статусом `[ ]`.
+            5. Сформируй Pull Request.
