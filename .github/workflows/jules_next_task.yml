@@ -13,6 +13,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       (github.event.pull_request.merged == true &&
        (github.event.pull_request.user.login == 'google-jules[bot]' ||
+        github.event.pull_request.user.login == 'kazah4359-lgtm' ||
         contains(github.event.pull_request.labels.*.name, 'jules')))
 
     steps:
