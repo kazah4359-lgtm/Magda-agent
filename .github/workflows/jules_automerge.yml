@@ -5,7 +5,7 @@ on:
 jobs:
   test-and-merge:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'google-jules[bot]' || contains(github.event.pull_request.labels.*.name, 'jules')
+    if: github.event.pull_request.user.login == 'kazah4359-lgtm' || contains(github.event.pull_request.labels.*.name, 'jules')
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
