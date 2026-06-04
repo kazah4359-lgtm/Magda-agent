@@ -19,6 +19,7 @@ from magda_agent.metacognition.evaluator import Evaluator
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.thalamus.router import Thalamus
 from magda_agent.drives.hypothalamus import Hypothalamus
+from magda_agent.emotions.insula import Insula
 
 logging.basicConfig(level=logging.INFO)
 
@@ -33,6 +34,7 @@ evaluator = Evaluator(llm=llm_client, memory=memory_system)
 attachment_model = AttachmentModel()
 thalamus = Thalamus()
 hypothalamus = Hypothalamus()
+insula = Insula()
 
 consciousness = Consciousness(
     llm=llm_client,
@@ -45,7 +47,8 @@ consciousness = Consciousness(
     habit_tracker=habit_tracker,
     attachment=attachment_model,
     thalamus=thalamus,
-    hypothalamus=hypothalamus
+    hypothalamus=hypothalamus,
+    insula=insula
 )
 
 subconsciousness = Subconsciousness(

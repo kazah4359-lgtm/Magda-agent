@@ -12,6 +12,7 @@ from magda_agent.emotions.attachment import AttachmentModel
 from magda_agent.thalamus.router import Thalamus
 from magda_agent.action.selector import BasalGanglia
 from magda_agent.drives.hypothalamus import Hypothalamus
+from magda_agent.emotions.insula import Insula
 
 class Consciousness:
     """
@@ -31,7 +32,8 @@ class Consciousness:
         attachment: Optional[AttachmentModel] = None,
         thalamus: Optional[Thalamus] = None,
         basal_ganglia: Optional[BasalGanglia] = None,
-        hypothalamus: Optional[Hypothalamus] = None
+        hypothalamus: Optional[Hypothalamus] = None,
+        insula: Optional[Insula] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -45,6 +47,7 @@ class Consciousness:
         self.thalamus = thalamus
         self.basal_ganglia = basal_ganglia
         self.hypothalamus = hypothalamus
+        self.insula = insula
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -58,6 +61,13 @@ class Consciousness:
 
         if self.hypothalamus:
             self.hypothalamus.update(1.0) # High activity processing input
+
+            if self.insula:
+                v_shift, a_shift, d_shift = self.insula.process_interoception(
+                    self.hypothalamus.energy,
+                    self.hypothalamus.boredom
+                )
+                self.emotions.update(v_shift, a_shift, d_shift)
 
         # 2. Memory Retrieval
         relevant_memories = self.memory.retrieve_relevant(user_input, user_id=user_id)

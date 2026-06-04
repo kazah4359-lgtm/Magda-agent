@@ -11,6 +11,12 @@
 
 ## 🧠 Архитектура мозга
 
+* [x] MODULE: **Insula (Инсула)** — модуль `magda_agent/emotions/insula.py`. (2026-06-04)
+  Интеграция с внутренними состояниями агента для генерации эмоциональных откликов.
+  Метод `process_interoception(energy, boredom)` рассчитывает влияние внутреннего состояния на эмоции.
+  Интеграция: Вызывается в Consciousness после обновления Hypothalamus, передавая результаты в EmotionalEngine.
+  Тесты: mock LLM, проверить логику сдвигов valence, arousal, dominance в зависимости от energy и boredom.
+
 * [x] MODULE: **Prefrontal Cortex (Планировщик)** — модуль `magda_agent/planning/planner.py`. (2026-06-03)
   Разбивает сложные запросы пользователя на последовательность шагов (план).
   Выбирает какие Skills использовать для каждого шага.
