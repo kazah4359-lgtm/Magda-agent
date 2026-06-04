@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 from typing import List
 from magda_agent.llm_client import LLMClient
@@ -60,20 +61,50 @@ class Subconsciousness:
         Based on these events, perform a brief self-reflection.
         How are you doing? Are you fulfilling your goals as an AGI?
         Suggest a minor adjustment to your emotional state (Pleasure, Arousal, Dominance) as a result of this reflection.
-        Return your reflection and the PAD adjustment.
+
+        You MUST respond ONLY with a valid JSON object in the exact format below, with no additional text:
+        {{
+            "reflection": "Your textual self-reflection here",
+            "pad_adjustment": {{
+                "p": 0.0,
+                "a": 0.0,
+                "d": 0.0
+            }}
+        }}
         """
 
         # We don't want to spam the LLM too much, but for PoC we do it once per reflection cycle
-        reflection = await self.llm.chat_completion([{"role": "system", "content": "You are Magda's subconscious mind."}, {"role": "user", "content": prompt}])
+        raw_response = await self.llm.chat_completion([{"role": "system", "content": "You are Magda's subconscious mind. Always output valid JSON."}, {"role": "user", "content": prompt}])
 
-        logging.info(f"Reflection result: {reflection}")
+        logging.info(f"Raw reflection response: {raw_response}")
+
+        reflection_text = "Parsed reflection failed."
+        p_adj, a_adj, d_adj = 0.02, -0.01, 0.05  # Defaults
+
+        try:
+            # Try to strip markdown if present
+            cleaned_response = raw_response.strip()
+            if cleaned_response.startswith("```json"):
+                cleaned_response = cleaned_response[7:]
+            if cleaned_response.startswith("```"):
+                cleaned_response = cleaned_response[3:]
+            if cleaned_response.endswith("```"):
+                cleaned_response = cleaned_response[:-3]
+
+            parsed_data = json.loads(cleaned_response.strip())
+            reflection_text = parsed_data.get("reflection", "No reflection text provided.")
+            pad_adj = parsed_data.get("pad_adjustment", {})
+            p_adj = float(pad_adj.get("p", 0.0))
+            a_adj = float(pad_adj.get("a", 0.0))
+            d_adj = float(pad_adj.get("d", 0.0))
+        except (json.JSONDecodeError, ValueError, TypeError, AttributeError) as e:
+            logging.error(f"Failed to parse subconscious reflection JSON: {e}")
 
         # 3. Apply emotional "reward" or "punishment" based on reflection
-        # For PoC, we just slightly increase dominance to simulate "self-growth"
-        self.emotions.update(0.02, -0.01, 0.05)
+        self.emotions.update(p_adj, a_adj, d_adj)
 
         self.memory.add_memory(
-            content=f"Subconscious reflection: {reflection}",
+            content=f"Subconscious reflection: {reflection_text}",
             importance=0.4,
             emotional_state=self.emotions.state,
             tags=["reflection", "internal"]

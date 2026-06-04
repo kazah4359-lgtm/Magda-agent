@@ -8,7 +8,18 @@ from magda_agent.memory.storage import MemorySystem, MemoryEntry
 @pytest.fixture
 def mock_llm_client():
     mock = AsyncMock(spec=LLMClient)
-    mock.chat_completion.return_value = "I am doing well."
+    mock.chat_completion.return_value = """
+    ```json
+    {
+        "reflection": "I am doing well and growing.",
+        "pad_adjustment": {
+            "p": 0.1,
+            "a": -0.05,
+            "d": 0.15
+        }
+    }
+    ```
+    """
     return mock
 
 @pytest.fixture
@@ -47,13 +58,13 @@ async def test_subconsciousness_reflect(subconsciousness, mock_llm_client, mock_
     # Verify LLM was called
     mock_llm_client.chat_completion.assert_called_once()
 
-    # Verify emotions were updated
-    mock_emotions.update.assert_called_once_with(0.02, -0.01, 0.05)
+    # Verify emotions were updated with PARSED values
+    mock_emotions.update.assert_called_once_with(0.1, -0.05, 0.15)
 
     # Verify reflection was stored in memory
     mock_memory_system.add_memory.assert_called_once()
     call_args = mock_memory_system.add_memory.call_args[1]
-    assert "Subconscious reflection: I am doing well." in call_args["content"]
+    assert "Subconscious reflection: I am doing well and growing." in call_args["content"]
     assert call_args["tags"] == ["reflection", "internal"]
     assert call_args["importance"] == 0.4
 
