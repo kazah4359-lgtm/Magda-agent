@@ -85,3 +85,30 @@ async def test_consciousness_attachment_integration():
     assert attachment.user_interactions[user_id] == 10
     call_args_2 = llm_mock.get_system_prompt.call_args[1]
     assert "Close Friend" in call_args_2["emotions"]
+
+def test_emotional_engine_bounded_history() -> None:
+    """Test that the emotional engine bounds the history length correctly when max_history_length is provided."""
+    engine = EmotionalEngine(max_history_length=5)
+
+    # Add 10 updates
+    for i in range(10):
+        engine.update(0.1, 0.05, -0.05)
+
+    # The length of the history should be capped at 5
+    assert len(engine.history) == 5
+
+    # The values in history should reflect the most recent updates
+    # The last update was the 10th one, so the history should have the values
+    # corresponding to the state after the 6th, 7th, 8th, 9th, and 10th updates.
+    # We can check that the history is not empty and is bounded.
+    assert len(engine.history) <= engine.max_history_length
+
+def test_emotional_engine_default_bounded_history() -> None:
+    """Test that the emotional engine defaults to bounding the history length to 100."""
+    engine = EmotionalEngine()
+
+    # Default is 100
+    for i in range(150):
+        engine.update(0.01, 0.01, 0.01)
+
+    assert len(engine.history) == 100

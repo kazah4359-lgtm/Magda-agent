@@ -219,7 +219,7 @@
     },
     {
       "id": "bounded-emotional-history",
-      "status": "todo",
+      "status": "done",
       "area": "stabilization",
       "risk": "low",
       "title": "Bound EmotionalEngine history",
