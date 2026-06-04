@@ -68,3 +68,8 @@
   Обработка голосовых сообщений: Speech-to-Text (openai/whisper-tiny) и Text-to-Speech (microsoft/speecht5_tts).
   Методы `stt(audio_path)` и `tts(text, output_path)`.
   Интеграция: main.py перехватывает voice, использует processor, обращается к Consciousness API, и возвращает ответ голосом.
+* [x] MODULE: **Subconsciousness (Подсознание)** — модуль `magda_agent/subconsciousness/reflection.py`. (2025-02-14)
+  Фоновые процессы рефлексии и консолидации памяти.
+  Метод `reflect()` — анализ недавних событий и корректировка эмоций, консолидация памяти.
+  Интеграция: Вызывается периодически как фоновая задача.
+  Тесты: mock LLM, проверить что рефлексия запускается и `memory.consolidate()` вызывается.
