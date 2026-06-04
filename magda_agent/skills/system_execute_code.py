@@ -1,10 +1,18 @@
 import subprocess
 import tempfile
 import os
-import resource
+
+try:
+    import resource
+    HAS_RESOURCE = True
+except ImportError:
+    HAS_RESOURCE = False
 
 def set_limits():
     """Set resource limits for the subprocess to prevent fork bombs and restrict resources."""
+    if not HAS_RESOURCE:
+        return
+
     # Limit to 0 to prevent creating new processes (effectively blocking subprocess/os.system bypasses)
     try:
         resource.setrlimit(resource.RLIMIT_NPROC, (0, 0))
@@ -86,14 +94,21 @@ except Exception as e:
 
         cmd = ["python3", wrapper_path]
 
+        kwargs = {
+            'stdout': subprocess.PIPE,
+            'stderr': subprocess.STDOUT,
+            'text': True,
+            'timeout': 10.0,
+            'cwd': sandbox_dir,
+        }
+
+        # preexec_fn is not supported on Windows
+        if os.name != 'nt' and HAS_RESOURCE:
+            kwargs['preexec_fn'] = set_limits
+
         result = subprocess.run(
             cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            timeout=10.0,
-            cwd=sandbox_dir,
-            preexec_fn=set_limits # Apply resource limits before executing
+            **kwargs
         )
         return result.stdout
     except subprocess.TimeoutExpired as e:
