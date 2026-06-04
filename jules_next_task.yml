@@ -23,7 +23,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prompt: |
             Твоя единственная цель — автономное улучшение архитектуры Magda Agent.
-            1. Прочитай docs/cognitive_architecture.md, чтобы понять целевую когнитивную архитектуру и правила governance.
+            1. Прочитай docs/cognitive_architecture.md и docs/jules_autonomous_loop.md, чтобы понять целевую когнитивную архитектуру, правила governance и автономную операционную модель.
             2. Открой agent_tasks.json в корне репозитория.
             3. Проверь replenishment_policy. Если задач со статусом "todo" нет или их меньше minimum_todo_tasks, сначала добавь новую пачку low/medium-risk задач из docs/cognitive_architecture.md, падающих тестов, TODO-комментариев и текущих архитектурных разрывов.
             4. Возьми первый пункт со статусом "todo".
