@@ -12,6 +12,7 @@ from magda_agent.codex_bridge import (
     next_task,
     queue_status,
     render_prompt,
+    render_review_prompt,
     task_by_id,
     todo_tasks,
     validate_manifest,
@@ -140,6 +141,22 @@ def test_render_prompt(mock_manifest_data: dict[str, Any]) -> None:
     assert "- criterion B" in prompt
 
 
+def test_render_review_prompt() -> None:
+    """Test rendering the PR review prompt."""
+    title = "Add new feature"
+    changed_files = ["file_a.py", "file_b.py"]
+    diff_summary = "+ def new_func(): pass"
+    prompt = render_review_prompt(title, changed_files, diff_summary)
+
+    assert "PR Title: Add new feature" in prompt
+    assert "- file_a.py" in prompt
+    assert "- file_b.py" in prompt
+    assert "+ def new_func(): pass" in prompt
+    assert "Findings (ordered by severity):" in prompt
+    assert "Risk:" in prompt
+    assert "Missing Tests:" in prompt
+
+
 def test_validate_manifest(mock_manifest_file: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """Test validating the manifest delegates properly."""
     called = False
@@ -225,6 +242,24 @@ def test_main_render_prompt_default(mock_manifest_file: Path, capsys: pytest.Cap
     assert code == 0
     out, _ = capsys.readouterr()
     assert "Task id: task-1" in out
+
+
+def test_main_review_prompt_cli(mock_manifest_file: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    """Test CLI review-prompt command."""
+    code = main([
+        "--manifest", str(mock_manifest_file),
+        "review-prompt",
+        "--title", "Fix bug",
+        "--changed-files", "a.py", "b.py",
+        "--diff-summary", "summary of diff"
+    ])
+    assert code == 0
+    out, _ = capsys.readouterr()
+    assert "PR Title: Fix bug" in out
+    assert "- a.py" in out
+    assert "- b.py" in out
+    assert "summary of diff" in out
+    assert "Findings (ordered by severity):" in out
 
 
 def test_main_load_error(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:

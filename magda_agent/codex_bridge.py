@@ -63,6 +63,34 @@ def queue_status(manifest: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def render_review_prompt(title: str, changed_files: list[str], diff_summary: str) -> str:
+    """Render a prompt for Codex/CriticAgent to review a pull request."""
+    files_str = "\n".join(f"- {path}" for path in changed_files)
+    return f"""You are reviewing a Pull Request for Magda Agent.
+
+PR Title: {title}
+
+Changed Files:
+{files_str}
+
+Diff Summary:
+{diff_summary}
+
+Please review this diff for regressions, risks, and missing tests.
+Format your review exactly as follows:
+
+Findings (ordered by severity):
+- [Critical/High/Medium/Low] Description of the finding.
+- ...
+
+Risk:
+Describe the overall risk of merging these changes and any security concerns.
+
+Missing Tests:
+List any edge cases or scenarios that are missing test coverage.
+"""
+
+
 def render_prompt(task: dict[str, Any]) -> str:
     """Render a focused prompt for Codex/Jules from one task object."""
     allowed_paths = "\n".join(f"- {path}" for path in task.get("allowed_paths", []))
@@ -128,6 +156,11 @@ def build_parser() -> argparse.ArgumentParser:
     prompt_parser = subparsers.add_parser("render-prompt", help="Render a Codex prompt for a task")
     prompt_parser.add_argument("--task-id", help="Task id to render. Defaults to the next todo task.")
 
+    review_parser = subparsers.add_parser("review-prompt", help="Render a Codex/CriticAgent review prompt")
+    review_parser.add_argument("--title", required=True, help="Pull request title")
+    review_parser.add_argument("--changed-files", required=True, nargs="+", help="Changed files list")
+    review_parser.add_argument("--diff-summary", required=True, help="Diff summary or git patch")
+
     return parser
 
 
@@ -164,6 +197,10 @@ def main(argv: list[str] | None = None) -> int:
             print("task not found", file=sys.stderr)
             return 2
         print(render_prompt(task))
+        return 0
+
+    if args.command == "review-prompt":
+        print(render_review_prompt(args.title, args.changed_files, args.diff_summary))
         return 0
 
     parser.error(f"unknown command {args.command}")

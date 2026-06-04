@@ -155,7 +155,7 @@
     },
     {
       "id": "codex-pr-review-renderer",
-      "status": "todo",
+      "status": "done",
       "area": "codex",
       "risk": "medium",
       "title": "Add Codex PR review prompt renderer",
