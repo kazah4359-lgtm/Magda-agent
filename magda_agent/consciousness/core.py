@@ -11,6 +11,7 @@ from magda_agent.learning.habits import HabitTracker
 from magda_agent.emotions.attachment import AttachmentModel
 from magda_agent.thalamus.router import Thalamus
 from magda_agent.action.selector import BasalGanglia
+from magda_agent.drives.hypothalamus import Hypothalamus
 
 class Consciousness:
     """
@@ -29,7 +30,8 @@ class Consciousness:
         habit_tracker: Optional[HabitTracker] = None,
         attachment: Optional[AttachmentModel] = None,
         thalamus: Optional[Thalamus] = None,
-        basal_ganglia: Optional[BasalGanglia] = None
+        basal_ganglia: Optional[BasalGanglia] = None,
+        hypothalamus: Optional[Hypothalamus] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -42,6 +44,7 @@ class Consciousness:
         self.attachment = attachment
         self.thalamus = thalamus
         self.basal_ganglia = basal_ganglia
+        self.hypothalamus = hypothalamus
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -52,6 +55,9 @@ class Consciousness:
         # 1. Perception & Emotion Update (Initial reaction)
         # For simplicity, we just slightly increase arousal when receiving input
         self.emotions.update(0.01, 0.05, 0.01)
+
+        if self.hypothalamus:
+            self.hypothalamus.update(1.0) # High activity processing input
 
         # 2. Memory Retrieval
         relevant_memories = self.memory.retrieve_relevant(user_input, user_id=user_id)
@@ -97,6 +103,9 @@ class Consciousness:
 
         # 4. LLM Reasoning
         emotion_summary = self.emotions.get_summary()
+        if self.hypothalamus:
+            emotion_summary += f" | {self.hypothalamus.get_drives_summary()}"
+
         if self.attachment and user_id is not None:
             self.attachment.record_interaction(user_id)
             attachment_prompt = self.attachment.get_attachment_prompt(user_id)
