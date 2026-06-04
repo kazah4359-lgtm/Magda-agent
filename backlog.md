@@ -80,10 +80,13 @@
   Интеграция: Вызывается периодически как фоновая задача.
   Тесты: mock LLM, проверить что рефлексия запускается и `memory.consolidate()` вызывается.
 * [x] IMPROVEMENT: Implement gracefully shutdown for `MemorySystem`'s ephemeral ChromaDB client to prevent resource leaks. Add `close()` method to `MemorySystem` and call it in `api.py` lifespan shutdown. (2026-06-04)
+* [ ] IMPROVEMENT: In `Subconsciousness.reflect`, the LLM prompt for reflection could be more structured to consistently receive PAD adjustments that are then parsed and applied, rather than just hardcoding a dominance increase.
+* [ ] IMPROVEMENT: `MemorySystem` has a `long_term` list which seems redundant if `LongTermMemory` module is also used. Need to unify long-term memory storage.
 
 ## 🛠️ Запланированные Skills
 
-* [ ] SKILL: **Omnichannel Provider (Работа с провайдерами)** — модуль `magda_agent/skills/omnichannel.py`. Умение работы с разными провайдерами (Telegram, WhatsApp и другие) для взаимодействия с агентом.
+* [x] SKILL: **Omnichannel Provider (Работа с провайдерами)** — модуль `magda_agent/skills/omnichannel.py`. (2026-06-04)
+  Умение работы с разными провайдерами (Telegram, WhatsApp и другие) для взаимодействия с агентом.
 * [ ] SKILL: **Time Management (Управление временем)** — модуль `magda_agent/skills/time_management.py`. Навык установки таймеров, напоминаний и управления расписанием пользователя.
 * [ ] SKILL: **Weather Forecasting (Погода)** — модуль `magda_agent/skills/weather.py`. Получение прогноза погоды через внешнее API (например, OpenWeatherMap) по названию города или геолокации.
 * [ ] SKILL: **News Aggregator (Агрегатор новостей)** — модуль `magda_agent/skills/news.py`. Сбор актуальных новостей по запросу пользователя из различных RSS-потоков или API.
