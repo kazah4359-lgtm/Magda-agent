@@ -80,7 +80,7 @@
   Интеграция: Вызывается периодически как фоновая задача.
   Тесты: mock LLM, проверить что рефлексия запускается и `memory.consolidate()` вызывается.
 * [x] IMPROVEMENT: Implement gracefully shutdown for `MemorySystem`'s ephemeral ChromaDB client to prevent resource leaks. Add `close()` method to `MemorySystem` and call it in `api.py` lifespan shutdown. (2026-06-04)
-* [ ] IMPROVEMENT: In `Subconsciousness.reflect`, the LLM prompt for reflection could be more structured to consistently receive PAD adjustments that are then parsed and applied, rather than just hardcoding a dominance increase.
+* [x] IMPROVEMENT: In `Subconsciousness.reflect`, the LLM prompt for reflection could be more structured to consistently receive PAD adjustments that are then parsed and applied, rather than just hardcoding a dominance increase. (2026-06-04)
 * [ ] IMPROVEMENT: `MemorySystem` has a `long_term` list which seems redundant if `LongTermMemory` module is also used. Need to unify long-term memory storage.
 
 ## 🛠️ Запланированные Skills
