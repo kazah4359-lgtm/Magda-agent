@@ -19,13 +19,14 @@ class Planner:
         self.current_plan: List[Dict[str, Any]] = []
         self.completed_steps: List[Dict[str, Any]] = []
 
-    async def generate_plan(self, user_input: str) -> List[Dict[str, Any]]:
+    async def generate_plan(self, user_input: str, user_id: int = None) -> List[Dict[str, Any]]:
         """
         Analyzes the user input and generates a sequence of steps.
         Each step may use a skill.
 
         Args:
             user_input (str): The prompt from the user.
+            user_id (int, optional): The ID of the user.
 
         Returns:
             List[Dict[str, Any]]: A list of steps forming the plan.
@@ -46,7 +47,7 @@ class Planner:
         )
 
         if self.habit_tracker:
-            suggested_strategy = self.habit_tracker.suggest_strategy(user_input)
+            suggested_strategy = self.habit_tracker.suggest_strategy(user_input, user_id=user_id)
             if suggested_strategy:
                 system_prompt += f"\n\nSuggested strategy based on past success: consider using the '{suggested_strategy}' skill."
 
