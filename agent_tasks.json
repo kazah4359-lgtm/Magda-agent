@@ -238,7 +238,7 @@
     },
     {
       "id": "planner-execution-limits",
-      "status": "todo",
+      "status": "done",
       "area": "stabilization",
       "risk": "medium",
       "title": "Add max steps and timeouts to plan execution",

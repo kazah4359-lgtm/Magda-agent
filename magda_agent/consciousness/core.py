@@ -116,8 +116,15 @@ class Consciousness:
             plan = self.planner.get_current_plan()
             if plan:
                 import asyncio
+
+                MAX_STEPS = 5
+                SKILL_TIMEOUT = 10.0
+                steps_executed = 0
+                plan_stopped_early = False
+
                 # Execute the steps and collect results
-                while self.planner.get_current_plan():
+                while self.planner.get_current_plan() and steps_executed < MAX_STEPS:
+                    steps_executed += 1
                     step = self.planner.get_current_plan()[0]
                     skill_name = step.get('skill')
                     kwargs = step.get('skill_kwargs') or {}
@@ -125,7 +132,12 @@ class Consciousness:
                     if skill_name:
                         # Execute heavy skills in a separate thread to avoid blocking the event loop
                         try:
-                            result = await asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
+                            task = asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
+                            result = await asyncio.wait_for(task, timeout=SKILL_TIMEOUT)
+                        except asyncio.TimeoutError:
+                            logging.error(f"Timeout executing skill {skill_name}")
+                            result = f"Error: Skill {skill_name} timed out after {SKILL_TIMEOUT} seconds."
+                            plan_stopped_early = True
                         except Exception as e:
                             logging.error(f"Error executing skill {skill_name}: {e}")
                             result = f"Error: {e}"
@@ -134,10 +146,23 @@ class Consciousness:
 
                     self.planner.mark_step_completed(0, str(result))
 
+                    if plan_stopped_early:
+                        break
+
+                if self.planner.get_current_plan() and steps_executed >= MAX_STEPS:
+                    plan_stopped_early = True
+                    logging.warning("Plan execution stopped due to MAX_STEPS limit.")
+
+                if plan_stopped_early:
+                    self.planner.clear_pending_plan()
+
                 plan_str = "Executed Plan Results:\n"
                 for i, step in enumerate(self.planner.completed_steps):
                     plan_str += f"- Step {i+1}: {step.get('description')} (Skill: {step.get('skill')})\n"
                     plan_str += f"  Result: {step.get('result')}\n"
+
+                if plan_stopped_early:
+                    plan_str += "\nNote: Plan execution was stopped early due to limits.\n"
 
         # 4. LLM Reasoning
         emotion_summary = self.emotions.get_summary()
