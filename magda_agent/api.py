@@ -20,6 +20,7 @@ from magda_agent.learning.habits import HabitTracker
 from magda_agent.thalamus.router import Thalamus
 from magda_agent.drives.hypothalamus import Hypothalamus
 from magda_agent.emotions.insula import Insula
+from magda_agent.rhythms.pineal_gland import PinealGland
 
 logging.basicConfig(level=logging.INFO)
 
@@ -35,6 +36,7 @@ attachment_model = AttachmentModel()
 thalamus = Thalamus()
 hypothalamus = Hypothalamus()
 insula = Insula()
+pineal_gland = PinealGland()
 
 consciousness = Consciousness(
     llm=llm_client,
@@ -48,7 +50,8 @@ consciousness = Consciousness(
     attachment=attachment_model,
     thalamus=thalamus,
     hypothalamus=hypothalamus,
-    insula=insula
+    insula=insula,
+    pineal_gland=pineal_gland
 )
 
 subconsciousness = Subconsciousness(

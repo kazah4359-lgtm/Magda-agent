@@ -64,6 +64,13 @@
   Интеграция: Consciousness вызывает Basal Ganglia для финального выбора действия.
   Тесты: mock LLM, проверить выбор действия.
 
+* [x] MODULE: **Pineal Gland (Циркадные ритмы и время)** — модуль `magda_agent/rhythms/pineal_gland.py`. (2026-06-04)
+  Управляет внутренними "часами" агента, добавляя в контекст время суток (утро, день, вечер, ночь) и влияя на энергию.
+  Метод `get_time_context()` возвращает текущее время суток.
+  Метод `get_energy_modifier()` возвращает модификатор энергии на основе времени.
+  Интеграция: Consciousness вызывает PinealGland перед LLM Reasoning для добавления временного контекста и перед Hypothalamus для модуляции энергии.
+  Тесты: проверить логику определения времени суток по mock datetime и правильность модификаторов энергии.
+
 * [x] MODULE: **Hypothalamus (Homeostatic Drives)** — модуль `magda_agent/drives/hypothalamus.py`. (2026-06-04)
   Отвечает за управление базовыми потребностями (энергия, скука).
   Влияет на внутреннее состояние агента и может служить триггером для действий.
@@ -106,6 +113,7 @@
 * [x] IMPROVEMENT: Implement gracefully shutdown for `MemorySystem`'s ephemeral ChromaDB client to prevent resource leaks. Add `close()` method to `MemorySystem` and call it in `api.py` lifespan shutdown. (2026-06-04)
 * [x] IMPROVEMENT: In `Subconsciousness.reflect`, the LLM prompt for reflection could be more structured to consistently receive PAD adjustments that are then parsed and applied, rather than just hardcoding a dominance increase. (2026-06-04)
 * [ ] IMPROVEMENT: `MemorySystem` has a `long_term` list which seems redundant if `LongTermMemory` module is also used. Need to unify long-term memory storage.
+* [ ] IMPROVEMENT: In `PinealGland._get_current_time`, consider allowing the timezone to be configured via the user profile rather than relying on system local time.
 
 * [ ] BUG: `Brainstem` integration in `Consciousness.process_input` does not halt long-running skills gracefully upon a 'stop' command. Need to implement a cancellation token or mechanism for active background tasks when a stop reflex is triggered. (2026-06-04)
 ## 🛠️ Запланированные Skills
