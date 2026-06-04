@@ -133,7 +133,7 @@
     },
     {
       "id": "codex-worker-skill-prompt-only",
-      "status": "todo",
+      "status": "done",
       "area": "codex",
       "risk": "medium",
       "title": "Add Codex worker skill in prompt-only mode",

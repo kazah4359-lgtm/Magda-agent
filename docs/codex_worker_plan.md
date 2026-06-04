@@ -117,7 +117,7 @@ Already included:
 Next slices:
 
 1. Add focused tests for `codex_bridge`.
-2. Add `codex_worker` skill in prompt-only mode.
+2. [x] Add `codex_worker` skill in prompt-only mode.
 3. Add `/codex next` command through future command registry.
 4. Add PR review prompt renderer.
 5. Add task claim/lock field to prevent multiple workers taking the same task.
