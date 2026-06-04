@@ -9,6 +9,7 @@ from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.emotions.attachment import AttachmentModel
+from magda_agent.thalamus.router import Thalamus
 
 class Consciousness:
     """
@@ -25,7 +26,8 @@ class Consciousness:
         long_term_memory: Optional[LongTermMemory] = None,
         evaluator: Optional[Evaluator] = None,
         habit_tracker: Optional[HabitTracker] = None,
-        attachment: Optional[AttachmentModel] = None
+        attachment: Optional[AttachmentModel] = None,
+        thalamus: Optional[Thalamus] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -36,9 +38,13 @@ class Consciousness:
         self.evaluator = evaluator
         self.habit_tracker = habit_tracker
         self.attachment = attachment
+        self.thalamus = thalamus
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
+
+        if self.thalamus and not self.thalamus.filter_input(user_input):
+            return "Message ignored by Thalamus."
 
         # 1. Perception & Emotion Update (Initial reaction)
         # For simplicity, we just slightly increase arousal when receiving input

@@ -129,3 +129,11 @@ class MemorySystem:
 
     def get_summary(self) -> str:
         return f"Memory: {len(self.short_term)} Short-term, {len(self.long_term)} Long-term entries."
+
+    def close(self):
+        """Clean up the EphemeralClient on shutdown."""
+        try:
+            self.client.clear_system_cache()
+            logging.info("MemorySystem ChromaDB client gracefully closed.")
+        except Exception as e:
+            logging.error(f"Failed to close MemorySystem ChromaDB client: {e}")

@@ -46,6 +46,12 @@
   Интеграция: EmotionalEngine учитывает attachment level при генерации тона.
   Тесты: проверить прогрессию уровней, проверить влияние на system prompt.
 
+* [x] MODULE: **Thalamus (Сенсорный фильтр)** — модуль `magda_agent/thalamus/router.py`. (2026-06-04)
+  Служит шлюзом для всех входящих сообщений до их обработки сознанием.
+  Метод `filter_input(text)` — отбрасывает слишком короткие/пустые или шумовые сообщения.
+  Интеграция: API вызывает Thalamus перед отправкой сообщения в Consciousness.
+  Тесты: проверить, что шумовые сообщения отклоняются, а нормальные проходят.
+
 ---
 
 ## ✅ Выполнено
@@ -73,3 +79,17 @@
   Метод `reflect()` — анализ недавних событий и корректировка эмоций, консолидация памяти.
   Интеграция: Вызывается периодически как фоновая задача.
   Тесты: mock LLM, проверить что рефлексия запускается и `memory.consolidate()` вызывается.
+* [x] IMPROVEMENT: Implement gracefully shutdown for `MemorySystem`'s ephemeral ChromaDB client to prevent resource leaks. Add `close()` method to `MemorySystem` and call it in `api.py` lifespan shutdown. (2026-06-04)
+
+## 🛠️ Запланированные Skills
+
+* [ ] SKILL: **Omnichannel Provider (Работа с провайдерами)** — модуль `magda_agent/skills/omnichannel.py`. Умение работы с разными провайдерами (Telegram, WhatsApp и другие) для взаимодействия с агентом.
+* [ ] SKILL: **Time Management (Управление временем)** — модуль `magda_agent/skills/time_management.py`. Навык установки таймеров, напоминаний и управления расписанием пользователя.
+* [ ] SKILL: **Weather Forecasting (Погода)** — модуль `magda_agent/skills/weather.py`. Получение прогноза погоды через внешнее API (например, OpenWeatherMap) по названию города или геолокации.
+* [ ] SKILL: **News Aggregator (Агрегатор новостей)** — модуль `magda_agent/skills/news.py`. Сбор актуальных новостей по запросу пользователя из различных RSS-потоков или API.
+* [ ] SKILL: **Task Manager (Менеджер задач)** — модуль `magda_agent/skills/task_manager.py`. Интеграция с To-Do листами, создание и отслеживание задач (например, Trello или Notion API).
+* [ ] SKILL: **Math Solver (Калькулятор и вычисления)** — модуль `magda_agent/skills/math_solver.py`. Решение сложных математических уравнений и конвертация величин.
+* [ ] SKILL: **Translation (Переводчик)** — модуль `magda_agent/skills/translator.py`. Перевод текста между языками с использованием внешних API (Google Translate или DeepL).
+* [ ] SKILL: **Image Generator (Генерация изображений)** — модуль `magda_agent/skills/image_gen.py`. Создание изображений по текстовому описанию (интеграция с DALL-E или Stable Diffusion).
+* [ ] SKILL: **Smart Home Control (Умный дом)** — модуль `magda_agent/skills/smart_home.py`. Интеграция с системами умного дома (Home Assistant, MQTT) для управления устройствами.
+* [ ] SKILL: **Crypto Prices (Курсы криптовалют)** — модуль `magda_agent/skills/crypto.py`. Получение актуальных курсов криптовалют с бирж (Binance, CoinMarketCap).
