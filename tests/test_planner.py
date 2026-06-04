@@ -111,6 +111,83 @@ async def test_consciousness_executes_plan():
     assert real_planner.completed_steps[0]["result"] == "Mocked search result for testing"
     assert real_planner.completed_steps[1]["result"] == "No skill executed for this step."
 
+@pytest.mark.asyncio
+async def test_consciousness_plan_max_steps():
+    from magda_agent.consciousness.core import Consciousness
+    from magda_agent.emotions.engine import EmotionalEngine
+    from magda_agent.memory.storage import MemorySystem
+
+    mock_llm = MagicMock(spec=LLMClient)
+    mock_llm.get_system_prompt.return_value = "System prompt"
+    mock_llm.chat_completion = AsyncMock(return_value="Final LLM Response")
+
+    mock_skills = MagicMock(spec=SkillRegistry)
+    mock_skills.execute_skill.return_value = "Mocked result"
+    mock_skills.get_skills_summary.return_value = "Available Skills..."
+
+    real_planner = Planner(llm=mock_llm, skills=mock_skills)
+    real_planner.generate_plan = AsyncMock()
+
+    # set up a plan with 6 steps
+    real_planner.current_plan = [{"description": f"Step {i}", "skill": None, "skill_kwargs": None} for i in range(6)]
+
+    emotions = EmotionalEngine()
+    memory = MemorySystem()
+
+    consciousness = Consciousness(
+        llm=mock_llm,
+        emotions=emotions,
+        memory=memory,
+        skills=mock_skills,
+        planner=real_planner
+    )
+
+    await consciousness.process_input("Help me test max steps")
+
+    # verify only 5 steps were completed
+    assert len(real_planner.completed_steps) == 5
+    assert len(real_planner.current_plan) == 0
+
+@pytest.mark.asyncio
+async def test_consciousness_plan_timeout():
+    from magda_agent.consciousness.core import Consciousness
+    from magda_agent.emotions.engine import EmotionalEngine
+    from magda_agent.memory.storage import MemorySystem
+    import asyncio
+    from unittest.mock import patch
+
+    mock_llm = MagicMock(spec=LLMClient)
+    mock_llm.get_system_prompt.return_value = "System prompt"
+    mock_llm.chat_completion = AsyncMock(return_value="Final LLM Response")
+
+    mock_skills = MagicMock(spec=SkillRegistry)
+    mock_skills.get_skills_summary.return_value = "Available Skills..."
+
+    real_planner = Planner(llm=mock_llm, skills=mock_skills)
+    real_planner.generate_plan = AsyncMock()
+
+    # set up a plan with 1 skill step
+    real_planner.current_plan = [{"description": "Step 1", "skill": "slow_skill", "skill_kwargs": None}]
+
+    emotions = EmotionalEngine()
+    memory = MemorySystem()
+
+    consciousness = Consciousness(
+        llm=mock_llm,
+        emotions=emotions,
+        memory=memory,
+        skills=mock_skills,
+        planner=real_planner
+    )
+
+    with patch('asyncio.wait_for', side_effect=asyncio.TimeoutError):
+        await consciousness.process_input("Help me test timeout")
+
+    # verify 1 step completed with timeout error, and pending plan is cleared
+    assert len(real_planner.completed_steps) == 1
+    assert "timed out after" in real_planner.completed_steps[0]["result"]
+    assert len(real_planner.current_plan) == 0
+
 def test_get_state_summary():
     mock_llm = MagicMock(spec=LLMClient)
     mock_skills = MagicMock(spec=SkillRegistry)

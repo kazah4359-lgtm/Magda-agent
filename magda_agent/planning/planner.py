@@ -134,3 +134,10 @@ class Planner:
                 summary += f"    - {step.get('description')} (Skill: {step.get('skill')})\n"
 
         return summary
+
+    def clear_pending_plan(self) -> None:
+        """
+        Clears the current pending plan steps.
+        """
+        self.current_plan = []
+        logging.info("Pending plan steps cleared.")
