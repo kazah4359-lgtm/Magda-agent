@@ -70,6 +70,12 @@
   Интеграция: Consciousness вызывает обновление drives при обработке ввода.
   Тесты: проверить логику обновления (уменьшение энергии, изменение скуки) и границы.
 
+* [x] MODULE: **Brainstem (Ствол мозга - Автономные рефлексы)** — модуль `magda_agent/reflexes/brainstem.py`. (2026-06-04)
+  Обрабатывает экстренные команды (stop, help, emergency) для быстрого ответа в обход LLM.
+  Метод `process_reflex(text)` — возвращает быстрый ответ или None.
+  Интеграция: Вызывается в Consciousness сразу после Thalamus.
+  Тесты: проверить, что при экстренных командах возвращается быстрый ответ, а обычные запросы идут дальше.
+
 ---
 
 ## ✅ Выполнено
@@ -101,6 +107,7 @@
 * [x] IMPROVEMENT: In `Subconsciousness.reflect`, the LLM prompt for reflection could be more structured to consistently receive PAD adjustments that are then parsed and applied, rather than just hardcoding a dominance increase. (2026-06-04)
 * [ ] IMPROVEMENT: `MemorySystem` has a `long_term` list which seems redundant if `LongTermMemory` module is also used. Need to unify long-term memory storage.
 
+* [ ] BUG: `Brainstem` integration in `Consciousness.process_input` does not halt long-running skills gracefully upon a 'stop' command. Need to implement a cancellation token or mechanism for active background tasks when a stop reflex is triggered. (2026-06-04)
 ## 🛠️ Запланированные Skills
 
 * [x] SKILL: **Omnichannel Provider (Работа с провайдерами)** — модуль `magda_agent/skills/omnichannel.py`. (2026-06-04)

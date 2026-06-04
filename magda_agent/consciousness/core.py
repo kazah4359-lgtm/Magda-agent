@@ -13,6 +13,7 @@ from magda_agent.thalamus.router import Thalamus
 from magda_agent.action.selector import BasalGanglia
 from magda_agent.drives.hypothalamus import Hypothalamus
 from magda_agent.emotions.insula import Insula
+from magda_agent.reflexes.brainstem import Brainstem
 
 class Consciousness:
     """
@@ -33,7 +34,8 @@ class Consciousness:
         thalamus: Optional[Thalamus] = None,
         basal_ganglia: Optional[BasalGanglia] = None,
         hypothalamus: Optional[Hypothalamus] = None,
-        insula: Optional[Insula] = None
+        insula: Optional[Insula] = None,
+        brainstem: Optional[Brainstem] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -48,12 +50,20 @@ class Consciousness:
         self.basal_ganglia = basal_ganglia
         self.hypothalamus = hypothalamus
         self.insula = insula
+        self.brainstem = brainstem
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
 
         if self.thalamus and not self.thalamus.filter_input(user_input):
             return "Message ignored by Thalamus."
+
+        # 0. Brainstem Autonomic Reflexes
+        if self.brainstem:
+            reflex_response = self.brainstem.process_reflex(user_input)
+            if reflex_response:
+                logging.info(f"Brainstem reflex triggered for: {user_input}")
+                return reflex_response
 
         # 1. Perception & Emotion Update (Initial reaction)
         # For simplicity, we just slightly increase arousal when receiving input
