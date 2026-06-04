@@ -15,6 +15,7 @@ from magda_agent.drives.hypothalamus import Hypothalamus
 from magda_agent.emotions.insula import Insula
 from magda_agent.reflexes.brainstem import Brainstem
 from magda_agent.rhythms.pineal_gland import PinealGland
+from magda_agent.emotions.mirror_neurons import MirrorNeurons
 
 class Consciousness:
     """
@@ -37,7 +38,8 @@ class Consciousness:
         hypothalamus: Optional[Hypothalamus] = None,
         insula: Optional[Insula] = None,
         brainstem: Optional[Brainstem] = None,
-        pineal_gland: Optional[PinealGland] = None
+        pineal_gland: Optional[PinealGland] = None,
+        mirror_neurons: Optional[MirrorNeurons] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -54,6 +56,7 @@ class Consciousness:
         self.insula = insula
         self.brainstem = brainstem
         self.pineal_gland = pineal_gland
+        self.mirror_neurons = mirror_neurons
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -71,6 +74,11 @@ class Consciousness:
         # 1. Perception & Emotion Update (Initial reaction)
         # For simplicity, we just slightly increase arousal when receiving input
         self.emotions.update(0.01, 0.05, 0.01)
+
+        if self.mirror_neurons:
+            p_shift, a_shift, d_shift = self.mirror_neurons.empathize(user_input)
+            if p_shift != 0.0 or a_shift != 0.0 or d_shift != 0.0:
+                self.emotions.update(p_shift, a_shift, d_shift)
 
         if self.hypothalamus:
             activity_level = 1.0
