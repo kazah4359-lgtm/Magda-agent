@@ -40,30 +40,38 @@ class Evaluator:
             "}"
         )
         messages = [{"role": "system", "content": prompt}]
-        try:
-            evaluation_text = await self.llm.chat_completion(messages, temperature=0.1)
-            # Remove any markdown formatting (e.g. ```json)
-            if "```" in evaluation_text:
-                evaluation_text = evaluation_text.split("```")[1]
-                if evaluation_text.startswith("json"):
-                    evaluation_text = evaluation_text[4:]
+        max_retries = 3
 
-            evaluation = json.loads(evaluation_text.strip())
+        for attempt in range(max_retries):
+            try:
+                evaluation_text = await self.llm.chat_completion(messages, temperature=0.1)
+                # Remove any markdown formatting (e.g. ```json)
+                if "```" in evaluation_text:
+                    evaluation_text = evaluation_text.split("```")[1]
+                    if evaluation_text.startswith("json"):
+                        evaluation_text = evaluation_text[4:]
 
-            # Store in memory
-            content = f"Evaluation of response to '{user_input[:20]}...': Avg Score: {evaluation.get('average_score')} - {evaluation.get('feedback')}"
-            self.memory.add_memory(
-                content=content,
-                importance=0.6,
-                emotional_state=PADState(0.0, 0.0, 0.0), # Neutral PAD state for evaluation
-                tags=["evaluation", "metacognition"]
-            )
+                evaluation = json.loads(evaluation_text.strip())
 
-            self.last_evaluation = evaluation
-            return evaluation
-        except Exception as e:
-            logging.error(f"Failed to evaluate response: {e}")
-            return None
+                # Store in memory
+                content = f"Evaluation of response to '{user_input[:20]}...': Avg Score: {evaluation.get('average_score')} - {evaluation.get('feedback')}"
+                self.memory.add_memory(
+                    content=content,
+                    importance=0.6,
+                    emotional_state=PADState(0.0, 0.0, 0.0), # Neutral PAD state for evaluation
+                    tags=["evaluation", "metacognition"]
+                )
+
+                self.last_evaluation = evaluation
+                return evaluation
+            except json.JSONDecodeError as e:
+                logging.warning(f"JSON decoding error in evaluator attempt {attempt + 1}/{max_retries}: {e}. Retrying...")
+                if attempt == max_retries - 1:
+                    logging.error("Max retries reached for evaluate_response JSON parsing.")
+                    return None
+            except Exception as e:
+                logging.error(f"Failed to evaluate response: {e}")
+                return None
 
     def get_feedback_for_prompt(self) -> str:
         """
