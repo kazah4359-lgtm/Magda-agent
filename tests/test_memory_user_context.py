@@ -63,3 +63,27 @@ def test_habit_tracker_user_context(habit_tracker: HabitTracker) -> None:
 
     assert habit_tracker.suggest_strategy("do the task", user_id=1) == "skill_A"
     assert habit_tracker.suggest_strategy("do the task", user_id=2) == "skill_B"
+
+def test_memory_system_vector_search(memory_system: MemorySystem) -> None:
+    """Test that the short/long-term memory system retrieves records using semantic vector search."""
+    state = PADState(0.5, 0.5, 0.5)
+
+    # Store some contextually distinct memories
+    memory_system.add_memory("The quick brown fox jumps over the lazy dog", importance=0.8, emotional_state=state, user_id=1)
+    memory_system.add_memory("I love eating apples and bananas", importance=0.6, emotional_state=state, user_id=1)
+    memory_system.add_memory("Docker is a containerization technology", importance=0.9, emotional_state=state, user_id=1)
+
+    # Search for an animal concept
+    results = memory_system.retrieve_relevant("a fast wild canine", limit=1, user_id=1)
+    assert len(results) == 1
+    assert "fox" in results[0].content.lower()
+
+    # Search for food concept
+    results_food = memory_system.retrieve_relevant("delicious fruits", limit=1, user_id=1)
+    assert len(results_food) == 1
+    assert "apples" in results_food[0].content.lower()
+
+    # Search for tech concept
+    results_tech = memory_system.retrieve_relevant("software deployment", limit=1, user_id=1)
+    assert len(results_tech) == 1
+    assert "docker" in results_tech[0].content.lower()
