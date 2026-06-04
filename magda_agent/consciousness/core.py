@@ -11,6 +11,7 @@ from magda_agent.learning.habits import HabitTracker
 from magda_agent.emotions.attachment import AttachmentModel
 from magda_agent.thalamus.router import Thalamus
 from magda_agent.action.selector import BasalGanglia
+from magda_agent.homeostasis.hypothalamus import Hypothalamus
 
 class Consciousness:
     """
@@ -29,7 +30,8 @@ class Consciousness:
         habit_tracker: Optional[HabitTracker] = None,
         attachment: Optional[AttachmentModel] = None,
         thalamus: Optional[Thalamus] = None,
-        basal_ganglia: Optional[BasalGanglia] = None
+        basal_ganglia: Optional[BasalGanglia] = None,
+        hypothalamus: Optional[Hypothalamus] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -42,6 +44,7 @@ class Consciousness:
         self.attachment = attachment
         self.thalamus = thalamus
         self.basal_ganglia = basal_ganglia
+        self.hypothalamus = hypothalamus
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -97,6 +100,11 @@ class Consciousness:
 
         # 4. LLM Reasoning
         emotion_summary = self.emotions.get_summary()
+        if self.hypothalamus:
+            # Satisfy social need slightly on interaction, increase rest need
+            self.hypothalamus.update_needs(delta_social=-0.2, delta_rest=0.05, delta_curiosity=-0.05)
+            emotion_summary += f"\n{self.hypothalamus.get_summary()}"
+
         if self.attachment and user_id is not None:
             self.attachment.record_interaction(user_id)
             attachment_prompt = self.attachment.get_attachment_prompt(user_id)
@@ -168,8 +176,10 @@ class Consciousness:
 
     def get_internal_state(self) -> str:
         planner_state = self.planner.get_state_summary() if self.planner else "Planner: Not available"
+        hypothalamus_state = self.hypothalamus.get_summary() if self.hypothalamus else "Hypothalamus: Not available"
         return f"""
 {self.emotions.get_summary()}
+{hypothalamus_state}
 {self.memory.get_summary()}
 {self.skills.get_skills_summary()}
 {planner_state}

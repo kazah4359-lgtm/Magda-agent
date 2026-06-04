@@ -18,6 +18,7 @@ from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.thalamus.router import Thalamus
+from magda_agent.homeostasis.hypothalamus import Hypothalamus
 
 logging.basicConfig(level=logging.INFO)
 
@@ -31,6 +32,7 @@ long_term_memory = LongTermMemory()
 evaluator = Evaluator(llm=llm_client, memory=memory_system)
 attachment_model = AttachmentModel()
 thalamus = Thalamus()
+hypothalamus = Hypothalamus()
 
 consciousness = Consciousness(
     llm=llm_client,
@@ -42,7 +44,8 @@ consciousness = Consciousness(
     evaluator=evaluator,
     habit_tracker=habit_tracker,
     attachment=attachment_model,
-    thalamus=thalamus
+    thalamus=thalamus,
+    hypothalamus=hypothalamus
 )
 
 subconsciousness = Subconsciousness(

@@ -10,6 +10,12 @@
 ---
 
 ## 🧠 Архитектура мозга
+* [x] MODULE: **Hypothalamus (Гомеостаз)** — модуль `magda_agent/homeostasis/hypothalamus.py`. (2026-06-04)
+  Отвечает за базовые потребности агента: социализация, отдых, любопытство.
+  Метод `update_needs()` изменяет уровни потребностей.
+  Метод `get_summary()` возвращает текущее состояние для контекста.
+  Интеграция: Вызывается в Consciousness, состояние добавляется в prompt.
+  Тесты: проверить изменение уровней потребностей.
 
 * [x] MODULE: **Prefrontal Cortex (Планировщик)** — модуль `magda_agent/planning/planner.py`. (2026-06-03)
   Разбивает сложные запросы пользователя на последовательность шагов (план).
@@ -88,6 +94,7 @@
 * [x] IMPROVEMENT: Implement gracefully shutdown for `MemorySystem`'s ephemeral ChromaDB client to prevent resource leaks. Add `close()` method to `MemorySystem` and call it in `api.py` lifespan shutdown. (2026-06-04)
 * [x] IMPROVEMENT: In `Subconsciousness.reflect`, the LLM prompt for reflection could be more structured to consistently receive PAD adjustments that are then parsed and applied, rather than just hardcoding a dominance increase. (2026-06-04)
 * [ ] IMPROVEMENT: `MemorySystem` has a `long_term` list which seems redundant if `LongTermMemory` module is also used. Need to unify long-term memory storage.
+* [ ] IMPROVEMENT: В модуле `Hypothalamus` можно добавить асинхронную фоновую задачу, которая будет плавно изменять уровни потребностей с течением времени без необходимости прямого вызова, аналогично рефлексии в Подсознании. (2026-06-04)
 
 ## 🛠️ Запланированные Skills
 
