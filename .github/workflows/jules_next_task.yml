@@ -14,6 +14,7 @@ jobs:
       (github.event.pull_request.merged == true &&
        (github.event.pull_request.user.login == 'google-jules[bot]' ||
         github.event.pull_request.user.login == 'kazah4359-lgtm' ||
+        github.event.pull_request.user.login == 'b24039971' ||
         contains(github.event.pull_request.labels.*.name, 'jules')))
 
     steps:
