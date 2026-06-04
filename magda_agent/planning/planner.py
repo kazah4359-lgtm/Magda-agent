@@ -70,14 +70,32 @@ class Planner:
             response_text = response_text.strip()
 
             plan = json.loads(response_text)
-            if isinstance(plan, list):
-                self.current_plan = plan
-                self.completed_steps = []
-                return plan
-            else:
+            if not isinstance(plan, list):
                 logging.error("Plan generated is not a JSON list.")
                 self.current_plan = []
                 return []
+
+            for i, step in enumerate(plan):
+                if not isinstance(step, dict):
+                    logging.error(f"Step {i} in plan is not a JSON object.")
+                    self.current_plan = []
+                    return []
+                if "description" not in step or "skill" not in step or "skill_kwargs" not in step:
+                    logging.error(f"Step {i} in plan is missing required keys: 'description', 'skill', or 'skill_kwargs'.")
+                    self.current_plan = []
+                    return []
+                if step["skill"] is not None and not self.skills.has_skill(step["skill"]):
+                    logging.error(f"Step {i} uses unknown skill: {step['skill']}.")
+                    self.current_plan = []
+                    return []
+                if step["skill_kwargs"] is not None and not isinstance(step["skill_kwargs"], dict):
+                    logging.error(f"Step {i} 'skill_kwargs' must be a dictionary or null.")
+                    self.current_plan = []
+                    return []
+
+            self.current_plan = plan
+            self.completed_steps = []
+            return plan
         except json.JSONDecodeError as e:
             logging.error(f"Failed to decode plan JSON: {e}")
             self.current_plan = []

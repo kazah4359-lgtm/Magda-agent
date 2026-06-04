@@ -259,7 +259,7 @@
     },
     {
       "id": "planner-schema-validation",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Validate LLM-generated plans before execution",

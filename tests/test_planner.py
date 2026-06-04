@@ -44,6 +44,46 @@ async def test_generate_plan_invalid_json():
     assert result == []
     assert len(planner.current_plan) == 0
 
+@pytest.mark.asyncio
+async def test_generate_plan_validation_failures():
+    """
+    Tests that generate_plan correctly validates the LLM-generated plan output.
+    It verifies that a plan is rejected and an empty list is returned if the plan
+    is not a list, contains invalid items, is missing keys, references an unknown skill,
+    or contains invalid skill arguments.
+    """
+    mock_llm = MagicMock(spec=LLMClient)
+    mock_skills = MagicMock(spec=SkillRegistry)
+    mock_skills.has_skill.return_value = False
+
+    planner = Planner(llm=mock_llm, skills=mock_skills)
+
+    # 1. Not a JSON list
+    mock_llm.chat_completion = AsyncMock(return_value='{"step": 1}')
+    result = await planner.generate_plan("test")
+    assert result == []
+
+    # 2. Step is not a dict
+    mock_llm.chat_completion = AsyncMock(return_value='["step 1"]')
+    result = await planner.generate_plan("test")
+    assert result == []
+
+    # 3. Missing required keys
+    mock_llm.chat_completion = AsyncMock(return_value='[{"description": "desc"}]')
+    result = await planner.generate_plan("test")
+    assert result == []
+
+    # 4. Unknown skill
+    mock_llm.chat_completion = AsyncMock(return_value='[{"description": "desc", "skill": "unknown", "skill_kwargs": {}}]')
+    result = await planner.generate_plan("test")
+    assert result == []
+
+    # 5. Invalid skill_kwargs
+    mock_skills.has_skill.return_value = True
+    mock_llm.chat_completion = AsyncMock(return_value='[{"description": "desc", "skill": "known", "skill_kwargs": "not_a_dict"}]')
+    result = await planner.generate_plan("test")
+    assert result == []
+
 def test_mark_step_completed():
     mock_llm = MagicMock(spec=LLMClient)
     mock_skills = MagicMock(spec=SkillRegistry)
