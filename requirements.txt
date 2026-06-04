@@ -9,3 +9,11 @@ uvicorn
 httpx
 chromadb
 numpy<2.0
+
+transformers
+torch
+soundfile
+pydub
+anyascii
+sentencepiece
+datasets<3.0.0

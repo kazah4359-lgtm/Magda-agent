@@ -5,11 +5,15 @@ import sys
 from typing import Any, Awaitable, Callable, Dict
 import httpx
 
-from aiogram import BaseMiddleware, Bot, Dispatcher
+from aiogram import BaseMiddleware, Bot, Dispatcher, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, ErrorEvent
+from aiogram.types import Message, ErrorEvent, FSInputFile
+from magda_agent.speech.processor import SpeechProcessor
+
+speech_processor = SpeechProcessor()
+
 
 # API URL for Consciousness Microservice
 CONSCIOUSNESS_API_URL = os.getenv("CONSCIOUSNESS_API_URL", "http://consciousness:8000")
@@ -63,6 +67,54 @@ async def command_state_handler(message: Message) -> None:
     except Exception as e:
         logging.error(f"Failed to get state: {e}")
         await message.answer("Error: Could not retrieve internal state from Consciousness API.")
+
+@dp.message(F.voice)
+async def voice_message_handler(message: Message) -> None:
+    """Processes incoming voice messages."""
+    await message.bot.send_chat_action(chat_id=message.chat.id, action="record_voice")
+
+    try:
+        # Download voice message
+        file_id = message.voice.file_id
+        file = await message.bot.get_file(file_id)
+        file_path = file.file_path
+
+        # Save locally
+        local_ogg = f"/tmp/{file_id}.ogg"
+        await message.bot.download_file(file_path, local_ogg)
+
+        # STT
+        text = await speech_processor.stt(local_ogg)
+        if os.path.exists(local_ogg):
+            os.remove(local_ogg)
+
+        # Send to Consciousness API
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            payload = {"text": text}
+            if message.from_user and message.from_user.id:
+                payload["user_id"] = message.from_user.id
+
+            response = await client.post(
+                f"{CONSCIOUSNESS_API_URL}/process",
+                json=payload
+            )
+            response.raise_for_status()
+            resp_text = response.json().get("response", "No response from API.")
+
+        # TTS
+        out_ogg = f"/tmp/out_{file_id}.ogg"
+        await speech_processor.tts(resp_text, out_ogg)
+
+        # Send voice back
+        voice_file = FSInputFile(out_ogg)
+        await message.answer_voice(voice_file)
+
+        if os.path.exists(out_ogg):
+            os.remove(out_ogg)
+
+    except Exception as e:
+        logging.error(f"Failed to process voice input: {e}")
+        await message.answer("Error processing your voice message.")
 
 @dp.message()
 async def main_message_handler(message: Message) -> None:
