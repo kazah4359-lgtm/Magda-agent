@@ -95,3 +95,35 @@ async def test_evaluate_response_exception(evaluator, mock_llm_client):
     mock_llm_client.chat_completion.side_effect = Exception("API Error")
     result = await evaluator.evaluate_response("Test", "Response")
     assert result is None
+
+@pytest.mark.asyncio
+async def test_evaluate_response_retry_success(evaluator, mock_llm_client):
+    # First response is invalid JSON, second response is valid JSON
+    invalid_json_response = "this is not valid json"
+    valid_json_response = '''{
+      "usefulness": 9,
+      "accuracy": 9,
+      "completeness": 9,
+      "emotional_adequacy": 9,
+      "average_score": 9.0,
+      "feedback": "Retry success"
+    }'''
+    mock_llm_client.chat_completion.side_effect = [invalid_json_response, valid_json_response]
+
+    result = await evaluator.evaluate_response("Test", "Response")
+
+    assert result is not None
+    assert result["average_score"] == 9.0
+    assert result["feedback"] == "Retry success"
+    assert mock_llm_client.chat_completion.call_count == 2
+
+@pytest.mark.asyncio
+async def test_evaluate_response_retry_failure(evaluator, mock_llm_client):
+    # Always return invalid JSON
+    invalid_json_response = "still not valid json"
+    mock_llm_client.chat_completion.side_effect = [invalid_json_response, invalid_json_response, invalid_json_response]
+
+    result = await evaluator.evaluate_response("Test", "Response")
+
+    assert result is None
+    assert mock_llm_client.chat_completion.call_count == 3
