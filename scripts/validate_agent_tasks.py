@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -132,6 +133,20 @@ def validate_task(task: dict[str, Any], index: int) -> None:
     task_id = task["id"]
     if not isinstance(task_id, str) or not task_id.strip():
         raise ValidationError(f"task #{index + 1} id must be a non-empty string")
+
+    claimed_by = task.get("claimed_by")
+    claimed_at = task.get("claimed_at")
+    if claimed_by is not None or claimed_at is not None:
+        if claimed_by is None or claimed_at is None:
+            raise ValidationError(f"task {task_id}: claimed_by and claimed_at must both be present if one is")
+        if not isinstance(claimed_by, str) or not claimed_by.strip():
+            raise ValidationError(f"task {task_id}: claimed_by must be a non-empty string")
+        if not isinstance(claimed_at, str):
+            raise ValidationError(f"task {task_id}: claimed_at must be a string")
+        try:
+            datetime.fromisoformat(claimed_at.replace("Z", "+00:00"))
+        except ValueError:
+            raise ValidationError(f"task {task_id}: claimed_at must be a valid ISO-8601 datetime string")
 
     status = task["status"]
     if status not in VALID_STATUSES:

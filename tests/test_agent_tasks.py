@@ -92,3 +92,21 @@ def test_manifest_file_stays_pretty_printed():
     expected = json.dumps(parsed, ensure_ascii=False, indent=2) + "\n"
 
     assert manifest_path.read_text(encoding="utf-8") == expected
+
+
+def test_rejects_missing_claim_fields():
+    manifest = load_manifest(Path("agent_tasks.json"))
+    manifest["tasks"][0]["claimed_by"] = "worker-1"
+    # missing claimed_at
+
+    with pytest.raises(ValidationError, match="claimed_by and claimed_at must both be present"):
+        validate_manifest(manifest)
+
+
+def test_rejects_invalid_claim_datetime():
+    manifest = load_manifest(Path("agent_tasks.json"))
+    manifest["tasks"][0]["claimed_by"] = "worker-1"
+    manifest["tasks"][0]["claimed_at"] = "not-a-date"
+
+    with pytest.raises(ValidationError, match="valid ISO-8601 datetime string"):
+        validate_manifest(manifest)

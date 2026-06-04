@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -29,14 +30,35 @@ def iter_tasks(manifest: dict[str, Any]) -> list[dict[str, Any]]:
     return [task for task in tasks if isinstance(task, dict)]
 
 
-def todo_tasks(manifest: dict[str, Any]) -> list[dict[str, Any]]:
-    """Return tasks with status todo."""
-    return [task for task in iter_tasks(manifest) if task.get("status") == "todo"]
+def is_claimed(task: dict[str, Any]) -> bool:
+    """Return True if the task is currently claimed (claimed_at is less than 2 hours old)."""
+    claimed_at = task.get("claimed_at")
+    if not claimed_at:
+        return False
+    try:
+        dt = datetime.fromisoformat(claimed_at.replace("Z", "+00:00"))
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        now = datetime.now(timezone.utc)
+        return (now - dt) < timedelta(hours=2)
+    except (ValueError, TypeError):
+        return False
 
 
-def next_task(manifest: dict[str, Any]) -> dict[str, Any] | None:
+def todo_tasks(manifest: dict[str, Any], include_claimed: bool = False) -> list[dict[str, Any]]:
+    """Return tasks with status todo. Filters out active claims unless include_claimed is True."""
+    tasks = []
+    for task in iter_tasks(manifest):
+        if task.get("status") == "todo":
+            if not include_claimed and is_claimed(task):
+                continue
+            tasks.append(task)
+    return tasks
+
+
+def next_task(manifest: dict[str, Any], include_claimed: bool = False) -> dict[str, Any] | None:
     """Return the next todo task in manifest order."""
-    tasks = todo_tasks(manifest)
+    tasks = todo_tasks(manifest, include_claimed=include_claimed)
     return tasks[0] if tasks else None
 
 
@@ -51,12 +73,14 @@ def task_by_id(manifest: dict[str, Any], task_id: str) -> dict[str, Any] | None:
 def queue_status(manifest: dict[str, Any]) -> dict[str, Any]:
     """Return summary information about the task queue."""
     tasks = iter_tasks(manifest)
-    todos = todo_tasks(manifest)
+    todos = todo_tasks(manifest, include_claimed=True)
+    claimed = [task for task in todos if is_claimed(task)]
     policy = manifest.get("replenishment_policy") or {}
     minimum = int(policy.get("minimum_todo_tasks", 0))
     return {
         "total_tasks": len(tasks),
         "todo_tasks": len(todos),
+        "claimed_tasks": len(claimed),
         "minimum_todo_tasks": minimum,
         "needs_replenishment": len(todos) < minimum,
         "next_task_id": todos[0].get("id") if todos else None,
@@ -151,7 +175,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers.add_parser("validate", help="Validate the task manifest")
     subparsers.add_parser("status", help="Print queue status as JSON")
-    subparsers.add_parser("next-task", help="Print the next todo task as JSON")
+    next_parser = subparsers.add_parser("next-task", help="Print the next todo task as JSON")
+    next_parser.add_argument("--include-claimed", action="store_true", help="Include active claimed tasks")
 
     prompt_parser = subparsers.add_parser("render-prompt", help="Render a Codex prompt for a task")
     prompt_parser.add_argument("--task-id", help="Task id to render. Defaults to the next todo task.")
@@ -184,7 +209,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "next-task":
-        task = next_task(manifest)
+        task = next_task(manifest, include_claimed=args.include_claimed)
         if task is None:
             print("no todo tasks found", file=sys.stderr)
             return 2
