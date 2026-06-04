@@ -9,7 +9,7 @@ from magda_agent.llm_client import LLMClient
 
 @pytest.fixture
 def habit_tracker():
-    return HabitTracker()
+    return HabitTracker(persist_directory=":memory:")
 
 def test_habit_recording_and_suggestion(habit_tracker):
     # Initially no suggestion
