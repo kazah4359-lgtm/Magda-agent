@@ -114,7 +114,7 @@
     },
     {
       "id": "codex-bridge-tests",
-      "status": "todo",
+      "status": "done",
       "area": "codex",
       "risk": "low",
       "title": "Add focused tests for Codex bridge CLI",
