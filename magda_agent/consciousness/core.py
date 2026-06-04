@@ -10,6 +10,7 @@ from magda_agent.metacognition.evaluator import Evaluator
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.emotions.attachment import AttachmentModel
 from magda_agent.thalamus.router import Thalamus
+from magda_agent.action.selector import BasalGanglia
 
 class Consciousness:
     """
@@ -27,7 +28,8 @@ class Consciousness:
         evaluator: Optional[Evaluator] = None,
         habit_tracker: Optional[HabitTracker] = None,
         attachment: Optional[AttachmentModel] = None,
-        thalamus: Optional[Thalamus] = None
+        thalamus: Optional[Thalamus] = None,
+        basal_ganglia: Optional[BasalGanglia] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -39,6 +41,7 @@ class Consciousness:
         self.habit_tracker = habit_tracker
         self.attachment = attachment
         self.thalamus = thalamus
+        self.basal_ganglia = basal_ganglia
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -119,6 +122,17 @@ class Consciousness:
 
         # Determine if a skill should be used (Simplified logic for PoC)
         # In a real system, the LLM would decide which tool to call.
+
+        # Action Selection using Basal Ganglia if available
+        if self.basal_ganglia:
+            possible_actions = [
+                {"action": "chat", "priority": 10},
+                {"action": "ignore", "priority": 1}
+            ]
+            selected_action = self.basal_ganglia.select_action(possible_actions)
+            if selected_action and selected_action["action"] == "ignore":
+                return "Message ignored by Basal Ganglia."
+
         response = await self.llm.chat_completion(messages)
 
         # 5. Post-processing & Memory Storage
