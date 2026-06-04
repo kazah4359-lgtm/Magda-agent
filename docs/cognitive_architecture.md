@@ -6,6 +6,8 @@
 
 Операционные правила для непрерывной работы Jules описаны отдельно: [jules_autonomous_loop.md](jules_autonomous_loop.md). Этот файл определяет, как агент выбирает задачи, пополняет очередь, реагирует на CI failures и не останавливается из-за нехватки явных backlog-пунктов.
 
+Работа через Codex описана в [codex_worker_plan.md](codex_worker_plan.md). Codex должен использовать `AGENTS.md` и `python -m magda_agent.codex_bridge` как легковесную поверхность для выбора задач, проверки manifest и рендера focused prompts.
+
 ## Базовая петля
 
 ```text

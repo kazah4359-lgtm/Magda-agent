@@ -35,12 +35,14 @@ Jules не должен спрашивать пользователя "что д
 Приоритет:
 
 1. `agent_tasks.json`
-2. CI failures
-3. `docs/cognitive_architecture.md`
-4. `docs/jules_autonomous_loop.md`
-5. `backlog.md`
-6. TODO/FIXME comments
-7. recurring errors from previous PRs
+2. `AGENTS.md`
+3. CI failures
+4. `docs/cognitive_architecture.md`
+5. `docs/jules_autonomous_loop.md`
+6. `docs/codex_worker_plan.md`
+7. `backlog.md`
+8. TODO/FIXME comments
+9. recurring errors from previous PRs
 
 Если явных задач нет, Jules создает пачку задач сам.
 
