@@ -23,18 +23,26 @@ jobs:
           You are building a digital brain for Magda AI Agent (Python, asyncio, aiogram Telegram bot).
 
           TASK:
-          1. Open backlog.md in the repo root.
-          2. Find the FIRST task with status [ ] in section "Архитектура мозга".
-          3. Implement the ENTIRE module as described (code + integration + pytest tests).
-          4. Update backlog.md: mark the task [x] and add today's date.
-          5. If you find bugs or improvements, add them to "Обнаружено" section as new [ ] items.
+          1. Read docs/cognitive_architecture.md to understand the target cognitive architecture and governance model.
+          2. Open agent_tasks.json in the repo root.
+          3. Check replenishment_policy. If no "todo" tasks remain, or fewer than minimum_todo_tasks remain, first add a batch of new low/medium-risk "todo" tasks from docs/cognitive_architecture.md, failing tests, TODO comments, and current architecture gaps.
+          4. Find the FIRST task with status "todo".
+          5. Implement the ENTIRE task as described (code + integration + pytest tests).
+          6. Update agent_tasks.json: set the completed task status to "done".
+          7. Also keep backlog.md compatible when the task maps to an existing markdown backlog item.
+          8. If you find bugs or improvements, add them as new "todo" tasks in agent_tasks.json.
+          9. Do not ask the user for the next task unless safe task generation is impossible.
 
           STRICT RULES:
           - Implement the full module in one PR. Do NOT split into smaller PRs.
           - Every function MUST have type hints and a docstring.
           - Write pytest tests that use mocks for LLM calls (never call real APIs in tests).
           - Keep existing tests passing. Run pytest mentally before submitting.
+          - Run python scripts/validate_agent_tasks.py agent_tasks.json before submitting.
           - Do NOT refactor or modify code outside the scope of your task.
+          - Respect the allowed_paths declared by the selected task.
+          - Do NOT modify .github/workflows/**, requirements.txt, sandbox code, secrets, or deployment files unless the selected task explicitly allows it.
+          - If the selected task has risk "high" or "critical", create the PR but do not expect auto-merge without human review.
           - Follow existing code style (see magda_agent/consciousness/core.py as reference).
           - Use existing dependencies from requirements.txt where possible. If you need a new dependency, add it to requirements.txt.
           - Integration: wire your module into the existing architecture as described in the task.

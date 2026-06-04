@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "project": "magda-agent",
+  "task_source_priority": [
+    "agent_tasks.json",
+    "backlog.md"
+  ],
+  "risk_levels": [
+    "low",
+    "medium",
+    "high",
+    "critical"
+  ],
+  "merge_policy": {
+    "low": "auto_merge_after_tests",
+    "medium": "auto_merge_after_tests_and_critic",
+    "high": "human_review_required",
+    "critical": "manual_only"
+  },
+  "replenishment_policy": {
+    "minimum_todo_tasks": 3,
+    "batch_size": 5,
+    "allowed_risks_for_generated_tasks": [
+      "low",
+      "medium"
+    ],
+    "instruction": "If no todo tasks remain, or fewer than minimum_todo_tasks remain, create a batch of new low/medium-risk tasks from docs/cognitive_architecture.md, known failing tests, TODO comments, and the current architecture gaps. Do not ask the user for more tasks unless task generation would require high-risk or critical changes."
+  },
+  "tasks": [
+    {
+      "id": "architecture-contracts",
+      "status": "done",
+      "area": "architecture",
+      "risk": "low",
+      "title": "Document target cognitive architecture",
+      "description": "Create a project-level architecture document that maps biological concepts to engineering contracts and defines the Jules self-improvement governance model.",
+      "allowed_paths": [
+        "docs/**",
+        "agent_tasks.json",
+        "scripts/**",
+        "tests/**"
+      ],
+      "acceptance": [
+        "docs/cognitive_architecture.md exists",
+        "agent_tasks.json validates with scripts/validate_agent_tasks.py"
+      ]
+    },
+    {
+      "id": "task-schema-validator",
+      "status": "done",
+      "area": "governance",
+      "risk": "low",
+      "title": "Validate agent task manifest",
+      "description": "Add a stdlib-only validator for agent_tasks.json and tests that prevent malformed tasks, unknown risk levels, missing acceptance criteria and invalid path scopes.",
+      "allowed_paths": [
+        "agent_tasks.json",
+        "scripts/validate_agent_tasks.py",
+        "tests/test_agent_tasks.py"
+      ],
+      "acceptance": [
+        "python scripts/validate_agent_tasks.py agent_tasks.json",
+        "pytest tests/test_agent_tasks.py"
+      ]
+    },
+    {
+      "id": "risk-system",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Implement Amygdala/RiskSystem for change classification",
+      "description": "Create a risk classifier that scores file changes and action requests before tool execution or auto-merge decisions.",
+      "allowed_paths": [
+        "magda_agent/safety/**",
+        "tests/test_risk_system.py",
+        "docs/**",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "changes to workflows are high risk",
+        "changes to requirements are high risk",
+        "docs-only changes are low risk",
+        "sandbox and skill registry changes are high risk"
+      ]
+    },
+    {
+      "id": "salience-network",
+      "status": "todo",
+      "area": "cognition",
+      "risk": "medium",
+      "title": "Implement Salience Network",
+      "description": "Add a module that scores events by urgency, active task relevance, CI/test signal, uncertainty, novelty and risk.",
+      "allowed_paths": [
+        "magda_agent/attention/**",
+        "magda_agent/consciousness/**",
+        "tests/test_salience.py",
+        "docs/**",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "noisy low-value input receives low salience",
+        "failed CI event receives high salience",
+        "security-risk event receives high salience",
+        "Consciousness can use salience without changing public API"
+      ]
+    },
+    {
+      "id": "global-workspace",
+      "status": "todo",
+      "area": "cognition",
+      "risk": "medium",
+      "title": "Introduce Global Workspace",
+      "description": "Refactor the central cognitive loop so multiple candidate events compete for focus before memory retrieval, planning and action selection.",
+      "allowed_paths": [
+        "magda_agent/consciousness/**",
+        "magda_agent/attention/**",
+        "tests/test_global_workspace.py",
+        "tests/test_api.py",
+        "docs/**",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "workspace selects highest-salience candidate",
+        "suppressed candidates remain inspectable",
+        "existing /process API behavior remains compatible",
+        "planner still receives the focused user input"
+      ]
+    },
+    {
+      "id": "memory-layer-split",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Split memory into working, episodic, semantic and procedural layers",
+      "description": "Reduce confusion between MemorySystem.long_term, LongTermMemory and habit storage by introducing explicit memory layer contracts.",
+      "allowed_paths": [
+        "magda_agent/memory/**",
+        "magda_agent/learning/**",
+        "tests/test_memory*.py",
+        "tests/test_learning/**",
+        "docs/**",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "working memory is bounded and non-persistent",
+        "episodic memory stores events",
+        "semantic memory stores stable project/user facts",
+        "procedural memory stores reusable successful methods",
+        "existing user_id filtering remains supported"
+      ]
+    },
+    {
+      "id": "subconscious-consolidation",
+      "status": "todo",
+      "area": "reflection",
+      "risk": "medium",
+      "title": "Upgrade Subconsciousness into structured consolidation",
+      "description": "Make the background loop produce structured summaries, lessons, anti-patterns and proposed tasks instead of only generic reflection.",
+      "allowed_paths": [
+        "magda_agent/subconsciousness/**",
+        "magda_agent/memory/**",
+        "tests/test_subconsciousness.py",
+        "docs/**",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "reflection output is validated JSON",
+        "lessons are stored separately from raw conversation",
+        "recurring failures can create proposed tasks",
+        "LLM calls remain mocked in tests"
+      ]
+    }
+  ]
+}
