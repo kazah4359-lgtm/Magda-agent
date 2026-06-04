@@ -20,19 +20,22 @@ class EmotionalEngine:
     Mathematical Emotional Engine based on the PAD model.
     Allows for continuous emotional state representation and updates.
     """
-    def __init__(self, decay_rate: float = 0.05):
+    def __init__(self, decay_rate: float = 0.05, max_history_length: int = 100) -> None:
         self.state = PADState()
         self.decay_rate = decay_rate
+        self.max_history_length = max_history_length
         self.history: List[PADState] = []
 
-    def update(self, p_delta: float, a_delta: float, d_delta: float):
+    def update(self, p_delta: float, a_delta: float, d_delta: float) -> None:
         """Update the emotional state with new stimuli."""
         self.state.pleasure = self._clamp(self.state.pleasure + p_delta)
         self.state.arousal = self._clamp(self.state.arousal + a_delta)
         self.state.dominance = self._clamp(self.state.dominance + d_delta)
         self.history.append(PADState(self.state.pleasure, self.state.arousal, self.state.dominance))
+        while len(self.history) > self.max_history_length:
+            self.history.pop(0)
 
-    def decay(self):
+    def decay(self) -> None:
         """Gradually return to neutral state (0,0,0)."""
         self.state.pleasure *= (1 - self.decay_rate)
         self.state.arousal *= (1 - self.decay_rate)
@@ -62,7 +65,9 @@ class EmotionalEngine:
             return "Neutral"
 
     def _clamp(self, value: float, min_val: float = -1.0, max_val: float = 1.0) -> float:
+        """Clamp a value between min_val and max_val."""
         return max(min_val, min(max_val, value))
 
     def get_summary(self) -> str:
+        """Return a readable summary of the current emotional state."""
         return f"Current Emotion: {self.get_emotion_label()} (P:{self.state.pleasure:.2f}, A:{self.state.arousal:.2f}, D:{self.state.dominance:.2f})"
