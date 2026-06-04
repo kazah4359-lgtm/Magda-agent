@@ -1,10 +1,16 @@
 import subprocess
 import tempfile
 import os
-import resource
+try:
+    import resource
+    _HAS_RESOURCE = True
+except ImportError:
+    _HAS_RESOURCE = False
 
 def set_limits():
     """Set resource limits for the subprocess to prevent fork bombs and restrict resources."""
+    if not _HAS_RESOURCE:
+        return
     # Limit to 0 to prevent creating new processes (effectively blocking subprocess/os.system bypasses)
     try:
         resource.setrlimit(resource.RLIMIT_NPROC, (0, 0))
