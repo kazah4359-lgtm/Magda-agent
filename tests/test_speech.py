@@ -1,3 +1,10 @@
+
+import sys
+from unittest.mock import MagicMock
+import sys
+from unittest.mock import MagicMock
+import sys
+from unittest.mock import MagicMock
 import pytest
 import os
 import sys
@@ -20,7 +27,9 @@ mock_pipeline_func.return_value = mock_pipeline_call
 
 mock_transformers = MagicMock()
 mock_transformers.pipeline = mock_pipeline_func
-mock_transformers.SpeechT5Processor.from_pretrained.return_value = MagicMock()
+mock_processor = MagicMock()
+mock_processor.return_value = MagicMock(return_value={"input_ids": [1, 2, 3]})
+mock_transformers.SpeechT5Processor.from_pretrained.return_value = mock_processor
 mock_transformers.SpeechT5ForTextToSpeech.from_pretrained.return_value = MagicMock()
 mock_transformers.SpeechT5HifiGan.from_pretrained.return_value = MagicMock()
 
@@ -51,7 +60,8 @@ def processor():
 async def test_stt(processor, monkeypatch):
     # Mock AudioSegment so it doesn't try to read a real file
     mock_audio = MagicMock()
-    monkeypatch.setattr("magda_agent.speech.processor.AudioSegment.from_file", MagicMock(return_value=mock_audio))
+    import pydub
+    monkeypatch.setattr(pydub.AudioSegment, "from_file", MagicMock(return_value=mock_audio))
     monkeypatch.setattr(processor, "_stt_pipe", MagicMock(return_value={"text": "mocked transcribed text"}))
     monkeypatch.setattr(processor, "_ensure_models_loaded", MagicMock())
 
@@ -62,9 +72,11 @@ async def test_stt(processor, monkeypatch):
 @pytest.mark.asyncio
 async def test_tts(processor, monkeypatch):
     # Mock sf.write and pydub so it doesn't write real files
-    monkeypatch.setattr("magda_agent.speech.processor.sf.write", MagicMock())
+    import soundfile as sf
+    monkeypatch.setattr(sf, "write", MagicMock())
     mock_audio = MagicMock()
-    monkeypatch.setattr("magda_agent.speech.processor.AudioSegment.from_wav", MagicMock(return_value=mock_audio))
+    import pydub
+    monkeypatch.setattr(pydub.AudioSegment, "from_wav", MagicMock(return_value=mock_audio))
 
     # Run TTS
     out_path = await processor.tts("Привет мир", "out.ogg")

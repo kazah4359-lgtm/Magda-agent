@@ -1,12 +1,6 @@
 import asyncio
 import logging
 import os
-import torch
-import anyascii
-import soundfile as sf
-from pydub import AudioSegment
-from transformers import pipeline, SpeechT5Processor, SpeechT5ForTextToSpeech, SpeechT5HifiGan
-from datasets import load_dataset
 
 class SpeechProcessor:
     """
@@ -24,6 +18,10 @@ class SpeechProcessor:
     def _ensure_models_loaded(self):
         """Load the models lazily on first use."""
         if self._stt_pipe is None:
+            import torch
+            from transformers import pipeline, SpeechT5Processor, SpeechT5ForTextToSpeech, SpeechT5HifiGan
+            from datasets import load_dataset
+
             logging.info("Loading STT model...")
             self._stt_pipe = pipeline("automatic-speech-recognition", model="openai/whisper-tiny")
 
@@ -48,6 +46,7 @@ class SpeechProcessor:
         """
         def _stt():
             self._ensure_models_loaded()
+            from pydub import AudioSegment
             # pydub can load ogg/opus. Convert to wav for whisper
             audio = AudioSegment.from_file(audio_path)
             temp_wav = audio_path + ".wav"
@@ -72,6 +71,9 @@ class SpeechProcessor:
         """
         def _tts():
             self._ensure_models_loaded()
+            import anyascii
+            import soundfile as sf
+            from pydub import AudioSegment
             # Transliterate and truncate
             clean_text = anyascii.anyascii(text)
             if len(clean_text) > 550:

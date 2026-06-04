@@ -10,9 +10,6 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, ErrorEvent, FSInputFile
-from magda_agent.speech.processor import SpeechProcessor
-
-speech_processor = SpeechProcessor()
 
 
 # API URL for Consciousness Microservice
@@ -74,6 +71,8 @@ async def voice_message_handler(message: Message) -> None:
     await message.bot.send_chat_action(chat_id=message.chat.id, action="record_voice")
 
     try:
+        from magda_agent.speech.processor import SpeechProcessor
+        speech_processor = SpeechProcessor()
         # Download voice message
         file_id = message.voice.file_id
         file = await message.bot.get_file(file_id)
