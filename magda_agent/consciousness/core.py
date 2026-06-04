@@ -13,6 +13,8 @@ from magda_agent.thalamus.router import Thalamus
 from magda_agent.action.selector import BasalGanglia
 from magda_agent.drives.hypothalamus import Hypothalamus
 from magda_agent.emotions.insula import Insula
+from magda_agent.reflexes.brainstem import Brainstem
+from magda_agent.rhythms.pineal_gland import PinealGland
 
 class Consciousness:
     """
@@ -33,7 +35,9 @@ class Consciousness:
         thalamus: Optional[Thalamus] = None,
         basal_ganglia: Optional[BasalGanglia] = None,
         hypothalamus: Optional[Hypothalamus] = None,
-        insula: Optional[Insula] = None
+        insula: Optional[Insula] = None,
+        brainstem: Optional[Brainstem] = None,
+        pineal_gland: Optional[PinealGland] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -48,6 +52,8 @@ class Consciousness:
         self.basal_ganglia = basal_ganglia
         self.hypothalamus = hypothalamus
         self.insula = insula
+        self.brainstem = brainstem
+        self.pineal_gland = pineal_gland
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -55,12 +61,26 @@ class Consciousness:
         if self.thalamus and not self.thalamus.filter_input(user_input):
             return "Message ignored by Thalamus."
 
+        # 0. Brainstem Autonomic Reflexes
+        if self.brainstem:
+            reflex_response = self.brainstem.process_reflex(user_input)
+            if reflex_response:
+                logging.info(f"Brainstem reflex triggered for: {user_input}")
+                return reflex_response
+
         # 1. Perception & Emotion Update (Initial reaction)
         # For simplicity, we just slightly increase arousal when receiving input
         self.emotions.update(0.01, 0.05, 0.01)
 
         if self.hypothalamus:
-            self.hypothalamus.update(1.0) # High activity processing input
+            activity_level = 1.0
+            if self.pineal_gland:
+                # Modulate energy drain based on time of day (e.g. morning = higher modifier, less relative drain)
+                modifier = self.pineal_gland.get_energy_modifier()
+                activity_level = activity_level / modifier
+
+            self.hypothalamus.update(activity_level) # Activity modulated by time of day
+
 
             if self.insula:
                 v_shift, a_shift, d_shift = self.insula.process_interoception(
@@ -115,6 +135,9 @@ class Consciousness:
         emotion_summary = self.emotions.get_summary()
         if self.hypothalamus:
             emotion_summary += f" | {self.hypothalamus.get_drives_summary()}"
+
+        if self.pineal_gland:
+            emotion_summary += f" | Time of day: {self.pineal_gland.get_time_context()}"
 
         if self.attachment and user_id is not None:
             self.attachment.record_interaction(user_id)
