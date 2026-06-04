@@ -14,6 +14,18 @@ class SkillRegistry:
         self.descriptions[name] = description
         logging.info(f"Skill registered: {name}")
 
+    def has_skill(self, name: str) -> bool:
+        """
+        Checks whether a skill with the given name is registered.
+
+        Args:
+            name (str): The name of the skill to check.
+
+        Returns:
+            bool: True if the skill exists, False otherwise.
+        """
+        return name in self.skills
+
     def execute_skill(self, name: str, **kwargs) -> Any:
         if name not in self.skills:
             return f"Error: Skill '{name}' not found."
