@@ -26,6 +26,14 @@
     ],
     "instruction": "If no todo tasks remain, or fewer than minimum_todo_tasks remain, create a batch of new low/medium-risk tasks from docs/cognitive_architecture.md, known failing tests, TODO comments, and the current architecture gaps. Do not ask the user for more tasks unless task generation would require high-risk or critical changes."
   },
+  "autonomous_loop_policy": {
+    "operating_model": "docs/jules_autonomous_loop.md",
+    "selection_rule": "Choose the first todo task that is not blocked by high/critical risk. If the first todo task is too large, create smaller prerequisite tasks and select the first prerequisite.",
+    "anti_stall_rule": "Never ask the user for the next task while safe low/medium-risk tasks can be generated from architecture docs, failing CI, TODO comments, or repeated errors.",
+    "stabilization_first": true,
+    "max_pr_scope": "one task id per PR",
+    "failure_rule": "If CI fails, prioritize a fix task for the failure before starting new features."
+  },
   "tasks": [
     {
       "id": "architecture-contracts",
@@ -60,6 +68,145 @@
       "acceptance": [
         "python scripts/validate_agent_tasks.py agent_tasks.json",
         "pytest tests/test_agent_tasks.py"
+      ]
+    },
+    {
+      "id": "jules-autonomous-loop-doc",
+      "status": "done",
+      "area": "governance",
+      "risk": "low",
+      "title": "Document Jules autonomous operating loop",
+      "description": "Define how Jules selects tasks, replenishes the queue, handles failures, avoids clarification stalls and keeps PRs small.",
+      "allowed_paths": [
+        "docs/**",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "docs/jules_autonomous_loop.md exists",
+        "agent_tasks.json includes autonomous_loop_policy",
+        "task queue defines concrete stabilization work before larger cognitive modules"
+      ]
+    },
+    {
+      "id": "cross-platform-skill-imports",
+      "status": "todo",
+      "area": "stabilization",
+      "risk": "low",
+      "title": "Make skill imports cross-platform",
+      "description": "Prevent Linux-only sandbox dependencies from breaking import of magda_agent.skills on Windows or other non-Linux developer environments.",
+      "allowed_paths": [
+        "magda_agent/skills/system_execute_code.py",
+        "magda_agent/skills/__init__.py",
+        "tests/test_security_sandbox.py",
+        "tests/test_internet_search.py",
+        "tests/test_omnichannel.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "import magda_agent.skills does not fail when resource is unavailable",
+        "Linux sandbox behavior remains unchanged where resource/preexec_fn are available",
+        "non-Linux fallback returns a clear unsupported or restricted execution result instead of import-time crash"
+      ]
+    },
+    {
+      "id": "bounded-emotional-history",
+      "status": "todo",
+      "area": "stabilization",
+      "risk": "low",
+      "title": "Bound EmotionalEngine history",
+      "description": "Replace unbounded emotion history growth with a bounded structure so the 24/7 agent does not leak memory through PAD history.",
+      "allowed_paths": [
+        "magda_agent/emotions/engine.py",
+        "tests/test_attachment.py",
+        "tests/test_insula.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "EmotionalEngine history has a configurable maximum length",
+        "existing PAD update and decay behavior remains compatible",
+        "long-running updates do not grow history without bound"
+      ]
+    },
+    {
+      "id": "planner-execution-limits",
+      "status": "todo",
+      "area": "stabilization",
+      "risk": "medium",
+      "title": "Add max steps and timeouts to plan execution",
+      "description": "Prevent Consciousness.process_input from blocking indefinitely on long LLM-generated plans or slow skills.",
+      "allowed_paths": [
+        "magda_agent/consciousness/core.py",
+        "magda_agent/planning/planner.py",
+        "tests/test_planner.py",
+        "tests/test_api.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "plan execution has a maximum step count",
+        "each skill execution has a timeout or explicit bounded execution path",
+        "user receives a graceful partial-result response when a plan is stopped by limits",
+        "existing simple chat flow remains compatible"
+      ]
+    },
+    {
+      "id": "planner-schema-validation",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Validate LLM-generated plans before execution",
+      "description": "Add structured validation for planner output so unknown skills, malformed skill_kwargs and unsafe plans are rejected before execution.",
+      "allowed_paths": [
+        "magda_agent/planning/planner.py",
+        "magda_agent/skills/registry.py",
+        "tests/test_planner.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "planner rejects non-list JSON",
+        "planner rejects steps without description/skill/skill_kwargs shape",
+        "planner rejects unknown skill names before execution",
+        "planner keeps safe no-skill chat steps valid"
+      ]
+    },
+    {
+      "id": "per-user-agent-state",
+      "status": "todo",
+      "area": "stabilization",
+      "risk": "medium",
+      "title": "Separate mutable agent state by user",
+      "description": "Prevent emotional state, short-term memory and attachment dynamics from leaking between users in the FastAPI singleton service.",
+      "allowed_paths": [
+        "magda_agent/api.py",
+        "magda_agent/consciousness/core.py",
+        "magda_agent/emotions/**",
+        "magda_agent/memory/**",
+        "tests/test_memory_user_context.py",
+        "tests/test_attachment.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "different user_id values do not share emotional PAD state unintentionally",
+        "short-term memory retrieval remains user-aware",
+        "attachment state has a persistence or explicit reset strategy",
+        "anonymous users still work with a default isolated context"
+      ]
+    },
+    {
+      "id": "subconscious-graceful-stop",
+      "status": "todo",
+      "area": "stabilization",
+      "risk": "low",
+      "title": "Make Subconsciousness stop promptly",
+      "description": "Replace long sleep-only shutdown behavior with an asyncio.Event or equivalent so background reflection can stop promptly during service shutdown.",
+      "allowed_paths": [
+        "magda_agent/subconsciousness/reflection.py",
+        "tests/test_subconsciousness.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "stop wakes the background loop without waiting for the full interval",
+        "start/stop remains idempotent enough for tests",
+        "existing reflection behavior remains compatible"
       ]
     },
     {
