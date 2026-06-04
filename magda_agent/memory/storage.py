@@ -13,6 +13,7 @@ class MemoryEntry:
     emotional_state: PADState
     tags: List[str] = field(default_factory=list)
     id: int = field(default_factory=lambda: int(time.time() * 1000))
+    user_id: Optional[int] = None
 
 class MemorySystem:
     """
@@ -24,14 +25,15 @@ class MemorySystem:
         self.long_term: List[MemoryEntry] = []
         self.short_term_limit = short_term_limit
 
-    def add_memory(self, content: str, importance: float, emotional_state: PADState, tags: List[str] = None):
+    def add_memory(self, content: str, importance: float, emotional_state: PADState, tags: List[str] = None, user_id: int = None):
         """Add a new entry to short-term memory."""
         entry = MemoryEntry(
             content=content,
             timestamp=time.time(),
             importance=importance,
             emotional_state=emotional_state,
-            tags=tags or []
+            tags=tags or [],
+            user_id=user_id
         )
         self.short_term.append(entry)
 
@@ -57,12 +59,15 @@ class MemorySystem:
         while len(self.short_term) > self.short_term_limit:
             self.short_term.pop()
 
-    def retrieve_relevant(self, query: str, limit: int = 5) -> List[MemoryEntry]:
+    def retrieve_relevant(self, query: str, limit: int = 5, user_id: int = None) -> List[MemoryEntry]:
         """
         Retrieve relevant memories based on tags or simple keyword matching.
         In a real scenario, this would use vector search.
         """
         all_memories = self.short_term + self.long_term
+        if user_id is not None:
+            all_memories = [m for m in all_memories if m.user_id == user_id]
+
         # Simple keyword matching for demonstration
         results = [m for m in all_memories if query.lower() in m.content.lower() or any(query.lower() in t.lower() for t in m.tags)]
         return sorted(results, key=lambda x: x.importance, reverse=True)[:limit]

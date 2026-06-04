@@ -45,11 +45,11 @@ class Consciousness:
         self.emotions.update(0.01, 0.05, 0.01)
 
         # 2. Memory Retrieval
-        relevant_memories = self.memory.retrieve_relevant(user_input)
+        relevant_memories = self.memory.retrieve_relevant(user_input, user_id=user_id)
         context_str = "\n".join([f"- {m.content}" for m in relevant_memories])
 
         if self.long_term_memory:
-            long_term_memories = self.long_term_memory.recall(user_input)
+            long_term_memories = self.long_term_memory.recall(user_input, user_id=user_id)
             if long_term_memories:
                 context_str += "\nLong Term Memories:\n" + "\n".join([f"- {m}" for m in long_term_memories])
 
@@ -58,7 +58,7 @@ class Consciousness:
         if self.planner:
             # Only generate a new plan if we don't have an active one
             if not self.planner.get_current_plan():
-                await self.planner.generate_plan(user_input)
+                await self.planner.generate_plan(user_input, user_id=user_id)
 
             plan = self.planner.get_current_plan()
             if plan:
@@ -121,11 +121,12 @@ class Consciousness:
             content=memory_content,
             importance=0.5,
             emotional_state=self.emotions.state,
-            tags=["conversation"]
+            tags=["conversation"],
+            user_id=user_id
         )
 
         if self.long_term_memory:
-            self.long_term_memory.store(text=memory_content, metadata={"type": "conversation"})
+            self.long_term_memory.store(text=memory_content, metadata={"type": "conversation"}, user_id=user_id)
 
         # Gradual emotional decay after processing
         self.emotions.decay()
@@ -141,7 +142,7 @@ class Consciousness:
                     for step in self.planner.completed_steps:
                         skill = step.get("skill")
                         if skill:
-                            self.habit_tracker.record_usage(user_input, skill, float(avg_score))
+                            self.habit_tracker.record_usage(user_input, skill, float(avg_score), user_id=user_id)
 
         return response
 

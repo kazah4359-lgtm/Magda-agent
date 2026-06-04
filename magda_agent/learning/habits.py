@@ -30,7 +30,7 @@ class HabitTracker:
         # We store successful habit mappings as documents in ChromaDB
         self.collection = self.client.get_or_create_collection(name="habits")
 
-    def record_usage(self, input_text: str, skill_used: str, evaluation_score: float) -> None:
+    def record_usage(self, input_text: str, skill_used: str, evaluation_score: float, user_id: int = None) -> None:
         """
         Records the successful usage of a skill for a given input.
 
@@ -38,26 +38,31 @@ class HabitTracker:
             input_text (str): The user's input.
             skill_used (str): The name of the skill that was used.
             evaluation_score (float): The evaluation score of the response.
+            user_id (int, optional): The ID of the user.
         """
         # We only form habits from successful responses
         if evaluation_score >= 8.0:
             try:
                 habit_id = str(uuid.uuid4())
+                metadata = {"skill_used": skill_used}
+                if user_id is not None:
+                    metadata["user_id"] = user_id
                 self.collection.add(
                     documents=[input_text],
-                    metadatas=[{"skill_used": skill_used}],
+                    metadatas=[metadata],
                     ids=[habit_id]
                 )
                 logging.info(f"Habit reinforced: Stored success for skill '{skill_used}' with input '{input_text[:20]}...'")
             except Exception as e:
                 logging.error(f"Failed to record habit: {e}")
 
-    def suggest_strategy(self, input_text: str) -> Optional[str]:
+    def suggest_strategy(self, input_text: str, user_id: int = None) -> Optional[str]:
         """
         Suggests a preferred skill based on past high-scoring experiences for similar inputs.
 
         Args:
             input_text (str): The user's input to find a strategy for.
+            user_id (int, optional): The ID of the user.
 
         Returns:
             Optional[str]: The name of the suggested skill, or None if no strong habit exists.
@@ -67,10 +72,14 @@ class HabitTracker:
             if self.collection.count() == 0:
                 return None
 
-            results = self.collection.query(
-                query_texts=[input_text],
-                n_results=min(5, self.collection.count())
-            )
+            query_kwargs = {
+                "query_texts": [input_text],
+                "n_results": min(5, self.collection.count())
+            }
+            if user_id is not None:
+                query_kwargs["where"] = {"user_id": user_id}
+
+            results = self.collection.query(**query_kwargs)
 
             if not results or not results.get("distances") or not results["distances"][0]:
                 return None
