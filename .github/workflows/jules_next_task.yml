@@ -24,7 +24,7 @@ jobs:
           You are building a digital brain for Magda AI Agent (Python, asyncio, aiogram Telegram bot).
 
           TASK:
-          1. Read docs/cognitive_architecture.md and docs/jules_autonomous_loop.md to understand the target cognitive architecture and autonomous operating model.
+          1. Read AGENTS.md, docs/cognitive_architecture.md, docs/jules_autonomous_loop.md, and docs/codex_worker_plan.md to understand the target cognitive architecture, autonomous operating model, and Codex worker surface.
           2. Open agent_tasks.json in the repo root.
           3. Check replenishment_policy. If no "todo" tasks remain, or fewer than minimum_todo_tasks remain, first add a batch of new low/medium-risk "todo" tasks from docs/cognitive_architecture.md, failing tests, TODO comments, and current architecture gaps.
           4. Find the FIRST task with status "todo".

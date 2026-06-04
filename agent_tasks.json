@@ -3,6 +3,8 @@
   "project": "magda-agent",
   "task_source_priority": [
     "agent_tasks.json",
+    "AGENTS.md",
+    "docs/codex_worker_plan.md",
     "backlog.md"
   ],
   "risk_levels": [
@@ -85,6 +87,113 @@
         "docs/jules_autonomous_loop.md exists",
         "agent_tasks.json includes autonomous_loop_policy",
         "task queue defines concrete stabilization work before larger cognitive modules"
+      ]
+    },
+    {
+      "id": "codex-worker-plan-and-bridge",
+      "status": "done",
+      "area": "codex",
+      "risk": "low",
+      "title": "Add Codex worker plan and bridge CLI",
+      "description": "Document how Magda should work through Codex and add a stdlib-only CLI that lets Codex validate the task manifest, inspect queue status, fetch the next task and render focused prompts.",
+      "allowed_paths": [
+        "AGENTS.md",
+        "magda_agent/codex_bridge.py",
+        "docs/codex_worker_plan.md",
+        "docs/**",
+        "agent_tasks.json",
+        "README.md"
+      ],
+      "acceptance": [
+        "AGENTS.md describes Codex/Jules repo instructions",
+        "docs/codex_worker_plan.md exists",
+        "python -m magda_agent.codex_bridge validate works",
+        "python -m magda_agent.codex_bridge next-task prints the next todo task",
+        "python -m magda_agent.codex_bridge render-prompt renders a scoped task prompt"
+      ]
+    },
+    {
+      "id": "codex-bridge-tests",
+      "status": "todo",
+      "area": "codex",
+      "risk": "low",
+      "title": "Add focused tests for Codex bridge CLI",
+      "description": "Cover the stdlib-only Codex bridge commands so task selection, prompt rendering and queue status remain stable.",
+      "allowed_paths": [
+        "magda_agent/codex_bridge.py",
+        "tests/test_codex_bridge.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "status reports total todo count and replenishment flag",
+        "next-task returns the first todo task",
+        "render-prompt includes task id, allowed paths and acceptance criteria",
+        "validate command delegates to scripts/validate_agent_tasks.py"
+      ]
+    },
+    {
+      "id": "codex-worker-skill-prompt-only",
+      "status": "todo",
+      "area": "codex",
+      "risk": "medium",
+      "title": "Add Codex worker skill in prompt-only mode",
+      "description": "Expose a safe skill that renders a Codex-ready task prompt without launching external Codex processes or creating PRs.",
+      "allowed_paths": [
+        "magda_agent/skills/codex_worker.py",
+        "magda_agent/skills/__init__.py",
+        "magda_agent/skills/registry.py",
+        "tests/test_codex_worker.py",
+        "docs/codex_worker_plan.md",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "codex_worker skill accepts optional task_id",
+        "skill returns a prompt generated from agent_tasks.json",
+        "skill does not execute shell commands or network calls",
+        "skill metadata marks it as low side-effect prompt-only capability"
+      ]
+    },
+    {
+      "id": "codex-pr-review-renderer",
+      "status": "todo",
+      "area": "codex",
+      "risk": "medium",
+      "title": "Add Codex PR review prompt renderer",
+      "description": "Create a renderer that turns a PR diff summary into a Codex/CriticAgent review prompt focused on regressions, risks and missing tests.",
+      "allowed_paths": [
+        "magda_agent/codex_bridge.py",
+        "magda_agent/metacognition/**",
+        "tests/test_codex_bridge.py",
+        "docs/codex_worker_plan.md",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "renderer accepts PR title, changed files and diff summary",
+        "prompt asks for findings first, ordered by severity",
+        "prompt includes risk and missing-test sections",
+        "renderer is deterministic and does not call external APIs"
+      ]
+    },
+    {
+      "id": "task-claim-locking",
+      "status": "todo",
+      "area": "governance",
+      "risk": "medium",
+      "title": "Add task claim and lock fields for multiple workers",
+      "description": "Extend agent_tasks.json schema so Jules, Codex and future workers do not accidentally take the same task at the same time.",
+      "allowed_paths": [
+        "agent_tasks.json",
+        "scripts/validate_agent_tasks.py",
+        "tests/test_agent_tasks.py",
+        "magda_agent/codex_bridge.py",
+        "docs/jules_autonomous_loop.md",
+        "docs/codex_worker_plan.md"
+      ],
+      "acceptance": [
+        "tasks may include claimed_by and claimed_at fields",
+        "validator rejects stale or malformed claim metadata when present",
+        "codex_bridge status shows claimed tasks",
+        "task selection can skip active claims unless explicitly overridden"
       ]
     },
     {
