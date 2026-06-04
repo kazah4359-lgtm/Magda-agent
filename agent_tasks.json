@@ -64,7 +64,7 @@
     },
     {
       "id": "risk-system",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Implement Amygdala/RiskSystem for change classification",
