@@ -17,6 +17,7 @@ from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
 from magda_agent.learning.habits import HabitTracker
+from magda_agent.thalamus.router import Thalamus
 
 logging.basicConfig(level=logging.INFO)
 
@@ -29,6 +30,7 @@ planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tra
 long_term_memory = LongTermMemory()
 evaluator = Evaluator(llm=llm_client, memory=memory_system)
 attachment_model = AttachmentModel()
+thalamus = Thalamus()
 
 consciousness = Consciousness(
     llm=llm_client,
@@ -39,7 +41,8 @@ consciousness = Consciousness(
     long_term_memory=long_term_memory,
     evaluator=evaluator,
     habit_tracker=habit_tracker,
-    attachment=attachment_model
+    attachment=attachment_model,
+    thalamus=thalamus
 )
 
 subconsciousness = Subconsciousness(
@@ -56,6 +59,7 @@ async def lifespan(app: FastAPI):
     yield
     # Shutdown
     await subconsciousness.stop()
+    memory_system.close()
 
 app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)
 
