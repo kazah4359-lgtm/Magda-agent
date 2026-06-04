@@ -102,6 +102,7 @@ Codex-worker tasks must obey the same policy gates as Jules:
 
 - one task id per PR;
 - allowed paths only;
+- worker must respect and update claim fields to avoid overlapping work;
 - no workflow/dependency/sandbox changes unless task allows them;
 - high/critical tasks require human review;
 - generated code is never auto-enabled as a skill;

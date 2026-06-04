@@ -176,7 +176,7 @@
     },
     {
       "id": "task-claim-locking",
-      "status": "todo",
+      "status": "done",
       "area": "governance",
       "risk": "medium",
       "title": "Add task claim and lock fields for multiple workers",
