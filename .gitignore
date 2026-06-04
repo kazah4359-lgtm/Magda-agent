@@ -19,3 +19,4 @@ venv.bak/
 # Docker
 .dockerignore
 memory_db/
+habits_db/

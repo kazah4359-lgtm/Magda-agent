@@ -1,17 +1,34 @@
 import logging
+import uuid
+import chromadb
 from typing import Optional, Dict
+from collections import Counter
 
 class HabitTracker:
     """
     Cerebellum: Learning from habits.
     Analyzes patterns to find which skills are frequently used for typical requests
-    and receive high evaluation scores. Forms 'habits' - preferred strategies.
+    and receive high evaluation scores. Forms 'habits' - preferred strategies
+    using semantic similarity search.
     """
 
-    def __init__(self):
-        # Maps input_text to a dictionary mapping skill_used to success counts
-        # e.g., {"what is the time": {"get_time": 5, "search_web": 1}}
-        self.habits: Dict[str, Dict[str, int]] = {}
+    def __init__(self, persist_directory: str = "./habits_db") -> None:
+        """
+        Initializes the HabitTracker with a ChromaDB client.
+
+        Args:
+            persist_directory (str): The directory to persist ChromaDB data.
+                                     Use ":memory:" for an ephemeral client.
+        """
+        if persist_directory == ":memory:":
+            self.client = chromadb.EphemeralClient()
+            logging.info("Initialized HabitTracker with EphemeralClient")
+        else:
+            self.client = chromadb.PersistentClient(path=persist_directory)
+            logging.info(f"Initialized HabitTracker with persistent directory: {persist_directory}")
+
+        # We store successful habit mappings as documents in ChromaDB
+        self.collection = self.client.get_or_create_collection(name="habits")
 
     def record_usage(self, input_text: str, skill_used: str, evaluation_score: float) -> None:
         """
@@ -24,14 +41,16 @@ class HabitTracker:
         """
         # We only form habits from successful responses
         if evaluation_score >= 8.0:
-            if input_text not in self.habits:
-                self.habits[input_text] = {}
-
-            if skill_used not in self.habits[input_text]:
-                self.habits[input_text][skill_used] = 0
-
-            self.habits[input_text][skill_used] += 1
-            logging.info(f"Habit reinforced: For input '{input_text[:20]}...', skill '{skill_used}' count is now {self.habits[input_text][skill_used]}")
+            try:
+                habit_id = str(uuid.uuid4())
+                self.collection.add(
+                    documents=[input_text],
+                    metadatas=[{"skill_used": skill_used}],
+                    ids=[habit_id]
+                )
+                logging.info(f"Habit reinforced: Stored success for skill '{skill_used}' with input '{input_text[:20]}...'")
+            except Exception as e:
+                logging.error(f"Failed to record habit: {e}")
 
     def suggest_strategy(self, input_text: str) -> Optional[str]:
         """
@@ -43,20 +62,43 @@ class HabitTracker:
         Returns:
             Optional[str]: The name of the suggested skill, or None if no strong habit exists.
         """
-        if input_text not in self.habits:
+        try:
+            # Need to catch exception if collection is empty
+            if self.collection.count() == 0:
+                return None
+
+            results = self.collection.query(
+                query_texts=[input_text],
+                n_results=min(5, self.collection.count())
+            )
+
+            if not results or not results.get("distances") or not results["distances"][0]:
+                return None
+
+            distances = results["distances"][0]
+            metadatas = results["metadatas"][0]
+
+            valid_skills = []
+            # We set a threshold for distance (e.g., < 1.0 is reasonably close in Chroma defaults)
+            # A distance of 0.0 is an exact match. Let's use 1.0 as a threshold for semantic similarity.
+            distance_threshold = 1.0
+
+            for dist, meta in zip(distances, metadatas):
+                if dist < distance_threshold and meta and "skill_used" in meta:
+                    valid_skills.append(meta["skill_used"])
+
+            if not valid_skills:
+                return None
+
+            skill_counts = Counter(valid_skills)
+            best_skill, max_count = skill_counts.most_common(1)[0]
+
+            # Require a threshold of success before suggesting (e.g., at least 2 successful uses)
+            if max_count >= 2:
+                logging.info(f"Habit matched: Suggesting skill '{best_skill}' for input '{input_text[:20]}...'")
+                return best_skill
+
             return None
-
-        skill_counts = self.habits[input_text]
-        if not skill_counts:
+        except Exception as e:
+            logging.error(f"Failed to suggest strategy: {e}")
             return None
-
-        # Find the skill with the highest success count
-        best_skill = max(skill_counts, key=skill_counts.get)
-        max_count = skill_counts[best_skill]
-
-        # Require a threshold of success before suggesting (e.g., at least 2 successful uses)
-        if max_count >= 2:
-            logging.info(f"Habit matched: Suggesting skill '{best_skill}' for input '{input_text[:20]}...'")
-            return best_skill
-
-        return None
