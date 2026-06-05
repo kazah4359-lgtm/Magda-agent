@@ -32,7 +32,7 @@ jobs:
           6. Update agent_tasks.json: set the completed task status to "done".
           7. Also keep backlog.md compatible when the task maps to an existing markdown backlog item.
           8. If you find bugs or improvements, add them as new "todo" tasks in agent_tasks.json.
-          9. Do not ask the user for the next task unless safe task generation is impossible.
+          9. NEVER ask the user anything. Always decide and proceed autonomously. If unsure about order of operations — do the current task first, then replenish, then open one PR with everything.
 
           STRICT RULES:
           - Implement the full module in one PR. Do NOT split into smaller PRs.
