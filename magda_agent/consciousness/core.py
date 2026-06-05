@@ -16,6 +16,7 @@ from magda_agent.emotions.insula import Insula
 from magda_agent.reflexes.brainstem import Brainstem
 from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
+from magda_agent.learning.online import OnlineLearner
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
 from magda_agent.context.engine import ContextEngine
@@ -47,7 +48,8 @@ class Consciousness:
         salience: Optional[SalienceNetwork] = None,
         global_workspace: Optional[GlobalWorkspace] = None,
         context_engine: Optional[ContextEngine] = None,
-        skill_creator: Optional[SkillCreator] = None
+        skill_creator: Optional[SkillCreator] = None,
+        online_learner: Optional[OnlineLearner] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -69,6 +71,7 @@ class Consciousness:
         self.global_workspace = global_workspace
         self.context_engine = context_engine
         self.skill_creator = skill_creator
+        self.online_learner = online_learner
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -76,6 +79,11 @@ class Consciousness:
         # Use ContextEngine ingest hook if available
         if self.context_engine:
             user_input = await self.context_engine.ingest(user_input, {"user_id": user_id})
+
+        if self.online_learner:
+            # For simplicity, we use the planner's last state or a generic string as the action context
+            last_context = self.planner.get_state_summary() if getattr(self, 'planner', None) else "Recent action context"
+            await self.online_learner.process_feedback(user_input, last_context, user_id)
 
         if self.thalamus and not self.thalamus.filter_input(user_input):
             return "Message ignored by Thalamus."
