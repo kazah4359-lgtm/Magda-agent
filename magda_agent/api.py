@@ -16,6 +16,7 @@ from magda_agent.skills import initialize_skills
 from magda_agent.planning.planner import Planner
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
+from magda_agent.scheduler.cron import CronScheduler
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
 from magda_agent.learning.habits import HabitTracker
@@ -75,6 +76,8 @@ consciousness = Consciousness(
     skill_creator=skill_creator
 )
 
+cron_scheduler = CronScheduler()
+
 subconsciousness = Subconsciousness(
     llm=llm_client,
     emotions=emotional_engine,
@@ -87,9 +90,11 @@ subconsciousness = Subconsciousness(
 async def lifespan(app: FastAPI):
     # Startup
     asyncio.create_task(subconsciousness.start())
+    asyncio.create_task(cron_scheduler.start())
     yield
     # Shutdown
     await subconsciousness.stop()
+    await cron_scheduler.stop()
     memory_system.close()
 
 app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)

@@ -635,7 +635,7 @@
     },
     {
       "id": "cron-scheduler",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "medium",
       "title": "Built-in cron scheduler for autonomous tasks",
@@ -1435,6 +1435,60 @@
       "acceptance": [
         "Tools intercepted",
         "Tests mock calls"
+      ]
+    },
+    {
+      "id": "context-engine-plugin-interface",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Context Engine plugin interface with lifecycle hooks",
+      "description": "Inspired by the OpenClaw trend: Implement a Context Engine plugin interface with lifecycle hooks (e.g., pre_process, compress, post_process) to dynamically filter input and compress short-term context.",
+      "allowed_paths": [
+        "magda_agent/context/**",
+        "tests/test_context_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ContextEngine supports registering ContextPlugin instances",
+        "Plugins execute lifecycle hooks during context processing",
+        "Tests verify plugin registration and hook execution"
+      ]
+    },
+    {
+      "id": "sub-agents-rpc",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Sub-agents for parallel tasks with RPC",
+      "description": "Inspired by the Hermes trend: Implement support for sub-agents to execute parallel tasks, communicating via RPC and maintaining isolated contexts for each agent.",
+      "allowed_paths": [
+        "magda_agent/agents/rpc_sub_agent.py",
+        "tests/test_rpc_sub_agent*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Main agent can spawn sub-agents via RPC",
+        "Sub-agents maintain their own isolated context",
+        "Tests verify parallel execution and RPC communication"
+      ]
+    },
+    {
+      "id": "skill-creation-from-experience-hermes",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Skill creation from experience loops",
+      "description": "Inspired by the Hermes trend: Implement a self-improving loop that creates and refines reusable skills based on historical interactions and experience.",
+      "allowed_paths": [
+        "magda_agent/learning/experience_skill_creator.py",
+        "tests/test_experience_skill_creator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "System analyzes past interactions to propose new skills",
+        "Proposed skills are persisted and can be refined",
+        "Tests mock interactions and verify skill creation"
       ]
     }
   ]
