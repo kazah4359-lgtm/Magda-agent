@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field, ValidationError
 from magda_agent.llm_client import LLMClient
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.learning.habits import HabitTracker
+from magda_agent.agents.sub_agent import SubAgent
 
 class PlanStep(BaseModel):
     description: str
@@ -124,6 +125,22 @@ class Planner:
             logging.error(f"Error during plan generation: {e}")
             self.clear_pending_plan()
             return []
+
+    async def spawn_sub_agent(self, task: str, context: str) -> str:
+        """
+        Spawns an isolated sub-agent to execute a parallel task.
+
+        Args:
+            task (str): The specific task for the sub-agent.
+            context (str): The parent context to share with the sub-agent.
+
+        Returns:
+            str: The result from the sub-agent.
+        """
+        logging.info(f"Planner spawning sub-agent for task: {task[:50]}")
+        sub_agent = SubAgent(llm=self.llm)
+        result = await sub_agent.execute(task=task, context=context)
+        return result
 
     def get_current_plan(self) -> List[Dict[str, Any]]:
         """
