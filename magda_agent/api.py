@@ -29,6 +29,7 @@ from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
 from magda_agent.context.engine import ContextEngine
 from magda_agent.context.default_plugin import DefaultContextPlugin
+from magda_agent.tracing.tracer import ThoughtChainTracer
 
 logging.basicConfig(level=logging.INFO)
 
@@ -54,6 +55,7 @@ pineal_gland = PinealGland()
 mirror_neurons = MirrorNeurons()
 salience_network = SalienceNetwork()
 global_workspace = GlobalWorkspace(salience_network=salience_network)
+thought_chain_tracer = ThoughtChainTracer()
 
 consciousness = Consciousness(
     llm=llm_client,
@@ -73,7 +75,8 @@ consciousness = Consciousness(
     salience=salience_network,
     global_workspace=global_workspace,
     context_engine=context_engine,
-    skill_creator=skill_creator
+    skill_creator=skill_creator,
+    tracer=thought_chain_tracer
 )
 
 cron_scheduler = CronScheduler()
@@ -124,3 +127,10 @@ class HealthResponse(BaseModel):
 @app.get("/health", response_model=HealthResponse)
 async def healthcheck():
     return HealthResponse(status="ok")
+
+class TraceResponse(BaseModel):
+    trace: list
+
+@app.get("/trace", response_model=TraceResponse)
+async def get_trace():
+    return TraceResponse(trace=thought_chain_tracer.get_trace())
