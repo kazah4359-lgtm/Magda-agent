@@ -62,3 +62,42 @@ class SemanticMemory:
         except Exception as e:
             logging.error(f"Failed to recall semantic facts: {e}")
             return []
+
+    def search_facts(self, query: str, top_k: int = 5, user_id: int = None) -> list[dict]:
+        """
+        Search facts returning dictionaries with id, text and metadata.
+        """
+        try:
+            query_kwargs = {
+                "query_texts": [query],
+                "n_results": top_k
+            }
+            if user_id is not None:
+                query_kwargs["where"] = {"user_id": user_id}
+
+            results = self.collection.query(**query_kwargs)
+            facts = []
+            if results and results.get("documents") and len(results["documents"]) > 0:
+                docs = results["documents"][0]
+                ids = results["ids"][0]
+                metas = results["metadatas"][0] if results.get("metadatas") and results["metadatas"][0] else [{}] * len(docs)
+                for i in range(len(docs)):
+                    facts.append({
+                        "id": ids[i],
+                        "text": docs[i],
+                        "metadata": metas[i] if metas[i] is not None else {}
+                    })
+            return facts
+        except Exception as e:
+            logging.error(f"Failed to search semantic facts: {e}")
+            return []
+
+    def delete_fact(self, memory_id: str) -> None:
+        """
+        Delete a fact from semantic memory by ID.
+        """
+        try:
+            self.collection.delete(ids=[memory_id])
+            logging.debug(f"Deleted semantic fact with ID: {memory_id}")
+        except Exception as e:
+            logging.error(f"Failed to delete semantic fact: {e}")

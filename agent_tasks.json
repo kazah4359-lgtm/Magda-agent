@@ -754,7 +754,7 @@
     },
     {
       "id": "conflict-detection-memory",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "low",
       "title": "Detect contradictions between memories",
@@ -1757,6 +1757,43 @@
         "Evaluator accepts a list of policy constraints",
         "LLM evaluates outputs conditionally based on satisfying these constraints",
         "Tests mock the LLM to verify constraint-driven scoring"
+      ]
+    },
+    {
+      "id": "openclaw-rl-online-learning",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Reinforcement Learning",
+      "description": "Inspired by OpenClaw trend: Implement an online reinforcement learning mechanism using MirrorNeurons PAD shifts from user replies to train agent simply by talking. Extract implicit feedback as next-state signals.",
+      "allowed_paths": [
+        "magda_agent/learning/online.py",
+        "tests/test_online_learning*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent adjusts policies based on conversation PAD shifts.",
+        "Tests verify that positive feedback reinforces recent habits.",
+        "Tests verify that negative feedback triggers reflection."
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-expansion",
+      "status": "todo",
+      "area": "scheduler",
+      "risk": "low",
+      "title": "Hermes-inspired Cron Scheduler Expansion",
+      "description": "Inspired by Hermes Agent trend: Expand CronScheduler to support daily reports, nightly backups, and persistent scheduled tasks configurable by user.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron.py",
+        "magda_agent/scheduler/reports.py",
+        "tests/test_scheduler_expansion*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Users can schedule daily reports.",
+        "Scheduler persists tasks across reboots.",
+        "Tests verify job triggers and serialization."
       ]
     }
   ]

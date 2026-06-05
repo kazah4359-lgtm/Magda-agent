@@ -110,6 +110,7 @@
 ---
 
 ## 🔍 Обнаружено (добавляется агентом автоматически)
+* [x] MODULE: **Conflict Detection Memory** — `magda_agent/memory/semantic.py` и `magda_agent/subconsciousness/reflection.py`. Subconsciousness detects when new information contradicts existing semantic memory and flags conflicts for resolution.
 * [x] IMPROVEMENT: Добавить механизм выполнения шагов плана и сбора результатов внутри `Consciousness.process_input`. Сейчас планер интегрирован только для генерации и учета в контексте LLM, но сами функции Skills не вызываются автоматически. (2026-06-03)
 * [x] BUG/IMPROVEMENT: В `Evaluator.evaluate_response` можно добавить логику retry на случай, если LLM возвращает невалидный JSON, вместо того, чтобы сразу падать с ошибкой парсинга. (2026-06-04)
 * [x] IMPROVEMENT: В модуле `Cerebellum` (`HabitTracker`) сейчас используется точное совпадение текста запроса. Можно улучшить, добавив семантический поиск (через эмбеддинги и ChromaDB) для нечеткого совпадения намерений пользователя. (2026-06-04)
