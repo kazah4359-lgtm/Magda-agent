@@ -17,6 +17,7 @@ from magda_agent.reflexes.brainstem import Brainstem
 from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.attention.salience import SalienceNetwork
+from magda_agent.attention.workspace import GlobalWorkspace
 
 class Consciousness:
     """
@@ -41,7 +42,8 @@ class Consciousness:
         brainstem: Optional[Brainstem] = None,
         pineal_gland: Optional[PinealGland] = None,
         mirror_neurons: Optional[MirrorNeurons] = None,
-        salience: Optional[SalienceNetwork] = None
+        salience: Optional[SalienceNetwork] = None,
+        global_workspace: Optional[GlobalWorkspace] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -60,17 +62,43 @@ class Consciousness:
         self.pineal_gland = pineal_gland
         self.mirror_neurons = mirror_neurons
         self.salience = salience
+        self.global_workspace = global_workspace
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
 
-        if self.salience:
+        if self.thalamus and not self.thalamus.filter_input(user_input):
+            return "Message ignored by Thalamus."
+
+        focus_content = user_input
+        if self.global_workspace:
+            # 0. Global Workspace selection
+            # Clear previous candidates
+            self.global_workspace.clear()
+
+            # Add user input as candidate
+            main_event = {"type": "user_input", "content": user_input, "urgency": 0.5}
+            self.global_workspace.add_candidate(main_event)
+
+            # If we had other sub-systems adding events, they would do so here.
+            # E.g. self.global_workspace.add_candidate(boredom_event)
+
+            focused_event = self.global_workspace.select_focus()
+
+            if focused_event:
+                focus_content = str(focused_event.get("content", focus_content))
+                score = focused_event.get("_salience_score", 0.0)
+                explanation = focused_event.get("_salience_explanation", "")
+                logging.info(f"Workspace focused on event '{focused_event.get('type')}' with Salience: {score:.2f} ({explanation})")
+
+            # Only user_input is supported for full processing in the current API,
+            # but using focus_content ensures workspace output is piped in.
+            user_input = focus_content
+        elif self.salience:
+            # Fallback if no workspace but salience exists
             event = {"content": user_input}
             score, explanation = self.salience.score_event(event)
             logging.info(f"Salience score: {score:.2f} ({explanation})")
-
-        if self.thalamus and not self.thalamus.filter_input(user_input):
-            return "Message ignored by Thalamus."
 
         # 0. Brainstem Autonomic Reflexes
         if self.brainstem:

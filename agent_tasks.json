@@ -361,7 +361,7 @@
     },
     {
       "id": "global-workspace",
-      "status": "todo",
+      "status": "done",
       "area": "cognition",
       "risk": "medium",
       "title": "Introduce Global Workspace",
@@ -379,6 +379,23 @@
         "suppressed candidates remain inspectable",
         "existing /process API behavior remains compatible",
         "planner still receives the focused user input"
+      ]
+    },
+    {
+      "id": "procedural-memory",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Implement Procedural Memory",
+      "description": "Implement a Procedural Memory module to store reusable successful procedures.",
+      "allowed_paths": [
+        "magda_agent/memory/**",
+        "tests/test_memory*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Procedural memory stores reusable successful methods",
+        "Existing user_id filtering remains supported"
       ]
     },
     {

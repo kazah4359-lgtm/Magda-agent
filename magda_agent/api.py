@@ -22,6 +22,8 @@ from magda_agent.drives.hypothalamus import Hypothalamus
 from magda_agent.emotions.insula import Insula
 from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
+from magda_agent.attention.salience import SalienceNetwork
+from magda_agent.attention.workspace import GlobalWorkspace
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,6 +41,8 @@ hypothalamus = Hypothalamus()
 insula = Insula()
 pineal_gland = PinealGland()
 mirror_neurons = MirrorNeurons()
+salience_network = SalienceNetwork()
+global_workspace = GlobalWorkspace(salience_network=salience_network)
 
 consciousness = Consciousness(
     llm=llm_client,
@@ -54,7 +58,9 @@ consciousness = Consciousness(
     hypothalamus=hypothalamus,
     insula=insula,
     pineal_gland=pineal_gland,
-    mirror_neurons=mirror_neurons
+    mirror_neurons=mirror_neurons,
+    salience=salience_network,
+    global_workspace=global_workspace
 )
 
 subconsciousness = Subconsciousness(
