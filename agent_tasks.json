@@ -464,7 +464,7 @@
     },
     {
       "id": "planner-typed-plans",
-      "status": "todo",
+      "status": "done",
       "area": "cognition",
       "risk": "medium",
       "title": "Upgrade Prefrontal Cortex to output typed plans",
@@ -1008,6 +1008,63 @@
         "Retrieval boosts emotionally tagged memories",
         "Emotional similarity as retrieval factor",
         "Tests with emotionally tagged vs neutral memories"
+      ]
+    },
+    {
+      "id": "mcp-skill-exporter",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Export skills as MCP tools",
+      "description": "Implement an MCP server adapter to expose Magda's skill registry. External agents should be able to call Magda skills via JSON-RPC.",
+      "allowed_paths": [
+        "magda_agent/mcp/**",
+        "magda_agent/skills/**",
+        "tests/test_mcp*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP server can start and list tools",
+        "External client can invoke a skill via MCP protocol",
+        "Tests mock the transport layer"
+      ]
+    },
+    {
+      "id": "agent-guard-policy",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Agent Guard Policy Layer",
+      "description": "Every action with external effect should pass through a policy layer that evaluates it and logs an audit trail, inspired by Agent Guard.",
+      "allowed_paths": [
+        "magda_agent/safety/**",
+        "magda_agent/action/**",
+        "tests/test_policy*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy evaluates every tool call",
+        "Deny returns an LLM-friendly reason",
+        "Audit trail logs call and policy decision"
+      ]
+    },
+    {
+      "id": "agent-teams-subagents",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Subagent Spawning",
+      "description": "Allow the Planner to spawn isolated subagents for parallel execution of tasks, similar to Claude Agent Teams.",
+      "allowed_paths": [
+        "magda_agent/planning/**",
+        "magda_agent/agents/**",
+        "tests/test_subagents*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner can decide to spawn a subagent",
+        "Subagent executes in isolated context",
+        "Results merge back into parent context"
       ]
     }
   ]

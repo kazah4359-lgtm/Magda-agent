@@ -9,10 +9,16 @@ from magda_agent.skills.registry import SkillRegistry
 async def test_generate_plan_success():
     mock_llm = MagicMock(spec=LLMClient)
 
-    mock_plan = [
-        {"description": "Step 1", "skill": "search_internet", "skill_kwargs": {"query": "test query"}},
-        {"description": "Step 2", "skill": None, "skill_kwargs": None}
-    ]
+    mock_plan = {
+        "goal": "Test goal",
+        "constraints": ["test constraint"],
+        "risk": "low",
+        "steps": [
+            {"description": "Step 1", "skill": "search_internet", "skill_kwargs": {"query": "test query"}},
+            {"description": "Step 2", "skill": None, "skill_kwargs": None}
+        ],
+        "acceptance": ["test acceptance"]
+    }
 
     mock_llm.chat_completion = AsyncMock(return_value=json.dumps(mock_plan))
 
@@ -49,7 +55,7 @@ async def test_generate_plan_validation_failures():
     """
     Tests that generate_plan correctly validates the LLM-generated plan output.
     It verifies that a plan is rejected and an empty list is returned if the plan
-    is not a list, contains invalid items, is missing keys, references an unknown skill,
+    is not a valid Pydantic TypedPlan, references an unknown skill,
     or contains invalid skill arguments.
     """
     mock_llm = MagicMock(spec=LLMClient)
@@ -58,29 +64,29 @@ async def test_generate_plan_validation_failures():
 
     planner = Planner(llm=mock_llm, skills=mock_skills)
 
-    # 1. Not a JSON list
-    mock_llm.chat_completion = AsyncMock(return_value='{"step": 1}')
+    # 1. Not a JSON object matching schema (e.g. just a list)
+    mock_llm.chat_completion = AsyncMock(return_value='[{"description": "Step 1"}]')
     result = await planner.generate_plan("test")
     assert result == []
 
-    # 2. Step is not a dict
-    mock_llm.chat_completion = AsyncMock(return_value='["step 1"]')
+    # 2. Missing required keys in root
+    mock_llm.chat_completion = AsyncMock(return_value='{"steps": []}')
     result = await planner.generate_plan("test")
     assert result == []
 
-    # 3. Missing required keys
-    mock_llm.chat_completion = AsyncMock(return_value='[{"description": "desc"}]')
+    # 3. Missing required keys in step
+    mock_llm.chat_completion = AsyncMock(return_value='{"goal": "g", "steps": [{"skill": "s"}]}')
     result = await planner.generate_plan("test")
     assert result == []
 
     # 4. Unknown skill
-    mock_llm.chat_completion = AsyncMock(return_value='[{"description": "desc", "skill": "unknown", "skill_kwargs": {}}]')
+    mock_llm.chat_completion = AsyncMock(return_value='{"goal": "g", "steps": [{"description": "desc", "skill": "unknown", "skill_kwargs": {}}]}')
     result = await planner.generate_plan("test")
     assert result == []
 
     # 5. Invalid skill_kwargs
     mock_skills.has_skill.return_value = True
-    mock_llm.chat_completion = AsyncMock(return_value='[{"description": "desc", "skill": "known", "skill_kwargs": "not_a_dict"}]')
+    mock_llm.chat_completion = AsyncMock(return_value='{"goal": "g", "steps": [{"description": "desc", "skill": "known", "skill_kwargs": "not_a_dict"}]}')
     result = await planner.generate_plan("test")
     assert result == []
 

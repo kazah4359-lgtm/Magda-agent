@@ -1,9 +1,25 @@
 import json
 import logging
 from typing import List, Dict, Any, Optional
+from pydantic import BaseModel, Field, ValidationError
 from magda_agent.llm_client import LLMClient
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.learning.habits import HabitTracker
+
+
+
+class PlanStep(BaseModel):
+    description: str
+    skill: Optional[str] = None
+    skill_kwargs: Optional[Dict[str, Any]] = None
+    result: Optional[str] = None
+
+class TypedPlan(BaseModel):
+    goal: str = "Execute task"
+    constraints: List[str] = Field(default_factory=list)
+    risk: str = "low"
+    steps: List[PlanStep] = Field(default_factory=list)
+    acceptance: List[str] = Field(default_factory=list)
 
 class Planner:
     """
@@ -37,13 +53,24 @@ class Planner:
 
         system_prompt = (
             "You are the Prefrontal Cortex of an AI agent. Your job is to break down "
-            "the user's request into a logical sequence of steps. "
+            "the user's request into a structured plan. "
             "Available skills:\n"
             f"{skills_desc}\n"
-            "Return a JSON array of steps. Each step must be a JSON object with keys: "
-            "'description' (what to do), 'skill' (the name of the skill to use, or null if none), "
-            "and 'skill_kwargs' (a dictionary of arguments to pass to the skill, or null if no skill). "
-            "Only output the JSON array, nothing else."
+            "Return a JSON object matching this schema:\n"
+            "{\n"
+            "  \"goal\": \"string\",\n"
+            "  \"constraints\": [\"string\"],\n"
+            "  \"risk\": \"low | medium | high | critical\",\n"
+            "  \"steps\": [\n"
+            "    {\n"
+            "      \"description\": \"what to do\",\n"
+            "      \"skill\": \"skill name or null\",\n"
+            "      \"skill_kwargs\": {\"arg\": \"value\"} or null\n"
+            "    }\n"
+            "  ],\n"
+            "  \"acceptance\": [\"string\"]\n"
+            "}\n"
+            "Only output the JSON object, nothing else."
         )
 
         if self.habit_tracker:
@@ -69,35 +96,25 @@ class Planner:
 
             response_text = response_text.strip()
 
-            plan = json.loads(response_text)
-            if not isinstance(plan, list):
-                logging.error("Plan generated is not a JSON list.")
-                self.current_plan = []
-                return []
+            typed_plan = TypedPlan.model_validate_json(response_text)
 
-            for i, step in enumerate(plan):
-                if not isinstance(step, dict):
-                    logging.error(f"Step {i} in plan is not a JSON object.")
+            # Check skill validity
+            for i, step in enumerate(typed_plan.steps):
+                if step.skill is not None and not self.skills.has_skill(step.skill):
+                    logging.error(f"Step {i} uses unknown skill: {step.skill}.")
                     self.current_plan = []
                     return []
-                if "description" not in step or "skill" not in step or "skill_kwargs" not in step:
-                    logging.error(f"Step {i} in plan is missing required keys: 'description', 'skill', or 'skill_kwargs'.")
-                    self.current_plan = []
-                    return []
-                if step["skill"] is not None and not self.skills.has_skill(step["skill"]):
-                    logging.error(f"Step {i} uses unknown skill: {step['skill']}.")
-                    self.current_plan = []
-                    return []
-                if step["skill_kwargs"] is not None and not isinstance(step["skill_kwargs"], dict):
+                if step.skill_kwargs is not None and not isinstance(step.skill_kwargs, dict):
                     logging.error(f"Step {i} 'skill_kwargs' must be a dictionary or null.")
                     self.current_plan = []
                     return []
 
-            self.current_plan = plan
+            # We need to maintain backward compatibility for self.current_plan which expects Dicts
+            self.current_plan = [step.model_dump() for step in typed_plan.steps]
             self.completed_steps = []
-            return plan
-        except json.JSONDecodeError as e:
-            logging.error(f"Failed to decode plan JSON: {e}")
+            return self.current_plan
+        except ValidationError as e:
+            logging.error(f"Failed to validate typed plan: {e}")
             self.current_plan = []
             return []
         except Exception as e:
