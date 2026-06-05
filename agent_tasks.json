@@ -654,7 +654,7 @@
     },
     {
       "id": "policy-layer-tool-calls",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Policy layer for all tool/action execution",
@@ -1489,6 +1489,60 @@
         "System analyzes past interactions to propose new skills",
         "Proposed skills are persisted and can be refined",
         "Tests mock interactions and verify skill creation"
+      ]
+    },
+    {
+      "id": "context-engine-compression-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine selective retrieval and compression",
+      "description": "Inspired by MemGPT/Letta pattern and OpenClaw trend: Implement advanced selective retrieval and context compression to handle long dialogues and maintain virtual context window constraints.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine_compression*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ContextEngine compresses old context beyond token limits",
+        "Selective retrieval fetches highly relevant episodic memories",
+        "Tests mock LLM for compression and verify token bounds"
+      ]
+    },
+    {
+      "id": "online-rl-from-feedback-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL from user feedback",
+      "description": "Inspired by OpenClaw-RL trend: Enhance the OnlineLearner module to automatically update agent preferences and strategy embeddings directly from explicit or implicit user feedback (e.g., negative pad shifts).",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "tests/test_online_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent parses user feedback for reward signals",
+        "Strategy weights or preferences are adjusted online",
+        "Tests verify preference shift after feedback"
+      ]
+    },
+    {
+      "id": "mcp-action-tools-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP action tools support",
+      "description": "Inspired by MCP trend where action tools grew to 65%: Implement a robust interface in MCP compatibility layer to not just export read-only skills, but full state-mutating action tools protected by policy layer.",
+      "allowed_paths": [
+        "magda_agent/mcp/action_tools.py",
+        "tests/test_mcp_action_tools*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Action tools can be registered and invoked via MCP",
+        "All action tool calls must route through the Policy layer",
+        "Tests verify invocation and policy gating"
       ]
     }
   ]
