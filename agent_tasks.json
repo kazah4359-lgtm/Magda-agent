@@ -383,7 +383,7 @@
     },
     {
       "id": "procedural-memory",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Implement Procedural Memory",
@@ -440,6 +440,24 @@
         "lessons are stored separately from raw conversation",
         "recurring failures can create proposed tasks",
         "LLM calls remain mocked in tests"
+      ]
+    },
+    {
+      "id": "quality-metrics-tracking",
+      "status": "todo",
+      "area": "reflection",
+      "risk": "medium",
+      "title": "Add longitudinal quality metrics for Jules loop",
+      "description": "Implement a tracker to measure continuous improvement metrics like test pass rate and PR size, storing them for reflection.",
+      "allowed_paths": [
+        "magda_agent/metacognition/**",
+        "tests/test_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tracker module logs pass rates and PR stats",
+        "Metrics are stored in a persistent store",
+        "Subconsciousness can read metrics"
       ]
     }
   ]
