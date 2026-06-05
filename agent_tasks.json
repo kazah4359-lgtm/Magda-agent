@@ -302,7 +302,7 @@
     },
     {
       "id": "subconscious-graceful-stop",
-      "status": "todo",
+      "status": "done",
       "area": "stabilization",
       "risk": "low",
       "title": "Make Subconsciousness stop promptly",
