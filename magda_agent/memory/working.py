@@ -1,6 +1,6 @@
 import time
 import logging
-from typing import List, Dict, Optional, Callable, Awaitable
+from typing import List, Dict, Optional, Callable, Awaitable, Any
 from magda_agent.emotions.engine import PADState
 
 class MemoryEntry:
@@ -19,8 +19,9 @@ class WorkingMemory:
     Working Memory stores bounded, short-term context for active tasks.
     It does not use persistent storage and does not use ChromaDB.
     """
-    def __init__(self, limit: int = 10):
+    def __init__(self, limit: int = 10, context_engine: Optional[Any] = None):
         self.limit = limit
+        self.context_engine = context_engine
         self._entries_by_user: Dict[int, List[MemoryEntry]] = {}
 
     async def add(self, entry: MemoryEntry, summarizer: Optional[Callable[[List['MemoryEntry']], Awaitable['MemoryEntry']]] = None) -> None:
@@ -31,7 +32,10 @@ class WorkingMemory:
 
         # Enforce bounded limit by removing oldest entries if exceeded
         while len(user_entries) > self.limit:
-            if summarizer:
+            if self.context_engine:
+                # Use ContextEngine compact lifecycle hook
+                user_entries = await self.context_engine.compact(user_entries, {"limit": self.limit, "user_id": u_id})
+            elif summarizer:
                 # Take oldest two entries to summarize, so we compress context and reduce length by 1
                 to_summarize = user_entries[:2]
                 user_entries = user_entries[2:]

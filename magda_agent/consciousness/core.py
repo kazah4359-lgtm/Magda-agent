@@ -18,6 +18,7 @@ from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
+from magda_agent.context.engine import ContextEngine
 
 class Consciousness:
     """
@@ -43,7 +44,8 @@ class Consciousness:
         pineal_gland: Optional[PinealGland] = None,
         mirror_neurons: Optional[MirrorNeurons] = None,
         salience: Optional[SalienceNetwork] = None,
-        global_workspace: Optional[GlobalWorkspace] = None
+        global_workspace: Optional[GlobalWorkspace] = None,
+        context_engine: Optional[ContextEngine] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -63,9 +65,14 @@ class Consciousness:
         self.mirror_neurons = mirror_neurons
         self.salience = salience
         self.global_workspace = global_workspace
+        self.context_engine = context_engine
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
+
+        # Use ContextEngine ingest hook if available
+        if self.context_engine:
+            user_input = await self.context_engine.ingest(user_input, {"user_id": user_id})
 
         if self.thalamus and not self.thalamus.filter_input(user_input):
             return "Message ignored by Thalamus."
@@ -135,7 +142,12 @@ class Consciousness:
 
         # 2. Memory Retrieval
         relevant_memories = self.memory.retrieve_relevant(user_input, user_id=user_id)
-        context_str = "\n".join([f"- {m.content}" for m in relevant_memories])
+
+        # Use ContextEngine assemble hook if available
+        if self.context_engine:
+            context_str = await self.context_engine.assemble(relevant_memories, {"user_id": user_id})
+        else:
+            context_str = "\n".join([f"- {m.content}" for m in relevant_memories])
 
         if self.long_term_memory:
             long_term_memories = self.long_term_memory.recall(user_input, user_id=user_id)

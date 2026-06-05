@@ -25,12 +25,18 @@ from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
+from magda_agent.context.engine import ContextEngine
+from magda_agent.context.default_plugin import DefaultContextPlugin
 
 logging.basicConfig(level=logging.INFO)
 
 llm_client = LLMClient()
 emotional_engine = EmotionalEngine()
-memory_system = MemorySystem()
+
+# Initialize ContextEngine with default plugin
+context_engine = ContextEngine(plugins=[DefaultContextPlugin(llm=llm_client)])
+
+memory_system = MemorySystem(llm=llm_client, context_engine=context_engine)
 procedural_memory = ProceduralMemory(persist_directory="./procedural_memory_db")
 skill_registry = initialize_skills()
 habit_tracker = HabitTracker()
@@ -62,7 +68,8 @@ consciousness = Consciousness(
     pineal_gland=pineal_gland,
     mirror_neurons=mirror_neurons,
     salience=salience_network,
-    global_workspace=global_workspace
+    global_workspace=global_workspace,
+    context_engine=context_engine
 )
 
 subconsciousness = Subconsciousness(
