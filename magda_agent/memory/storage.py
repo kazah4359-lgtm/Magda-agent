@@ -9,6 +9,7 @@ from magda_agent.memory.working import WorkingMemory, MemoryEntry
 from magda_agent.memory.episodic import EpisodicMemory
 from magda_agent.llm_client import LLMClient
 from magda_agent.context.engine import ContextEngine
+from magda_agent.user_model.model import UserModel
 
 class MemorySystem:
     """
@@ -22,6 +23,7 @@ class MemorySystem:
         self.episodic_memory = EpisodicMemory(persist_directory=persist_directory)
         self.llm = llm
         self.context_engine = context_engine
+        self.user_model = UserModel(persist_dir="./user_models", llm=self.llm)
 
         # For backwards compatibility and testing
         self._long_term_by_user: Dict[int, List[MemoryEntry]] = {}
@@ -72,6 +74,10 @@ class MemorySystem:
 
         # Prefer ContextEngine.compact via working_memory.add, otherwise use local summarizer
         await self.working_memory.add(entry, summarizer=summarizer if self.llm else None)
+
+        # Update user model with this new interaction
+        if user_id is not None:
+            await self.user_model.update_model(user_id, content)
         u_id = user_id if user_id is not None else -1
 
         user_short_term = self.working_memory.get_entries(u_id)

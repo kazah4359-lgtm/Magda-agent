@@ -694,7 +694,7 @@
     },
     {
       "id": "user-model-deepening",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "low",
       "title": "Deepening user model across interactions",
@@ -1597,6 +1597,58 @@
         "Metrics are stored in a local SQLite database.",
         "Tracker provides aggregated quality scores.",
         "Tests verify insertion and aggregation without ChomaDB overhead."
+      ]
+    },
+    {
+      "id": "mcp-agent-tools-export-v3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Tools Export for Magda Skills",
+      "description": "Inspired by MCP trend: Implement an MCP (Model Context Protocol) Server adapter to export Magda's internal skills as standard MCP tools.",
+      "allowed_paths": [
+        "magda_agent/mcp/**",
+        "tests/test_mcp*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP server can expose Magda's skills as tools",
+        "Tests verify tool execution via mocked MCP client"
+      ]
+    },
+    {
+      "id": "agent-teams-isolation-v3",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams Isolation using Worktrees",
+      "description": "Inspired by Claude Agent SDK: Implement isolated git worktrees for specialized subagents when working on multiple parallel feature branches to prevent state corruption.",
+      "allowed_paths": [
+        "magda_agent/teams/**",
+        "tests/test_teams*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agents can be spawned in isolated git worktrees",
+        "Tests verify file isolation between agents"
+      ]
+    },
+    {
+      "id": "agent-guardrails-policy-layer-v3",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Implement ACS (Agent Control Specification) Guardrails",
+      "description": "Inspired by ACS trend: Implement an explicit policy layer that intercepts every tool call and evaluates it against standard ACS guardrails before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs.py",
+        "tests/test_acs*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All tools are intercepted by ACS guardrails",
+        "Dangerous tools are rejected if they violate the policy",
+        "Tests verify interception and rejection of unauthorized calls"
       ]
     }
   ]
