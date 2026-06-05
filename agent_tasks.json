@@ -595,7 +595,7 @@
     },
     {
       "id": "skill-creation-from-experience",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "low",
       "title": "Auto-create skills from successful interactions",
@@ -1328,6 +1328,62 @@
       "acceptance": [
         "Agent can read and process remote Agent Cards.",
         "Peer-to-peer delegation is possible."
+      ]
+    },
+    {
+      "id": "auto-create-pr-mode-89fc8e51",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "AUTO_CREATE_PR Mode",
+      "description": "Inspired by Google Jules trend: Implement an AUTO_CREATE_PR mode that allows the agent to automatically push changes to a designated branch and open a PR without human intervention for low-risk tasks.",
+      "allowed_paths": [
+        "magda_agent/operations/pr_automation.py",
+        "tests/test_pr_automation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can automatically create a branch and commit changes",
+        "Agent opens a GitHub PR programmatically using `gh` CLI or PyGithub",
+        "Tests verify the PR generation logic using mocks"
+      ]
+    },
+    {
+      "id": "runtime-tool-concurrency-eca483c3",
+      "status": "todo",
+      "area": "execution",
+      "risk": "medium",
+      "title": "Runtime Function Tool Concurrency",
+      "description": "Inspired by OpenAI Agents SDK trend: Enable concurrent execution of multiple tool/skill calls if the LLM requests them in a single generation step, speeding up multi-tool responses.",
+      "allowed_paths": [
+        "magda_agent/planning/planner.py",
+        "magda_agent/consciousness/core.py",
+        "tests/test_tool_concurrency*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can parse multiple tool requests from a single LLM output",
+        "Tools are executed concurrently using `asyncio.gather`",
+        "Results are aggregated and fed back to the LLM",
+        "Tests verify concurrent execution speedup"
+      ]
+    },
+    {
+      "id": "multi-agent-workflows-f4f56e7c",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Multi-agent workflows",
+      "description": "Inspired by OpenAI Agents SDK and Claude Agent SDK: Establish workflows where Magda can instantiate specialized lightweight sub-agents (e.g., a 'Researcher' agent) to handle specific isolated tasks and report back.",
+      "allowed_paths": [
+        "magda_agent/agents/workflow.py",
+        "tests/test_multi_agent_workflow*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Main agent can delegate a sub-task to a specialized workflow",
+        "Sub-agent runs in an isolated context and returns structured results",
+        "Tests verify delegation and result aggregation"
       ]
     }
   ]

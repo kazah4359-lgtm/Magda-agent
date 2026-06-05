@@ -19,6 +19,7 @@ from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
 from magda_agent.context.engine import ContextEngine
+from magda_agent.learning.skill_creator import SkillCreator
 
 class Consciousness:
     """
@@ -45,7 +46,8 @@ class Consciousness:
         mirror_neurons: Optional[MirrorNeurons] = None,
         salience: Optional[SalienceNetwork] = None,
         global_workspace: Optional[GlobalWorkspace] = None,
-        context_engine: Optional[ContextEngine] = None
+        context_engine: Optional[ContextEngine] = None,
+        skill_creator: Optional[SkillCreator] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -66,6 +68,7 @@ class Consciousness:
         self.salience = salience
         self.global_workspace = global_workspace
         self.context_engine = context_engine
+        self.skill_creator = skill_creator
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -203,6 +206,16 @@ class Consciousness:
 
                 if plan_stopped_early:
                     self.planner.clear_pending_plan()
+                else:
+                    if self.skill_creator and len(self.planner.completed_steps) > 1:
+                        # Extract skill candidate from successful multi-step plan
+                        asyncio.create_task(
+                            self.skill_creator.extract_and_store_skill(
+                                user_input,
+                                self.planner.completed_steps,
+                                user_id=user_id
+                            )
+                        )
 
                 plan_str = "Executed Plan Results:\n"
                 for i, step in enumerate(self.planner.completed_steps):
