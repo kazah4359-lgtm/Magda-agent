@@ -16,6 +16,7 @@ from magda_agent.emotions.insula import Insula
 from magda_agent.reflexes.brainstem import Brainstem
 from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
+from magda_agent.attention.salience import SalienceNetwork
 
 class Consciousness:
     """
@@ -39,7 +40,8 @@ class Consciousness:
         insula: Optional[Insula] = None,
         brainstem: Optional[Brainstem] = None,
         pineal_gland: Optional[PinealGland] = None,
-        mirror_neurons: Optional[MirrorNeurons] = None
+        mirror_neurons: Optional[MirrorNeurons] = None,
+        salience: Optional[SalienceNetwork] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -57,9 +59,15 @@ class Consciousness:
         self.brainstem = brainstem
         self.pineal_gland = pineal_gland
         self.mirror_neurons = mirror_neurons
+        self.salience = salience
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
+
+        if self.salience:
+            event = {"content": user_input}
+            score, explanation = self.salience.score_event(event)
+            logging.info(f"Salience score: {score:.2f} ({explanation})")
 
         if self.thalamus and not self.thalamus.filter_input(user_input):
             return "Message ignored by Thalamus."
