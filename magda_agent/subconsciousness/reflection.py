@@ -6,6 +6,7 @@ from magda_agent.llm_client import LLMClient
 from magda_agent.emotions.engine import EmotionalEngine
 from magda_agent.memory.storage import MemorySystem
 from magda_agent.memory.procedural import ProceduralMemory
+from magda_agent.memory.semantic import SemanticMemory
 
 class Subconsciousness:
     """
@@ -18,12 +19,14 @@ class Subconsciousness:
         emotions: EmotionalEngine,
         memory: MemorySystem,
         procedural_memory: ProceduralMemory = None,
+        semantic_memory: SemanticMemory = None,
         interval: int = 60  # Reflection interval in seconds
     ):
         self.llm = llm
         self.emotions = emotions
         self.memory = memory
         self.procedural_memory = procedural_memory
+        self.semantic_memory = semantic_memory
         self.interval = interval
         self.is_running = False
         self._stop_event = asyncio.Event()
@@ -77,6 +80,7 @@ class Subconsciousness:
             "lessons": ["lesson 1", "lesson 2"],
             "anti_patterns": ["anti-pattern 1", "anti-pattern 2"],
             "proposed_tasks": ["proposed task 1", "proposed task 2"],
+            "new_facts": ["fact 1", "fact 2"],
             "pad_adjustment": {{
                 "p": 0.0,
                 "a": 0.0,
@@ -94,6 +98,7 @@ class Subconsciousness:
         lessons = []
         anti_patterns = []
         proposed_tasks = []
+        new_facts = []
         p_adj, a_adj, d_adj = 0.02, -0.01, 0.05  # Defaults
 
         try:
@@ -111,6 +116,7 @@ class Subconsciousness:
             lessons = parsed_data.get("lessons", [])
             anti_patterns = parsed_data.get("anti_patterns", [])
             proposed_tasks = parsed_data.get("proposed_tasks", [])
+            new_facts = parsed_data.get("new_facts", [])
             pad_adj = parsed_data.get("pad_adjustment", {})
             p_adj = float(pad_adj.get("p", 0.0))
             a_adj = float(pad_adj.get("a", 0.0))
@@ -133,6 +139,57 @@ class Subconsciousness:
                 self.procedural_memory.store_procedure(name="lesson", procedure=lesson)
             for ap in anti_patterns:
                 self.procedural_memory.store_procedure(name="anti_pattern", procedure=ap)
+
+
+        if self.semantic_memory:
+            for fact in new_facts:
+                existing = self.semantic_memory.search_facts(fact, top_k=3)
+                if not existing:
+                    self.semantic_memory.store_fact(fact)
+                    continue
+
+                # Check for conflicts
+                existing_texts = "\n".join([f"ID: {e['id']} | Fact: {e['text']}" for e in existing])
+                conflict_prompt = f"""
+                New fact: '{fact}'
+                Existing facts:
+                {existing_texts}
+
+                Does the new fact contradict any existing facts?
+                Output ONLY a JSON object:
+                {{
+                    "conflict": true/false,
+                    "conflicting_id": "ID of the conflicting fact or null",
+                    "strategy": "newer_wins", // or "keep_old", "merge"
+                    "resolved_fact": "The final fact to store if newer_wins or merge"
+                }}
+                """
+                conflict_res = await self.llm.chat_completion([
+                    {"role": "system", "content": "You detect semantic memory contradictions. Output ONLY JSON."},
+                    {"role": "user", "content": conflict_prompt}
+                ])
+                try:
+                    c_resp = conflict_res.strip()
+                    if c_resp.startswith("```json"): c_resp = c_resp[7:]
+                    if c_resp.startswith("```"): c_resp = c_resp[3:]
+                    if c_resp.endswith("```"): c_resp = c_resp[:-3]
+                    c_data = json.loads(c_resp.strip())
+
+                    if c_data.get("conflict"):
+                        logging.warning(f"Memory conflict detected! New: {fact}")
+                        c_id = c_data.get("conflicting_id")
+                        strategy = c_data.get("strategy")
+                        resolved = c_data.get("resolved_fact")
+
+                        if strategy in ["newer_wins", "merge"]:
+                            if c_id:
+                                self.semantic_memory.delete_fact(c_id)
+                            self.semantic_memory.store_fact(resolved)
+                    else:
+                        self.semantic_memory.store_fact(fact)
+                except Exception as e:
+                    logging.error(f"Failed to process conflict resolution: {e}")
+                    self.semantic_memory.store_fact(fact) # Fallback
 
         for task in proposed_tasks:
             logging.info(f"Subconscious proposed task: {task}")
