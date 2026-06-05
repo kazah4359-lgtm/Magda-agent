@@ -8,6 +8,7 @@ from magda_agent.emotions.engine import PADState
 from magda_agent.memory.working import WorkingMemory, MemoryEntry
 from magda_agent.memory.episodic import EpisodicMemory
 from magda_agent.llm_client import LLMClient
+from magda_agent.context.engine import ContextEngine
 
 class MemorySystem:
     """
@@ -15,11 +16,12 @@ class MemorySystem:
     Includes emotional coloring and importance-based decay.
     Uses WorkingMemory for short-term and EpisodicMemory for long-term consolidation.
     """
-    def __init__(self, short_term_limit: int = 10, persist_directory: str = "./memory_db", llm: Optional[LLMClient] = None):
+    def __init__(self, short_term_limit: int = 10, persist_directory: str = "./memory_db", llm: Optional[LLMClient] = None, context_engine: Optional[ContextEngine] = None):
         self.short_term_limit = short_term_limit
-        self.working_memory = WorkingMemory(limit=short_term_limit)
+        self.working_memory = WorkingMemory(limit=short_term_limit, context_engine=context_engine)
         self.episodic_memory = EpisodicMemory(persist_directory=persist_directory)
         self.llm = llm
+        self.context_engine = context_engine
 
         # For backwards compatibility and testing
         self._long_term_by_user: Dict[int, List[MemoryEntry]] = {}
@@ -68,6 +70,7 @@ class MemorySystem:
             )
             return synthetic_entry
 
+        # Prefer ContextEngine.compact via working_memory.add, otherwise use local summarizer
         await self.working_memory.add(entry, summarizer=summarizer if self.llm else None)
         u_id = user_id if user_id is not None else -1
 
