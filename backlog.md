@@ -95,6 +95,10 @@
 ---
 
 ## ✅ Выполнено
+* [x] MODULE: **User Model** — модуль `magda_agent/user_model/model.py`. (2026-06-05)
+  Builds and maintains a persistent user model: preferences, communication style, expertise level, recurring topics.
+
+
 * [x] SECURITY: Добавить whitelist для Telegram-пользователей (2026-06-03)
 * [x] BUG: Обработка асинхронных ошибок в main.py (2026-06-03)
 * [x] FEATURE: Поиск в интернете через DuckDuckGo (2026-06-03)
