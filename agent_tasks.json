@@ -814,7 +814,7 @@
     },
     {
       "id": "failure-pattern-detection",
-      "status": "todo",
+      "status": "done",
       "area": "metacognition",
       "risk": "low",
       "title": "Detect recurring failure patterns",
@@ -1887,6 +1887,60 @@
         "Abstract ChannelAdapter interface exists",
         "A mock or Discord-specific implementation is provided",
         "Messages are successfully routed through the UnifiedMessage pipeline"
+      ]
+    },
+    {
+      "id": "a2a-task-delegation",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Task Delegation Protocol",
+      "description": "Inspired by A2A Protocol trend (June 2026). Implement an Agent-to-Agent communication module enabling Magda to delegate complex tasks to other specialized agents on the network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a.py",
+        "tests/test_a2a_delegation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A delegation client is implemented.",
+        "Can send and receive task payloads.",
+        "Tests verify successful delegation mocking the external agent."
+      ]
+    },
+    {
+      "id": "context-compression-selective-retrieval",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Compression & Selective Retrieval",
+      "description": "Inspired by MemGPT/Letta pattern. Implement a context engine hook that aggressively compresses old working memory and uses selective retrieval from episodic memory to keep context window small.",
+      "allowed_paths": [
+        "magda_agent/memory/compression.py",
+        "tests/test_compression*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Working memory size is continuously monitored.",
+        "Compression hook automatically runs when threshold is reached.",
+        "Tests verify context is shrunk correctly."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-subagent",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "MCP Subagent for Action Tools",
+      "description": "Inspired by the Hermes subagent trend. Spawn an isolated sub-agent specifically dedicated to executing complex MCP action tools, ensuring its state and context are completely separate from the main process.",
+      "allowed_paths": [
+        "magda_agent/teams/mcp_subagent.py",
+        "tests/test_mcp_subagent*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent can be spawned explicitly for MCP tools.",
+        "Execution context does not bleed into main agent.",
+        "Tests verify isolated execution."
       ]
     }
   ]
