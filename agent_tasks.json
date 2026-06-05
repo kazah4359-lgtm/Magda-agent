@@ -539,7 +539,7 @@
     },
     {
       "id": "a2a-agent-card",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Implement A2A Agent Card for discovery",
@@ -1239,6 +1239,60 @@
         "Guardrails implement the 5 ACS checkpoints",
         "Tool calls are intercepted and validated",
         "Tests verify policy enforcement"
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Peer Delegation Support",
+      "description": "Inspired by the A2A standard trend: Enable Magda to discover other A2A-compliant agents using their Agent Cards and delegate sub-tasks peer-to-peer asynchronously.",
+      "allowed_paths": [
+        "magda_agent/a2a/**",
+        "tests/test_a2a_delegation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can read remote Agent Cards",
+        "Agent can delegate tasks based on remote capabilities",
+        "Tests verify A2A protocol messaging for delegation"
+      ]
+    },
+    {
+      "id": "skill-marketplace-integration",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Skill Marketplace Integration",
+      "description": "Inspired by the agentskills.io standard (Hermes trend): Implement a mechanism for Magda to discover and dynamically load external skills conforming to the open skill marketplace specification.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace.py",
+        "tests/test_skill_marketplace*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can query a skill marketplace endpoint",
+        "Agent can parse standard agentskills.io definitions",
+        "Tests verify integration with a mock marketplace"
+      ]
+    },
+    {
+      "id": "canvas-live-visualization",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Canvas Live Visualization",
+      "description": "Inspired by the OpenClaw trend: Implement a local WebSocket server that streams Magda's internal cognitive state (current plan, active memory, emotional state) for live visualization in a Canvas UI.",
+      "allowed_paths": [
+        "magda_agent/visualization/**",
+        "tests/test_visualization*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WebSocket server broadcasts state updates",
+        "State stream is read-only and does not block the main Consciousness loop",
+        "Tests mock WebSocket connections"
       ]
     }
   ]
