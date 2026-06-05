@@ -23,17 +23,22 @@ class Subconsciousness:
         self.memory = memory
         self.interval = interval
         self.is_running = False
+        self._stop_event = asyncio.Event()
 
     async def start(self):
         """Start the background reflection loop."""
         self.is_running = True
+        self._stop_event.clear()
         logging.info("Subconsciousness reflection loop started.")
         while self.is_running:
-            await asyncio.sleep(self.interval)
-            await self.reflect()
+            try:
+                await asyncio.wait_for(self._stop_event.wait(), timeout=self.interval)
+            except asyncio.TimeoutError:
+                await self.reflect()
 
     async def stop(self):
         self.is_running = False
+        self._stop_event.set()
         logging.info("Subconsciousness reflection loop stopped.")
 
     async def reflect(self):
