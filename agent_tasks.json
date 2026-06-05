@@ -557,7 +557,7 @@
     },
     {
       "id": "context-engine-plugin",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine with plugin lifecycle hooks",
@@ -591,26 +591,6 @@
         "Sub-agent executes in isolated context",
         "Results merge back into parent context",
         "Tests mock sub-agent execution"
-      ]
-    },
-    {
-      "id": "skill-creation-from-experience",
-      "status": "todo",
-      "area": "learning",
-      "risk": "low",
-      "title": "Auto-create skills from successful interactions",
-      "description": "When Magda successfully completes a multi-step task, extract the procedure as a reusable skill document (inspired by Hermes skill creation). Store in procedural memory.",
-      "allowed_paths": [
-        "magda_agent/learning/**",
-        "magda_agent/memory/procedural.py",
-        "tests/test_skill_creation*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Successful multi-step interactions generate skill candidates",
-        "Skills stored in procedural memory",
-        "Skills retrievable by semantic similarity",
-        "Tests with mock interactions"
       ]
     },
     {
@@ -1052,7 +1032,7 @@
     },
     {
       "id": "context-engine-plugin-architecture",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Plugin Architecture",
@@ -1169,25 +1149,6 @@
       ]
     },
     {
-      "id": "online-rl-from-feedback",
-      "status": "todo",
-      "area": "learning",
-      "risk": "medium",
-      "title": "Online RL from User Feedback",
-      "description": "Inspired by OpenClaw-RL: implement online reinforcement learning from next-state signals (e.g., user replies after tool outputs) rather than just periodic reflection.",
-      "allowed_paths": [
-        "magda_agent/learning/online.py",
-        "magda_agent/consciousness/core.py",
-        "tests/test_online_rl*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent analyzes immediate user response (positive/negative signal)",
-        "Strong signals immediately reinforce or penalize procedural/habit memory",
-        "Tests verify that user corrections influence future skill suggestions"
-      ]
-    },
-    {
       "id": "a2a-protocol-adapter",
       "status": "todo",
       "area": "integration",
@@ -1293,6 +1254,62 @@
         "WebSocket server broadcasts state updates",
         "State stream is read-only and does not block the main Consciousness loop",
         "Tests mock WebSocket connections"
+      ]
+    },
+    {
+      "id": "agent-guard-runtime-layer",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard: runtime governance layer",
+      "description": "Inspired by Microsoft ASSERT and Falco Prempti: Implement an Agent Guard runtime governance layer between the agent and external actions to validate tool calls before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/guard.py",
+        "tests/test_agent_guard*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "AgentGuard intercepts tool calls",
+        "Policy layer successfully blocks simulated forbidden tool calls",
+        "Tests verify interception and audit logging"
+      ]
+    },
+    {
+      "id": "skill-creation-from-experience",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Skill creation from experience",
+      "description": "Inspired by Hermes Agent built-in learning loop: Implement a mechanism that compresses long-running successful workflows from Episodic Memory into procedural code templates (skills).",
+      "allowed_paths": [
+        "magda_agent/learning/skill_creator.py",
+        "magda_agent/memory/procedural.py",
+        "tests/test_skill_creator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent analyzes successful episode histories",
+        "Produces a reusable procedural memory template representing the skill",
+        "Tests verify the template generation from mock histories"
+      ]
+    },
+    {
+      "id": "online-rl-from-feedback",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL from user feedback",
+      "description": "Inspired by OpenClaw-RL: Implement online reinforcement learning from next-state signals (e.g. user replies) to immediately train and tune habit probability without waiting for periodic reflection.",
+      "allowed_paths": [
+        "magda_agent/learning/online.py",
+        "magda_agent/emotions/engine.py",
+        "tests/test_online_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Process incoming user text to detect explicit positive/negative signals",
+        "Adjust internal habit/action weighting immediately based on the signal",
+        "Tests verify weight adjustment on simulated positive/negative feedback"
       ]
     }
   ]

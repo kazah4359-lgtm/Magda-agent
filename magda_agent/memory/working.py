@@ -2,6 +2,7 @@ import time
 import logging
 from typing import List, Dict, Optional, Callable, Awaitable
 from magda_agent.emotions.engine import PADState
+from magda_agent.memory.context_engine import ContextEngine
 
 class MemoryEntry:
     """A single memory entry for short or long-term storage."""
@@ -19,9 +20,10 @@ class WorkingMemory:
     Working Memory stores bounded, short-term context for active tasks.
     It does not use persistent storage and does not use ChromaDB.
     """
-    def __init__(self, limit: int = 10):
+    def __init__(self, limit: int = 10, context_engine: Optional[ContextEngine] = None):
         self.limit = limit
         self._entries_by_user: Dict[int, List[MemoryEntry]] = {}
+        self.context_engine = context_engine
 
     async def add(self, entry: MemoryEntry, summarizer: Optional[Callable[[List['MemoryEntry']], Awaitable['MemoryEntry']]] = None) -> None:
         """Add a memory entry to the active working memory."""
@@ -31,7 +33,23 @@ class WorkingMemory:
 
         # Enforce bounded limit by removing oldest entries if exceeded
         while len(user_entries) > self.limit:
-            if summarizer:
+            if self.context_engine:
+                # Use context engine compression hook if available
+                to_summarize = user_entries[:2]
+                user_entries = user_entries[2:]
+                try:
+                    summary_entry = await self.context_engine.dispatch_compress(to_summarize)
+                    # If the engine couldn't compress into a single entry (e.g. no plugins), fallback
+                    if isinstance(summary_entry, list) and len(summary_entry) == len(to_summarize):
+                        if summarizer:
+                            summary_entry = await summarizer(to_summarize)
+                        else:
+                            summary_entry = to_summarize[1]
+                    user_entries.insert(0, summary_entry)
+                except Exception as e:
+                    logging.error(f"ContextEngine compress failed, falling back to drop: {e}")
+                    user_entries.insert(0, to_summarize[1])
+            elif summarizer:
                 # Take oldest two entries to summarize, so we compress context and reduce length by 1
                 to_summarize = user_entries[:2]
                 user_entries = user_entries[2:]
@@ -49,8 +67,16 @@ class WorkingMemory:
 
         self._entries_by_user[u_id] = user_entries
 
+    async def get_entries_async(self, user_id: Optional[int] = None) -> List[MemoryEntry]:
+        """Get the current working memory entries for a user, running through post_process hooks."""
+        u_id = user_id if user_id is not None else -1
+        entries = self._entries_by_user.get(u_id, [])
+        if self.context_engine:
+            entries = await self.context_engine.dispatch_post_process(entries)
+        return entries
+
     def get_entries(self, user_id: Optional[int] = None) -> List[MemoryEntry]:
-        """Get the current working memory entries for a user."""
+        """Get the current working memory entries for a user (synchronous legacy wrapper)."""
         u_id = user_id if user_id is not None else -1
         return self._entries_by_user.get(u_id, [])
 

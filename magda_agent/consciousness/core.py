@@ -67,6 +67,10 @@ class Consciousness:
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
 
+        if self.thalamus:
+            # Pass through context engine pre_process hooks if thalamus is configured with one
+            user_input = await self.thalamus.pre_process(user_input)
+
         if self.thalamus and not self.thalamus.filter_input(user_input):
             return "Message ignored by Thalamus."
 
