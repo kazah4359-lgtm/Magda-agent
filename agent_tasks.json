@@ -464,7 +464,7 @@
     },
     {
       "id": "planner-typed-plans",
-      "status": "todo",
+      "status": "done",
       "area": "cognition",
       "risk": "medium",
       "title": "Upgrade Prefrontal Cortex to output typed plans",
@@ -1008,6 +1008,67 @@
         "Retrieval boosts emotionally tagged memories",
         "Emotional similarity as retrieval factor",
         "Tests with emotionally tagged vs neutral memories"
+      ]
+    },
+    {
+      "id": "mcp-tools-export",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Export Skills as MCP-compatible Tools",
+      "description": "Implement a bridge to expose Magda's internal SkillRegistry as tools compliant with the Model Context Protocol (MCP). This enables seamless integration with other MCP-compatible clients and agents.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_export.py",
+        "magda_agent/skills/registry.py",
+        "tests/test_mcp_export*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be queried in MCP format",
+        "MCP tool schema validation passes",
+        "Tests verify tool metadata export matches MCP standard"
+      ]
+    },
+    {
+      "id": "agent-guardrails-policy-layer",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Implement Agent Guardrails Policy Layer",
+      "description": "Introduce a runtime governance layer that intercepts all tool calls with external effects before execution. Evaluates the action against a set of safety policies (e.g., read-only assertions). Inspired by MCPKernel and Microsoft ASSERT.",
+      "allowed_paths": [
+        "magda_agent/safety/guardrails.py",
+        "magda_agent/skills/executor.py",
+        "magda_agent/consciousness/core.py",
+        "tests/test_guardrails*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All skill executions pass through the guardrails layer",
+        "Policy violations are blocked and logged",
+        "Safety evaluation runs before any state mutation",
+        "Tests mock policy violations and verify blocking behavior"
+      ]
+    },
+    {
+      "id": "context-engine-plugin-architecture",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin Architecture",
+      "description": "Refactor Working Memory and Thalamus to support a Context Engine plugin interface with lifecycle hooks (pre_process, compress, post_process). Inspired by OpenClaw's context management.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "magda_agent/memory/working.py",
+        "magda_agent/thalamus/router.py",
+        "tests/test_context_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugins can register context compression hooks",
+        "Lifecycle events are dispatched during input processing",
+        "Context engine coordinates memory modules dynamically",
+        "Tests with mock plugins verify hook invocation"
       ]
     }
   ]

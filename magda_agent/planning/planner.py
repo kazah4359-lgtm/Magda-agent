@@ -1,9 +1,22 @@
 import json
 import logging
 from typing import List, Dict, Any, Optional
+from pydantic import BaseModel, Field, ValidationError
 from magda_agent.llm_client import LLMClient
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.learning.habits import HabitTracker
+
+class PlanStep(BaseModel):
+    description: str
+    skill: Optional[str] = None
+    skill_kwargs: Optional[Dict[str, Any]] = None
+
+class TypedPlan(BaseModel):
+    goal: str
+    constraints: List[str] = Field(default_factory=list)
+    risk: str
+    steps: List[PlanStep]
+    acceptance: List[str] = Field(default_factory=list)
 
 class Planner:
     """
@@ -18,6 +31,10 @@ class Planner:
         self.habit_tracker = habit_tracker
         self.current_plan: List[Dict[str, Any]] = []
         self.completed_steps: List[Dict[str, Any]] = []
+        self.current_goal: Optional[str] = None
+        self.current_constraints: List[str] = []
+        self.current_risk: Optional[str] = None
+        self.current_acceptance: List[str] = []
 
     async def generate_plan(self, user_input: str, user_id: int = None) -> List[Dict[str, Any]]:
         """
@@ -37,13 +54,16 @@ class Planner:
 
         system_prompt = (
             "You are the Prefrontal Cortex of an AI agent. Your job is to break down "
-            "the user's request into a logical sequence of steps. "
+            "the user's request into a logical sequence of steps.\n"
             "Available skills:\n"
             f"{skills_desc}\n"
-            "Return a JSON array of steps. Each step must be a JSON object with keys: "
-            "'description' (what to do), 'skill' (the name of the skill to use, or null if none), "
-            "and 'skill_kwargs' (a dictionary of arguments to pass to the skill, or null if no skill). "
-            "Only output the JSON array, nothing else."
+            "Return a JSON object with the following keys:\n"
+            "- 'goal': a string summarizing the objective\n"
+            "- 'constraints': an array of string constraints\n"
+            "- 'risk': a string indicating the risk level (e.g., low, medium, high)\n"
+            "- 'steps': an array of step objects. Each step must have 'description', 'skill' (or null), and 'skill_kwargs' (or null).\n"
+            "- 'acceptance': an array of string acceptance criteria\n"
+            "Only output the JSON object, nothing else."
         )
 
         if self.habit_tracker:
@@ -69,40 +89,40 @@ class Planner:
 
             response_text = response_text.strip()
 
-            plan = json.loads(response_text)
-            if not isinstance(plan, list):
-                logging.error("Plan generated is not a JSON list.")
-                self.current_plan = []
+            plan_dict = json.loads(response_text)
+            try:
+                typed_plan = TypedPlan(**plan_dict)
+            except ValidationError as ve:
+                logging.error(f"Plan validation failed: {ve}")
+                self.clear_pending_plan()
                 return []
 
-            for i, step in enumerate(plan):
-                if not isinstance(step, dict):
-                    logging.error(f"Step {i} in plan is not a JSON object.")
-                    self.current_plan = []
-                    return []
-                if "description" not in step or "skill" not in step or "skill_kwargs" not in step:
-                    logging.error(f"Step {i} in plan is missing required keys: 'description', 'skill', or 'skill_kwargs'.")
-                    self.current_plan = []
-                    return []
+            plan_steps = [step.model_dump() for step in typed_plan.steps]
+
+            for i, step in enumerate(plan_steps):
                 if step["skill"] is not None and not self.skills.has_skill(step["skill"]):
                     logging.error(f"Step {i} uses unknown skill: {step['skill']}.")
-                    self.current_plan = []
+                    self.clear_pending_plan()
                     return []
                 if step["skill_kwargs"] is not None and not isinstance(step["skill_kwargs"], dict):
                     logging.error(f"Step {i} 'skill_kwargs' must be a dictionary or null.")
-                    self.current_plan = []
+                    self.clear_pending_plan()
                     return []
 
-            self.current_plan = plan
+            self.current_plan = plan_steps
             self.completed_steps = []
-            return plan
+            self.current_goal = typed_plan.goal
+            self.current_constraints = typed_plan.constraints
+            self.current_risk = typed_plan.risk
+            self.current_acceptance = typed_plan.acceptance
+            return plan_steps
         except json.JSONDecodeError as e:
             logging.error(f"Failed to decode plan JSON: {e}")
-            self.current_plan = []
+            self.clear_pending_plan()
             return []
         except Exception as e:
             logging.error(f"Error during plan generation: {e}")
-            self.current_plan = []
+            self.clear_pending_plan()
             return []
 
     def get_current_plan(self) -> List[Dict[str, Any]]:
@@ -141,6 +161,12 @@ class Planner:
         if not self.current_plan and not self.completed_steps:
             return summary + "  No active plan."
 
+        if self.current_goal:
+            summary += f"  Goal: {self.current_goal}\n"
+            summary += f"  Risk: {self.current_risk}\n"
+            if self.current_constraints:
+                summary += f"  Constraints: {', '.join(self.current_constraints)}\n"
+
         if self.completed_steps:
             summary += "  Completed Steps:\n"
             for step in self.completed_steps:
@@ -158,4 +184,8 @@ class Planner:
         Clears the current pending plan steps.
         """
         self.current_plan = []
+        self.current_goal = None
+        self.current_constraints = []
+        self.current_risk = None
+        self.current_acceptance = []
         logging.info("Pending plan steps cleared.")
