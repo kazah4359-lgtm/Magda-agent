@@ -248,7 +248,7 @@ class Consciousness:
 
         # 5. Post-processing & Memory Storage
         memory_content = f"User said: {user_input} | I replied: {response}"
-        self.memory.add_memory(
+        await self.memory.add_memory(
             content=memory_content,
             importance=0.5,
             emotional_state=self.emotions.get_state_history(user_id)[0],

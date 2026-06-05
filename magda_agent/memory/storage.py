@@ -7,6 +7,7 @@ from typing import List, Dict, Optional
 from magda_agent.emotions.engine import PADState
 from magda_agent.memory.working import WorkingMemory, MemoryEntry
 from magda_agent.memory.episodic import EpisodicMemory
+from magda_agent.llm_client import LLMClient
 
 class MemorySystem:
     """
@@ -14,10 +15,11 @@ class MemorySystem:
     Includes emotional coloring and importance-based decay.
     Uses WorkingMemory for short-term and EpisodicMemory for long-term consolidation.
     """
-    def __init__(self, short_term_limit: int = 10, persist_directory: str = "./memory_db"):
+    def __init__(self, short_term_limit: int = 10, persist_directory: str = "./memory_db", llm: Optional[LLMClient] = None):
         self.short_term_limit = short_term_limit
         self.working_memory = WorkingMemory(limit=short_term_limit)
         self.episodic_memory = EpisodicMemory(persist_directory=persist_directory)
+        self.llm = llm
 
         # For backwards compatibility and testing
         self._long_term_by_user: Dict[int, List[MemoryEntry]] = {}
@@ -32,7 +34,7 @@ class MemorySystem:
         """Flattened list of all long-term memories across all users."""
         return [entry for user_list in self._long_term_by_user.values() for entry in user_list]
 
-    def add_memory(self, content: str, importance: float, emotional_state: PADState, tags: List[str] = None, user_id: int = None):
+    async def add_memory(self, content: str, importance: float, emotional_state: PADState, tags: List[str] = None, user_id: int = None):
         """Add a new entry to short-term working memory."""
         entry = MemoryEntry(
             content=content,
@@ -42,7 +44,31 @@ class MemorySystem:
             user_id=user_id
         )
 
-        self.working_memory.add(entry)
+        async def summarizer(entries: List[MemoryEntry]) -> MemoryEntry:
+            if not self.llm:
+                raise Exception("No LLM client available for summarization.")
+
+            combined_text = "\n".join([f"- {e.content}" for e in entries])
+            prompt = f"Please summarize the following short-term memory context into a single concise bullet point:\n{combined_text}"
+
+            summary_content = await self.llm.chat_completion([
+                {"role": "system", "content": "You compress memory context. Return only the summary text."},
+                {"role": "user", "content": prompt}
+            ], temperature=0.3)
+
+            # Combine attributes from the oldest entry for simplicity, or average them
+            avg_importance = sum(e.importance for e in entries) / len(entries)
+            # Create a synthetic memory entry for the summarized text
+            synthetic_entry = MemoryEntry(
+                content=summary_content.strip(),
+                importance=avg_importance,
+                emotional_state=entries[0].emotional_state,
+                tags=entries[0].tags,
+                user_id=entries[0].user_id
+            )
+            return synthetic_entry
+
+        await self.working_memory.add(entry, summarizer=summarizer if self.llm else None)
         u_id = user_id if user_id is not None else -1
 
         user_short_term = self.working_memory.get_entries(u_id)

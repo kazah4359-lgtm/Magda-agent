@@ -55,7 +55,7 @@ class Evaluator:
 
                 # Store in memory
                 content = f"Evaluation of response to '{user_input[:20]}...': Avg Score: {evaluation.get('average_score')} - {evaluation.get('feedback')}"
-                self.memory.add_memory(
+                await self.memory.add_memory(
                     content=content,
                     importance=0.6,
                     emotional_state=PADState(0.0, 0.0, 0.0), # Neutral PAD state for evaluation

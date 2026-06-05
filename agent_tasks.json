@@ -483,7 +483,7 @@
     },
     {
       "id": "working-memory-summarization",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Add context summarization to Working Memory limit",
@@ -1069,6 +1069,64 @@
         "Lifecycle events are dispatched during input processing",
         "Context engine coordinates memory modules dynamically",
         "Tests with mock plugins verify hook invocation"
+      ]
+    },
+    {
+      "id": "agent-teams-isolation",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams: multi-agent with git worktree isolation",
+      "description": "Inspired by Claude Agent SDK: implement isolated git worktrees for sub-agents to avoid stepping on each other's toes during parallel task execution.",
+      "allowed_paths": [
+        "magda_agent/agents/**",
+        "magda_agent/workspace/**",
+        "tests/test_agent_teams*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sub-agents can check out code into isolated worktrees",
+        "Changes from sub-agents do not leak into the main repository state until merged",
+        "Tests verify isolation and concurrent execution"
+      ]
+    },
+    {
+      "id": "three-agent-planner-generator-evaluator",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Three-agent architecture separation",
+      "description": "Inspired by Claude Agent SDK: separate the monolithic Consciousness loop into three distinct cooperative agents: Planner, Generator, Evaluator. This increases modularity and focus.",
+      "allowed_paths": [
+        "magda_agent/consciousness/**",
+        "magda_agent/agents/**",
+        "tests/test_three_agent*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner creates the plan",
+        "Generator executes the plan steps and generates code/text",
+        "Evaluator reviews the outcome against the acceptance criteria",
+        "Tests verify the handoff between the three roles"
+      ]
+    },
+    {
+      "id": "realtime-guardrail-fallback",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Realtime guardrail fallback",
+      "description": "Inspired by OpenAI Agents SDK: implement real-time guardrails that trigger a safe fallback action (e.g. asking for human review or stopping execution) immediately when a policy violation is detected mid-generation.",
+      "allowed_paths": [
+        "magda_agent/safety/**",
+        "magda_agent/action/**",
+        "tests/test_realtime_guardrail*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrail triggers correctly on simulated policy violation during execution",
+        "System falls back to a safe state without crashing",
+        "Tests verify the fallback path is executed"
       ]
     }
   ]

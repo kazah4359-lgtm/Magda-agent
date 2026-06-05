@@ -62,6 +62,7 @@ async def test_brainstem_integration_no_reflex():
     mock_llm.chat_completion = AsyncMock(return_value="mock response")
     mock_emotions = MagicMock()
     mock_memory = MagicMock()
+    mock_memory.add_memory = AsyncMock()
     mock_skills = MagicMock()
 
     brainstem = Brainstem()
