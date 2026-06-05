@@ -794,7 +794,7 @@
     },
     {
       "id": "response-style-adaptation",
-      "status": "todo",
+      "status": "done",
       "area": "emotions",
       "risk": "low",
       "title": "Adapt response style to emotional state and user",
@@ -1851,6 +1851,42 @@
         "All external tool calls pass through Agent Guard",
         "Guard can block calls based on policy rules",
         "Blocked calls return an explanatory error to the agent"
+      ]
+    },
+    {
+      "id": "agentbench-evaluation-runner-new",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "AgentBench Evaluation Runner",
+      "description": "Inspired by the AgentBench trend from June 2026: Implement a testing harness that allows Magda to be evaluated continuously against multi-domain agent benchmarks, reporting metrics longitudinally to an SQLite database.",
+      "allowed_paths": [
+        "magda_agent/evaluation/agentbench.py",
+        "tests/test_agentbench*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluation harness can trigger a benchmark suite",
+        "Scores are stored in an SQLite metrics DB",
+        "Tests verify basic harness functionality using mocks"
+      ]
+    },
+    {
+      "id": "cross-platform-channel-adapter",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "Cross-Platform Channel Adapter Framework",
+      "description": "Inspired by the Cross-platform reach trend: Implement an abstract ChannelAdapter base class and a Discord adapter implementation alongside the existing Telegram bot to allow the agent to reach multiple channels simultaneously.",
+      "allowed_paths": [
+        "magda_agent/channels/**",
+        "tests/test_channels*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Abstract ChannelAdapter interface exists",
+        "A mock or Discord-specific implementation is provided",
+        "Messages are successfully routed through the UnifiedMessage pipeline"
       ]
     }
   ]

@@ -17,6 +17,8 @@ from magda_agent.emotions.insula import Insula
 from magda_agent.reflexes.brainstem import Brainstem
 from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
+from magda_agent.emotions.style_adapter import StyleAdapter
+from magda_agent.user_model.model import UserModel
 from magda_agent.learning.online import OnlineLearner
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
@@ -52,7 +54,9 @@ class Consciousness:
         context_engine: Optional[ContextEngine] = None,
         skill_creator: Optional[SkillCreator] = None,
         online_learner: Optional[OnlineLearner] = None,
-        tracer: Optional[ThoughtChainTracer] = None
+        tracer: Optional[ThoughtChainTracer] = None,
+        style_adapter: Optional[StyleAdapter] = None,
+        user_model: Optional[UserModel] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -77,6 +81,8 @@ class Consciousness:
         self.skill_creator = skill_creator
         self.online_learner = online_learner
         self.tracer = tracer
+        self.style_adapter = style_adapter
+        self.user_model = user_model
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
@@ -287,6 +293,16 @@ class Consciousness:
             context=context_str,
             emotions=emotion_summary
         )
+
+        if self.style_adapter:
+            um = None
+            if self.user_model and user_id is not None:
+                um = self.user_model.get_model(user_id)
+            pad_state = self.emotions.get_state_history(user_id)[0]
+            style_modifier = self.style_adapter.get_style_prompt(pad_state, um)
+            if style_modifier:
+                system_prompt += f"\n\n{style_modifier}"
+
         if plan_str:
             system_prompt += f"\n\n{plan_str}\nUse the plan results to generate the final response."
 
