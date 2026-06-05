@@ -615,7 +615,7 @@
     },
     {
       "id": "online-learning-from-feedback",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online learning from user replies (next-state signal)",
@@ -1384,6 +1384,57 @@
         "Main agent can delegate a sub-task to a specialized workflow",
         "Sub-agent runs in an isolated context and returns structured results",
         "Tests verify delegation and result aggregation"
+      ]
+    },
+    {
+      "id": "agent-teams-isolation-v2",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Implement Agent Teams Isolation",
+      "description": "Inspired by Claude Agent SDK. Implement Agent Teams for subagents using git worktrees. This will create new paths.",
+      "allowed_paths": [
+        "magda_agent/teams/**",
+        "tests/test_teams*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agents can be spawned in isolated worktrees",
+        "Tests verify isolation"
+      ]
+    },
+    {
+      "id": "mcp-tools-export-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Tools Export",
+      "description": "Inspired by MCP. Implement MCP Server adapter to export skills. This will create new paths.",
+      "allowed_paths": [
+        "magda_agent/mcp/**",
+        "tests/test_mcp*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tools can be exposed",
+        "Tests mock client"
+      ]
+    },
+    {
+      "id": "agent-guardrails-policy-layer-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Implement ACS Guardrails",
+      "description": "Inspired by ACS. Implement Agent Control Specification policy layer. This will create new paths.",
+      "allowed_paths": [
+        "magda_agent/safety/acs.py",
+        "tests/test_acs*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools intercepted",
+        "Tests mock calls"
       ]
     }
   ]
