@@ -26,7 +26,9 @@ def mock_llm_client():
 
 @pytest.fixture
 def mock_memory_system():
-    return MagicMock(spec=MemorySystem)
+    mock = MagicMock(spec=MemorySystem)
+    mock.add_memory = AsyncMock()
+    return mock
 
 @pytest.fixture
 def evaluator(mock_llm_client, mock_memory_system):

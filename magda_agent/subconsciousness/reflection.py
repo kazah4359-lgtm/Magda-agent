@@ -121,7 +121,7 @@ class Subconsciousness:
         # 3. Apply emotional "reward" or "punishment" based on reflection
         self.emotions.update(p_adj, a_adj, d_adj)
 
-        self.memory.add_memory(
+        await self.memory.add_memory(
             content=f"Subconscious reflection: {reflection_text}",
             importance=0.4,
             emotional_state=self.emotions.state,

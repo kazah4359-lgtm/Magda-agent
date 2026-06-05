@@ -1,6 +1,6 @@
 import time
 import logging
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Callable, Awaitable
 from magda_agent.emotions.engine import PADState
 
 class MemoryEntry:
@@ -23,7 +23,7 @@ class WorkingMemory:
         self.limit = limit
         self._entries_by_user: Dict[int, List[MemoryEntry]] = {}
 
-    def add(self, entry: MemoryEntry) -> None:
+    async def add(self, entry: MemoryEntry, summarizer: Optional[Callable[[List['MemoryEntry']], Awaitable['MemoryEntry']]] = None) -> None:
         """Add a memory entry to the active working memory."""
         u_id = entry.user_id if entry.user_id is not None else -1
         user_entries = self._entries_by_user.setdefault(u_id, [])
@@ -31,7 +31,23 @@ class WorkingMemory:
 
         # Enforce bounded limit by removing oldest entries if exceeded
         while len(user_entries) > self.limit:
-            user_entries.pop(0)
+            if summarizer:
+                # Take oldest two entries to summarize, so we compress context and reduce length by 1
+                to_summarize = user_entries[:2]
+                user_entries = user_entries[2:]
+
+                try:
+                    summary_entry = await summarizer(to_summarize)
+                    # Insert summary at the beginning
+                    user_entries.insert(0, summary_entry)
+                except Exception as e:
+                    logging.error(f"Summarizer failed, falling back to drop: {e}")
+                    # Revert to plain dropping if summarizer fails, to ensure limit is enforced
+                    user_entries.insert(0, to_summarize[1]) # Keep the 2nd oldest if 1 is dropped, so len reduces by 1
+            else:
+                user_entries.pop(0)
+
+        self._entries_by_user[u_id] = user_entries
 
     def get_entries(self, user_id: Optional[int] = None) -> List[MemoryEntry]:
         """Get the current working memory entries for a user."""
