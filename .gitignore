@@ -20,3 +20,4 @@ venv.bak/
 .dockerignore
 memory_db/
 habits_db/
+procedural_memory_db/
