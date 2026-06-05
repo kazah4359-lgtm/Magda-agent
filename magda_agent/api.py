@@ -10,6 +10,7 @@ from magda_agent.llm_client import LLMClient
 from magda_agent.emotions.engine import EmotionalEngine
 from magda_agent.emotions.attachment import AttachmentModel
 from magda_agent.memory.storage import MemorySystem
+from magda_agent.memory.procedural import ProceduralMemory
 from magda_agent.skills import initialize_skills
 from magda_agent.planning.planner import Planner
 from magda_agent.consciousness.core import Consciousness
@@ -30,6 +31,7 @@ logging.basicConfig(level=logging.INFO)
 llm_client = LLMClient()
 emotional_engine = EmotionalEngine()
 memory_system = MemorySystem()
+procedural_memory = ProceduralMemory(persist_directory="./procedural_memory_db")
 skill_registry = initialize_skills()
 habit_tracker = HabitTracker()
 planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tracker)
@@ -67,6 +69,7 @@ subconsciousness = Subconsciousness(
     llm=llm_client,
     emotions=emotional_engine,
     memory=memory_system,
+    procedural_memory=procedural_memory,
     interval=300
 )
 
