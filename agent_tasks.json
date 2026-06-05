@@ -444,7 +444,7 @@
     },
     {
       "id": "quality-metrics-tracking",
-      "status": "todo",
+      "status": "done",
       "area": "reflection",
       "risk": "medium",
       "title": "Add longitudinal quality metrics for Jules loop",

@@ -21,3 +21,5 @@ venv.bak/
 memory_db/
 habits_db/
 procedural_memory_db/
+metrics_db/
+metrics_db.sqlite3
