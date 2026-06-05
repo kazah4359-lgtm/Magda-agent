@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 
 class AttachmentModel:
     """
@@ -8,15 +8,27 @@ class AttachmentModel:
     def __init__(self) -> None:
         self.user_interactions: Dict[int, int] = {}
 
-    def record_interaction(self, user_id: int) -> None:
-        """Records an interaction with a user, increasing their interaction count."""
-        if user_id not in self.user_interactions:
-            self.user_interactions[user_id] = 0
-        self.user_interactions[user_id] += 1
+    def reset(self, user_id: Optional[int] = None) -> None:
+        """Resets the interaction count for a specific user (maps None to anonymous)."""
+        u_id = user_id if user_id is not None else -1
+        if u_id in self.user_interactions:
+            del self.user_interactions[u_id]
 
-    def get_level(self, user_id: int) -> str:
+    def reset_all(self) -> None:
+        """Clears interaction counts for all users completely."""
+        self.user_interactions.clear()
+
+    def record_interaction(self, user_id: Optional[int] = None) -> None:
+        """Records an interaction with a user, increasing their interaction count."""
+        u_id = user_id if user_id is not None else -1
+        if u_id not in self.user_interactions:
+            self.user_interactions[u_id] = 0
+        self.user_interactions[u_id] += 1
+
+    def get_level(self, user_id: Optional[int] = None) -> str:
         """Returns the attachment level for a given user based on their interactions."""
-        interactions = self.user_interactions.get(user_id, 0)
+        u_id = user_id if user_id is not None else -1
+        interactions = self.user_interactions.get(u_id, 0)
         if interactions <= 2:
             return "stranger"
         elif interactions <= 5:
@@ -26,7 +38,7 @@ class AttachmentModel:
         else:
             return "close_friend"
 
-    def get_attachment_prompt(self, user_id: int) -> str:
+    def get_attachment_prompt(self, user_id: Optional[int] = None) -> str:
         """Returns a string modifier for the system prompt based on attachment level."""
         level = self.get_level(user_id)
         if level == "stranger":

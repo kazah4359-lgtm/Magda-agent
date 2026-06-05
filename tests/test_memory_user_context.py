@@ -51,6 +51,17 @@ def test_memory_system_user_context(memory_system: MemorySystem) -> None:
     assert len(results_user2) == 1
     assert results_user2[0].content == "Hello from user 2"
 
+def test_memory_system_anonymous_user_context(memory_system: MemorySystem) -> None:
+    """Test that anonymous memory usage falls back to the default isolated context correctly."""
+    state = PADState(0.5, 0.5, 0.5)
+    memory_system.add_memory("Hello from anon", importance=0.8, emotional_state=state, user_id=None)
+    memory_system.add_memory("Hello from user 1", importance=0.8, emotional_state=state, user_id=1)
+
+    results_anon = memory_system.retrieve_relevant("Hello", user_id=None)
+
+    assert len(results_anon) == 1
+    assert results_anon[0].content == "Hello from anon"
+
 def test_habit_tracker_user_context(habit_tracker: HabitTracker) -> None:
     """Test that habit tracking isolates records correctly by user ID."""
     # Train user 1 habit
