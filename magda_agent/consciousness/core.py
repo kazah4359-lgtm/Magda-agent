@@ -21,6 +21,7 @@ from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
 from magda_agent.context.engine import ContextEngine
 from magda_agent.learning.skill_creator import SkillCreator
+from magda_agent.tracing.tracer import ThoughtChainTracer
 
 class Consciousness:
     """
@@ -49,7 +50,8 @@ class Consciousness:
         global_workspace: Optional[GlobalWorkspace] = None,
         context_engine: Optional[ContextEngine] = None,
         skill_creator: Optional[SkillCreator] = None,
-        online_learner: Optional[OnlineLearner] = None
+        online_learner: Optional[OnlineLearner] = None,
+        tracer: Optional[ThoughtChainTracer] = None
     ):
         self.llm = llm
         self.emotions = emotions
@@ -72,9 +74,12 @@ class Consciousness:
         self.context_engine = context_engine
         self.skill_creator = skill_creator
         self.online_learner = online_learner
+        self.tracer = tracer
 
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
+        if self.tracer:
+            self.tracer.add_step("input_received", {"user_input": user_input, "user_id": user_id})
 
         # Use ContextEngine ingest hook if available
         if self.context_engine:
@@ -108,6 +113,8 @@ class Consciousness:
                 score = focused_event.get("_salience_score", 0.0)
                 explanation = focused_event.get("_salience_explanation", "")
                 logging.info(f"Workspace focused on event '{focused_event.get('type')}' with Salience: {score:.2f} ({explanation})")
+                if self.tracer:
+                    self.tracer.add_step("global_workspace_focus", {"event_type": focused_event.get('type'), "salience": score, "explanation": explanation})
 
             # Only user_input is supported for full processing in the current API,
             # but using focus_content ensures workspace output is piped in.
@@ -117,6 +124,8 @@ class Consciousness:
             event = {"content": user_input}
             score, explanation = self.salience.score_event(event)
             logging.info(f"Salience score: {score:.2f} ({explanation})")
+            if self.tracer:
+                self.tracer.add_step("salience_scoring", {"salience": score, "explanation": explanation})
 
         # 0. Brainstem Autonomic Reflexes
         if self.brainstem:
@@ -153,6 +162,8 @@ class Consciousness:
 
         # 2. Memory Retrieval
         relevant_memories = self.memory.retrieve_relevant(user_input, user_id=user_id)
+        if self.tracer:
+            self.tracer.add_step("memory_retrieval", {"retrieved_count": len(relevant_memories)})
 
         # Use ContextEngine assemble hook if available
         if self.context_engine:
@@ -174,6 +185,8 @@ class Consciousness:
 
         # 3. Planning (Prefrontal Cortex)
         plan_str = ""
+        if self.tracer:
+            self.tracer.add_step("planning_start", {})
         if self.planner:
             # Only generate a new plan if we don't have an active one
             if not self.planner.get_current_plan():
@@ -241,6 +254,8 @@ class Consciousness:
                     plan_str += "\nNote: Plan execution was stopped early due to limits.\n"
 
         # 4. LLM Reasoning
+        if self.tracer:
+            self.tracer.add_step("llm_reasoning_start", {"plan_str": plan_str})
         emotion_summary = self.emotions.get_summary(user_id=user_id)
         if self.hypothalamus:
             emotion_summary += f" | {self.hypothalamus.get_drives_summary()}"
@@ -282,9 +297,15 @@ class Consciousness:
             ]
             selected_action = self.basal_ganglia.select_action(possible_actions)
             if selected_action and selected_action["action"] == "ignore":
+                if self.tracer:
+                    self.tracer.add_step("action_selection", {"selected_action": "ignore"})
                 return "Message ignored by Basal Ganglia."
+            elif selected_action and self.tracer:
+                self.tracer.add_step("action_selection", {"selected_action": selected_action["action"]})
 
         response = await self.llm.chat_completion(messages)
+        if self.tracer:
+            self.tracer.add_step("response_generated", {"response": response})
 
         # 5. Post-processing & Memory Storage
         memory_content = f"User said: {user_input} | I replied: {response}"
