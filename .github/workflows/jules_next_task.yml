@@ -24,15 +24,15 @@ jobs:
           You are building a digital brain for Magda AI Agent (Python, asyncio, aiogram Telegram bot).
 
           TASK:
-          1. Read AGENTS.md, docs/cognitive_architecture.md, docs/jules_autonomous_loop.md, and docs/codex_worker_plan.md to understand the target cognitive architecture, autonomous operating model, and Codex worker surface.
+          1. Read AGENTS.md, docs/cognitive_architecture.md, docs/jules_autonomous_loop.md, docs/codex_worker_plan.md, and docs/trends.md.
           2. Open agent_tasks.json in the repo root.
-          3. Check replenishment_policy. If no "todo" tasks remain, or fewer than minimum_todo_tasks remain, first add a batch of new low/medium-risk "todo" tasks from docs/cognitive_architecture.md, failing tests, TODO comments, and current architecture gaps.
-          4. Find the FIRST task with status "todo".
-          5. Implement the ENTIRE task as described (code + integration + pytest tests).
-          6. Update agent_tasks.json: set the completed task status to "done".
+          3. Find the FIRST task with status "todo".
+          4. Implement the ENTIRE task as described (code + integration + pytest tests).
+          5. Update agent_tasks.json: set the completed task status to "done".
+          6. MANDATORY: Add 2-3 NEW "todo" tasks to agent_tasks.json. Search the internet for current AI agent trends (June 2026). Be inspired by what Hermes Agent, OpenClaw, Claude Code, OpenAI Agents SDK are doing NOW. If you cannot search, use docs/trends.md. Tasks must be concrete, actionable, with allowed_paths and acceptance criteria.
           7. Also keep backlog.md compatible when the task maps to an existing markdown backlog item.
-          8. If you find bugs or improvements, add them as new "todo" tasks in agent_tasks.json.
-          9. NEVER ask the user anything. Always decide and proceed autonomously. If unsure about order of operations — do the current task first, then replenish, then open one PR with everything.
+          8. If you find bugs or improvements, add them as additional "todo" tasks.
+          9. NEVER ask the user anything. Always decide and proceed autonomously. Do the task, add new tasks, open ONE PR with everything.
 
           STRICT RULES:
           - Implement the full module in one PR. Do NOT split into smaller PRs.

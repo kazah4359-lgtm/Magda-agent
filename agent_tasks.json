@@ -22,11 +22,13 @@
   "replenishment_policy": {
     "minimum_todo_tasks": 3,
     "batch_size": 5,
+    "always_add_tasks": true,
+    "tasks_per_run": 3,
     "allowed_risks_for_generated_tasks": [
       "low",
       "medium"
     ],
-    "instruction": "If no todo tasks remain, or fewer than minimum_todo_tasks remain, create a batch of new low/medium-risk tasks from docs/cognitive_architecture.md, known failing tests, TODO comments, and the current architecture gaps. Do not ask the user for more tasks unless task generation would require high-risk or critical changes."
+    "instruction": "EVERY run you MUST add 2-3 new todo tasks to agent_tasks.json, regardless of how many already exist. Read docs/trends.md and search the internet for current AI agent trends before generating tasks. Tasks should be inspired by what top agents (Hermes, OpenClaw, Claude Code, etc.) are doing NOW — not by outdated 2020-era patterns. Never let the pool stagnate. If you cannot search the internet, use docs/trends.md as your source of inspiration."
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -514,6 +516,498 @@
         "Failed operations can trigger a 'lesson generation' step",
         "Lesson is stored in Procedural Memory",
         "Lesson is retrieved when attempting a similar task"
+      ]
+    },
+    {
+      "id": "mcp-tool-export",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Export Magda skills as MCP-compatible tools",
+      "description": "Implement an MCP server adapter that exposes Magda's skill registry as MCP tools. External agents can call Magda skills via JSON-RPC. Follow the MCP specification (JSON-RPC, typed schemas).",
+      "allowed_paths": [
+        "magda_agent/mcp/**",
+        "magda_agent/skills/**",
+        "tests/test_mcp*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP server starts and lists tools",
+        "External client can invoke a skill via MCP protocol",
+        "Tests mock the transport layer"
+      ]
+    },
+    {
+      "id": "a2a-agent-card",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Implement A2A Agent Card for discovery",
+      "description": "Create an Agent Card (per A2A protocol spec) that describes Magda's capabilities, supported modalities, and endpoints. Other agents can discover Magda and delegate tasks to her.",
+      "allowed_paths": [
+        "magda_agent/a2a/**",
+        "tests/test_a2a*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Card JSON generated from skill registry",
+        "Card includes capabilities, modalities, and endpoint",
+        "Tests validate card schema"
+      ]
+    },
+    {
+      "id": "context-engine-plugin",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine with plugin lifecycle hooks",
+      "description": "Implement a ContextEngine plugin interface inspired by OpenClaw's architecture: bootstrap, ingest, assemble, compact lifecycle. Allows swapping context strategies without changing core.",
+      "allowed_paths": [
+        "magda_agent/context/**",
+        "tests/test_context*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin interface with 4 lifecycle hooks",
+        "Default plugin implements current behavior",
+        "Tests verify hook ordering and fallback"
+      ]
+    },
+    {
+      "id": "sub-agent-spawning",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Sub-agent spawning for parallel tasks",
+      "description": "Planner can spawn isolated sub-agents (separate context, separate task). Sub-agents report results back. Inspired by Claude Agent Teams and Hermes sub-agents.",
+      "allowed_paths": [
+        "magda_agent/planning/**",
+        "magda_agent/agents/**",
+        "tests/test_sub_agent*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner can decide to spawn sub-agent",
+        "Sub-agent executes in isolated context",
+        "Results merge back into parent context",
+        "Tests mock sub-agent execution"
+      ]
+    },
+    {
+      "id": "skill-creation-from-experience",
+      "status": "todo",
+      "area": "learning",
+      "risk": "low",
+      "title": "Auto-create skills from successful interactions",
+      "description": "When Magda successfully completes a multi-step task, extract the procedure as a reusable skill document (inspired by Hermes skill creation). Store in procedural memory.",
+      "allowed_paths": [
+        "magda_agent/learning/**",
+        "magda_agent/memory/procedural.py",
+        "tests/test_skill_creation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Successful multi-step interactions generate skill candidates",
+        "Skills stored in procedural memory",
+        "Skills retrievable by semantic similarity",
+        "Tests with mock interactions"
+      ]
+    },
+    {
+      "id": "online-learning-from-feedback",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online learning from user replies (next-state signal)",
+      "description": "Inspired by OpenClaw-RL: treat each user reply as a next-state signal. Positive signals reinforce approach, negative signals trigger reflection and adjustment. No external RL infra needed — use simple reward heuristics.",
+      "allowed_paths": [
+        "magda_agent/learning/**",
+        "magda_agent/metacognition/**",
+        "tests/test_online_learning*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User reply sentiment extracted as signal",
+        "Positive signals stored as reinforcement",
+        "Negative signals trigger reflection entry",
+        "Tests with mock conversations"
+      ]
+    },
+    {
+      "id": "cron-scheduler",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Built-in cron scheduler for autonomous tasks",
+      "description": "Implement a scheduler that runs tasks without user trigger: daily reflections, memory consolidation, proactive reports. Inspired by Hermes cron scheduler.",
+      "allowed_paths": [
+        "magda_agent/scheduler/**",
+        "tests/test_scheduler*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler accepts cron-like expressions",
+        "Tasks execute on schedule",
+        "Results delivered to configured channel",
+        "Tests with mocked time"
+      ]
+    },
+    {
+      "id": "policy-layer-tool-calls",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Policy layer for all tool/action execution",
+      "description": "Every action with external effect (file write, API call, message send) passes through a policy layer that can allow/deny/audit. Inspired by Agent Guard and Prempti patterns.",
+      "allowed_paths": [
+        "magda_agent/safety/**",
+        "magda_agent/action/**",
+        "tests/test_policy*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy evaluates every tool call before execution",
+        "Deny returns LLM-friendly explanation",
+        "Audit trail logged",
+        "Tests for allow/deny/audit scenarios"
+      ]
+    },
+    {
+      "id": "conversation-continuity",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Cross-session conversation continuity",
+      "description": "Remember conversation context across sessions. On new session start, retrieve relevant past context from episodic memory. User never re-explains same thing twice.",
+      "allowed_paths": [
+        "magda_agent/memory/**",
+        "magda_agent/consciousness/**",
+        "tests/test_continuity*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Session start retrieves relevant past episodes",
+        "Context seamlessly continues",
+        "User preferences persist",
+        "Tests with multi-session mock"
+      ]
+    },
+    {
+      "id": "user-model-deepening",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Deepening user model across interactions",
+      "description": "Build and maintain a persistent user model: preferences, communication style, expertise level, recurring topics. Model updates incrementally with each interaction. Inspired by Hermes 'deepening model of who you are'.",
+      "allowed_paths": [
+        "magda_agent/memory/**",
+        "magda_agent/user_model/**",
+        "tests/test_user_model*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User model stored persistently",
+        "Updates after each interaction",
+        "Influences response style",
+        "Tests with mock interaction history"
+      ]
+    },
+    {
+      "id": "multi-channel-gateway",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Multi-channel gateway (Telegram + Discord + API)",
+      "description": "Single gateway process that routes messages from multiple channels (Telegram already exists, add Discord and REST API). Inspired by OpenClaw's 30+ channel support. Start with 3.",
+      "allowed_paths": [
+        "magda_agent/gateway/**",
+        "magda_agent/channels/**",
+        "tests/test_gateway*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Gateway accepts messages from Telegram, Discord, REST API",
+        "Unified internal message format",
+        "Channel-specific adapters",
+        "Tests for routing logic"
+      ]
+    },
+    {
+      "id": "thought-chain-visualization",
+      "status": "todo",
+      "area": "metacognition",
+      "risk": "low",
+      "title": "Thought chain visualization for debugging",
+      "description": "Log internal reasoning steps (plan, memory retrieval, risk check, action selection) as a viewable trace. Useful for debugging and understanding agent behavior.",
+      "allowed_paths": [
+        "magda_agent/metacognition/**",
+        "magda_agent/tracing/**",
+        "tests/test_tracing*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Each processing step logged with timestamp and data",
+        "Trace viewable as structured JSON",
+        "No performance impact on production",
+        "Tests verify trace completeness"
+      ]
+    },
+    {
+      "id": "conflict-detection-memory",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Detect contradictions between memories",
+      "description": "Subconsciousness should detect when new information contradicts existing semantic memory. Flag conflicts for resolution. Prevents stale knowledge from corrupting decisions.",
+      "allowed_paths": [
+        "magda_agent/subconsciousness/**",
+        "magda_agent/memory/**",
+        "tests/test_conflict*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "New facts checked against existing semantic memory",
+        "Contradictions flagged",
+        "Resolution strategy (newer wins / confidence-based)",
+        "Tests with contradicting facts"
+      ]
+    },
+    {
+      "id": "curiosity-driven-exploration",
+      "status": "todo",
+      "area": "drives",
+      "risk": "low",
+      "title": "Curiosity drive: explore when bored",
+      "description": "When boredom drive is high and no user tasks pending, agent proactively explores: reads docs, analyzes code quality, proposes improvements. Turns idle time into value.",
+      "allowed_paths": [
+        "magda_agent/drives/**",
+        "magda_agent/exploration/**",
+        "tests/test_curiosity*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Boredom threshold triggers exploration",
+        "Exploration actions are safe (read-only)",
+        "Discoveries added as potential tasks",
+        "Tests with mocked drive states"
+      ]
+    },
+    {
+      "id": "response-style-adaptation",
+      "status": "todo",
+      "area": "emotions",
+      "risk": "low",
+      "title": "Adapt response style to emotional state and user",
+      "description": "Emotional state and user model influence response length, formality, detail level. High arousal = shorter responses. User prefers technical = more code examples.",
+      "allowed_paths": [
+        "magda_agent/emotions/**",
+        "magda_agent/consciousness/**",
+        "tests/test_style_adaptation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Response generator receives style parameters",
+        "Parameters derived from emotions + user model",
+        "Measurable difference in output style",
+        "Tests with different emotional states"
+      ]
+    },
+    {
+      "id": "failure-pattern-detection",
+      "status": "todo",
+      "area": "metacognition",
+      "risk": "low",
+      "title": "Detect recurring failure patterns",
+      "description": "Track failures (test failures, user corrections, plan abandonment). Detect recurring patterns. Generate preventive rules. Inspired by 'did a previous error repeat' metric.",
+      "allowed_paths": [
+        "magda_agent/metacognition/**",
+        "tests/test_failure_patterns*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Failures logged with categorization",
+        "Recurring patterns detected (>2 same category)",
+        "Preventive suggestions generated",
+        "Tests with mock failure history"
+      ]
+    },
+    {
+      "id": "workspace-broadcast",
+      "status": "todo",
+      "area": "attention",
+      "risk": "medium",
+      "title": "Global Workspace broadcast mechanism",
+      "description": "When workspace selects a focused event, broadcast context to all subsystems (memory, planner, emotions). Currently process_input is monolithic — workspace should mediate.",
+      "allowed_paths": [
+        "magda_agent/attention/**",
+        "magda_agent/consciousness/**",
+        "tests/test_broadcast*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Workspace broadcasts focused event to registered listeners",
+        "Subsystems receive context relevant to their function",
+        "Suppressed candidates queued for later",
+        "Tests verify broadcast reaches all listeners"
+      ]
+    },
+    {
+      "id": "skill-versioning",
+      "status": "todo",
+      "area": "learning",
+      "risk": "low",
+      "title": "Skill versioning and improvement tracking",
+      "description": "Skills in procedural memory should have versions. When a skill is used and the outcome improves, create new version. Track which version works best. Inspired by Hermes 'improves skills during use'.",
+      "allowed_paths": [
+        "magda_agent/learning/**",
+        "magda_agent/memory/procedural.py",
+        "tests/test_skill_versioning*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills have version numbers",
+        "Usage outcomes tracked per version",
+        "Best version selected for execution",
+        "Tests with version comparison"
+      ]
+    },
+    {
+      "id": "proactive-notifications",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Proactive notifications to user",
+      "description": "Agent can initiate messages to user (not only respond). Use cases: task completed, anomaly detected, scheduled report ready, memory conflict found. Respects user's notification preferences.",
+      "allowed_paths": [
+        "magda_agent/notifications/**",
+        "magda_agent/channels/**",
+        "tests/test_notifications*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent sends notifications without user prompt",
+        "Notification types configurable",
+        "User preferences respected (quiet hours, urgency threshold)",
+        "Tests with mock channel"
+      ]
+    },
+    {
+      "id": "semantic-memory-consolidation",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Periodic consolidation of episodic → semantic memory",
+      "description": "Subconsciousness periodically reviews episodic memories, extracts stable facts, and promotes them to semantic memory. Decay irrelevant episodes. Inspired by sleep consolidation in neuroscience.",
+      "allowed_paths": [
+        "magda_agent/subconsciousness/**",
+        "magda_agent/memory/**",
+        "tests/test_consolidation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Consolidation runs on schedule or trigger",
+        "Repeated patterns extracted as semantic facts",
+        "Old episodes decayed (not deleted)",
+        "Tests with mock episode history"
+      ]
+    },
+    {
+      "id": "tool-call-audit-trail",
+      "status": "todo",
+      "area": "safety",
+      "risk": "low",
+      "title": "Full audit trail of all tool calls",
+      "description": "Every tool invocation logged: what, when, why (from plan), result, duration. Queryable for debugging and security review. Inspired by Prempti audit trail.",
+      "allowed_paths": [
+        "magda_agent/safety/**",
+        "magda_agent/tracing/**",
+        "tests/test_audit*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All tool calls logged with metadata",
+        "Log queryable by time, tool, outcome",
+        "No sensitive data in logs (sanitize)",
+        "Tests verify log completeness"
+      ]
+    },
+    {
+      "id": "confidence-calibration",
+      "status": "todo",
+      "area": "metacognition",
+      "risk": "low",
+      "title": "Confidence calibration for responses",
+      "description": "Agent should estimate confidence in its responses. Low confidence → add caveats, suggest verification. High confidence → direct answer. Track calibration accuracy over time.",
+      "allowed_paths": [
+        "magda_agent/metacognition/**",
+        "magda_agent/consciousness/**",
+        "tests/test_confidence*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Confidence score 0.0-1.0 for each response",
+        "Low confidence triggers caveat generation",
+        "Calibration tracked (was agent right?)",
+        "Tests with high/low confidence scenarios"
+      ]
+    },
+    {
+      "id": "interrupt-and-redirect",
+      "status": "todo",
+      "area": "attention",
+      "risk": "medium",
+      "title": "Support interrupt and redirect during execution",
+      "description": "If user sends a new message while agent is mid-plan, salience should evaluate: is new input more important? If yes, pause current plan and redirect. Inspired by Hermes interrupt-and-redirect.",
+      "allowed_paths": [
+        "magda_agent/attention/**",
+        "magda_agent/planning/**",
+        "tests/test_interrupt*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "New input evaluated against current plan priority",
+        "Higher priority input pauses current plan",
+        "Paused plan resumable",
+        "Tests with mock interruption scenarios"
+      ]
+    },
+    {
+      "id": "dependency-graph-tasks",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Task dependency graphs in planner",
+      "description": "Plans should model dependencies between steps (DAG, not just list). Parallel-safe steps can execute concurrently. Inspired by Claude Code's task system with dependency graphs.",
+      "allowed_paths": [
+        "magda_agent/planning/**",
+        "tests/test_task_graph*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plan steps can declare dependencies",
+        "Independent steps marked as parallelizable",
+        "Execution respects dependency order",
+        "Tests with diamond and linear dependencies"
+      ]
+    },
+    {
+      "id": "emotional-memory-tagging",
+      "status": "todo",
+      "area": "emotions",
+      "risk": "low",
+      "title": "Tag memories with emotional context",
+      "description": "When storing episodic memories, include emotional state at time of event. Emotionally significant memories retrieved more easily (salience boost). Models how humans remember emotional events better.",
+      "allowed_paths": [
+        "magda_agent/emotions/**",
+        "magda_agent/memory/**",
+        "tests/test_emotional_memory*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Episodic memories include PAD emotional state",
+        "Retrieval boosts emotionally tagged memories",
+        "Emotional similarity as retrieval factor",
+        "Tests with emotionally tagged vs neutral memories"
       ]
     }
   ]
