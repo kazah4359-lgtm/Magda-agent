@@ -144,3 +144,6 @@
 * [ ] SKILL: **Image Generator (Генерация изображений)** — модуль `magda_agent/skills/image_gen.py`. Создание изображений по текстовому описанию (интеграция с DALL-E или Stable Diffusion).
 * [ ] SKILL: **Smart Home Control (Умный дом)** — модуль `magda_agent/skills/smart_home.py`. Интеграция с системами умного дома (Home Assistant, MQTT) для управления устройствами.
 * [ ] SKILL: **Crypto Prices (Курсы криптовалют)** — модуль `magda_agent/skills/crypto.py`. Получение актуальных курсов криптовалют с бирж (Binance, CoinMarketCap).
+
+* [x] MODULE: **Curiosity Drive** — `magda_agent/exploration/curiosity.py`. (2026-06-05)
+  Proactively suggests exploration tasks when boredom is high.
