@@ -520,7 +520,7 @@
     },
     {
       "id": "mcp-tool-export",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Export Magda skills as MCP-compatible tools",
@@ -1185,6 +1185,60 @@
         "Agent analyzes immediate user response (positive/negative signal)",
         "Strong signals immediately reinforce or penalize procedural/habit memory",
         "Tests verify that user corrections influence future skill suggestions"
+      ]
+    },
+    {
+      "id": "a2a-protocol-adapter",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Protocol Adapter",
+      "description": "Implement Agent-to-Agent (A2A) protocol adapter based on Google/Linux Foundation standards for peer-to-peer task delegation.",
+      "allowed_paths": [
+        "magda_agent/a2a/**",
+        "tests/test_a2a*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover other agents via Agent Cards",
+        "Agent can delegate tasks peer-to-peer",
+        "Tests verify A2A protocol messaging"
+      ]
+    },
+    {
+      "id": "agent-teams",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams with Git Worktrees",
+      "description": "Implement multi-agent architecture with Git worktree isolation for subagents, allowing parallel execution without conflicts.",
+      "allowed_paths": [
+        "magda_agent/teams/**",
+        "tests/test_agent_teams*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Main agent can spawn subagents in separate worktrees",
+        "Subagents execute tasks independently",
+        "Tests verify worktree isolation"
+      ]
+    },
+    {
+      "id": "agent-control-specification",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Agent Control Specification (ACS)",
+      "description": "Implement ACS standard for runtime safety controls, standardizing guardrails with 5 validation checkpoints for agentic workflows.",
+      "allowed_paths": [
+        "magda_agent/safety/acs*.py",
+        "tests/test_acs*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrails implement the 5 ACS checkpoints",
+        "Tool calls are intercepted and validated",
+        "Tests verify policy enforcement"
       ]
     }
   ]
