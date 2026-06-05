@@ -29,12 +29,16 @@
   Интеграция: Consciousness вызывает Planner перед генерацией ответа.
   Тесты: mock LLM, проверить что план генерируется и шаги выполняются последовательно.
 
-* [x] MODULE: **Hippocampus (Долгосрочная память с RAG)** — модуль `magda_agent/memory/long_term.py`. (2026-06-03)
-  Векторное хранилище (ChromaDB) для всех диалогов и фактов.
-  Метод `store(text, metadata)` — сохранить факт/сообщение с эмбеддингом.
-  Метод `recall(query, top_k=5)` — найти релевантные воспоминания по семантике.
-  Интеграция: Consciousness добавляет recall() результат в контекст LLM перед ответом.
-  Тесты: проверить store/recall цикл, проверить что релевантные воспоминания возвращаются.
+* [x] MODULE: **Working Memory** — модуль `magda_agent/memory/working.py`.
+  Краткосрочная, ограниченная (bounded) контекстная память в RAM без ChromaDB.
+* [x] MODULE: **Episodic Memory (Hippocampus)** — модуль `magda_agent/memory/episodic.py`. (2026-06-03)
+  Векторное хранилище (ChromaDB) для всех диалогов и событий.
+  Метод `store_event(text, metadata)` — сохранить событие с эмбеддингом.
+  Метод `recall_events(query, top_k=5)` — найти релевантные события по семантике.
+* [x] MODULE: **Semantic Memory** — модуль `magda_agent/memory/semantic.py`.
+  Векторное хранилище (ChromaDB) для фактов о пользователе и мире.
+  Метод `store_fact(text, metadata)` — сохранить факт.
+  Метод `recall_facts(query, top_k=5)` — семантический поиск фактов.
 
 * [x] MODULE: **Self-Evaluation (Самооценка)** — модуль `magda_agent/metacognition/evaluator.py`. (2026-06-03)
   После каждого ответа агент оценивает качество своего ответа по шкале 1-10.

@@ -400,7 +400,7 @@
     },
     {
       "id": "memory-layer-split",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Split memory into working, episodic, semantic and procedural layers",
@@ -458,6 +458,62 @@
         "Tracker module logs pass rates and PR stats",
         "Metrics are stored in a persistent store",
         "Subconsciousness can read metrics"
+      ]
+    },
+    {
+      "id": "planner-typed-plans",
+      "status": "todo",
+      "area": "cognition",
+      "risk": "medium",
+      "title": "Upgrade Prefrontal Cortex to output typed plans",
+      "description": "The current planner returns loose JSON steps. Upgrade it to output typed plans with explicit risk and acceptance criteria as defined in cognitive_architecture.md.",
+      "allowed_paths": [
+        "magda_agent/planning/planner.py",
+        "tests/test_planner.py",
+        "docs/**",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner outputs structured plans with goal, constraints, risk, steps, and acceptance",
+        "Tests verify the exact structure matches the new Pydantic schema",
+        "LLM calls remain mocked in tests"
+      ]
+    },
+    {
+      "id": "working-memory-summarization",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Add context summarization to Working Memory limit",
+      "description": "Instead of dropping old short-term memory items abruptly when bounded limits are hit, introduce an LLM summarization step to compress context before eviction.",
+      "allowed_paths": [
+        "magda_agent/memory/working.py",
+        "tests/test_memory_working.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WorkingMemory calls a summarization function before evicting items",
+        "Summarized context replaces dropped items as a synthetic MemoryEntry",
+        "Tests verify that bounded limit works but information is preserved via summary"
+      ]
+    },
+    {
+      "id": "task-recovery-lesson",
+      "status": "todo",
+      "area": "reflection",
+      "risk": "medium",
+      "title": "Introduce Task Recovery Lessons",
+      "description": "Create a mechanism for Jules/Codex to convert PR failures into reusable 'lessons' in Procedural Memory, minimizing repeated identical mistakes.",
+      "allowed_paths": [
+        "magda_agent/learning/**",
+        "tests/test_learning/**",
+        "docs/**",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Failed operations can trigger a 'lesson generation' step",
+        "Lesson is stored in Procedural Memory",
+        "Lesson is retrieved when attempting a similar task"
       ]
     }
   ]
