@@ -279,7 +279,7 @@
     },
     {
       "id": "per-user-agent-state",
-      "status": "todo",
+      "status": "done",
       "area": "stabilization",
       "risk": "medium",
       "title": "Separate mutable agent state by user",

@@ -73,12 +73,12 @@ class Consciousness:
 
         # 1. Perception & Emotion Update (Initial reaction)
         # For simplicity, we just slightly increase arousal when receiving input
-        self.emotions.update(0.01, 0.05, 0.01)
+        self.emotions.update(0.01, 0.05, 0.01, user_id=user_id)
 
         if self.mirror_neurons:
             p_shift, a_shift, d_shift = self.mirror_neurons.empathize(user_input)
             if p_shift != 0.0 or a_shift != 0.0 or d_shift != 0.0:
-                self.emotions.update(p_shift, a_shift, d_shift)
+                self.emotions.update(p_shift, a_shift, d_shift, user_id=user_id)
 
         if self.hypothalamus:
             activity_level = 1.0
@@ -95,7 +95,7 @@ class Consciousness:
                     self.hypothalamus.energy,
                     self.hypothalamus.boredom
                 )
-                self.emotions.update(v_shift, a_shift, d_shift)
+                self.emotions.update(v_shift, a_shift, d_shift, user_id=user_id)
 
         # 2. Memory Retrieval
         relevant_memories = self.memory.retrieve_relevant(user_input, user_id=user_id)
@@ -165,14 +165,14 @@ class Consciousness:
                     plan_str += "\nNote: Plan execution was stopped early due to limits.\n"
 
         # 4. LLM Reasoning
-        emotion_summary = self.emotions.get_summary()
+        emotion_summary = self.emotions.get_summary(user_id=user_id)
         if self.hypothalamus:
             emotion_summary += f" | {self.hypothalamus.get_drives_summary()}"
 
         if self.pineal_gland:
             emotion_summary += f" | Time of day: {self.pineal_gland.get_time_context()}"
 
-        if self.attachment and user_id is not None:
+        if self.attachment:
             self.attachment.record_interaction(user_id)
             attachment_prompt = self.attachment.get_attachment_prompt(user_id)
             if attachment_prompt:
@@ -215,7 +215,7 @@ class Consciousness:
         self.memory.add_memory(
             content=memory_content,
             importance=0.5,
-            emotional_state=self.emotions.state,
+            emotional_state=self.emotions.get_state_history(user_id)[0],
             tags=["conversation"],
             user_id=user_id
         )
@@ -224,7 +224,7 @@ class Consciousness:
             self.long_term_memory.store(text=memory_content, metadata={"type": "conversation"}, user_id=user_id)
 
         # Gradual emotional decay after processing
-        self.emotions.decay()
+        self.emotions.decay(user_id=user_id)
 
         # 6. Metacognition (Self-Evaluation)
         if self.evaluator:

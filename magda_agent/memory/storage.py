@@ -23,13 +23,23 @@ class MemorySystem:
     Includes emotional coloring, importance-based decay, and ChromaDB vector search.
     """
     def __init__(self, short_term_limit: int = 10):
-        self.short_term: List[MemoryEntry] = []
-        self.long_term: List[MemoryEntry] = []
+        self._short_term_by_user: Dict[int, List[MemoryEntry]] = {}
+        self._long_term_by_user: Dict[int, List[MemoryEntry]] = {}
         self.short_term_limit = short_term_limit
 
         self.client = chromadb.EphemeralClient()
         self.collection = self.client.get_or_create_collection(name="working_memory")
         self._entries: Dict[str, MemoryEntry] = {}
+
+    @property
+    def short_term(self) -> List[MemoryEntry]:
+        """Flattened list of all short-term memories across all users."""
+        return [entry for user_list in self._short_term_by_user.values() for entry in user_list]
+
+    @property
+    def long_term(self) -> List[MemoryEntry]:
+        """Flattened list of all long-term memories across all users."""
+        return [entry for user_list in self._long_term_by_user.values() for entry in user_list]
 
     def add_memory(self, content: str, importance: float, emotional_state: PADState, tags: List[str] = None, user_id: int = None):
         """Add a new entry to short-term memory and index it in ChromaDB."""
@@ -41,14 +51,15 @@ class MemorySystem:
             tags=tags or [],
             user_id=user_id
         )
-        self.short_term.append(entry)
+
+        u_id = user_id if user_id is not None else -1
+        user_short_term = self._short_term_by_user.setdefault(u_id, [])
+        user_short_term.append(entry)
 
         entry_id_str = str(entry.id)
         self._entries[entry_id_str] = entry
 
-        meta = {"importance": importance}
-        if user_id is not None:
-            meta["user_id"] = user_id
+        meta = {"importance": importance, "user_id": u_id}
 
         try:
             self.collection.add(
@@ -60,28 +71,41 @@ class MemorySystem:
             logging.error(f"Failed to add memory to ChromaDB: {e}")
 
         # If short-term memory is full, consolidate
-        if len(self.short_term) > self.short_term_limit:
-            self.consolidate()
+        if len(user_short_term) > self.short_term_limit:
+            # Consolidate only this user's memory, pass u_id directly or wrap in logic
+            self._consolidate_user(u_id)
 
-    def consolidate(self):
+    def consolidate(self, user_id: Optional[int] = None):
         """
         Move important or emotionally significant memories to long-term storage.
         Less important memories in short-term are eventually discarded.
+        If user_id is None, it consolidates all tracked users.
         """
+        if user_id is None:
+            # None implies decaying all tracked states (for background jobs)
+            for u in list(self._short_term_by_user.keys()):
+                self._consolidate_user(u)
+        else:
+            self._consolidate_user(user_id)
+
+    def _consolidate_user(self, u_id: int):
+        user_short_term = self._short_term_by_user.setdefault(u_id, [])
+        user_long_term = self._long_term_by_user.setdefault(u_id, [])
+
         # Sort by importance and emotional intensity
-        self.short_term.sort(key=lambda x: x.importance + self._calc_emotional_intensity(x.emotional_state), reverse=True)
+        user_short_term.sort(key=lambda x: x.importance + self._calc_emotional_intensity(x.emotional_state), reverse=True)
 
         # Move the top memory to long-term
-        if self.short_term:
-            most_important = self.short_term.pop(0)
+        if user_short_term:
+            most_important = user_short_term.pop(0)
             if most_important.importance > 0.3: # Minimum threshold for long-term storage
-                self.long_term.append(most_important)
+                user_long_term.append(most_important)
             else:
                 self._remove_from_index(str(most_important.id))
 
         # Trim short-term memory
-        while len(self.short_term) > self.short_term_limit:
-            discarded = self.short_term.pop()
+        while len(user_short_term) > self.short_term_limit:
+            discarded = user_short_term.pop()
             self._remove_from_index(str(discarded.id))
 
     def _remove_from_index(self, entry_id_str: str) -> None:
@@ -102,12 +126,12 @@ class MemorySystem:
             if self.collection.count() == 0:
                 return []
 
+            u_id = user_id if user_id is not None else -1
             query_kwargs = {
                 "query_texts": [query],
-                "n_results": min(limit, self.collection.count())
+                "n_results": min(limit, self.collection.count()),
+                "where": {"user_id": u_id}
             }
-            if user_id is not None:
-                query_kwargs["where"] = {"user_id": user_id}
 
             results = self.collection.query(**query_kwargs)
 

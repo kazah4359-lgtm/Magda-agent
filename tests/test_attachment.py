@@ -86,6 +86,47 @@ async def test_consciousness_attachment_integration():
     call_args_2 = llm_mock.get_system_prompt.call_args[1]
     assert "Close Friend" in call_args_2["emotions"]
 
+def test_attachment_reset():
+    model = AttachmentModel()
+    user_id = 123
+    model.record_interaction(user_id)
+    model.record_interaction(user_id)
+    model.record_interaction(user_id)
+    assert model.get_level(user_id) == "acquaintance"
+
+    model.reset(user_id)
+    assert model.get_level(user_id) == "stranger"
+
+def test_attachment_anonymous_user():
+    model = AttachmentModel()
+    model.record_interaction(None)
+    model.record_interaction(None)
+    model.record_interaction(None)
+    assert model.get_level(None) == "acquaintance"
+
+    # Should not affect another user
+    assert model.get_level(123) == "stranger"
+
+def test_emotional_engine_user_context():
+    engine = EmotionalEngine()
+
+    # User 1 has positive experience
+    engine.update(0.5, 0.5, 0.5, user_id=1)
+
+    # User 2 has negative experience
+    engine.update(-0.5, -0.5, -0.5, user_id=2)
+
+    # Anonymous user has slightly positive
+    engine.update(0.1, 0.1, 0.1, user_id=None)
+
+    state1, _ = engine.get_state_history(1)
+    state2, _ = engine.get_state_history(2)
+    state_anon, _ = engine.get_state_history(None)
+
+    assert state1.pleasure > 0
+    assert state2.pleasure < 0
+    assert state_anon.pleasure > 0 and state_anon.pleasure < 0.2
+
 def test_emotional_engine_bounded_history() -> None:
     """Test that the emotional engine bounds the history length correctly when max_history_length is provided."""
     engine = EmotionalEngine(max_history_length=5)
