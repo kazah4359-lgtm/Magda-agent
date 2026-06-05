@@ -501,7 +501,7 @@
     },
     {
       "id": "task-recovery-lesson",
-      "status": "todo",
+      "status": "done",
       "area": "reflection",
       "risk": "medium",
       "title": "Introduce Task Recovery Lessons",
@@ -1127,6 +1127,64 @@
         "Guardrail triggers correctly on simulated policy violation during execution",
         "System falls back to a safe state without crashing",
         "Tests verify the fallback path is executed"
+      ]
+    },
+    {
+      "id": "agent-teams-subagents",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Implement Agent Teams and Subagent Spawning",
+      "description": "Inspired by Claude Agent SDK: implement sub-agents for parallel tasks with isolated Git worktrees and context compression to avoid context window explosion.",
+      "allowed_paths": [
+        "magda_agent/agents/**",
+        "magda_agent/workspace/**",
+        "tests/test_subagents*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Main agent can spawn sub-agents for specific tasks",
+        "Sub-agents run in isolated workspaces",
+        "Sub-agent results are compressed and returned to the main agent",
+        "Tests verify sub-agent creation and isolation"
+      ]
+    },
+    {
+      "id": "mcp-tools-exporter",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Implement MCP Server for Skills Export",
+      "description": "Inspired by the Model Context Protocol (MCP) trend: build an MCP server adapter to export Magda's internal SkillRegistry as MCP-compatible tools.",
+      "allowed_paths": [
+        "magda_agent/mcp/**",
+        "magda_agent/skills/registry.py",
+        "tests/test_mcp*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP server wrapper correctly exposes available skills",
+        "Tool schemas map internal parameters to MCP JSON schema correctly",
+        "Tests verify a simulated MCP client can query and execute skills"
+      ]
+    },
+    {
+      "id": "online-rl-from-feedback",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL from User Feedback",
+      "description": "Inspired by OpenClaw-RL: implement online reinforcement learning from next-state signals (e.g., user replies after tool outputs) rather than just periodic reflection.",
+      "allowed_paths": [
+        "magda_agent/learning/online.py",
+        "magda_agent/consciousness/core.py",
+        "tests/test_online_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent analyzes immediate user response (positive/negative signal)",
+        "Strong signals immediately reinforce or penalize procedural/habit memory",
+        "Tests verify that user corrections influence future skill suggestions"
       ]
     }
   ]
