@@ -714,7 +714,7 @@
     },
     {
       "id": "multi-channel-gateway",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Multi-channel gateway (Telegram + Discord + API)",
@@ -1649,6 +1649,60 @@
         "All tools are intercepted by ACS guardrails",
         "Dangerous tools are rejected if they violate the policy",
         "Tests verify interception and rejection of unauthorized calls"
+      ]
+    },
+    {
+      "id": "mcp-action-tools-registry-new",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Action Tools Registry",
+      "description": "Inspired by the MCP trend where action tools grew to 65%. Implement a tool registry that exposes Magda skills as MCP-compliant action tools that mutate state. Each tool call must go through the policy layer.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry.py",
+        "tests/test_mcp_registry*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported as MCP tools.",
+        "Policy layer is integrated for all tool calls.",
+        "Tests mock MCP interactions."
+      ]
+    },
+    {
+      "id": "context-engine-canvas-vis-new",
+      "status": "todo",
+      "area": "UI",
+      "risk": "low",
+      "title": "Context Engine Canvas Visualization",
+      "description": "Inspired by OpenClaw Canvas trend. Create a live visualization adapter for the Context Engine to broadcast the agent’s working memory and current focused tasks to an external Canvas client via websocket.",
+      "allowed_paths": [
+        "magda_agent/context/canvas.py",
+        "tests/test_canvas*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ContextEngine has an adapter to emit Canvas updates.",
+        "Updates include working memory and focused events.",
+        "Tests verify that events are structured correctly for Canvas."
+      ]
+    },
+    {
+      "id": "prempti-audit-trail-interceptor-new",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Prempti Audit Trail Interceptor",
+      "description": "Inspired by the Agent Guard and Prempti (Falco) trend. Implement a tool-call interception module that logs an audit trail of all execution requests, their risk scores, and the policy decision, saving them to a specialized log or SQLite table.",
+      "allowed_paths": [
+        "magda_agent/safety/audit.py",
+        "tests/test_audit*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Every tool call produces an audit trail entry.",
+        "Audit trail logs include risk level and policy outcome.",
+        "Tests verify audit logging during mock tool calls."
       ]
     }
   ]
