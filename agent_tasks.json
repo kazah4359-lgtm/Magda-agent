@@ -575,7 +575,7 @@
     },
     {
       "id": "sub-agent-spawning",
-      "status": "todo",
+      "status": "done",
       "area": "planning",
       "risk": "medium",
       "title": "Sub-agent spawning for parallel tasks",
@@ -1293,6 +1293,41 @@
         "WebSocket server broadcasts state updates",
         "State stream is read-only and does not block the main Consciousness loop",
         "Tests mock WebSocket connections"
+      ]
+    },
+    {
+      "id": "mcp-compatibility",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Compatibility (Model Context Protocol)",
+      "description": "Magda should be able to export skills as MCP tools. Inspired by AI Agent Trends docs.",
+      "allowed_paths": [
+        "magda_agent/mcp/**",
+        "magda_agent/skills/registry.py",
+        "tests/test_mcp*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Magda skills are accessible via MCP standard.",
+        "Tests verify tool export."
+      ]
+    },
+    {
+      "id": "a2a-protocol-integration",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Protocol (Agent-to-Agent Protocol)",
+      "description": "Allow Magda to discover agents and delegate tasks via Agent Cards. Inspired by AI Agent Trends docs.",
+      "allowed_paths": [
+        "magda_agent/a2a/**",
+        "tests/test_a2a_protocol*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can read and process remote Agent Cards.",
+        "Peer-to-peer delegation is possible."
       ]
     }
   ]
