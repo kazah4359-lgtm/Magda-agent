@@ -774,7 +774,7 @@
     },
     {
       "id": "curiosity-driven-exploration",
-      "status": "todo",
+      "status": "done",
       "area": "drives",
       "risk": "low",
       "title": "Curiosity drive: explore when bored",
@@ -1794,6 +1794,63 @@
         "Users can schedule daily reports.",
         "Scheduler persists tasks across reboots.",
         "Tests verify job triggers and serialization."
+      ]
+    },
+    {
+      "id": "mcp-skill-export",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Export Skills as MCP Tools",
+      "description": "Implement a Model Context Protocol (MCP) compatible server interface to expose the agent's internal skills to external clients, aligning with the industry standard for agent-to-tool communication.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_server.py",
+        "magda_agent/skills/__init__.py",
+        "tests/test_mcp_server.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP server can list available skills",
+        "MCP server can execute skills via JSON-RPC",
+        "Unit tests verify MCP message format compliance"
+      ]
+    },
+    {
+      "id": "online-rl-feedback",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL from User Feedback",
+      "description": "Implement online reinforcement learning (OpenClaw-RL pattern) where explicit positive/negative user replies (e.g., 'thanks', 'bad response') are used as next-state signals to adjust tool selection weights in the Basal Ganglia.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "magda_agent/action/selector.py",
+        "tests/test_online_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User feedback modifies action weights",
+        "Weights are persisted across sessions",
+        "Tests mock feedback and verify weight changes"
+      ]
+    },
+    {
+      "id": "agent-guard-policy",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Policy Layer",
+      "description": "Implement an ACS-inspired Agent Guard policy layer that intercepts every tool call with an external effect to run an explicit allow/deny evaluation before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/agent_guard.py",
+        "magda_agent/consciousness/core.py",
+        "tests/test_agent_guard.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All external tool calls pass through Agent Guard",
+        "Guard can block calls based on policy rules",
+        "Blocked calls return an explanatory error to the agent"
       ]
     }
   ]

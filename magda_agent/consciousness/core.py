@@ -11,6 +11,7 @@ from magda_agent.learning.habits import HabitTracker
 from magda_agent.emotions.attachment import AttachmentModel
 from magda_agent.thalamus.router import Thalamus
 from magda_agent.action.selector import BasalGanglia
+from magda_agent.exploration.curiosity import CuriosityExplorer
 from magda_agent.drives.hypothalamus import Hypothalamus
 from magda_agent.emotions.insula import Insula
 from magda_agent.reflexes.brainstem import Brainstem
@@ -64,6 +65,7 @@ class Consciousness:
         self.attachment = attachment
         self.thalamus = thalamus
         self.basal_ganglia = basal_ganglia
+        self.curiosity_explorer = CuriosityExplorer()
         self.hypothalamus = hypothalamus
         self.insula = insula
         self.brainstem = brainstem
@@ -142,6 +144,18 @@ class Consciousness:
             p_shift, a_shift, d_shift = self.mirror_neurons.empathize(user_input)
             if p_shift != 0.0 or a_shift != 0.0 or d_shift != 0.0:
                 self.emotions.update(p_shift, a_shift, d_shift, user_id=user_id)
+
+                # Curiosity-driven exploration
+        if self.hypothalamus and self.curiosity_explorer:
+            if self.curiosity_explorer.should_explore(self.hypothalamus.boredom):
+                exploration_tasks = self.curiosity_explorer.explore()
+                # If we have a global workspace, we could post these tasks there.
+                # For now, we'll log them and potentially add them to the system prompt if needed.
+                logging.info(f"Curiosity triggered. Proposed tasks: {exploration_tasks}")
+
+                # We decrease boredom slightly just to show we acted on it
+                if len(exploration_tasks) > 0:
+                     self.hypothalamus.update(1.0)
 
         if self.hypothalamus:
             activity_level = 1.0
