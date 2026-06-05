@@ -31,7 +31,7 @@ def mock_emotions():
 @pytest.fixture
 def mock_memory_system():
     mock = MagicMock(spec=MemorySystem)
-    mock.short_term = [MemoryEntry(content="Test content 1", timestamp=1000, importance=0.5, emotional_state=MagicMock())]
+    mock.short_term = [MemoryEntry(content="Test content 1", importance=0.5, emotional_state=MagicMock())]
     return mock
 
 @pytest.fixture
