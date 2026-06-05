@@ -674,7 +674,7 @@
     },
     {
       "id": "conversation-continuity",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "low",
       "title": "Cross-session conversation continuity",
@@ -1543,6 +1543,60 @@
         "Action tools can be registered and invoked via MCP",
         "All action tool calls must route through the Policy layer",
         "Tests verify invocation and policy gating"
+      ]
+    },
+    {
+      "id": "task-dependency-graph",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Task System with Dependency Graphs",
+      "description": "Inspired by Claude Agent SDK trend: Implement a task system in the Planner module that supports dependency graphs, allowing complex multi-step tasks to be resolved sequentially or in parallel based on prerequisite requirements.",
+      "allowed_paths": [
+        "magda_agent/planning/dependency_graph.py",
+        "tests/test_dependency_graph*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner can parse dependency relationships between tasks.",
+        "Independent tasks can be executed concurrently.",
+        "Tests verify dependency resolution logic."
+      ]
+    },
+    {
+      "id": "p2p-agent-discovery",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "P2P Agent Discovery via A2A Protocol",
+      "description": "Inspired by A2A Protocol trend: Enhance the A2A integration by implementing peer-to-peer agent discovery where Magda broadcasts its Agent Card capabilities over a local network or designated channel.",
+      "allowed_paths": [
+        "magda_agent/a2a/discovery.py",
+        "tests/test_a2a_discovery*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Magda can broadcast its Agent Card.",
+        "Magda can receive and registry other agents' cards.",
+        "Tests mock network broadcasts to verify discovery."
+      ]
+    },
+    {
+      "id": "longitudinal-quality-metrics",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Longitudinal Quality Metrics Tracking",
+      "description": "Inspired by Self-Improvement Loops trend: Implement SQLite-based longitudinal tracking of agent success rates, post-merge smoke tests, and SWE-bench performance to monitor continuous improvement.",
+      "allowed_paths": [
+        "magda_agent/operations/metrics_tracker.py",
+        "tests/test_metrics_tracker*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Metrics are stored in a local SQLite database.",
+        "Tracker provides aggregated quality scores.",
+        "Tests verify insertion and aggregation without ChomaDB overhead."
       ]
     }
   ]
