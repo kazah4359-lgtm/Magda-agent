@@ -29,6 +29,7 @@ from magda_agent.attention.workspace import GlobalWorkspace
 from magda_agent.context.engine import ContextEngine
 from magda_agent.learning.skill_creator import SkillCreator
 from magda_agent.tracing.tracer import ThoughtChainTracer
+from magda_agent.safety.guardrails import RealtimeGuardrail
 
 class Consciousness:
     """
@@ -59,6 +60,7 @@ class Consciousness:
         context_engine: Optional[ContextEngine] = None,
         skill_creator: Optional[SkillCreator] = None,
         online_learner: Optional[OnlineLearner] = None,
+        guardrail: Optional[RealtimeGuardrail] = None,
         tracer: Optional[ThoughtChainTracer] = None,
         style_adapter: Optional[StyleAdapter] = None,
         user_model: Optional[UserModel] = None,
@@ -87,6 +89,7 @@ class Consciousness:
         self.context_engine = context_engine
         self.skill_creator = skill_creator
         self.online_learner = online_learner
+        self.guardrail = guardrail
         self.tracer = tracer
         self.skill_versioning = kwargs.get('skill_versioning', None)
         self.style_adapter = style_adapter
@@ -239,6 +242,7 @@ class Consciousness:
             planner=self.planner,
             skill_versioning=self.skill_versioning,
             skill_creator=self.skill_creator,
+            guardrail=self.guardrail,
             tracer=self.tracer
         )
 

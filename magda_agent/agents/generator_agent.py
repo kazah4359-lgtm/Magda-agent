@@ -7,6 +7,7 @@ from magda_agent.skills.registry import SkillRegistry
 from magda_agent.planning.planner import Planner
 from magda_agent.learning.skill_versioning import SkillVersioning
 from magda_agent.learning.skill_creator import SkillCreator
+from magda_agent.safety.guardrails import RealtimeGuardrail, FallbackStrategy
 
 class GeneratorAgent:
     """
@@ -19,6 +20,7 @@ class GeneratorAgent:
         planner: Optional[Planner] = None,
         skill_versioning: Optional[SkillVersioning] = None,
         skill_creator: Optional[SkillCreator] = None,
+        guardrail: Optional[RealtimeGuardrail] = None,
         tracer=None
     ):
         self.llm = llm
@@ -26,6 +28,7 @@ class GeneratorAgent:
         self.planner = planner
         self.skill_versioning = skill_versioning
         self.skill_creator = skill_creator
+        self.guardrail = guardrail
         self.tracer = tracer
 
     async def execute_plan(self, user_input: str, user_id: Optional[str] = None) -> str:
@@ -50,6 +53,24 @@ class GeneratorAgent:
                 kwargs = step.get('skill_kwargs') or {}
 
                 if skill_name:
+                    # Real-time guardrail check before execution
+                    if self.guardrail:
+                        allowed, explanation, strategy = self.guardrail.check_action(skill_name, **kwargs)
+                        if not allowed:
+                            if strategy == FallbackStrategy.STOP_EXECUTION:
+                                result = f"Guardrail Fallback (STOP): {explanation}"
+                                plan_stopped_early = True
+                                logging.warning(f"Plan stopped by guardrail: {explanation}")
+                            elif strategy == FallbackStrategy.REQUEST_REVIEW:
+                                result = f"Guardrail Fallback (REVIEW REQUIRED): {explanation}"
+                                plan_stopped_early = True # Also stop for now until human intervention
+                                logging.warning(f"Plan paused for review by guardrail: {explanation}")
+                            else:
+                                result = f"Guardrail Denied: {explanation}"
+
+                            self.planner.mark_step_completed(0, str(result))
+                            break
+
                     try:
                         task = asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
                         result = await asyncio.wait_for(task, timeout=SKILL_TIMEOUT)
