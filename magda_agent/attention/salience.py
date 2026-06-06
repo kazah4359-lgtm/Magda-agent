@@ -5,7 +5,7 @@ This module implements the Salience Network, responsible for determining the urg
 and importance of events based on heuristics like urgency, test failures, and security risks.
 """
 
-from typing import Tuple, Dict, Any
+from typing import Tuple, Dict, Any, Optional
 
 
 class SalienceNetwork:
@@ -81,3 +81,34 @@ class SalienceNetwork:
         explanation = ", ".join(reasons)
 
         return final_score, explanation
+
+    def evaluate_interrupt(self, new_event: Dict[str, Any], current_plan_risk: Optional[str] = None) -> bool:
+        """
+        Evaluates whether a new event is salient enough to interrupt the current active plan.
+
+        Args:
+            new_event: The incoming event dictionary.
+            current_plan_risk: The risk level of the current plan ('high', 'medium', 'low', or None).
+
+        Returns:
+            True if the new event should interrupt the current plan, False otherwise.
+        """
+        score, _ = self.score_event(new_event)
+
+        # Determine baseline threshold based on current plan risk
+        threshold = 0.5 # Default threshold
+
+        if current_plan_risk:
+            risk_lower = current_plan_risk.lower()
+            if risk_lower == 'high' or risk_lower == 'critical':
+                threshold = 0.8
+            elif risk_lower == 'medium':
+                threshold = 0.6
+            elif risk_lower == 'low':
+                threshold = 0.4
+
+        # Additional checks: explicit urgency or security overrides
+        if new_event.get("is_security_risk", False) or new_event.get("urgency", 0.0) >= 0.8:
+            return True
+
+        return score >= threshold

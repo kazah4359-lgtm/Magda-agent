@@ -954,7 +954,7 @@
     },
     {
       "id": "interrupt-and-redirect",
-      "status": "todo",
+      "status": "done",
       "area": "attention",
       "risk": "medium",
       "title": "Support interrupt and redirect during execution",
@@ -2255,6 +2255,63 @@
       "acceptance": [
         "Checkpoints validate agent actions",
         "Violations block actions"
+      ]
+    },
+    {
+      "id": "virtual-context-management-memgpt",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Virtual Context Management (MemGPT Pattern)",
+      "description": "Inspired by MemGPT trends: Implement virtual context management to transparently swap short-term memory (WorkingMemory) pages into EpisodicMemory, allowing the agent to manage effectively infinite context lengths via LLM commands.",
+      "allowed_paths": [
+        "magda_agent/memory/working.py",
+        "magda_agent/memory/episodic.py",
+        "magda_agent/memory/virtual_context.py",
+        "tests/test_virtual_context*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "LLM can request to page out inactive WorkingMemory items to EpisodicMemory",
+        "Context engine can transparently restore paged-out memory on demand",
+        "Tests mock LLM calls and verify paging behavior"
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking",
+      "description": "Inspired by MCPKernel and sandboxed execution trends: Implement taint tracking for user inputs passed to action tools, preventing unsanitized external commands from being blindly executed.",
+      "allowed_paths": [
+        "magda_agent/safety/taint.py",
+        "magda_agent/safety/runtime_guard.py",
+        "tests/test_taint*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User inputs are marked as tainted",
+        "Tools executing system commands reject parameters containing tainted strings unless sanitized",
+        "Tests verify that executing a tool with tainted arguments raises a SecurityException"
+      ]
+    },
+    {
+      "id": "webarena-navigation-skills",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "WebArena Navigation Skill Integration",
+      "description": "Inspired by WebArena benchmarks: Implement a proactive navigation skill that allows the agent to visually and semantically parse web pages to execute user commands directly, simulating browser interaction.",
+      "allowed_paths": [
+        "magda_agent/skills/web_navigation.py",
+        "tests/test_web_navigation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill allows loading a URL and outputting semantic DOM text",
+        "Skill provides 'click' and 'type' action capabilities on identified elements",
+        "Tests verify skill functions with a mocked HTML structure"
       ]
     }
   ]
