@@ -7,6 +7,7 @@ from magda_agent.skills.registry import SkillRegistry
 from magda_agent.planning.planner import Planner
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
+from magda_agent.metacognition.confidence import ConfidenceCalibrator
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.emotions.attachment import AttachmentModel
 from magda_agent.thalamus.router import Thalamus
@@ -40,6 +41,7 @@ class Consciousness:
         planner: Optional[Planner] = None,
         long_term_memory: Optional[LongTermMemory] = None,
         evaluator: Optional[Evaluator] = None,
+        confidence_calibrator: Optional[ConfidenceCalibrator] = None,
         habit_tracker: Optional[HabitTracker] = None,
         attachment: Optional[AttachmentModel] = None,
         thalamus: Optional[Thalamus] = None,
@@ -66,6 +68,7 @@ class Consciousness:
         self.planner = planner
         self.long_term_memory = long_term_memory
         self.evaluator = evaluator
+        self.confidence_calibrator = confidence_calibrator
         self.habit_tracker = habit_tracker
         self.attachment = attachment
         self.thalamus = thalamus
@@ -359,6 +362,10 @@ class Consciousness:
                 self.tracer.add_step("action_selection", {"selected_action": selected_action["action"]})
 
         response = await self.llm.chat_completion(messages)
+
+        if self.confidence_calibrator:
+            confidence = await self.confidence_calibrator.estimate_confidence(user_input, response)
+            response = self.confidence_calibrator.add_caveat_if_needed(response, confidence)
         if self.tracer:
             self.tracer.add_step("response_generated", {"response": response})
 
@@ -381,6 +388,10 @@ class Consciousness:
         # 6. Metacognition (Self-Evaluation)
         if self.evaluator:
             await self.evaluator.evaluate_response(user_input, response)
+
+            if self.confidence_calibrator and self.evaluator.last_evaluation and self.confidence_calibrator.last_confidence is not None:
+                actual_score = self.evaluator.last_evaluation.get("average_score", 0.0)
+                self.confidence_calibrator.track_calibration(self.confidence_calibrator.last_confidence, actual_score)
 
             # Record habit if we have an evaluation and a tracker
             if self.habit_tracker and self.evaluator.last_evaluation:

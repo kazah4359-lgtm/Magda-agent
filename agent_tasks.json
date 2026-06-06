@@ -933,7 +933,7 @@
     },
     {
       "id": "confidence-calibration",
-      "status": "todo",
+      "status": "done",
       "area": "metacognition",
       "risk": "low",
       "title": "Confidence calibration for responses",
@@ -2220,6 +2220,40 @@
         "Plugins can register lifecycle hooks",
         "Hooks can compress short-term context",
         "Tests verify plugins alter the context payload appropriately"
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactions",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning",
+      "description": "Implement online reinforcement learning from user interactions, inspired by OpenClaw.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl.py",
+        "tests/test_interactive_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User interactions feed into RL loop",
+        "RL loop updates preferences"
+      ]
+    },
+    {
+      "id": "acs-runtime-safety",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Runtime Safety Controls",
+      "description": "Implement 5 validation checkpoints for runtime safety, inspired by ACS.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_controls.py",
+        "tests/test_acs_controls*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Checkpoints validate agent actions",
+        "Violations block actions"
       ]
     }
   ]
