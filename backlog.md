@@ -148,3 +148,5 @@
 
 * [x] MODULE: **Curiosity Drive** — `magda_agent/exploration/curiosity.py`. (2026-06-05)
   Proactively suggests exploration tasks when boredom is high.
+* [ ] FEATURE: MCPKernel Taint Tracking
+* [ ] FEATURE: ASSERT Policy-Driven Evaluation

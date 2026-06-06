@@ -1836,7 +1836,7 @@
     },
     {
       "id": "cross-platform-channel-adapter",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "low",
       "title": "Cross-Platform Channel Adapter Framework",
@@ -2644,6 +2644,40 @@
       "acceptance": [
         "Agent can discover and retrieve Agent Cards of peers",
         "Tests verify mock discovery and card parsing"
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking-db0c895d",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCPKernel Taint Tracking",
+      "description": "Inspired by MCPKernel trend: Implement taint tracking and sandboxed execution for external tool interactions.",
+      "allowed_paths": [
+        "magda_agent/safety/**",
+        "tests/test_mcpkernel*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint tracking module intercepts tool inputs",
+        "Tests verify tainted inputs are blocked"
+      ]
+    },
+    {
+      "id": "assert-policy-evaluation-fbaa6aeb",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ASSERT Policy-Driven Evaluation",
+      "description": "Inspired by ASSERT Microsoft trend: Build a policy-driven evaluation framework to secure agentic workflows.",
+      "allowed_paths": [
+        "magda_agent/safety/**",
+        "tests/test_assert_eval*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ASSERT evaluator evaluates workflows against policies",
+        "Tests verify framework properly identifies violations"
       ]
     }
   ]

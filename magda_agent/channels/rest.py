@@ -1,8 +1,8 @@
 from typing import Any, Dict
-from magda_agent.channels.base import BaseChannel
+from magda_agent.channels.base import ChannelAdapter
 from magda_agent.gateway.router import GatewayRouter, UnifiedMessage
 
-class RestChannel(BaseChannel):
+class RestAdapter(ChannelAdapter):
     """Adapter for REST API."""
 
     def __init__(self, gateway: GatewayRouter):

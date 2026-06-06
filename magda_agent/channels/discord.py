@@ -1,8 +1,8 @@
 from typing import Any, Dict
-from magda_agent.channels.base import BaseChannel
+from magda_agent.channels.base import ChannelAdapter
 from magda_agent.gateway.router import GatewayRouter, UnifiedMessage
 
-class DiscordChannel(BaseChannel):
+class DiscordAdapter(ChannelAdapter):
     """Adapter for Discord platform."""
 
     def __init__(self, gateway: GatewayRouter):
