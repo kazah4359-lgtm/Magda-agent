@@ -1706,7 +1706,7 @@
     },
     {
       "id": "assert-policy-driven-evaluation",
-      "status": "todo",
+      "status": "done",
       "area": "metacognition",
       "risk": "low",
       "title": "ASSERT: Policy-driven evaluation framework",
@@ -2576,6 +2576,40 @@
         "Subagents can execute their assigned tasks in isolated contexts",
         "Orchestrator aggregates results from subagents successfully",
         "Tests mock subagent executions and verify parallelization"
+      ]
+    },
+    {
+      "id": "context-engine-plugin-architecture-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin Architecture",
+      "description": "Inspired by trend #4 in docs/trends.md: Implement a plugin architecture for the Context Engine to manage context dynamically using lifecycle hooks.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine_plugins*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine supports plugin registration and lifecycle hooks",
+        "Tests verify plugin execution during context retrieval"
+      ]
+    },
+    {
+      "id": "scheduled-operations-cron-like-v2",
+      "status": "todo",
+      "area": "scheduler",
+      "risk": "low",
+      "title": "Scheduled operations for autonomous tasks",
+      "description": "Inspired by trend #7 in docs/trends.md: Implement cron-like scheduled tasks that run autonomously without user involvement.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron.py",
+        "tests/test_scheduler_cron*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler can register cron-like tasks",
+        "Tests verify task execution without user input"
       ]
     }
   ]
