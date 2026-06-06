@@ -853,7 +853,7 @@
     },
     {
       "id": "skill-versioning",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "low",
       "title": "Skill versioning and improvement tracking",
@@ -1997,6 +1997,63 @@
         "All external tool calls must pass through AgentGuard allow/deny evaluation",
         "Guard can block actions based on explicit policy rules",
         "Blocked actions return explanatory error feedback to the agent"
+      ]
+    },
+    {
+      "id": "mcp-server-prefixed-tool-names",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "MCP server-prefixed tool names",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement server-prefixed tool names to manage tool concurrency and routing to specific MCP endpoints seamlessly.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_router.py",
+        "magda_agent/skills/mcp_server.py",
+        "tests/test_mcp_routing*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool calls map prefix to correct server",
+        "Prefixes resolve locally if no server matched",
+        "Tests verify tool routing logic"
+      ]
+    },
+    {
+      "id": "runtime-function-tool-concurrency",
+      "status": "todo",
+      "area": "execution",
+      "risk": "high",
+      "title": "Runtime function tool concurrency",
+      "description": "Inspired by OpenAI Agents SDK trend: Refactor tool execution within the agent to support resolving multiple independent tool calls concurrently rather than sequentially.",
+      "allowed_paths": [
+        "magda_agent/consciousness/core.py",
+        "magda_agent/action/executor.py",
+        "tests/test_tool_concurrency*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Multiple tool calls in one step run via asyncio.gather",
+        "Errors in one concurrent tool do not immediately crash the loop without logging",
+        "Tests mock multiple delays and assert completion time is shorter than sequential"
+      ]
+    },
+    {
+      "id": "multi-agent-workflows-git-isolation",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "critical",
+      "title": "Multi-agent workflows with Git Isolation",
+      "description": "Inspired by Claude Agent SDK and Multi-Agent Orchestration trends: Implement a mechanism to spawn independent agent teams where each agent has an isolated git worktree.",
+      "allowed_paths": [
+        "magda_agent/teams/git_worktree.py",
+        "magda_agent/teams/manager.py",
+        "tests/test_git_worktree*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents operate in their own git worktrees",
+        "State is isolated and merges cleanly via explicit action",
+        "Tests create dummy repos to verify isolation"
       ]
     }
   ]

@@ -61,3 +61,18 @@ class ProceduralMemory:
         except Exception as e:
             logging.error(f"Failed to recall procedures: {e}")
             return []
+
+    def get_procedure_versions(self, name: str, user_id: int = None) -> dict:
+        """
+        Retrieve all versions of a skill procedure by name.
+        """
+        try:
+            where_clause = {"name": name}
+            if user_id is not None:
+                where_clause = {"$and": [{"name": name}, {"user_id": user_id}]}
+
+            results = self.collection.get(where=where_clause)
+            return results
+        except Exception as e:
+            logging.error(f"Failed to get procedure versions: {e}")
+            return {}
