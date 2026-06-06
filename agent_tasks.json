@@ -2260,7 +2260,7 @@
     },
     {
       "id": "webarena-navigation-skills",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "WebArena Navigation Skill Integration",
@@ -2714,6 +2714,59 @@
         "Agent collects explicit and implicit feedback signals",
         "Feedback signals adjust habit weights dynamically",
         "Tests verify weight shifts based on simulated feedback"
+      ]
+    },
+    {
+      "id": "context-engine-plugin-impl",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin Interface",
+      "description": "Inspired by Context Engine trend: Implement a plugin-architecture for managing context with lifecycle hooks.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine supports plugin registration",
+        "Lifecycle hooks are triggered during context update",
+        "Tests verify plugin hooks are called"
+      ]
+    },
+    {
+      "id": "guardrails-policy-layer",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Guardrails Policy Layer",
+      "description": "Inspired by Guardrails trend: Implement a policy layer to evaluate actions with external effects.",
+      "allowed_paths": [
+        "magda_agent/safety/guardrails.py",
+        "tests/test_guardrails*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy layer can evaluate and intercept tool calls",
+        "Tests verify policy enforcement"
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams with Git Worktree Isolation",
+      "description": "Inspired by Agent Teams trend: Spawn sub-agents for parallel tasks using git worktree isolation.",
+      "allowed_paths": [
+        "magda_agent/agents/teams.py",
+        "tests/test_teams*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Team manager can spawn sub-agents",
+        "Sub-agents operate in isolated git worktrees",
+        "Tests mock sub-agent parallel execution"
       ]
     }
   ]
