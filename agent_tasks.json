@@ -1262,7 +1262,7 @@
     },
     {
       "id": "skill-marketplace-integration",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Skill Marketplace Integration",
@@ -2470,6 +2470,40 @@
         "Sub-agents spawn in isolated git worktrees",
         "Concurrent tasks do not clash on filesystem",
         "Tests verify isolation and cleanup"
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Discovery v4",
+      "description": "Inspired by A2A Protocol trends: Implement A2A agent discovery through Agent Cards, allowing peer-to-peer delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a.py",
+        "tests/test_a2a_discovery_v4*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover peers using Agent Cards",
+        "Tests verify peer discovery process"
+      ]
+    },
+    {
+      "id": "acs-runtime-safety-controls-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Runtime Safety Controls v4",
+      "description": "Inspired by ACS trends: Implement 5 validation checkpoints for agent workflows to standardize runtime guardrails.",
+      "allowed_paths": [
+        "magda_agent/safety/acs.py",
+        "tests/test_acs_safety_v4*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Checkpoints validate runtime workflows",
+        "Tests mock operations and verify guardrail blocks"
       ]
     }
   ]
