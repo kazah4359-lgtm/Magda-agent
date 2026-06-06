@@ -205,7 +205,7 @@ async def voice_message_handler(message: Message) -> None:
             os.remove(local_ogg)
 
         # Send to Consciousness API
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=180.0) as client:
             payload = {"text": text}
             if message.from_user and message.from_user.id:
                 payload["user_id"] = message.from_user.id
@@ -242,7 +242,7 @@ async def main_message_handler(message: Message) -> None:
     await message.bot.send_chat_action(chat_id=message.chat.id, action="typing")
 
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=180.0) as client:
             payload = {"text": message.text}
             if message.from_user and message.from_user.id:
                 payload["user_id"] = message.from_user.id
