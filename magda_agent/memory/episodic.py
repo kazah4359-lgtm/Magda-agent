@@ -1,3 +1,4 @@
+import math
 import chromadb
 import uuid
 import logging
@@ -69,7 +70,11 @@ class EpisodicMemory:
                 where["decayed"] = False
 
             if where:
-                results = self.collection.get(where=where, limit=limit)
+                if len(where) > 1:
+                    where_list = [{k: v} for k, v in where.items()]
+                    results = self.collection.get(where={"$and": where_list}, limit=limit)
+                else:
+                    results = self.collection.get(where=where, limit=limit)
             else:
                 results = self.collection.get(limit=limit)
 
@@ -93,7 +98,7 @@ class EpisodicMemory:
         try:
             query_kwargs = {
                 "query_texts": [query],
-                "n_results": top_k
+                "n_results": top_k * 2
             }
             where_clause = {"decayed": False}
             if user_id is not None:
@@ -107,7 +112,24 @@ class EpisodicMemory:
 
             results = self.collection.query(**query_kwargs)
             if results and results.get("documents") and len(results["documents"]) > 0:
-                return results["documents"][0]
+                docs = results["documents"][0]
+                dists = results["distances"][0] if "distances" in results and results["distances"] else [0.0] * len(docs)
+                metas = results["metadatas"][0] if "metadatas" in results and results["metadatas"] else [{}] * len(docs)
+
+                scored_docs = []
+                for doc, dist, meta in zip(docs, dists, metas):
+                    meta = meta or {}
+                    pad_p = float(meta.get("pad_p", 0.0))
+                    pad_a = float(meta.get("pad_a", 0.0))
+                    pad_d = float(meta.get("pad_d", 0.0))
+
+                    intensity = math.sqrt(pad_p**2 + pad_a**2 + pad_d**2)
+                    adjusted_score = dist - (intensity * 1.0)
+                    scored_docs.append((adjusted_score, doc))
+
+                scored_docs.sort(key=lambda x: x[0])
+
+                return [doc for score, doc in scored_docs[:top_k]]
             return []
         except Exception as e:
             logging.error(f"Failed to recall episodic events: {e}")
