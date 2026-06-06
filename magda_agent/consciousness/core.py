@@ -1,3 +1,6 @@
+from magda_agent.agents.planner_agent import PlannerAgent
+from magda_agent.agents.generator_agent import GeneratorAgent
+from magda_agent.agents.evaluator_agent import EvaluatorAgent
 import logging
 from typing import List, Dict, Any, Optional
 from magda_agent.llm_client import LLMClient
@@ -225,81 +228,22 @@ class Consciousness:
             if long_term_memories:
                 context_str += "\nLong Term Memories:\n" + "\n".join([f"- {m}" for m in long_term_memories])
 
-        # 3. Planning (Prefrontal Cortex)
-        plan_str = ""
+        # 3. Planning & Execution (Planner & Generator Agents)
         if self.tracer:
             self.tracer.add_step("planning_start", {})
-        if self.planner:
-            # Only generate a new plan if we don't have an active one
-            if not self.planner.get_current_plan():
-                await self.planner.generate_plan(user_input, user_id=user_id)
 
-            plan = self.planner.get_current_plan()
-            if plan:
-                import asyncio
+        planner_agent = PlannerAgent(planner=self.planner)
+        generator_agent = GeneratorAgent(
+            llm=self.llm,
+            skills=self.skills,
+            planner=self.planner,
+            skill_versioning=self.skill_versioning,
+            skill_creator=self.skill_creator,
+            tracer=self.tracer
+        )
 
-                MAX_STEPS = 5
-                SKILL_TIMEOUT = 10.0
-                steps_executed = 0
-                plan_stopped_early = False
-
-                # Execute the steps and collect results
-                while self.planner.get_current_plan() and steps_executed < MAX_STEPS:
-                    steps_executed += 1
-                    step = self.planner.get_current_plan()[0]
-                    skill_name = step.get('skill')
-                    kwargs = step.get('skill_kwargs') or {}
-
-                    if skill_name:
-                        # Execute heavy skills in a separate thread to avoid blocking the event loop
-                        try:
-                            task = asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
-                            result = await asyncio.wait_for(task, timeout=SKILL_TIMEOUT)
-                        except asyncio.TimeoutError:
-                            logging.error(f"Timeout executing skill {skill_name}")
-                            result = f"Error: Skill {skill_name} timed out after {SKILL_TIMEOUT} seconds."
-                            plan_stopped_early = True
-                        except Exception as e:
-                            logging.error(f"Error executing skill {skill_name}: {e}")
-                            result = f"Error: {e}"
-                    else:
-                        result = "No skill executed for this step."
-
-                    self.planner.mark_step_completed(0, str(result))
-                    if self.skill_versioning and skill_name:
-                        # Basic scoring hook based on result not containing 'Error'
-                        success = 'Error:' not in str(result)
-                        best = self.skill_versioning.get_best_version(skill_name, user_id=user_id)
-                        if best:
-                            self.skill_versioning.record_usage_outcome(skill_name, best['version'], success, str(result), user_id=user_id)
-
-                    if plan_stopped_early:
-                        break
-
-                if self.planner.get_current_plan() and steps_executed >= MAX_STEPS:
-                    plan_stopped_early = True
-                    logging.warning("Plan execution stopped due to MAX_STEPS limit.")
-
-                if plan_stopped_early:
-                    self.planner.clear_pending_plan()
-                else:
-                    if self.skill_creator and len(self.planner.completed_steps) > 1:
-                        # Extract skill candidate from successful multi-step plan
-                        asyncio.create_task(
-                            self.skill_creator.extract_and_store_skill(
-                                user_input,
-                                self.planner.completed_steps,
-                                user_id=user_id
-                            )
-                        )
-
-                plan_str = "Executed Plan Results:\n"
-                for i, step in enumerate(self.planner.completed_steps):
-                    plan_str += f"- Step {i+1}: {step.get('description')} (Skill: {step.get('skill')})\n"
-                    plan_str += f"  Result: {step.get('result')}\n"
-
-                if plan_stopped_early:
-                    plan_str += "\nNote: Plan execution was stopped early due to limits.\n"
+        await planner_agent.plan(user_input, user_id=user_id)
+        plan_str = await generator_agent.execute_plan(user_input, user_id=user_id)
 
         # 4. LLM Reasoning
         if self.tracer:
@@ -361,7 +305,7 @@ class Consciousness:
             elif selected_action and self.tracer:
                 self.tracer.add_step("action_selection", {"selected_action": selected_action["action"]})
 
-        response = await self.llm.chat_completion(messages)
+        response = await generator_agent.generate_response(messages)
 
         if self.confidence_calibrator:
             confidence = await self.confidence_calibrator.estimate_confidence(user_input, response)
@@ -385,22 +329,14 @@ class Consciousness:
         # Gradual emotional decay after processing
         self.emotions.decay(user_id=user_id)
 
-        # 6. Metacognition (Self-Evaluation)
-        if self.evaluator:
-            await self.evaluator.evaluate_response(user_input, response)
-
-            if self.confidence_calibrator and self.evaluator.last_evaluation and self.confidence_calibrator.last_confidence is not None:
-                actual_score = self.evaluator.last_evaluation.get("average_score", 0.0)
-                self.confidence_calibrator.track_calibration(self.confidence_calibrator.last_confidence, actual_score)
-
-            # Record habit if we have an evaluation and a tracker
-            if self.habit_tracker and self.evaluator.last_evaluation:
-                avg_score = self.evaluator.last_evaluation.get("average_score", 0.0)
-                if self.planner and self.planner.completed_steps:
-                    for step in self.planner.completed_steps:
-                        skill = step.get("skill")
-                        if skill:
-                            self.habit_tracker.record_usage(user_input, skill, float(avg_score), user_id=user_id)
+        # 6. Metacognition (Self-Evaluation) via Evaluator Agent
+        evaluator_agent = EvaluatorAgent(
+            evaluator=self.evaluator,
+            confidence_calibrator=self.confidence_calibrator,
+            habit_tracker=self.habit_tracker,
+            planner=self.planner
+        )
+        await evaluator_agent.evaluate(user_input, response, user_id=user_id)
 
         return response
 

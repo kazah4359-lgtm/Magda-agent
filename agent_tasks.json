@@ -1093,7 +1093,7 @@
     },
     {
       "id": "three-agent-planner-generator-evaluator",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Three-agent architecture separation",
@@ -2414,6 +2414,44 @@
       ],
       "acceptance": [
         "Agent CLI logs and displays metrics over time."
+      ]
+    },
+    {
+      "id": "a2a-task-delegation-v3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Task Delegation (v3)",
+      "description": "Inspired by Google A2A trend: Allow PlannerAgent to discover and delegate specific sub-plans to external agents securely over MCP.",
+      "allowed_paths": [
+        "magda_agent/integration/**",
+        "magda_agent/agents/planner_agent.py",
+        "tests/test_a2a_delegation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "PlannerAgent can query available external agents.",
+        "Sub-plans can be delegated to external agents.",
+        "Results are retrieved and integrated into the main plan context."
+      ]
+    },
+    {
+      "id": "mcp-action-tools-v3",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "MCP Action Tools Expansion",
+      "description": "Inspired by MCP trend: Expand GeneratorAgent's ability to execute external MCP server-prefixed tools beyond the current local SkillRegistry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_client.py",
+        "magda_agent/agents/generator_agent.py",
+        "tests/test_mcp_client*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "GeneratorAgent can execute remote MCP action tools.",
+        "Results are collected safely with timeout limits.",
+        "Mock tests verify execution and error handling."
       ]
     }
   ]
