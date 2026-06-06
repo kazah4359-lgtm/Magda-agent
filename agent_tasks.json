@@ -1818,7 +1818,7 @@
     },
     {
       "id": "agentbench-evaluation-runner-new",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "AgentBench Evaluation Runner",
@@ -2610,6 +2610,40 @@
       "acceptance": [
         "Scheduler can register cron-like tasks",
         "Tests verify task execution without user input"
+      ]
+    },
+    {
+      "id": "a2a-peer-task-delegation-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Peer-to-Peer Task Delegation",
+      "description": "Inspired by the A2A trend: Implement peer-to-peer task delegation mechanism to assign sub-tasks to other agents dynamically over network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a_peer_delegation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can delegate tasks to other peers via A2A protocol",
+        "Tests verify task assignment over mocked network calls"
+      ]
+    },
+    {
+      "id": "agent-discovery-service",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "low",
+      "title": "A2A Agent Discovery Service",
+      "description": "Inspired by the A2A trend: Build a discovery service to locate and read Agent Cards of peers in the network.",
+      "allowed_paths": [
+        "magda_agent/integration/discovery.py",
+        "tests/test_discovery_service*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover and retrieve Agent Cards of peers",
+        "Tests verify mock discovery and card parsing"
       ]
     }
   ]
