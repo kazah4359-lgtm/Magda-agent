@@ -36,6 +36,7 @@ class Planner:
         self.current_constraints: List[str] = []
         self.current_risk: Optional[str] = None
         self.current_acceptance: List[str] = []
+        self.paused_plan: Optional[Dict[str, Any]] = None
 
     async def generate_plan(self, user_input: str, user_id: int = None) -> List[Dict[str, Any]]:
         """
@@ -196,6 +197,54 @@ class Planner:
 
         return summary
 
+    def pause_current_plan(self) -> None:
+        """
+        Pauses the current active plan, saving its state to allow resuming later.
+        """
+        if not self.current_plan and not self.completed_steps:
+            logging.warning("No active plan to pause.")
+            return
+
+        self.paused_plan = {
+            "current_plan": self.current_plan,
+            "completed_steps": self.completed_steps,
+            "current_goal": self.current_goal,
+            "current_constraints": self.current_constraints,
+            "current_risk": self.current_risk,
+            "current_acceptance": self.current_acceptance
+        }
+
+        self.current_plan = []
+        self.completed_steps = []
+        self.current_goal = None
+        self.current_constraints = []
+        self.current_risk = None
+        self.current_acceptance = []
+
+        logging.info("Current plan paused.")
+
+    def resume_plan(self) -> bool:
+        """
+        Resumes a previously paused plan.
+
+        Returns:
+            bool: True if a plan was successfully resumed, False otherwise.
+        """
+        if not self.paused_plan:
+            logging.warning("No paused plan to resume.")
+            return False
+
+        self.current_plan = self.paused_plan.get("current_plan", [])
+        self.completed_steps = self.paused_plan.get("completed_steps", [])
+        self.current_goal = self.paused_plan.get("current_goal")
+        self.current_constraints = self.paused_plan.get("current_constraints", [])
+        self.current_risk = self.paused_plan.get("current_risk")
+        self.current_acceptance = self.paused_plan.get("current_acceptance", [])
+
+        self.paused_plan = None
+        logging.info("Paused plan resumed.")
+        return True
+
     def clear_pending_plan(self) -> None:
         """
         Clears the current pending plan steps.
@@ -205,4 +254,5 @@ class Planner:
         self.current_constraints = []
         self.current_risk = None
         self.current_acceptance = []
+        self.paused_plan = None
         logging.info("Pending plan steps cleared.")

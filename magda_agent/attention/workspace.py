@@ -94,3 +94,30 @@ class GlobalWorkspace:
         """
         self.candidates = []
         self.suppressed_candidates = []
+
+    def process_interruption(self, new_event: Dict[str, Any], planner: Any) -> bool:
+        """
+        Evaluates a new event for interruption. If its priority exceeds the current
+        plan's risk/priority, pauses the plan and makes the new event a candidate.
+
+        Args:
+            new_event: The new incoming event.
+            planner: The Prefrontal Cortex (Planner) instance.
+
+        Returns:
+            True if an interruption occurred, False otherwise.
+        """
+        if not planner.current_plan and not planner.completed_steps:
+            # No active plan to interrupt, just add as normal candidate
+            self.add_candidate(new_event)
+            return False
+
+        current_risk = planner.current_risk
+
+        if self.salience_network.evaluate_interrupt(new_event, current_risk):
+            planner.pause_current_plan()
+            self.add_candidate(new_event)
+            return True
+        else:
+            self.add_candidate(new_event)
+            return False
