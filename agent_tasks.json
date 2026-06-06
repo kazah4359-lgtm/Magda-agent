@@ -2259,7 +2259,7 @@
     },
     {
       "id": "virtual-context-management-memgpt",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Virtual Context Management (MemGPT Pattern)",
@@ -2367,6 +2367,53 @@
         "User inputs are tracked as tainted.",
         "Unsanitized execution triggers a security exception.",
         "Tests verify taint tracking and rejection."
+      ]
+    },
+    {
+      "id": "multi-channel-skills-sync",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Multi-Channel Skills Sync",
+      "description": "Ensure skills can be uniformly executed across different platforms.",
+      "allowed_paths": [
+        "magda_agent/skills/omnichannel.py",
+        "magda_agent/skills/registry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills sync properly across multiple gateways."
+      ]
+    },
+    {
+      "id": "agent-skills-mcp-export",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Agent Skills MCP Export Enhancements",
+      "description": "Support exporting dynamic agent skills as standard MCP tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_export.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Can export dynamic internal skills to MCP."
+      ]
+    },
+    {
+      "id": "longitudinal-quality-metrics-cli",
+      "status": "todo",
+      "area": "metrics",
+      "risk": "low",
+      "title": "Longitudinal Quality Metrics CLI",
+      "description": "Track agent's success rate and quality over time via CLI.",
+      "allowed_paths": [
+        "magda_agent/metacognition/metrics_cli.py",
+        "magda_agent/metacognition/tracker.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent CLI logs and displays metrics over time."
       ]
     }
   ]
