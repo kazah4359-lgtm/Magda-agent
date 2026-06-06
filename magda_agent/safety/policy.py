@@ -1,5 +1,6 @@
 import logging
 from typing import Tuple, Dict, Any, List
+from magda_agent.tracing.audit import AuditLogger
 
 class PolicyLayer:
     """
@@ -12,7 +13,7 @@ class PolicyLayer:
         """
         Initializes the Policy Layer.
         """
-        self.audit_trail: List[Dict[str, Any]] = []
+        self.audit_logger = AuditLogger()
 
     def evaluate(self, tool_name: str, **kwargs: Any) -> Tuple[bool, str]:
         """
@@ -43,14 +44,14 @@ class PolicyLayer:
                 allow = False
                 explanation = "Action denied: Cannot send message to a blocked recipient."
 
-        # Audit trail
-        audit_entry = {
-            "tool_name": tool_name,
-            "kwargs": kwargs,
-            "allowed": allow,
-            "explanation": explanation
-        }
-        self.audit_trail.append(audit_entry)
+        # Audit trail via AuditLogger
+        self.audit_logger.log_call(
+            tool_name=tool_name,
+            kwargs=kwargs,
+            why=kwargs.get("why", "No reason provided"),
+            result={"allowed": allow, "explanation": explanation},
+            duration=0.0 # Time tracking is currently outside PolicyLayer, or instantaneous
+        )
 
         if allow:
             logging.info(f"PolicyLayer: ALLOW - {tool_name} with args {kwargs}")
@@ -61,9 +62,9 @@ class PolicyLayer:
 
     def get_audit_trail(self) -> List[Dict[str, Any]]:
         """
-        Retrieves the audit trail of all evaluated actions.
+        Retrieves the audit trail of all evaluated actions from the AuditLogger.
 
         Returns:
             List[Dict[str, Any]]: The list of audit entries.
         """
-        return self.audit_trail
+        return self.audit_logger.get_all()

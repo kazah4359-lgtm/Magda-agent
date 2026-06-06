@@ -913,7 +913,7 @@
     },
     {
       "id": "tool-call-audit-trail",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "low",
       "title": "Full audit trail of all tool calls",
@@ -2165,6 +2165,61 @@
         "Tool calls are intercepted and audited before execution",
         "Policy rules can deny actions",
         "Blocked actions return explanatory feedback"
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams with Git Worktree Isolation",
+      "description": "Inspired by Claude Agent SDK. Enable spawning independent sub-agents that operate in their own git worktrees, preventing cross-contamination during complex multi-agent coding workflows.",
+      "allowed_paths": [
+        "magda_agent/teams/git_worktree.py",
+        "magda_agent/teams/manager.py",
+        "tests/test_git_worktree*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sub-agents can check out code into isolated worktrees",
+        "Main process and sub-agents operate safely concurrently",
+        "Tests mock git calls and verify isolation"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-governance",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tool Governance",
+      "description": "Inspired by the MCP standard. Implement a specific validation and governance layer for MCP actions to ensure external tool calls adhere to safety protocols.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_governance.py",
+        "tests/test_mcp_governance*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP actions pass through a specialized interceptor",
+        "Rules can block MCP actions explicitly",
+        "Tests verify block behavior"
+      ]
+    },
+    {
+      "id": "context-engine-plugins",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin System",
+      "description": "Inspired by OpenClaw. Create a Context Engine plugin system to allow dynamic modification and compression of WorkingMemory at various lifecycle hooks.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugins can register lifecycle hooks",
+        "Hooks can compress short-term context",
+        "Tests verify plugins alter the context payload appropriately"
       ]
     }
   ]

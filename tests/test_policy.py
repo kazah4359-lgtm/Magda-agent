@@ -13,7 +13,7 @@ def test_policy_layer_allow() -> None:
     assert len(trail) == 1
     assert trail[0]["tool_name"] == "safe_tool"
     assert trail[0]["kwargs"] == {"arg1": "value"}
-    assert trail[0]["allowed"] is True
+    assert trail[0]["result"]["allowed"] is True
 
 def test_policy_layer_deny_system_execute_code() -> None:
     """Test that system_execute_code is denied when trying to access sensitive paths."""
@@ -26,7 +26,7 @@ def test_policy_layer_deny_system_execute_code() -> None:
     trail = policy.get_audit_trail()
     assert len(trail) == 1
     assert trail[0]["tool_name"] == "system_execute_code"
-    assert trail[0]["allowed"] is False
+    assert trail[0]["result"]["allowed"] is False
 
 def test_policy_layer_deny_send_message() -> None:
     """Test that sending a message to a blocked user is denied."""
