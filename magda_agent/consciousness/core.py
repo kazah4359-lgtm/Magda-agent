@@ -84,6 +84,23 @@ class Consciousness:
         self.style_adapter = style_adapter
         self.user_model = user_model
 
+        if self.global_workspace:
+            self.global_workspace.register_listener(self._broadcast_event)
+
+
+    def _broadcast_event(self, event: Dict[str, Any]) -> None:
+        """
+        Receives broadcasted focus events from the Global Workspace
+        and distributes the context to relevant subsystems.
+        """
+        logging.info(f"Consciousness broadcasting event: {event.get('type')}")
+        # Simulate emotional arousal on focus shift as part of context processing
+        if self.emotions:
+            score = event.get('_salience_score', 0.0)
+            # Arousal slightly increases based on the salience of the focused event
+            a_delta = min(0.1, score * 0.1)
+            self.emotions.update(p_delta=0.0, a_delta=a_delta, d_delta=0.0, user_id=None)
+
     async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
         if self.tracer:

@@ -6,7 +6,7 @@ component where multiple candidate events compete for focus based on
 their salience score before memory retrieval, planning, and action selection.
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Callable
 from magda_agent.attention.salience import SalienceNetwork
 
 
@@ -19,6 +19,17 @@ class GlobalWorkspace:
         self.salience_network = salience_network
         self.candidates: List[Dict[str, Any]] = []
         self.suppressed_candidates: List[Dict[str, Any]] = []
+        self.listeners: List[Callable[[Dict[str, Any]], None]] = []
+
+
+    def register_listener(self, listener_callable: Callable[[Dict[str, Any]], None]) -> None:
+        """
+        Registers a callback function to receive focus events.
+
+        Args:
+            listener_callable: A callable that accepts a single event dictionary.
+        """
+        self.listeners.append(listener_callable)
 
     def add_candidate(self, event: Dict[str, Any]) -> None:
         """
@@ -61,7 +72,12 @@ class GlobalWorkspace:
         # Clear candidates for the next cycle
         self.candidates = []
 
+        # Broadcast the focused event to all listeners
+        for listener in self.listeners:
+            listener(focus_event)
+
         return focus_event
+
 
     def get_suppressed_candidates(self) -> List[Dict[str, Any]]:
         """
