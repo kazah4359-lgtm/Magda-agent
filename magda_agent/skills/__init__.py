@@ -9,6 +9,7 @@ from magda_agent.skills.internet_search import search_internet
 from magda_agent.skills.omnichannel import send_message as omnichannel_send
 from magda_agent.skills.codex_worker import codex_worker
 from magda_agent.skills.mcp_kernel_executor import execute as mcp_kernel_executor
+from magda_agent.skills.web_navigation import web_navigate as web_navigation_skill
 
 def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegistry:
     registry = SkillRegistry(policy_layer=policy_layer)
@@ -46,6 +47,14 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
         name="codex_worker",
         func=codex_worker,
         description="Generates a Codex-ready task prompt from the project's task manifest. This is a low side-effect prompt-only capability. Input: optional 'task_id' string."
+    )
+
+
+    # Register Web Navigation Skill
+    registry.register_skill(
+        name="web_navigation",
+        func=web_navigation_skill,
+        description="Navigates the web by loading URLs and interacting with DOM elements. Input: 'action' string ('load', 'click', 'type') and kwargs ('url', 'element_id', 'text')."
     )
 
     return registry
