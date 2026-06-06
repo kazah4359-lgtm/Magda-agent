@@ -18,3 +18,4 @@ anyascii
 sentencepiece
 datasets<3.0.0
 croniter
+websockets==12.0

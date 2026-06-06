@@ -1,7 +1,9 @@
 import asyncio
 import logging
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from magda_agent.visualization.server import CanvasServer
+
 from pydantic import BaseModel
 
 from typing import Optional
@@ -115,6 +117,9 @@ consciousness = Consciousness(
 
 cron_scheduler = CronScheduler()
 
+canvas_server = CanvasServer(consciousness=consciousness)
+
+
 subconsciousness = Subconsciousness(
     llm=llm_client,
     emotions=emotional_engine,
@@ -129,10 +134,12 @@ async def lifespan(app: FastAPI):
     # Startup
     asyncio.create_task(subconsciousness.start())
     asyncio.create_task(cron_scheduler.start())
+    asyncio.create_task(canvas_server.start_streaming())
     yield
     # Shutdown
     await subconsciousness.stop()
     await cron_scheduler.stop()
+    await canvas_server.stop_streaming()
     memory_system.close()
 
 app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)
@@ -169,3 +176,13 @@ class TraceResponse(BaseModel):
 @app.get("/trace", response_model=TraceResponse)
 async def get_trace():
     return TraceResponse(trace=thought_chain_tracer.get_trace())
+
+@app.websocket("/ws/canvas")
+async def websocket_canvas(websocket: WebSocket):
+    await canvas_server.connect(websocket)
+    try:
+        while True:
+            # We just keep the connection open, client doesn't need to send anything
+            data = await websocket.receive_text()
+    except WebSocketDisconnect:
+        canvas_server.disconnect(websocket)
