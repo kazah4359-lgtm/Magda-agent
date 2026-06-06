@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict
 from magda_agent.gateway.router import GatewayRouter, UnifiedMessage
 
-class BaseChannel(ABC):
+class ChannelAdapter(ABC):
     """Base class for all communication channels."""
 
     def __init__(self, channel_id: str, gateway: GatewayRouter):
