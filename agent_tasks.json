@@ -974,7 +974,7 @@
     },
     {
       "id": "dependency-graph-tasks",
-      "status": "todo",
+      "status": "done",
       "area": "planning",
       "risk": "medium",
       "title": "Task dependency graphs in planner",
@@ -2312,6 +2312,61 @@
         "Skill allows loading a URL and outputting semantic DOM text",
         "Skill provides 'click' and 'type' action capabilities on identified elements",
         "Tests verify skill functions with a mocked HTML structure"
+      ]
+    },
+    {
+      "id": "assert-policy-driven-evaluation-v2",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "ASSERT Policy-driven Evaluation",
+      "description": "Inspired by Microsoft's ASSERT pattern: Implement a policy-driven evaluation framework where the Evaluator strictly checks outputs against predefined runtime policies.",
+      "allowed_paths": [
+        "magda_agent/metacognition/**",
+        "tests/test_assert_evaluator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator checks outputs against policy constraints.",
+        "Violations are correctly flagged.",
+        "Tests verify that constraint checking is effective."
+      ]
+    },
+    {
+      "id": "a2a-agent-cards-discovery-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "A2A Agent Cards Discovery",
+      "description": "Inspired by Google/Linux Foundation A2A Standard: Implement Agent Card discovery logic to dynamically discover capabilities of other network agents.",
+      "allowed_paths": [
+        "magda_agent/integration/**",
+        "tests/test_a2a_discovery*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can broadcast and fetch Agent Cards.",
+        "Discovered agents are indexed by capability.",
+        "Tests mock network and verify discovery."
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking-v2",
+      "status": "todo",
+      "area": "security",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking",
+      "description": "Inspired by MCPKernel sandboxed execution: Implement strict taint tracking for user inputs to prevent unsafe parameters from executing in MCP action tools.",
+      "allowed_paths": [
+        "magda_agent/security/**",
+        "magda_agent/safety/**",
+        "tests/test_mcpkernel_taint*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User inputs are tracked as tainted.",
+        "Unsanitized execution triggers a security exception.",
+        "Tests verify taint tracking and rejection."
       ]
     }
   ]
