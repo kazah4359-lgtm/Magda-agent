@@ -118,7 +118,13 @@ class MemorySystem:
             if most_important.importance > 0.3: # Minimum threshold for long-term storage
                 user_long_term.append(most_important)
                 # Store in episodic memory for true long-term retrieval
-                meta = {"importance": most_important.importance, "tags": ",".join(most_important.tags)}
+                meta = {
+                    "importance": most_important.importance,
+                    "tags": ",".join(most_important.tags),
+                    "pad_p": most_important.emotional_state.pleasure,
+                    "pad_a": most_important.emotional_state.arousal,
+                    "pad_d": most_important.emotional_state.dominance
+                }
                 self.episodic_memory.store_event(
                     text=most_important.content,
                     metadata=meta,

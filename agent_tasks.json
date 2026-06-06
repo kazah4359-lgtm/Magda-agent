@@ -993,7 +993,7 @@
     },
     {
       "id": "emotional-memory-tagging",
-      "status": "todo",
+      "status": "done",
       "area": "emotions",
       "risk": "low",
       "title": "Tag memories with emotional context",
