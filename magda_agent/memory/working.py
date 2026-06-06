@@ -1,3 +1,4 @@
+import uuid
 import time
 import logging
 from typing import List, Dict, Optional, Callable, Awaitable, Any
@@ -11,7 +12,7 @@ class MemoryEntry:
         self.importance = importance
         self.emotional_state = emotional_state
         self.tags = tags or []
-        self.id = int(time.time() * 1000)
+        self.id = str(uuid.uuid4())
         self.user_id = user_id
 
 class WorkingMemory:
@@ -20,6 +21,8 @@ class WorkingMemory:
     It does not use persistent storage and does not use ChromaDB.
     """
     def __init__(self, limit: int = 10, context_engine: Optional[Any] = None):
+        self.virtual_context_manager = None
+        self.episodic_memory = None
         self.limit = limit
         self.context_engine = context_engine
         self._entries_by_user: Dict[int, List[MemoryEntry]] = {}
@@ -35,6 +38,12 @@ class WorkingMemory:
             if self.context_engine:
                 # Use ContextEngine compact lifecycle hook
                 user_entries = await self.context_engine.compact(user_entries, {"limit": self.limit, "user_id": u_id})
+            elif getattr(self, 'virtual_context_manager', None) and getattr(self, 'episodic_memory', None):
+
+                await self.virtual_context_manager.page_out(self, self.episodic_memory, u_id, 1)
+
+                user_entries = self._entries_by_user.get(u_id, [])
+
             elif summarizer:
                 # Take oldest two entries to summarize, so we compress context and reduce length by 1
                 to_summarize = user_entries[:2]
@@ -62,7 +71,7 @@ class WorkingMemory:
         """Get all flattened memory entries across all users."""
         return [entry for user_list in self._entries_by_user.values() for entry in user_list]
 
-    def remove(self, entry_id: int, user_id: Optional[int] = None) -> None:
+    def remove(self, entry_id: str, user_id: Optional[int] = None) -> None:
         """Remove a memory entry by ID."""
         u_id = user_id if user_id is not None else -1
         if u_id in self._entries_by_user:
