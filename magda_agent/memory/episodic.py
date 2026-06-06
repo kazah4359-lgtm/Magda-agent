@@ -28,6 +28,10 @@ class EpisodicMemory:
             if user_id is not None:
                 meta["user_id"] = user_id
 
+            # Ensure decayed field is present for filtering later
+            if "decayed" not in meta:
+                meta["decayed"] = False
+
             if meta:
                 self.collection.add(
                     documents=[text],
@@ -43,6 +47,45 @@ class EpisodicMemory:
         except Exception as e:
             logging.error(f"Failed to store episodic event: {e}")
 
+    def decay_event(self, memory_id: str) -> None:
+        """Mark an event as decayed."""
+        try:
+            res = self.collection.get(ids=[memory_id])
+            if res and res["metadatas"] and len(res["metadatas"]) > 0:
+                meta = res["metadatas"][0]
+                meta["decayed"] = True
+                self.collection.update(ids=[memory_id], metadatas=[meta])
+                logging.debug(f"Decayed episodic event: {memory_id}")
+        except Exception as e:
+            logging.error(f"Failed to decay episodic event: {e}")
+
+    def get_all_events(self, user_id: int = None, include_decayed: bool = False, limit: int = 100) -> list[dict]:
+        """Get all events, optionally filtering by user_id and decay status."""
+        try:
+            where = {}
+            if user_id is not None:
+                where["user_id"] = user_id
+            if not include_decayed:
+                where["decayed"] = False
+
+            if where:
+                results = self.collection.get(where=where, limit=limit)
+            else:
+                results = self.collection.get(limit=limit)
+
+            events = []
+            if results and results.get("documents"):
+                for i in range(len(results["documents"])):
+                    events.append({
+                        "id": results["ids"][i],
+                        "text": results["documents"][i],
+                        "metadata": results["metadatas"][i] if results.get("metadatas") else {}
+                    })
+            return events
+        except Exception as e:
+            logging.error(f"Failed to get episodic events: {e}")
+            return []
+
     def recall_events(self, query: str, top_k: int = 5, user_id: int = None) -> list[str]:
         """
         Recall relevant events based on semantic similarity to the query.
@@ -52,8 +95,15 @@ class EpisodicMemory:
                 "query_texts": [query],
                 "n_results": top_k
             }
+            where_clause = {"decayed": False}
             if user_id is not None:
-                query_kwargs["where"] = {"user_id": user_id}
+                where_clause["user_id"] = user_id
+
+            # If multiple conditions, ChromaDB needs $and. However, since we default to false, we can just query it.
+            if len(where_clause) > 1:
+                query_kwargs["where"] = {"$and": [{"user_id": user_id}, {"decayed": False}]}
+            else:
+                query_kwargs["where"] = where_clause
 
             results = self.collection.query(**query_kwargs)
             if results and results.get("documents") and len(results["documents"]) > 0:

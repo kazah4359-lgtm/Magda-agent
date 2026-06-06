@@ -47,6 +47,67 @@ class Subconsciousness:
         self._stop_event.set()
         logging.info("Subconsciousness reflection loop stopped.")
 
+    async def consolidate_episodic_to_semantic(self):
+        """
+        Periodically reviews episodic memories, extracts stable facts,
+        and promotes them to semantic memory while decaying old episodes.
+        """
+        if not self.semantic_memory or not hasattr(self.memory, 'episodic_memory'):
+            return
+
+        episodic_memory = self.memory.episodic_memory
+        if not hasattr(episodic_memory, 'get_all_events'):
+            return
+
+        events = episodic_memory.get_all_events(include_decayed=False, limit=50)
+        if len(events) < 5:  # Require some threshold of events to consolidate
+            return
+
+        events_text = "\n".join([f"ID: {e['id']} | Event: {e['text']}" for e in events])
+
+        prompt = f"""
+        You are the subconscious mind responsible for memory consolidation.
+        Review the following recent episodic events:
+        {events_text}
+
+        Task:
+        1. Identify any stable, repeated patterns or important facts about the user, project, or world.
+        2. Identify the IDs of episodic events that are no longer relevant and can be decayed.
+
+        Output ONLY a JSON object in the exact format below:
+        {{
+            "new_facts": ["fact 1", "fact 2"],
+            "decay_ids": ["id_1", "id_2"]
+        }}
+        """
+
+        raw_response = await self.llm.chat_completion([
+            {"role": "system", "content": "You output only valid JSON."},
+            {"role": "user", "content": prompt}
+        ])
+
+        try:
+            cleaned_response = raw_response.strip()
+            if cleaned_response.startswith("```json"): cleaned_response = cleaned_response[7:]
+            if cleaned_response.startswith("```"): cleaned_response = cleaned_response[3:]
+            if cleaned_response.endswith("```"): cleaned_response = cleaned_response[:-3]
+
+            parsed_data = json.loads(cleaned_response.strip())
+            new_facts = parsed_data.get("new_facts", [])
+            decay_ids = parsed_data.get("decay_ids", [])
+
+            for fact in new_facts:
+                existing = self.semantic_memory.search_facts(fact, top_k=3)
+                if not existing:
+                    self.semantic_memory.store_fact(fact)
+                    logging.info(f"Consolidated new semantic fact: {fact}")
+
+            for event_id in decay_ids:
+                if hasattr(episodic_memory, 'decay_event'):
+                    episodic_memory.decay_event(event_id)
+        except Exception as e:
+            logging.error(f"Failed to consolidate episodic memory: {e}")
+
     async def reflect(self):
         """
         Perform a cycle of self-reflection.
@@ -193,3 +254,6 @@ class Subconsciousness:
 
         for task in proposed_tasks:
             logging.info(f"Subconscious proposed task: {task}")
+
+        # 4. Consolidate episodic memory to semantic memory
+        await self.consolidate_episodic_to_semantic()
