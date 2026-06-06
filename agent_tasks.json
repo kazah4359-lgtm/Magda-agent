@@ -893,7 +893,7 @@
     },
     {
       "id": "semantic-memory-consolidation",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "low",
       "title": "Periodic consolidation of episodic → semantic memory",
@@ -2109,6 +2109,62 @@
         "Procedural memory skills can be exported to standard JSON/YAML format",
         "Export includes metadata, parameters, and code",
         "Tests verify export format validity"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-subagent-team",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "MCP Subagent Team for Isolated Action Execution",
+      "description": "Inspired by Claude Agent SDK and Multi-Agent Orchestration trends: spawn an independent agent team with isolated git worktrees specifically dedicated to executing complex MCP action tools.",
+      "allowed_paths": [
+        "magda_agent/teams/mcp_team.py",
+        "tests/test_mcp_team*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent team operates in isolated git worktrees",
+        "Can execute MCP tools concurrently without context bleeding",
+        "Tests verify worktree isolation"
+      ]
+    },
+    {
+      "id": "openclaw-rl-implicit-feedback",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Implicit Feedback Mechanism",
+      "description": "Inspired by OpenClaw: Implement an online reinforcement learning mechanism that trains the agent based on user replies, using PAD shifts from MirrorNeurons.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "magda_agent/action/selector.py",
+        "tests/test_online_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User replies act as reinforcement signals",
+        "Tool selection weights update dynamically",
+        "Tests mock PAD shifts to verify weight updates"
+      ]
+    },
+    {
+      "id": "agent-guard-runtime-policy-layer",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Runtime Governance Policy",
+      "description": "Inspired by ACS/Prempti trends: Implement a runtime policy layer that intercepts and audits every tool call with an external effect before it is executed.",
+      "allowed_paths": [
+        "magda_agent/safety/runtime_guard.py",
+        "magda_agent/consciousness/core.py",
+        "tests/test_runtime_guard*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool calls are intercepted and audited before execution",
+        "Policy rules can deny actions",
+        "Blocked actions return explanatory feedback"
       ]
     }
   ]
