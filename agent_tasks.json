@@ -2279,7 +2279,7 @@
     },
     {
       "id": "mcpkernel-taint-tracking",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCPKernel Taint Tracking",
@@ -2348,25 +2348,6 @@
         "Agent can broadcast and fetch Agent Cards.",
         "Discovered agents are indexed by capability.",
         "Tests mock network and verify discovery."
-      ]
-    },
-    {
-      "id": "mcpkernel-taint-tracking-v2",
-      "status": "todo",
-      "area": "security",
-      "risk": "high",
-      "title": "MCPKernel Taint Tracking",
-      "description": "Inspired by MCPKernel sandboxed execution: Implement strict taint tracking for user inputs to prevent unsafe parameters from executing in MCP action tools.",
-      "allowed_paths": [
-        "magda_agent/security/**",
-        "magda_agent/safety/**",
-        "tests/test_mcpkernel_taint*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "User inputs are tracked as tainted.",
-        "Unsanitized execution triggers a security exception.",
-        "Tests verify taint tracking and rejection."
       ]
     },
     {
@@ -2452,6 +2433,43 @@
         "GeneratorAgent can execute remote MCP action tools.",
         "Results are collected safely with timeout limits.",
         "Mock tests verify execution and error handling."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning",
+      "description": "Inspired by OpenClaw trends: Implement online reinforcement learning from next-state signals like user replies to dynamically adjust agent's style, preferences, and weights.",
+      "allowed_paths": [
+        "magda_agent/learning/**",
+        "tests/test_openclaw_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User interactions affect agent weights",
+        "RL loop processes next-state signals",
+        "Tests verify adjustments from feedback"
+      ]
+    },
+    {
+      "id": "agent-teams-claude-sdk",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams via Git Worktree Isolation",
+      "description": "Inspired by Claude Agent SDK: Implement Git worktree isolation when spawning Sub-Agents for concurrent task execution to prevent conflicts.",
+      "allowed_paths": [
+        "magda_agent/agents/sub_agent.py",
+        "magda_agent/isolation/**",
+        "tests/test_agent_teams*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sub-agents spawn in isolated git worktrees",
+        "Concurrent tasks do not clash on filesystem",
+        "Tests verify isolation and cleanup"
       ]
     }
   ]
