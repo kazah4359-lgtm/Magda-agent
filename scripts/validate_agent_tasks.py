@@ -82,11 +82,21 @@ def validate_manifest(data: dict[str, Any]) -> list[str]:
         if task["status"] == "todo":
             todo_count += 1
 
+    max_todo_tasks = None
+    if isinstance(replenishment_policy, dict):
+        max_todo = replenishment_policy.get("max_todo_tasks")
+        if isinstance(max_todo, int) and max_todo > 0:
+            max_todo_tasks = max_todo
+
     if todo_count == 0:
         warnings.append("no todo tasks remain")
     elif todo_count < minimum_todo_tasks:
         warnings.append(
             f"todo task pool is low: {todo_count} remaining, minimum is {minimum_todo_tasks}"
+        )
+    if max_todo_tasks is not None and todo_count > max_todo_tasks:
+        warnings.append(
+            f"todo task pool is bloated: {todo_count} remaining, max is {max_todo_tasks}"
         )
 
     return warnings

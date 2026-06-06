@@ -1,12 +1,16 @@
 import logging
+from typing import Optional, TYPE_CHECKING
 from magda_agent.skills.registry import SkillRegistry
+
+if TYPE_CHECKING:
+    from magda_agent.safety.policy import PolicyLayer
 from magda_agent.skills.system_execute_code import execute as code_executor
 from magda_agent.skills.internet_search import search_internet
 from magda_agent.skills.omnichannel import send_message as omnichannel_send
 from magda_agent.skills.codex_worker import codex_worker
 
-def initialize_skills() -> SkillRegistry:
-    registry = SkillRegistry()
+def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegistry:
+    registry = SkillRegistry(policy_layer=policy_layer)
 
     # Register Programmer Skill
     registry.register_skill(

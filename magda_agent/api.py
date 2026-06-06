@@ -7,8 +7,11 @@ from pydantic import BaseModel
 from typing import Optional
 
 from magda_agent.llm_client import LLMClient
+from magda_agent.safety.policy import PolicyLayer
+from magda_agent.action.selector import BasalGanglia
 from magda_agent.emotions.engine import EmotionalEngine
 from magda_agent.emotions.attachment import AttachmentModel
+from magda_agent.emotions.style_adapter import StyleAdapter
 from magda_agent.memory.storage import MemorySystem
 from magda_agent.memory.procedural import ProceduralMemory
 from magda_agent.memory.semantic import SemanticMemory
@@ -21,7 +24,12 @@ from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.scheduler.cron import CronScheduler
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
+from magda_agent.metacognition.confidence import ConfidenceCalibrator
+from magda_agent.metacognition.tracker import QualityTracker
 from magda_agent.learning.habits import HabitTracker
+from magda_agent.learning.online import OnlineLearner
+from magda_agent.user_model.model import UserModel
+from magda_agent.reflexes.brainstem import Brainstem
 from magda_agent.thalamus.router import Thalamus
 from magda_agent.drives.hypothalamus import Hypothalamus
 from magda_agent.emotions.insula import Insula
@@ -46,8 +54,21 @@ procedural_memory = ProceduralMemory(persist_directory="./procedural_memory_db")
 semantic_memory = SemanticMemory(persist_directory="./semantic_memory_db")
 skill_creator = SkillCreator(procedural_memory=procedural_memory, llm=llm_client)
 skill_versioning = SkillVersioning(procedural_memory=procedural_memory)
-skill_registry = initialize_skills()
+policy_layer = PolicyLayer()
+skill_registry = initialize_skills(policy_layer=policy_layer)
+basal_ganglia = BasalGanglia(policy_layer=policy_layer)
 habit_tracker = HabitTracker()
+mirror_neurons = MirrorNeurons()
+quality_tracker = QualityTracker()
+confidence_calibrator = ConfidenceCalibrator(llm=llm_client, tracker=quality_tracker)
+online_learner = OnlineLearner(
+    habit_tracker=habit_tracker,
+    memory=memory_system,
+    mirror_neurons=mirror_neurons,
+)
+style_adapter = StyleAdapter()
+user_model = UserModel(llm=llm_client)
+brainstem = Brainstem()
 planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tracker)
 long_term_memory = LongTermMemory()
 evaluator = Evaluator(llm=llm_client, memory=memory_system)
@@ -56,7 +77,6 @@ thalamus = Thalamus()
 hypothalamus = Hypothalamus()
 insula = Insula()
 pineal_gland = PinealGland()
-mirror_neurons = MirrorNeurons()
 salience_network = SalienceNetwork()
 global_workspace = GlobalWorkspace(salience_network=salience_network)
 thought_chain_tracer = ThoughtChainTracer()
@@ -69,18 +89,25 @@ consciousness = Consciousness(
     planner=planner,
     long_term_memory=long_term_memory,
     evaluator=evaluator,
+    confidence_calibrator=confidence_calibrator,
     habit_tracker=habit_tracker,
     attachment=attachment_model,
     thalamus=thalamus,
+    basal_ganglia=basal_ganglia,
     hypothalamus=hypothalamus,
     insula=insula,
+    brainstem=brainstem,
     pineal_gland=pineal_gland,
     mirror_neurons=mirror_neurons,
     salience=salience_network,
     global_workspace=global_workspace,
     context_engine=context_engine,
     skill_creator=skill_creator,
-    tracer=thought_chain_tracer
+    online_learner=online_learner,
+    tracer=thought_chain_tracer,
+    style_adapter=style_adapter,
+    user_model=user_model,
+    skill_versioning=skill_versioning,
 )
 
 cron_scheduler = CronScheduler()

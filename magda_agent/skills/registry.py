@@ -1,13 +1,17 @@
-from typing import Dict, Callable, Any, Optional
+from typing import Dict, Callable, Any, Optional, TYPE_CHECKING
 import logging
+
+if TYPE_CHECKING:
+    from magda_agent.safety.policy import PolicyLayer
 
 class SkillRegistry:
     """
     Registry to manage and trigger available skills for the AGI agent.
     """
-    def __init__(self):
+    def __init__(self, policy_layer: Optional["PolicyLayer"] = None):
         self.skills: Dict[str, Callable] = {}
         self.descriptions: Dict[str, str] = {}
+        self.policy_layer = policy_layer
 
     def register_skill(self, name: str, func: Callable, description: str):
         self.skills[name] = func
@@ -29,6 +33,10 @@ class SkillRegistry:
     def execute_skill(self, name: str, **kwargs) -> Any:
         if name not in self.skills:
             return f"Error: Skill '{name}' not found."
+        if self.policy_layer is not None:
+            allow, explanation = self.policy_layer.evaluate(name, **kwargs)
+            if not allow:
+                return f"Policy denied: {explanation}"
         try:
             return self.skills[name](**kwargs)
         except Exception as e:

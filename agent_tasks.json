@@ -21,14 +21,15 @@
   },
   "replenishment_policy": {
     "minimum_todo_tasks": 3,
-    "batch_size": 5,
-    "always_add_tasks": true,
-    "tasks_per_run": 3,
+    "batch_size": 3,
+    "always_add_tasks": false,
+    "tasks_per_run": 1,
     "allowed_risks_for_generated_tasks": [
       "low",
       "medium"
     ],
-    "instruction": "EVERY run you MUST add 2-3 new todo tasks to agent_tasks.json, regardless of how many already exist. Read docs/trends.md and search the internet for current AI agent trends before generating tasks. Tasks should be inspired by what top agents (Hermes, OpenClaw, Claude Code, etc.) are doing NOW — not by outdated 2020-era patterns. Never let the pool stagnate. If you cannot search the internet, use docs/trends.md as your source of inspiration."
+    "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
+    "max_todo_tasks": 20
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -1012,11 +1013,11 @@
     },
     {
       "id": "mcp-tools-export",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "Export Skills as MCP-compatible Tools",
-      "description": "Implement a bridge to expose Magda's internal SkillRegistry as tools compliant with the Model Context Protocol (MCP). This enables seamless integration with other MCP-compatible clients and agents.",
+      "description": "Implement a bridge to expose Magda's internal SkillRegistry as tools compliant with the Model Context Protocol (MCP). This enables seamless integration with other MCP-compatible clients and agents. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/skills/mcp_export.py",
         "magda_agent/skills/registry.py",
@@ -1031,11 +1032,11 @@
     },
     {
       "id": "agent-guardrails-policy-layer",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "medium",
       "title": "Implement Agent Guardrails Policy Layer",
-      "description": "Introduce a runtime governance layer that intercepts all tool calls with external effects before execution. Evaluates the action against a set of safety policies (e.g., read-only assertions). Inspired by MCPKernel and Microsoft ASSERT.",
+      "description": "Introduce a runtime governance layer that intercepts all tool calls with external effects before execution. Evaluates the action against a set of safety policies (e.g., read-only assertions). Inspired by MCPKernel and Microsoft ASSERT. [blocked: duplicate of done task 'policy-layer-tool-calls']",
       "allowed_paths": [
         "magda_agent/safety/guardrails.py",
         "magda_agent/skills/executor.py",
@@ -1052,11 +1053,11 @@
     },
     {
       "id": "context-engine-plugin-architecture",
-      "status": "todo",
+      "status": "blocked",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Plugin Architecture",
-      "description": "Refactor Working Memory and Thalamus to support a Context Engine plugin interface with lifecycle hooks (pre_process, compress, post_process). Inspired by OpenClaw's context management.",
+      "description": "Refactor Working Memory and Thalamus to support a Context Engine plugin interface with lifecycle hooks (pre_process, compress, post_process). Inspired by OpenClaw's context management. [blocked: duplicate of done task 'context-engine-plugin']",
       "allowed_paths": [
         "magda_agent/memory/context_engine.py",
         "magda_agent/memory/working.py",
@@ -1073,11 +1074,11 @@
     },
     {
       "id": "agent-teams-isolation",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "Agent Teams: multi-agent with git worktree isolation",
-      "description": "Inspired by Claude Agent SDK: implement isolated git worktrees for sub-agents to avoid stepping on each other's toes during parallel task execution.",
+      "description": "Inspired by Claude Agent SDK: implement isolated git worktrees for sub-agents to avoid stepping on each other's toes during parallel task execution. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/agents/**",
         "magda_agent/workspace/**",
@@ -1131,11 +1132,11 @@
     },
     {
       "id": "agent-teams-subagents",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "Implement Agent Teams and Subagent Spawning",
-      "description": "Inspired by Claude Agent SDK: implement sub-agents for parallel tasks with isolated Git worktrees and context compression to avoid context window explosion.",
+      "description": "Inspired by Claude Agent SDK: implement sub-agents for parallel tasks with isolated Git worktrees and context compression to avoid context window explosion. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/agents/**",
         "magda_agent/workspace/**",
@@ -1151,11 +1152,11 @@
     },
     {
       "id": "mcp-tools-exporter",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "Implement MCP Server for Skills Export",
-      "description": "Inspired by the Model Context Protocol (MCP) trend: build an MCP server adapter to export Magda's internal SkillRegistry as MCP-compatible tools.",
+      "description": "Inspired by the Model Context Protocol (MCP) trend: build an MCP server adapter to export Magda's internal SkillRegistry as MCP-compatible tools. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/mcp/**",
         "magda_agent/skills/registry.py",
@@ -1170,11 +1171,11 @@
     },
     {
       "id": "online-rl-from-feedback",
-      "status": "todo",
+      "status": "blocked",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL from User Feedback",
-      "description": "Inspired by OpenClaw-RL: implement online reinforcement learning from next-state signals (e.g., user replies after tool outputs) rather than just periodic reflection.",
+      "description": "Inspired by OpenClaw-RL: implement online reinforcement learning from next-state signals (e.g., user replies after tool outputs) rather than just periodic reflection. [blocked: duplicate of done task 'online-learning-from-feedback']",
       "allowed_paths": [
         "magda_agent/learning/online.py",
         "magda_agent/consciousness/core.py",
@@ -1189,11 +1190,11 @@
     },
     {
       "id": "a2a-protocol-adapter",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Protocol Adapter",
-      "description": "Implement Agent-to-Agent (A2A) protocol adapter based on Google/Linux Foundation standards for peer-to-peer task delegation.",
+      "description": "Implement Agent-to-Agent (A2A) protocol adapter based on Google/Linux Foundation standards for peer-to-peer task delegation. [blocked: duplicate of done task 'a2a-agent-card']",
       "allowed_paths": [
         "magda_agent/a2a/**",
         "tests/test_a2a*.py",
@@ -1207,11 +1208,11 @@
     },
     {
       "id": "agent-teams",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "Agent Teams with Git Worktrees",
-      "description": "Implement multi-agent architecture with Git worktree isolation for subagents, allowing parallel execution without conflicts.",
+      "description": "Implement multi-agent architecture with Git worktree isolation for subagents, allowing parallel execution without conflicts. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/teams/**",
         "tests/test_agent_teams*.py",
@@ -1225,11 +1226,11 @@
     },
     {
       "id": "agent-control-specification",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "medium",
       "title": "Agent Control Specification (ACS)",
-      "description": "Implement ACS standard for runtime safety controls, standardizing guardrails with 5 validation checkpoints for agentic workflows.",
+      "description": "Implement ACS standard for runtime safety controls, standardizing guardrails with 5 validation checkpoints for agentic workflows. [blocked: duplicate of done task 'policy-layer-tool-calls']",
       "allowed_paths": [
         "magda_agent/safety/acs*.py",
         "tests/test_acs*.py",
@@ -1243,11 +1244,11 @@
     },
     {
       "id": "a2a-peer-delegation",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Peer Delegation Support",
-      "description": "Inspired by the A2A standard trend: Enable Magda to discover other A2A-compliant agents using their Agent Cards and delegate sub-tasks peer-to-peer asynchronously.",
+      "description": "Inspired by the A2A standard trend: Enable Magda to discover other A2A-compliant agents using their Agent Cards and delegate sub-tasks peer-to-peer asynchronously. [blocked: duplicate of done task 'a2a-agent-card']",
       "allowed_paths": [
         "magda_agent/a2a/**",
         "tests/test_a2a_delegation*.py",
@@ -1297,11 +1298,11 @@
     },
     {
       "id": "mcp-compatibility",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Compatibility (Model Context Protocol)",
-      "description": "Magda should be able to export skills as MCP tools. Inspired by AI Agent Trends docs.",
+      "description": "Magda should be able to export skills as MCP tools. Inspired by AI Agent Trends docs. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/mcp/**",
         "magda_agent/skills/registry.py",
@@ -1315,11 +1316,11 @@
     },
     {
       "id": "a2a-protocol-integration",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Protocol (Agent-to-Agent Protocol)",
-      "description": "Allow Magda to discover agents and delegate tasks via Agent Cards. Inspired by AI Agent Trends docs.",
+      "description": "Allow Magda to discover agents and delegate tasks via Agent Cards. Inspired by AI Agent Trends docs. [blocked: duplicate of done task 'a2a-agent-card']",
       "allowed_paths": [
         "magda_agent/a2a/**",
         "tests/test_a2a_protocol*.py",
@@ -1370,11 +1371,11 @@
     },
     {
       "id": "multi-agent-workflows-f4f56e7c",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "Multi-agent workflows",
-      "description": "Inspired by OpenAI Agents SDK and Claude Agent SDK: Establish workflows where Magda can instantiate specialized lightweight sub-agents (e.g., a 'Researcher' agent) to handle specific isolated tasks and report back.",
+      "description": "Inspired by OpenAI Agents SDK and Claude Agent SDK: Establish workflows where Magda can instantiate specialized lightweight sub-agents (e.g., a 'Researcher' agent) to handle specific isolated tasks and report back. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/agents/workflow.py",
         "tests/test_multi_agent_workflow*.py",
@@ -1388,11 +1389,11 @@
     },
     {
       "id": "agent-teams-isolation-v2",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "Implement Agent Teams Isolation",
-      "description": "Inspired by Claude Agent SDK. Implement Agent Teams for subagents using git worktrees. This will create new paths.",
+      "description": "Inspired by Claude Agent SDK. Implement Agent Teams for subagents using git worktrees. This will create new paths. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/teams/**",
         "tests/test_teams*.py",
@@ -1405,11 +1406,11 @@
     },
     {
       "id": "mcp-tools-export-v2",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Tools Export",
-      "description": "Inspired by MCP. Implement MCP Server adapter to export skills. This will create new paths.",
+      "description": "Inspired by MCP. Implement MCP Server adapter to export skills. This will create new paths. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/mcp/**",
         "tests/test_mcp*.py",
@@ -1422,11 +1423,11 @@
     },
     {
       "id": "agent-guardrails-policy-layer-v2",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "high",
       "title": "Implement ACS Guardrails",
-      "description": "Inspired by ACS. Implement Agent Control Specification policy layer. This will create new paths.",
+      "description": "Inspired by ACS. Implement Agent Control Specification policy layer. This will create new paths. [blocked: duplicate of done task 'policy-layer-tool-calls']",
       "allowed_paths": [
         "magda_agent/safety/acs.py",
         "tests/test_acs*.py",
@@ -1439,11 +1440,11 @@
     },
     {
       "id": "context-engine-plugin-interface",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "medium",
       "title": "Context Engine plugin interface with lifecycle hooks",
-      "description": "Inspired by the OpenClaw trend: Implement a Context Engine plugin interface with lifecycle hooks (e.g., pre_process, compress, post_process) to dynamically filter input and compress short-term context.",
+      "description": "Inspired by the OpenClaw trend: Implement a Context Engine plugin interface with lifecycle hooks (e.g., pre_process, compress, post_process) to dynamically filter input and compress short-term context. [blocked: duplicate of done task 'context-engine-plugin']",
       "allowed_paths": [
         "magda_agent/context/**",
         "tests/test_context_engine*.py",
@@ -1457,11 +1458,11 @@
     },
     {
       "id": "sub-agents-rpc",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "Sub-agents for parallel tasks with RPC",
-      "description": "Inspired by the Hermes trend: Implement support for sub-agents to execute parallel tasks, communicating via RPC and maintaining isolated contexts for each agent.",
+      "description": "Inspired by the Hermes trend: Implement support for sub-agents to execute parallel tasks, communicating via RPC and maintaining isolated contexts for each agent. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/agents/rpc_sub_agent.py",
         "tests/test_rpc_sub_agent*.py",
@@ -1475,11 +1476,11 @@
     },
     {
       "id": "skill-creation-from-experience-hermes",
-      "status": "todo",
+      "status": "blocked",
       "area": "learning",
       "risk": "medium",
       "title": "Skill creation from experience loops",
-      "description": "Inspired by the Hermes trend: Implement a self-improving loop that creates and refines reusable skills based on historical interactions and experience.",
+      "description": "Inspired by the Hermes trend: Implement a self-improving loop that creates and refines reusable skills based on historical interactions and experience. [blocked: duplicate of done task 'skill-creation-from-experience']",
       "allowed_paths": [
         "magda_agent/learning/experience_skill_creator.py",
         "tests/test_experience_skill_creator*.py",
@@ -1493,11 +1494,11 @@
     },
     {
       "id": "context-engine-compression-v2",
-      "status": "todo",
+      "status": "blocked",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine selective retrieval and compression",
-      "description": "Inspired by MemGPT/Letta pattern and OpenClaw trend: Implement advanced selective retrieval and context compression to handle long dialogues and maintain virtual context window constraints.",
+      "description": "Inspired by MemGPT/Letta pattern and OpenClaw trend: Implement advanced selective retrieval and context compression to handle long dialogues and maintain virtual context window constraints. [blocked: duplicate of done task 'context-engine-plugin']",
       "allowed_paths": [
         "magda_agent/memory/context_engine.py",
         "tests/test_context_engine_compression*.py",
@@ -1511,11 +1512,11 @@
     },
     {
       "id": "online-rl-from-feedback-v2",
-      "status": "todo",
+      "status": "blocked",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL from user feedback",
-      "description": "Inspired by OpenClaw-RL trend: Enhance the OnlineLearner module to automatically update agent preferences and strategy embeddings directly from explicit or implicit user feedback (e.g., negative pad shifts).",
+      "description": "Inspired by OpenClaw-RL trend: Enhance the OnlineLearner module to automatically update agent preferences and strategy embeddings directly from explicit or implicit user feedback (e.g., negative pad shifts). [blocked: duplicate of done task 'online-learning-from-feedback']",
       "allowed_paths": [
         "magda_agent/learning/online_rl.py",
         "tests/test_online_rl*.py",
@@ -1529,11 +1530,11 @@
     },
     {
       "id": "mcp-action-tools-v2",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "MCP action tools support",
-      "description": "Inspired by MCP trend where action tools grew to 65%: Implement a robust interface in MCP compatibility layer to not just export read-only skills, but full state-mutating action tools protected by policy layer.",
+      "description": "Inspired by MCP trend where action tools grew to 65%: Implement a robust interface in MCP compatibility layer to not just export read-only skills, but full state-mutating action tools protected by policy layer. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/mcp/action_tools.py",
         "tests/test_mcp_action_tools*.py",
@@ -1547,11 +1548,11 @@
     },
     {
       "id": "task-dependency-graph",
-      "status": "todo",
+      "status": "blocked",
       "area": "planning",
       "risk": "medium",
       "title": "Task System with Dependency Graphs",
-      "description": "Inspired by Claude Agent SDK trend: Implement a task system in the Planner module that supports dependency graphs, allowing complex multi-step tasks to be resolved sequentially or in parallel based on prerequisite requirements.",
+      "description": "Inspired by Claude Agent SDK trend: Implement a task system in the Planner module that supports dependency graphs, allowing complex multi-step tasks to be resolved sequentially or in parallel based on prerequisite requirements. [blocked: duplicate of done task 'dependency-graph-tasks']",
       "allowed_paths": [
         "magda_agent/planning/dependency_graph.py",
         "tests/test_dependency_graph*.py",
@@ -1565,11 +1566,11 @@
     },
     {
       "id": "p2p-agent-discovery",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "low",
       "title": "P2P Agent Discovery via A2A Protocol",
-      "description": "Inspired by A2A Protocol trend: Enhance the A2A integration by implementing peer-to-peer agent discovery where Magda broadcasts its Agent Card capabilities over a local network or designated channel.",
+      "description": "Inspired by A2A Protocol trend: Enhance the A2A integration by implementing peer-to-peer agent discovery where Magda broadcasts its Agent Card capabilities over a local network or designated channel. [blocked: duplicate of done task 'a2a-agent-card']",
       "allowed_paths": [
         "magda_agent/a2a/discovery.py",
         "tests/test_a2a_discovery*.py",
@@ -1583,11 +1584,11 @@
     },
     {
       "id": "longitudinal-quality-metrics",
-      "status": "todo",
+      "status": "blocked",
       "area": "operations",
       "risk": "low",
       "title": "Longitudinal Quality Metrics Tracking",
-      "description": "Inspired by Self-Improvement Loops trend: Implement SQLite-based longitudinal tracking of agent success rates, post-merge smoke tests, and SWE-bench performance to monitor continuous improvement.",
+      "description": "Inspired by Self-Improvement Loops trend: Implement SQLite-based longitudinal tracking of agent success rates, post-merge smoke tests, and SWE-bench performance to monitor continuous improvement. [blocked: duplicate of done task 'quality-metrics-tracking']",
       "allowed_paths": [
         "magda_agent/operations/metrics_tracker.py",
         "tests/test_metrics_tracker*.py",
@@ -1601,11 +1602,11 @@
     },
     {
       "id": "mcp-agent-tools-export-v3",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Tools Export for Magda Skills",
-      "description": "Inspired by MCP trend: Implement an MCP (Model Context Protocol) Server adapter to export Magda's internal skills as standard MCP tools.",
+      "description": "Inspired by MCP trend: Implement an MCP (Model Context Protocol) Server adapter to export Magda's internal skills as standard MCP tools. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/mcp/**",
         "tests/test_mcp*.py",
@@ -1618,11 +1619,11 @@
     },
     {
       "id": "agent-teams-isolation-v3",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "Agent Teams Isolation using Worktrees",
-      "description": "Inspired by Claude Agent SDK: Implement isolated git worktrees for specialized subagents when working on multiple parallel feature branches to prevent state corruption.",
+      "description": "Inspired by Claude Agent SDK: Implement isolated git worktrees for specialized subagents when working on multiple parallel feature branches to prevent state corruption. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/teams/**",
         "tests/test_teams*.py",
@@ -1635,11 +1636,11 @@
     },
     {
       "id": "agent-guardrails-policy-layer-v3",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "high",
       "title": "Implement ACS (Agent Control Specification) Guardrails",
-      "description": "Inspired by ACS trend: Implement an explicit policy layer that intercepts every tool call and evaluates it against standard ACS guardrails before execution.",
+      "description": "Inspired by ACS trend: Implement an explicit policy layer that intercepts every tool call and evaluates it against standard ACS guardrails before execution. [blocked: duplicate of done task 'policy-layer-tool-calls']",
       "allowed_paths": [
         "magda_agent/safety/acs.py",
         "tests/test_acs*.py",
@@ -1653,11 +1654,11 @@
     },
     {
       "id": "mcp-action-tools-registry-new",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Action Tools Registry",
-      "description": "Inspired by the MCP trend where action tools grew to 65%. Implement a tool registry that exposes Magda skills as MCP-compliant action tools that mutate state. Each tool call must go through the policy layer.",
+      "description": "Inspired by the MCP trend where action tools grew to 65%. Implement a tool registry that exposes Magda skills as MCP-compliant action tools that mutate state. Each tool call must go through the policy layer. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/skills/mcp_registry.py",
         "tests/test_mcp_registry*.py",
@@ -1671,11 +1672,11 @@
     },
     {
       "id": "context-engine-canvas-vis-new",
-      "status": "todo",
+      "status": "blocked",
       "area": "UI",
       "risk": "low",
       "title": "Context Engine Canvas Visualization",
-      "description": "Inspired by OpenClaw Canvas trend. Create a live visualization adapter for the Context Engine to broadcast the agent’s working memory and current focused tasks to an external Canvas client via websocket.",
+      "description": "Inspired by OpenClaw Canvas trend. Create a live visualization adapter for the Context Engine to broadcast the agent’s working memory and current focused tasks to an external Canvas client via websocket. [blocked: duplicate of done task 'context-engine-plugin']",
       "allowed_paths": [
         "magda_agent/context/canvas.py",
         "tests/test_canvas*.py",
@@ -1689,11 +1690,11 @@
     },
     {
       "id": "prempti-audit-trail-interceptor-new",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "high",
       "title": "Prempti Audit Trail Interceptor",
-      "description": "Inspired by the Agent Guard and Prempti (Falco) trend. Implement a tool-call interception module that logs an audit trail of all execution requests, their risk scores, and the policy decision, saving them to a specialized log or SQLite table.",
+      "description": "Inspired by the Agent Guard and Prempti (Falco) trend. Implement a tool-call interception module that logs an audit trail of all execution requests, their risk scores, and the policy decision, saving them to a specialized log or SQLite table. [blocked: duplicate of done task 'tool-call-audit-trail']",
       "allowed_paths": [
         "magda_agent/safety/audit.py",
         "tests/test_audit*.py",
@@ -1707,11 +1708,11 @@
     },
     {
       "id": "agent-guard-runtime-governance",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "medium",
       "title": "Agent Guard: Runtime Governance Layer",
-      "description": "Inspired by the Agent Guard and Prempti trend (June 2026), implement a runtime governance layer between the agent and external actions, effectively wrapping the Policy layer into a formalized execution checkpoint.",
+      "description": "Inspired by the Agent Guard and Prempti trend (June 2026), implement a runtime governance layer between the agent and external actions, effectively wrapping the Policy layer into a formalized execution checkpoint. [blocked: duplicate of done task 'policy-layer-tool-calls']",
       "allowed_paths": [
         "magda_agent/safety/agent_guard.py",
         "tests/test_agent_guard*.py",
@@ -1761,11 +1762,11 @@
     },
     {
       "id": "openclaw-rl-online-learning",
-      "status": "todo",
+      "status": "blocked",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Online Reinforcement Learning",
-      "description": "Inspired by OpenClaw trend: Implement an online reinforcement learning mechanism using MirrorNeurons PAD shifts from user replies to train agent simply by talking. Extract implicit feedback as next-state signals.",
+      "description": "Inspired by OpenClaw trend: Implement an online reinforcement learning mechanism using MirrorNeurons PAD shifts from user replies to train agent simply by talking. Extract implicit feedback as next-state signals. [blocked: duplicate of done task 'online-learning-from-feedback']",
       "allowed_paths": [
         "magda_agent/learning/online.py",
         "tests/test_online_learning*.py",
@@ -1779,11 +1780,11 @@
     },
     {
       "id": "hermes-cron-scheduler-expansion",
-      "status": "todo",
+      "status": "blocked",
       "area": "scheduler",
       "risk": "low",
       "title": "Hermes-inspired Cron Scheduler Expansion",
-      "description": "Inspired by Hermes Agent trend: Expand CronScheduler to support daily reports, nightly backups, and persistent scheduled tasks configurable by user.",
+      "description": "Inspired by Hermes Agent trend: Expand CronScheduler to support daily reports, nightly backups, and persistent scheduled tasks configurable by user. [blocked: duplicate of done task 'cron-scheduler']",
       "allowed_paths": [
         "magda_agent/scheduler/cron.py",
         "magda_agent/scheduler/reports.py",
@@ -1798,11 +1799,11 @@
     },
     {
       "id": "mcp-skill-export",
-      "status": "todo",
+      "status": "blocked",
       "area": "skills",
       "risk": "medium",
       "title": "Export Skills as MCP Tools",
-      "description": "Implement a Model Context Protocol (MCP) compatible server interface to expose the agent's internal skills to external clients, aligning with the industry standard for agent-to-tool communication.",
+      "description": "Implement a Model Context Protocol (MCP) compatible server interface to expose the agent's internal skills to external clients, aligning with the industry standard for agent-to-tool communication. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/skills/mcp_server.py",
         "magda_agent/skills/__init__.py",
@@ -1817,11 +1818,11 @@
     },
     {
       "id": "online-rl-feedback",
-      "status": "todo",
+      "status": "blocked",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL from User Feedback",
-      "description": "Implement online reinforcement learning (OpenClaw-RL pattern) where explicit positive/negative user replies (e.g., 'thanks', 'bad response') are used as next-state signals to adjust tool selection weights in the Basal Ganglia.",
+      "description": "Implement online reinforcement learning (OpenClaw-RL pattern) where explicit positive/negative user replies (e.g., 'thanks', 'bad response') are used as next-state signals to adjust tool selection weights in the Basal Ganglia. [blocked: duplicate of done task 'online-learning-from-feedback']",
       "allowed_paths": [
         "magda_agent/learning/online_rl.py",
         "magda_agent/action/selector.py",
@@ -1836,11 +1837,11 @@
     },
     {
       "id": "agent-guard-policy",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard Policy Layer",
-      "description": "Implement an ACS-inspired Agent Guard policy layer that intercepts every tool call with an external effect to run an explicit allow/deny evaluation before execution.",
+      "description": "Implement an ACS-inspired Agent Guard policy layer that intercepts every tool call with an external effect to run an explicit allow/deny evaluation before execution. [blocked: duplicate of done task 'policy-layer-tool-calls']",
       "allowed_paths": [
         "magda_agent/safety/agent_guard.py",
         "magda_agent/consciousness/core.py",
@@ -1891,11 +1892,11 @@
     },
     {
       "id": "a2a-task-delegation",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Task Delegation Protocol",
-      "description": "Inspired by A2A Protocol trend (June 2026). Implement an Agent-to-Agent communication module enabling Magda to delegate complex tasks to other specialized agents on the network.",
+      "description": "Inspired by A2A Protocol trend (June 2026). Implement an Agent-to-Agent communication module enabling Magda to delegate complex tasks to other specialized agents on the network. [blocked: duplicate of done task 'a2a-agent-card']",
       "allowed_paths": [
         "magda_agent/integration/a2a.py",
         "tests/test_a2a_delegation*.py",
@@ -1909,11 +1910,11 @@
     },
     {
       "id": "context-compression-selective-retrieval",
-      "status": "todo",
+      "status": "blocked",
       "area": "memory",
       "risk": "medium",
       "title": "Context Compression & Selective Retrieval",
-      "description": "Inspired by MemGPT/Letta pattern. Implement a context engine hook that aggressively compresses old working memory and uses selective retrieval from episodic memory to keep context window small.",
+      "description": "Inspired by MemGPT/Letta pattern. Implement a context engine hook that aggressively compresses old working memory and uses selective retrieval from episodic memory to keep context window small. [blocked: duplicate of done task 'context-engine-plugin']",
       "allowed_paths": [
         "magda_agent/memory/compression.py",
         "tests/test_compression*.py",
@@ -1927,11 +1928,11 @@
     },
     {
       "id": "mcp-action-tool-subagent",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "MCP Subagent for Action Tools",
-      "description": "Inspired by the Hermes subagent trend. Spawn an isolated sub-agent specifically dedicated to executing complex MCP action tools, ensuring its state and context are completely separate from the main process.",
+      "description": "Inspired by the Hermes subagent trend. Spawn an isolated sub-agent specifically dedicated to executing complex MCP action tools, ensuring its state and context are completely separate from the main process. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/teams/mcp_subagent.py",
         "tests/test_mcp_subagent*.py",
@@ -1945,11 +1946,11 @@
     },
     {
       "id": "mcp-skill-export-integration",
-      "status": "todo",
+      "status": "blocked",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Skill Export Integration",
-      "description": "Inspired by MCP trends: Expose Magda's internal skills dynamically over an MCP-compliant JSON-RPC server endpoint so external tools and UIs can invoke them.",
+      "description": "Inspired by MCP trends: Expose Magda's internal skills dynamically over an MCP-compliant JSON-RPC server endpoint so external tools and UIs can invoke them. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/skills/mcp_server.py",
         "tests/test_mcp_server*.py",
@@ -1963,11 +1964,11 @@
     },
     {
       "id": "openclaw-online-rl-feedback",
-      "status": "todo",
+      "status": "blocked",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Implicit Feedback Learning",
-      "description": "Inspired by OpenClaw: Implement an online reinforcement learning mechanism that adjusts tool selection weights simply by analyzing user replies using PAD shifts from MirrorNeurons.",
+      "description": "Inspired by OpenClaw: Implement an online reinforcement learning mechanism that adjusts tool selection weights simply by analyzing user replies using PAD shifts from MirrorNeurons. [blocked: duplicate of done task 'online-learning-from-feedback']",
       "allowed_paths": [
         "magda_agent/learning/online.py",
         "magda_agent/action/selector.py",
@@ -1982,11 +1983,11 @@
     },
     {
       "id": "agent-guard-runtime-policy",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard Runtime Policy Layer",
-      "description": "Inspired by ACS/Prempti trends: Implement a mandatory runtime governance policy layer that intercepts and audits every tool call with an external effect before execution.",
+      "description": "Inspired by ACS/Prempti trends: Implement a mandatory runtime governance policy layer that intercepts and audits every tool call with an external effect before execution. [blocked: duplicate of done task 'policy-layer-tool-calls']",
       "allowed_paths": [
         "magda_agent/safety/agent_guard.py",
         "magda_agent/consciousness/core.py",
@@ -2001,11 +2002,11 @@
     },
     {
       "id": "mcp-server-prefixed-tool-names",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "medium",
       "title": "MCP server-prefixed tool names",
-      "description": "Inspired by OpenAI Agents SDK trend: Implement server-prefixed tool names to manage tool concurrency and routing to specific MCP endpoints seamlessly.",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement server-prefixed tool names to manage tool concurrency and routing to specific MCP endpoints seamlessly. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/skills/mcp_router.py",
         "magda_agent/skills/mcp_server.py",
@@ -2020,11 +2021,11 @@
     },
     {
       "id": "runtime-function-tool-concurrency",
-      "status": "todo",
+      "status": "blocked",
       "area": "execution",
       "risk": "high",
       "title": "Runtime function tool concurrency",
-      "description": "Inspired by OpenAI Agents SDK trend: Refactor tool execution within the agent to support resolving multiple independent tool calls concurrently rather than sequentially.",
+      "description": "Inspired by OpenAI Agents SDK trend: Refactor tool execution within the agent to support resolving multiple independent tool calls concurrently rather than sequentially. [blocked: duplicate of done task 'runtime-tool-concurrency-eca483c3']",
       "allowed_paths": [
         "magda_agent/consciousness/core.py",
         "magda_agent/action/executor.py",
@@ -2039,11 +2040,11 @@
     },
     {
       "id": "multi-agent-workflows-git-isolation",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "critical",
       "title": "Multi-agent workflows with Git Isolation",
-      "description": "Inspired by Claude Agent SDK and Multi-Agent Orchestration trends: Implement a mechanism to spawn independent agent teams where each agent has an isolated git worktree.",
+      "description": "Inspired by Claude Agent SDK and Multi-Agent Orchestration trends: Implement a mechanism to spawn independent agent teams where each agent has an isolated git worktree. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/teams/git_worktree.py",
         "magda_agent/teams/manager.py",
@@ -2058,11 +2059,11 @@
     },
     {
       "id": "a2a-agent-cards-discovery",
-      "status": "todo",
+      "status": "blocked",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Agent Cards Discovery",
-      "description": "Inspired by the A2A trend: Implement an Agent Card discovery mechanism that broadcasts and discovers other available agents on the local network or given registry, enabling peer-to-peer delegation.",
+      "description": "Inspired by the A2A trend: Implement an Agent Card discovery mechanism that broadcasts and discovers other available agents on the local network or given registry, enabling peer-to-peer delegation. [blocked: duplicate of done task 'a2a-agent-card']",
       "allowed_paths": [
         "magda_agent/integration/a2a_discovery.py",
         "tests/test_a2a_discovery*.py",
@@ -2076,11 +2077,11 @@
     },
     {
       "id": "planner-task-dependency-graphs",
-      "status": "todo",
+      "status": "blocked",
       "area": "planning",
       "risk": "high",
       "title": "Task Dependency Graphs in Planner",
-      "description": "Inspired by Claude Agent SDK: Refactor the Prefrontal Cortex (Planner) to support generating and managing execution plans as Directed Acyclic Graphs (DAGs) rather than linear steps, allowing sub-agents to run parallel steps.",
+      "description": "Inspired by Claude Agent SDK: Refactor the Prefrontal Cortex (Planner) to support generating and managing execution plans as Directed Acyclic Graphs (DAGs) rather than linear steps, allowing sub-agents to run parallel steps. [blocked: duplicate of done task 'dependency-graph-tasks']",
       "allowed_paths": [
         "magda_agent/planning/dag_planner.py",
         "magda_agent/planning/planner.py",
@@ -2113,11 +2114,11 @@
     },
     {
       "id": "mcp-action-tool-subagent-team",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "MCP Subagent Team for Isolated Action Execution",
-      "description": "Inspired by Claude Agent SDK and Multi-Agent Orchestration trends: spawn an independent agent team with isolated git worktrees specifically dedicated to executing complex MCP action tools.",
+      "description": "Inspired by Claude Agent SDK and Multi-Agent Orchestration trends: spawn an independent agent team with isolated git worktrees specifically dedicated to executing complex MCP action tools. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/teams/mcp_team.py",
         "tests/test_mcp_team*.py",
@@ -2131,11 +2132,11 @@
     },
     {
       "id": "openclaw-rl-implicit-feedback",
-      "status": "todo",
+      "status": "blocked",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Implicit Feedback Mechanism",
-      "description": "Inspired by OpenClaw: Implement an online reinforcement learning mechanism that trains the agent based on user replies, using PAD shifts from MirrorNeurons.",
+      "description": "Inspired by OpenClaw: Implement an online reinforcement learning mechanism that trains the agent based on user replies, using PAD shifts from MirrorNeurons. [blocked: duplicate of done task 'online-learning-from-feedback']",
       "allowed_paths": [
         "magda_agent/learning/online_rl.py",
         "magda_agent/action/selector.py",
@@ -2150,11 +2151,11 @@
     },
     {
       "id": "agent-guard-runtime-policy-layer",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard Runtime Governance Policy",
-      "description": "Inspired by ACS/Prempti trends: Implement a runtime policy layer that intercepts and audits every tool call with an external effect before it is executed.",
+      "description": "Inspired by ACS/Prempti trends: Implement a runtime policy layer that intercepts and audits every tool call with an external effect before it is executed. [blocked: duplicate of done task 'policy-layer-tool-calls']",
       "allowed_paths": [
         "magda_agent/safety/runtime_guard.py",
         "magda_agent/consciousness/core.py",
@@ -2169,11 +2170,11 @@
     },
     {
       "id": "agent-teams-git-worktree",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "high",
       "title": "Agent Teams with Git Worktree Isolation",
-      "description": "Inspired by Claude Agent SDK. Enable spawning independent sub-agents that operate in their own git worktrees, preventing cross-contamination during complex multi-agent coding workflows.",
+      "description": "Inspired by Claude Agent SDK. Enable spawning independent sub-agents that operate in their own git worktrees, preventing cross-contamination during complex multi-agent coding workflows. [blocked: duplicate of done task 'sub-agent-spawning']",
       "allowed_paths": [
         "magda_agent/teams/git_worktree.py",
         "magda_agent/teams/manager.py",
@@ -2188,11 +2189,11 @@
     },
     {
       "id": "mcp-action-tool-governance",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "medium",
       "title": "MCP Action Tool Governance",
-      "description": "Inspired by the MCP standard. Implement a specific validation and governance layer for MCP actions to ensure external tool calls adhere to safety protocols.",
+      "description": "Inspired by the MCP standard. Implement a specific validation and governance layer for MCP actions to ensure external tool calls adhere to safety protocols. [blocked: duplicate of done task 'mcp-tool-export']",
       "allowed_paths": [
         "magda_agent/safety/mcp_governance.py",
         "tests/test_mcp_governance*.py",
@@ -2206,11 +2207,11 @@
     },
     {
       "id": "context-engine-plugins",
-      "status": "todo",
+      "status": "blocked",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Plugin System",
-      "description": "Inspired by OpenClaw. Create a Context Engine plugin system to allow dynamic modification and compression of WorkingMemory at various lifecycle hooks.",
+      "description": "Inspired by OpenClaw. Create a Context Engine plugin system to allow dynamic modification and compression of WorkingMemory at various lifecycle hooks. [blocked: duplicate of done task 'context-engine-plugin']",
       "allowed_paths": [
         "magda_agent/memory/context_engine.py",
         "tests/test_context_engine*.py",
@@ -2224,11 +2225,11 @@
     },
     {
       "id": "openclaw-rl-interactions",
-      "status": "todo",
+      "status": "blocked",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Learning",
-      "description": "Implement online reinforcement learning from user interactions, inspired by OpenClaw.",
+      "description": "Implement online reinforcement learning from user interactions, inspired by OpenClaw. [blocked: duplicate of done task 'online-learning-from-feedback']",
       "allowed_paths": [
         "magda_agent/learning/interactive_rl.py",
         "tests/test_interactive_rl*.py",
@@ -2241,11 +2242,11 @@
     },
     {
       "id": "acs-runtime-safety",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "high",
       "title": "ACS Runtime Safety Controls",
-      "description": "Implement 5 validation checkpoints for runtime safety, inspired by ACS.",
+      "description": "Implement 5 validation checkpoints for runtime safety, inspired by ACS. [blocked: duplicate of done task 'policy-layer-tool-calls']",
       "allowed_paths": [
         "magda_agent/safety/acs_controls.py",
         "tests/test_acs_controls*.py",
