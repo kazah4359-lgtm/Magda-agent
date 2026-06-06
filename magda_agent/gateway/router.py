@@ -23,6 +23,11 @@ class GatewayRouter:
         """Register a channel with the gateway."""
         self._channels[channel_id] = channel
 
+    def get_channel(self, channel_id: str) -> Any:
+        """Retrieve a registered channel by its ID."""
+        return self._channels.get(channel_id)
+
+
     def set_message_handler(self, handler: Callable[[UnifiedMessage], Any]) -> None:
         """Set the main handler that processes unified messages."""
         self._message_handler = handler
