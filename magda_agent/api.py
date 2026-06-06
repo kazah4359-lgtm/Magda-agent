@@ -13,6 +13,7 @@ from magda_agent.memory.storage import MemorySystem
 from magda_agent.memory.procedural import ProceduralMemory
 from magda_agent.memory.semantic import SemanticMemory
 from magda_agent.learning.skill_creator import SkillCreator
+from magda_agent.learning.skill_versioning import SkillVersioning
 from magda_agent.skills import initialize_skills
 from magda_agent.planning.planner import Planner
 from magda_agent.consciousness.core import Consciousness
@@ -44,6 +45,7 @@ memory_system = MemorySystem(llm=llm_client, context_engine=context_engine)
 procedural_memory = ProceduralMemory(persist_directory="./procedural_memory_db")
 semantic_memory = SemanticMemory(persist_directory="./semantic_memory_db")
 skill_creator = SkillCreator(procedural_memory=procedural_memory, llm=llm_client)
+skill_versioning = SkillVersioning(procedural_memory=procedural_memory)
 skill_registry = initialize_skills()
 habit_tracker = HabitTracker()
 planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tracker)

@@ -56,7 +56,8 @@ class Consciousness:
         online_learner: Optional[OnlineLearner] = None,
         tracer: Optional[ThoughtChainTracer] = None,
         style_adapter: Optional[StyleAdapter] = None,
-        user_model: Optional[UserModel] = None
+        user_model: Optional[UserModel] = None,
+        **kwargs
     ):
         self.llm = llm
         self.emotions = emotions
@@ -81,6 +82,7 @@ class Consciousness:
         self.skill_creator = skill_creator
         self.online_learner = online_learner
         self.tracer = tracer
+        self.skill_versioning = kwargs.get('skill_versioning', None)
         self.style_adapter = style_adapter
         self.user_model = user_model
 
@@ -261,6 +263,12 @@ class Consciousness:
                         result = "No skill executed for this step."
 
                     self.planner.mark_step_completed(0, str(result))
+                    if self.skill_versioning and skill_name:
+                        # Basic scoring hook based on result not containing 'Error'
+                        success = 'Error:' not in str(result)
+                        best = self.skill_versioning.get_best_version(skill_name, user_id=user_id)
+                        if best:
+                            self.skill_versioning.record_usage_outcome(skill_name, best['version'], success, str(result), user_id=user_id)
 
                     if plan_stopped_early:
                         break
