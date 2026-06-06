@@ -1,10 +1,11 @@
 import asyncio
 import logging
+import os
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from typing import Optional
+from typing import Any, Dict, List, Optional
 
 from magda_agent.llm_client import LLMClient
 from magda_agent.safety.policy import PolicyLayer
@@ -22,6 +23,8 @@ from magda_agent.planning.planner import Planner
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.scheduler.cron import CronScheduler
+from magda_agent.autonomy.task_store import TaskStore, TaskStatus
+from magda_agent.autonomy.executor import AutonomousExecutor
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
 from magda_agent.metacognition.confidence import ConfidenceCalibrator
@@ -112,6 +115,14 @@ consciousness = Consciousness(
 
 cron_scheduler = CronScheduler()
 
+task_store = TaskStore(path=os.getenv("AUTONOMY_TASKS_PATH", "./autonomy_tasks.json"))
+autonomous_executor = AutonomousExecutor(
+    store=task_store,
+    llm=llm_client,
+    skills=skill_registry,
+    step_timeout=float(os.getenv("AUTONOMY_STEP_TIMEOUT", "60")),
+)
+
 subconsciousness = Subconsciousness(
     llm=llm_client,
     emotions=emotional_engine,
@@ -126,10 +137,12 @@ async def lifespan(app: FastAPI):
     # Startup
     asyncio.create_task(subconsciousness.start())
     asyncio.create_task(cron_scheduler.start())
+    await autonomous_executor.start()
     yield
     # Shutdown
     await subconsciousness.stop()
     await cron_scheduler.stop()
+    await autonomous_executor.stop()
     memory_system.close()
 
 app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)
@@ -166,3 +179,67 @@ class TraceResponse(BaseModel):
 @app.get("/trace", response_model=TraceResponse)
 async def get_trace():
     return TraceResponse(trace=thought_chain_tracer.get_trace())
+
+
+# --- Autonomous long-running tasks ---------------------------------------
+
+class CreateTaskRequest(BaseModel):
+    goal: str
+    user_id: Optional[int] = None
+    max_iterations: int = 20
+
+
+class TaskSummaryResponse(BaseModel):
+    task: Dict[str, Any]
+
+
+class TaskListResponse(BaseModel):
+    tasks: List[Dict[str, Any]]
+
+
+@app.post("/tasks", response_model=TaskSummaryResponse)
+async def create_task(req: CreateTaskRequest):
+    max_iters = max(1, min(req.max_iterations, 200))
+    task = await task_store.add_task(req.goal, user_id=req.user_id, max_iterations=max_iters)
+    return TaskSummaryResponse(task=task.summary())
+
+
+@app.get("/tasks", response_model=TaskListResponse)
+async def list_tasks(user_id: Optional[int] = None):
+    tasks = await task_store.list(user_id=user_id)
+    return TaskListResponse(tasks=[t.summary() for t in tasks])
+
+
+@app.get("/tasks/{task_id}")
+async def get_task(task_id: str, since: int = 0):
+    task = await task_store.get(task_id)
+    if task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+    data = task.to_dict()
+    if since > 0:
+        data["progress"] = task.progress[since:]
+    return data
+
+
+@app.post("/tasks/{task_id}/cancel")
+async def cancel_task(task_id: str):
+    ok = await task_store.request_cancel(task_id)
+    if not ok:
+        raise HTTPException(status_code=409, detail="Task cannot be cancelled")
+    return {"status": "ok"}
+
+
+@app.post("/tasks/{task_id}/pause")
+async def pause_task(task_id: str):
+    ok = await task_store.request_pause(task_id)
+    if not ok:
+        raise HTTPException(status_code=409, detail="Task cannot be paused")
+    return {"status": "ok"}
+
+
+@app.post("/tasks/{task_id}/resume")
+async def resume_task(task_id: str):
+    ok = await task_store.resume(task_id)
+    if not ok:
+        raise HTTPException(status_code=409, detail="Task cannot be resumed")
+    return {"status": "ok"}
