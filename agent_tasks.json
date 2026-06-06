@@ -2058,7 +2058,7 @@
     },
     {
       "id": "skill-marketplace-export",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Skill Marketplace Export",
@@ -2678,6 +2678,42 @@
       "acceptance": [
         "ASSERT evaluator evaluates workflows against policies",
         "Tests verify framework properly identifies violations"
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-isolation",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams Git Worktree Isolation",
+      "description": "Inspired by Claude Agent SDK Agent Teams trend: Implement multi-agent workflows with git worktree isolation to allow subagents to operate concurrently without file conflicts.",
+      "allowed_paths": [
+        "magda_agent/agents/team_isolation.py",
+        "tests/test_team_isolation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents spawn in isolated git worktrees",
+        "Concurrent tasks do not clash on filesystem",
+        "Tests verify isolation and cleanup"
+      ]
+    },
+    {
+      "id": "online-rl-feedback-integration",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL Feedback Integration",
+      "description": "Inspired by OpenClaw-RL trend: integrate online reinforcement learning from user feedback (next-state signals) directly into agent's habits.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "tests/test_online_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent collects explicit and implicit feedback signals",
+        "Feedback signals adjust habit weights dynamically",
+        "Tests verify weight shifts based on simulated feedback"
       ]
     }
   ]
