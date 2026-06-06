@@ -37,6 +37,7 @@ from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
+from magda_agent.safety.guardrails import RealtimeGuardrail
 from magda_agent.context.engine import ContextEngine
 from magda_agent.context.default_plugin import DefaultContextPlugin
 from magda_agent.tracing.tracer import ThoughtChainTracer
@@ -79,6 +80,7 @@ insula = Insula()
 pineal_gland = PinealGland()
 salience_network = SalienceNetwork()
 global_workspace = GlobalWorkspace(salience_network=salience_network)
+guardrail = RealtimeGuardrail(policy_layer=policy_layer)
 thought_chain_tracer = ThoughtChainTracer()
 
 consciousness = Consciousness(
@@ -104,6 +106,7 @@ consciousness = Consciousness(
     context_engine=context_engine,
     skill_creator=skill_creator,
     online_learner=online_learner,
+    guardrail=guardrail,
     tracer=thought_chain_tracer,
     style_adapter=style_adapter,
     user_model=user_model,

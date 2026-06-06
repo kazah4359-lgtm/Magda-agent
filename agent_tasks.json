@@ -1113,7 +1113,7 @@
     },
     {
       "id": "realtime-guardrail-fallback",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Realtime guardrail fallback",
