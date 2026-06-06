@@ -833,7 +833,7 @@
     },
     {
       "id": "workspace-broadcast",
-      "status": "todo",
+      "status": "done",
       "area": "attention",
       "risk": "medium",
       "title": "Global Workspace broadcast mechanism",
@@ -1941,6 +1941,62 @@
         "Subagent can be spawned explicitly for MCP tools.",
         "Execution context does not bleed into main agent.",
         "Tests verify isolated execution."
+      ]
+    },
+    {
+      "id": "mcp-skill-export-integration",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Skill Export Integration",
+      "description": "Inspired by MCP trends: Expose Magda's internal skills dynamically over an MCP-compliant JSON-RPC server endpoint so external tools and UIs can invoke them.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_server.py",
+        "tests/test_mcp_server*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be listed via MCP protocol",
+        "Skills can be executed via MCP JSON-RPC",
+        "Unit tests mock the server to verify MCP format compliance"
+      ]
+    },
+    {
+      "id": "openclaw-online-rl-feedback",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Implicit Feedback Learning",
+      "description": "Inspired by OpenClaw: Implement an online reinforcement learning mechanism that adjusts tool selection weights simply by analyzing user replies using PAD shifts from MirrorNeurons.",
+      "allowed_paths": [
+        "magda_agent/learning/online.py",
+        "magda_agent/action/selector.py",
+        "tests/test_online_learning*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User replies act as next-state reinforcement signals",
+        "Tool selection weights in Basal Ganglia update based on positive/negative shifts",
+        "Tests mock feedback PAD to verify weight changes"
+      ]
+    },
+    {
+      "id": "agent-guard-runtime-policy",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Runtime Policy Layer",
+      "description": "Inspired by ACS/Prempti trends: Implement a mandatory runtime governance policy layer that intercepts and audits every tool call with an external effect before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/agent_guard.py",
+        "magda_agent/consciousness/core.py",
+        "tests/test_agent_guard*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All external tool calls must pass through AgentGuard allow/deny evaluation",
+        "Guard can block actions based on explicit policy rules",
+        "Blocked actions return explanatory error feedback to the agent"
       ]
     }
   ]
