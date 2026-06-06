@@ -12,13 +12,22 @@ class LLMClient:
     """
     Unified interface for interacting with Large Language Models (OpenAI API).
     """
-    def __init__(self, api_key: Optional[str] = None, model: str = "gpt-4o"):
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        model: Optional[str] = None,
+        base_url: Optional[str] = None,
+    ):
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
-        self.model = model
+        self.model = model or os.getenv("OPENAI_MODEL", "gpt-4o")
+        self.base_url = base_url or os.getenv("OPENAI_BASE_URL")
         self.client = None
 
         if AsyncOpenAI and self.api_key:
-            self.client = AsyncOpenAI(api_key=self.api_key)
+            client_kwargs: Dict[str, Any] = {"api_key": self.api_key}
+            if self.base_url:
+                client_kwargs["base_url"] = self.base_url
+            self.client = AsyncOpenAI(**client_kwargs)
         else:
             if not AsyncOpenAI:
                 logging.warning("OpenAI library (Async) not installed.")
