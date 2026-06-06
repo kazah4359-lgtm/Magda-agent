@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 20
+    "max_todo_tasks": 30
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -1688,7 +1688,7 @@
     },
     {
       "id": "mcp-kernel-sandboxed-execution",
-      "status": "todo",
+      "status": "done",
       "area": "security",
       "risk": "high",
       "title": "MCPKernel: Taint Tracking and Sandboxed Execution",
@@ -2520,6 +2520,62 @@
         "Planner can flag steps for delegation.",
         "Delegation module routes tasks to sub-agents and awaits results.",
         "Tests mock sub-agent execution and verify state merge."
+      ]
+    },
+    {
+      "id": "agent-guard-runtime-governance-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard: Runtime Governance Layer",
+      "description": "Inspired by the Agent Guard trend (June 2026), implement a runtime governance layer that sits between the agent's tool execution and the external world. It intercepts and evaluates tool calls according to predefined security policies.",
+      "allowed_paths": [
+        "magda_agent/safety/agent_guard.py",
+        "tests/test_agent_guard*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Guard successfully intercepts tool calls",
+        "Tool calls are evaluated against policies before execution",
+        "Violating tool calls are blocked with appropriate logging",
+        "Tests mock tool executions to verify interception and policy enforcement"
+      ]
+    },
+    {
+      "id": "prempti-audit-trail-v2",
+      "status": "todo",
+      "area": "security",
+      "risk": "medium",
+      "title": "Prempti: Tool-call interception and audit trail",
+      "description": "Inspired by the Prempti (Falco) trend, build an audit trail system that records every external tool call intercepted by the agent's policy layer. The audit log should store what was called, when, why, and the result.",
+      "allowed_paths": [
+        "magda_agent/tracing/prempti_audit.py",
+        "tests/test_prempti_audit*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Audit trail correctly logs tool call details (action, time, reason, result)",
+        "Audit data is sanitized (no raw secrets)",
+        "Tests verify audit log correctness and sanitization"
+      ]
+    },
+    {
+      "id": "agent-teams-parallel-subagents-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Agent Teams: Parallel Subagent Execution",
+      "description": "Inspired by Claude Agent SDK Agent Teams, implement a system where the Planner can spawn multiple subagents to work on parallelized tasks. Each subagent runs in its own isolated context.",
+      "allowed_paths": [
+        "magda_agent/agents/team_orchestrator.py",
+        "tests/test_team_orchestrator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Team Orchestrator can spawn multiple subagents simultaneously",
+        "Subagents can execute their assigned tasks in isolated contexts",
+        "Orchestrator aggregates results from subagents successfully",
+        "Tests mock subagent executions and verify parallelization"
       ]
     }
   ]

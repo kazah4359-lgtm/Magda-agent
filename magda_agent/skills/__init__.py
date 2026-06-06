@@ -8,6 +8,7 @@ from magda_agent.skills.system_execute_code import execute as code_executor
 from magda_agent.skills.internet_search import search_internet
 from magda_agent.skills.omnichannel import send_message as omnichannel_send
 from magda_agent.skills.codex_worker import codex_worker
+from magda_agent.skills.mcp_kernel_executor import execute as mcp_kernel_executor
 
 def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegistry:
     registry = SkillRegistry(policy_layer=policy_layer)
@@ -17,6 +18,13 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
         name="programmer",
         func=code_executor,
         description="Executes Python code in a safe sandbox. Input: 'code' string."
+    )
+
+    # Register MCP Kernel Executor Skill
+    registry.register_skill(
+        name="mcp_kernel_execute",
+        func=mcp_kernel_executor,
+        description="Executes Python code in a strictly sandboxed MCP kernel environment with taint tracking. Input: 'code' string."
     )
 
     # Register Search Skill
