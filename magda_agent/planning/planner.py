@@ -1,16 +1,19 @@
 import json
 import logging
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Set
 from pydantic import BaseModel, Field, ValidationError
 from magda_agent.llm_client import LLMClient
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.agents.sub_agent import SubAgent
+from magda_agent.planning.dag_planner import DAGPlanner
 
 class PlanStep(BaseModel):
+    id: str = Field(default_factory=lambda: "")
     description: str
     skill: Optional[str] = None
     skill_kwargs: Optional[Dict[str, Any]] = None
+    dependencies: List[str] = Field(default_factory=list)
 
 class TypedPlan(BaseModel):
     goal: str
@@ -23,7 +26,7 @@ class Planner:
     """
     Prefrontal Cortex (Planner) module.
     Responsible for breaking down complex queries into steps (plans),
-    selecting which skills to use, and maintaining state.
+    selecting which skills to use, resolving dependencies (DAG), and maintaining state.
     """
 
     def __init__(self, llm: LLMClient, skills: SkillRegistry, habit_tracker: Optional[HabitTracker] = None):
@@ -63,7 +66,7 @@ class Planner:
             "- 'goal': a string summarizing the objective\n"
             "- 'constraints': an array of string constraints\n"
             "- 'risk': a string indicating the risk level (e.g., low, medium, high)\n"
-            "- 'steps': an array of step objects. Each step must have 'description', 'skill' (or null), and 'skill_kwargs' (or null).\n"
+            "- 'steps': an array of step objects. Each step must have 'id' (string), 'description', 'skill' (or null), 'skill_kwargs' (or null), and 'dependencies' (array of string step ids it depends on).\n"
             "- 'acceptance': an array of string acceptance criteria\n"
             "Only output the JSON object, nothing else."
         )
@@ -101,6 +104,11 @@ class Planner:
 
             plan_steps = [step.model_dump() for step in typed_plan.steps]
 
+            # Auto-assign IDs if not present to support fallback execution gracefully
+            for i, step in enumerate(plan_steps):
+                if not step.get("id"):
+                    step["id"] = f"step_{i}"
+
             for i, step in enumerate(plan_steps):
                 if step["skill"] is not None and not self.skills.has_skill(step["skill"]):
                     logging.error(f"Step {i} uses unknown skill: {step['skill']}.")
@@ -110,6 +118,13 @@ class Planner:
                     logging.error(f"Step {i} 'skill_kwargs' must be a dictionary or null.")
                     self.clear_pending_plan()
                     return []
+
+            try:
+                plan_steps = DAGPlanner.topological_sort(plan_steps)
+            except ValueError as ve:
+                logging.error(f"Plan cycle validation failed: {ve}")
+                self.clear_pending_plan()
+                return []
 
             self.current_plan = plan_steps
             self.completed_steps = []
@@ -168,6 +183,13 @@ class Planner:
         else:
             logging.warning(f"Invalid step index: {step_index}")
 
+    def get_executable_steps(self) -> List[Dict[str, Any]]:
+        """
+        Returns steps that are ready to be executed concurrently.
+        """
+        completed_ids = {step.get("id") for step in self.completed_steps if step.get("id")}
+        return DAGPlanner.get_executable_steps(self.current_plan, completed_ids)
+
     def get_state_summary(self) -> str:
         """
         Returns a summary of the current planner state.
@@ -193,7 +215,8 @@ class Planner:
         if self.current_plan:
             summary += "  Pending Steps:\n"
             for step in self.current_plan:
-                summary += f"    - {step.get('description')} (Skill: {step.get('skill')})\n"
+                deps = f" [deps: {', '.join(step.get('dependencies', []))}]" if step.get('dependencies') else ""
+                summary += f"    - {step.get('id')}: {step.get('description')} (Skill: {step.get('skill')}){deps}\n"
 
         return summary
 
