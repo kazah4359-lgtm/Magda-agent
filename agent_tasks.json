@@ -873,7 +873,7 @@
     },
     {
       "id": "proactive-notifications",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "low",
       "title": "Proactive notifications to user",
@@ -2054,6 +2054,61 @@
         "Subagents operate in their own git worktrees",
         "State is isolated and merges cleanly via explicit action",
         "Tests create dummy repos to verify isolation"
+      ]
+    },
+    {
+      "id": "a2a-agent-cards-discovery",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Cards Discovery",
+      "description": "Inspired by the A2A trend: Implement an Agent Card discovery mechanism that broadcasts and discovers other available agents on the local network or given registry, enabling peer-to-peer delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery.py",
+        "tests/test_a2a_discovery*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can broadcast its own Agent Card",
+        "Agent can discover other agents' cards",
+        "Tests verify discovery using mock registry"
+      ]
+    },
+    {
+      "id": "planner-task-dependency-graphs",
+      "status": "todo",
+      "area": "planning",
+      "risk": "high",
+      "title": "Task Dependency Graphs in Planner",
+      "description": "Inspired by Claude Agent SDK: Refactor the Prefrontal Cortex (Planner) to support generating and managing execution plans as Directed Acyclic Graphs (DAGs) rather than linear steps, allowing sub-agents to run parallel steps.",
+      "allowed_paths": [
+        "magda_agent/planning/dag_planner.py",
+        "magda_agent/planning/planner.py",
+        "tests/test_dag_planner*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner can parse plans with dependencies",
+        "Independent steps can be identified for parallel execution",
+        "Tests verify DAG topological sorting and execution"
+      ]
+    },
+    {
+      "id": "skill-marketplace-export",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Skill Marketplace Export",
+      "description": "Inspired by agentskills.io trend: Implement a utility to package and export successfully created skills from ProceduralMemory into a standard format (JSON/YAML) that can be uploaded to a skill marketplace.",
+      "allowed_paths": [
+        "magda_agent/skills/exporter.py",
+        "tests/test_skill_exporter*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Procedural memory skills can be exported to standard JSON/YAML format",
+        "Export includes metadata, parameters, and code",
+        "Tests verify export format validity"
       ]
     }
   ]
