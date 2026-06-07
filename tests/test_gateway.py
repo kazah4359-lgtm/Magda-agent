@@ -1,9 +1,9 @@
 import pytest
 import asyncio
 from magda_agent.gateway.router import GatewayRouter, UnifiedMessage
-from magda_agent.channels.telegram import TelegramChannel
-from magda_agent.channels.discord import DiscordChannel
-from magda_agent.channels.rest import RestChannel
+from magda_agent.channels.telegram import TelegramAdapter
+from magda_agent.channels.discord import DiscordAdapter
+from magda_agent.channels.rest import RestAdapter
 
 class MockAgentCore:
     def __init__(self):
@@ -19,7 +19,7 @@ async def test_telegram_channel_routing():
     agent = MockAgentCore()
     gateway.set_message_handler(agent.handle_message)
 
-    channel = TelegramChannel(gateway)
+    channel = TelegramAdapter(gateway)
 
     raw_telegram_msg = {"text": "Hello Telegram", "user_id": "123"}
     response = await channel.receive(raw_telegram_msg)
@@ -36,7 +36,7 @@ async def test_discord_channel_routing():
     agent = MockAgentCore()
     gateway.set_message_handler(agent.handle_message)
 
-    channel = DiscordChannel(gateway)
+    channel = DiscordAdapter(gateway)
 
     raw_discord_msg = {"content": "Hello Discord", "author_id": "456"}
     response = await channel.receive(raw_discord_msg)
@@ -53,7 +53,7 @@ async def test_rest_channel_routing():
     agent = MockAgentCore()
     gateway.set_message_handler(agent.handle_message)
 
-    channel = RestChannel(gateway)
+    channel = RestAdapter(gateway)
 
     raw_rest_msg = {"text": "Hello REST", "user_id": "789"}
     response = await channel.receive(raw_rest_msg)
@@ -67,9 +67,9 @@ async def test_rest_channel_routing():
 @pytest.mark.asyncio
 async def test_channel_sending():
     gateway = GatewayRouter()
-    tg = TelegramChannel(gateway)
-    dc = DiscordChannel(gateway)
-    rest = RestChannel(gateway)
+    tg = TelegramAdapter(gateway)
+    dc = DiscordAdapter(gateway)
+    rest = RestAdapter(gateway)
 
     assert "Telegram sent to 1: hi" == await tg.send("1", "hi")
     assert "Discord sent to 2: hello" == await dc.send("2", "hello")
@@ -82,7 +82,7 @@ async def test_channel_sending():
 @pytest.mark.asyncio
 async def test_missing_handler():
     gateway = GatewayRouter()
-    channel = TelegramChannel(gateway)
+    channel = TelegramAdapter(gateway)
     raw_telegram_msg = {"text": "Fail", "user_id": "1"}
 
     with pytest.raises(RuntimeError, match="No message handler registered with GatewayRouter"):

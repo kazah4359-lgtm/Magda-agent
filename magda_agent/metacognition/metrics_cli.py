@@ -26,6 +26,12 @@ def main() -> None:
     avg_parser.add_argument("--limit", type=int, help="Number of recent entries to average", default=10)
     avg_parser.add_argument("--db", type=str, help="Path to SQLite DB", default="./metrics_db.sqlite3")
 
+    # Subparser for listing metrics over time
+    list_parser = subparsers.add_parser("list", help="List recent metric values over time.")
+    list_parser.add_argument("metric_name", type=str, help="Name of the metric")
+    list_parser.add_argument("--limit", type=int, help="Number of recent entries to list", default=10)
+    list_parser.add_argument("--db", type=str, help="Path to SQLite DB", default="./metrics_db.sqlite3")
+
     args = parser.parse_args()
     tracker = QualityTracker(db_path=args.db)
 
@@ -45,6 +51,19 @@ def main() -> None:
             print(f"Average for {args.metric_name} (last {args.limit} entries): {avg}")
         else:
             print(f"No entries found for {args.metric_name}")
+
+    elif args.command == "list":
+        metrics = tracker.get_metrics(args.metric_name, args.limit)
+        if not metrics:
+            print(f"No entries found for {args.metric_name}")
+        else:
+            print(f"Recent metrics for {args.metric_name}:")
+            for m in metrics:
+                val = m.get("value")
+                ts = m.get("timestamp")
+                meta = {k: v for k, v in m.items() if k not in ("value", "timestamp")}
+                meta_str = f" | metadata: {json.dumps(meta)}" if meta else ""
+                print(f"[{ts}] {args.metric_name}: {val}{meta_str}")
 
 if __name__ == "__main__":
     main()

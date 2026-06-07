@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 20
+    "max_todo_tasks": 40
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -1093,7 +1093,7 @@
     },
     {
       "id": "three-agent-planner-generator-evaluator",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Three-agent architecture separation",
@@ -1113,7 +1113,7 @@
     },
     {
       "id": "realtime-guardrail-fallback",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Realtime guardrail fallback",
@@ -1262,7 +1262,7 @@
     },
     {
       "id": "skill-marketplace-integration",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Skill Marketplace Integration",
@@ -1280,7 +1280,7 @@
     },
     {
       "id": "canvas-live-visualization",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "low",
       "title": "Canvas Live Visualization",
@@ -1329,44 +1329,6 @@
       "acceptance": [
         "Agent can read and process remote Agent Cards.",
         "Peer-to-peer delegation is possible."
-      ]
-    },
-    {
-      "id": "auto-create-pr-mode-89fc8e51",
-      "status": "todo",
-      "area": "operations",
-      "risk": "medium",
-      "title": "AUTO_CREATE_PR Mode",
-      "description": "Inspired by Google Jules trend: Implement an AUTO_CREATE_PR mode that allows the agent to automatically push changes to a designated branch and open a PR without human intervention for low-risk tasks.",
-      "allowed_paths": [
-        "magda_agent/operations/pr_automation.py",
-        "tests/test_pr_automation*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent can automatically create a branch and commit changes",
-        "Agent opens a GitHub PR programmatically using `gh` CLI or PyGithub",
-        "Tests verify the PR generation logic using mocks"
-      ]
-    },
-    {
-      "id": "runtime-tool-concurrency-eca483c3",
-      "status": "todo",
-      "area": "execution",
-      "risk": "medium",
-      "title": "Runtime Function Tool Concurrency",
-      "description": "Inspired by OpenAI Agents SDK trend: Enable concurrent execution of multiple tool/skill calls if the LLM requests them in a single generation step, speeding up multi-tool responses.",
-      "allowed_paths": [
-        "magda_agent/planning/planner.py",
-        "magda_agent/consciousness/core.py",
-        "tests/test_tool_concurrency*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent can parse multiple tool requests from a single LLM output",
-        "Tools are executed concurrently using `asyncio.gather`",
-        "Results are aggregated and fed back to the LLM",
-        "Tests verify concurrent execution speedup"
       ]
     },
     {
@@ -1726,7 +1688,7 @@
     },
     {
       "id": "mcp-kernel-sandboxed-execution",
-      "status": "todo",
+      "status": "done",
       "area": "security",
       "risk": "high",
       "title": "MCPKernel: Taint Tracking and Sandboxed Execution",
@@ -1744,7 +1706,7 @@
     },
     {
       "id": "assert-policy-driven-evaluation",
-      "status": "todo",
+      "status": "done",
       "area": "metacognition",
       "risk": "low",
       "title": "ASSERT: Policy-driven evaluation framework",
@@ -1856,7 +1818,7 @@
     },
     {
       "id": "agentbench-evaluation-runner-new",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "AgentBench Evaluation Runner",
@@ -1874,7 +1836,7 @@
     },
     {
       "id": "cross-platform-channel-adapter",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "low",
       "title": "Cross-Platform Channel Adapter Framework",
@@ -2096,7 +2058,7 @@
     },
     {
       "id": "skill-marketplace-export",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Skill Marketplace Export",
@@ -2279,7 +2241,7 @@
     },
     {
       "id": "mcpkernel-taint-tracking",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCPKernel Taint Tracking",
@@ -2298,7 +2260,7 @@
     },
     {
       "id": "webarena-navigation-skills",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "WebArena Navigation Skill Integration",
@@ -2316,7 +2278,7 @@
     },
     {
       "id": "assert-policy-driven-evaluation-v2",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "ASSERT Policy-driven Evaluation",
@@ -2334,7 +2296,7 @@
     },
     {
       "id": "a2a-agent-cards-discovery-v2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "low",
       "title": "A2A Agent Cards Discovery",
@@ -2351,27 +2313,8 @@
       ]
     },
     {
-      "id": "mcpkernel-taint-tracking-v2",
-      "status": "todo",
-      "area": "security",
-      "risk": "high",
-      "title": "MCPKernel Taint Tracking",
-      "description": "Inspired by MCPKernel sandboxed execution: Implement strict taint tracking for user inputs to prevent unsafe parameters from executing in MCP action tools.",
-      "allowed_paths": [
-        "magda_agent/security/**",
-        "magda_agent/safety/**",
-        "tests/test_mcpkernel_taint*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "User inputs are tracked as tainted.",
-        "Unsanitized execution triggers a security exception.",
-        "Tests verify taint tracking and rejection."
-      ]
-    },
-    {
       "id": "multi-channel-skills-sync",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "low",
       "title": "Multi-Channel Skills Sync",
@@ -2387,7 +2330,7 @@
     },
     {
       "id": "agent-skills-mcp-export",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Agent Skills MCP Export Enhancements",
@@ -2402,7 +2345,7 @@
     },
     {
       "id": "longitudinal-quality-metrics-cli",
-      "status": "todo",
+      "status": "done",
       "area": "metrics",
       "risk": "low",
       "title": "Longitudinal Quality Metrics CLI",
@@ -2414,6 +2357,657 @@
       ],
       "acceptance": [
         "Agent CLI logs and displays metrics over time."
+      ]
+    },
+    {
+      "id": "a2a-task-delegation-v3",
+      "status": "done",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Task Delegation (v3)",
+      "description": "Inspired by Google A2A trend: Allow PlannerAgent to discover and delegate specific sub-plans to external agents securely over MCP.",
+      "allowed_paths": [
+        "magda_agent/integration/**",
+        "magda_agent/agents/planner_agent.py",
+        "tests/test_a2a_delegation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "PlannerAgent can query available external agents.",
+        "Sub-plans can be delegated to external agents.",
+        "Results are retrieved and integrated into the main plan context."
+      ]
+    },
+    {
+      "id": "mcp-action-tools-v3",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "MCP Action Tools Expansion",
+      "description": "Inspired by MCP trend: Expand GeneratorAgent's ability to execute external MCP server-prefixed tools beyond the current local SkillRegistry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_client.py",
+        "magda_agent/agents/generator_agent.py",
+        "tests/test_mcp_client*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "GeneratorAgent can execute remote MCP action tools.",
+        "Results are collected safely with timeout limits.",
+        "Mock tests verify execution and error handling."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning",
+      "description": "Inspired by OpenClaw trends: Implement online reinforcement learning from next-state signals like user replies to dynamically adjust agent's style, preferences, and weights.",
+      "allowed_paths": [
+        "magda_agent/learning/**",
+        "tests/test_openclaw_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User interactions affect agent weights",
+        "RL loop processes next-state signals",
+        "Tests verify adjustments from feedback"
+      ]
+    },
+    {
+      "id": "agent-teams-claude-sdk",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams via Git Worktree Isolation",
+      "description": "Inspired by Claude Agent SDK: Implement Git worktree isolation when spawning Sub-Agents for concurrent task execution to prevent conflicts.",
+      "allowed_paths": [
+        "magda_agent/agents/sub_agent.py",
+        "magda_agent/isolation/**",
+        "tests/test_agent_teams*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sub-agents spawn in isolated git worktrees",
+        "Concurrent tasks do not clash on filesystem",
+        "Tests verify isolation and cleanup"
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Discovery v4",
+      "description": "Inspired by A2A Protocol trends: Implement A2A agent discovery through Agent Cards, allowing peer-to-peer delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a.py",
+        "tests/test_a2a_discovery_v4*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover peers using Agent Cards",
+        "Tests verify peer discovery process"
+      ]
+    },
+    {
+      "id": "acs-runtime-safety-controls-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Runtime Safety Controls v4",
+      "description": "Inspired by ACS trends: Implement 5 validation checkpoints for agent workflows to standardize runtime guardrails.",
+      "allowed_paths": [
+        "magda_agent/safety/acs.py",
+        "tests/test_acs_safety_v4*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Checkpoints validate runtime workflows",
+        "Tests mock operations and verify guardrail blocks"
+      ]
+    },
+    {
+      "id": "mcp-tools-integration-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Tools Integration Engine",
+      "description": "Inspired by MCP standardization trend: Build an engine to seamlessly import and execute external MCP tools, converting them into Magda's native procedural skills on the fly.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_engine.py",
+        "tests/test_mcp_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Engine can read MCP standard tool definitions.",
+        "Engine wraps MCP tools dynamically into skill registry.",
+        "Tests mock external MCP tool execution."
+      ]
+    },
+    {
+      "id": "online-rl-feedback-loop",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL from User Feedback",
+      "description": "Inspired by OpenClaw-RL trend: Implement a feedback extraction module that adjusts the agent's style padding and prompt weights based on implicit and explicit user feedback in continuous dialogue.",
+      "allowed_paths": [
+        "magda_agent/learning/feedback_loop.py",
+        "tests/test_feedback_loop*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Feedback loop captures implicit corrections and positive affirmations.",
+        "StyleAdapter weights update based on the reinforcement signal.",
+        "Tests verify weight updates based on simulated dialogue."
+      ]
+    },
+    {
+      "id": "agent-team-delegation-protocol",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Agent Team Delegation Protocol",
+      "description": "Inspired by Claude Agent SDK Agent Teams: Establish a protocol for the Prefrontal Cortex (Planner) to identify parallelizeable sub-plans and dispatch them to isolated sub-agents.",
+      "allowed_paths": [
+        "magda_agent/planning/delegation.py",
+        "tests/test_delegation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner can flag steps for delegation.",
+        "Delegation module routes tasks to sub-agents and awaits results.",
+        "Tests mock sub-agent execution and verify state merge."
+      ]
+    },
+    {
+      "id": "agent-guard-runtime-governance-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard: Runtime Governance Layer",
+      "description": "Inspired by the Agent Guard trend (June 2026), implement a runtime governance layer that sits between the agent's tool execution and the external world. It intercepts and evaluates tool calls according to predefined security policies.",
+      "allowed_paths": [
+        "magda_agent/safety/agent_guard.py",
+        "tests/test_agent_guard*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Guard successfully intercepts tool calls",
+        "Tool calls are evaluated against policies before execution",
+        "Violating tool calls are blocked with appropriate logging",
+        "Tests mock tool executions to verify interception and policy enforcement"
+      ]
+    },
+    {
+      "id": "prempti-audit-trail-v2",
+      "status": "todo",
+      "area": "security",
+      "risk": "medium",
+      "title": "Prempti: Tool-call interception and audit trail",
+      "description": "Inspired by the Prempti (Falco) trend, build an audit trail system that records every external tool call intercepted by the agent's policy layer. The audit log should store what was called, when, why, and the result.",
+      "allowed_paths": [
+        "magda_agent/tracing/prempti_audit.py",
+        "tests/test_prempti_audit*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Audit trail correctly logs tool call details (action, time, reason, result)",
+        "Audit data is sanitized (no raw secrets)",
+        "Tests verify audit log correctness and sanitization"
+      ]
+    },
+    {
+      "id": "agent-teams-parallel-subagents-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Agent Teams: Parallel Subagent Execution",
+      "description": "Inspired by Claude Agent SDK Agent Teams, implement a system where the Planner can spawn multiple subagents to work on parallelized tasks. Each subagent runs in its own isolated context.",
+      "allowed_paths": [
+        "magda_agent/agents/team_orchestrator.py",
+        "tests/test_team_orchestrator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Team Orchestrator can spawn multiple subagents simultaneously",
+        "Subagents can execute their assigned tasks in isolated contexts",
+        "Orchestrator aggregates results from subagents successfully",
+        "Tests mock subagent executions and verify parallelization"
+      ]
+    },
+    {
+      "id": "context-engine-plugin-architecture-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin Architecture",
+      "description": "Inspired by trend #4 in docs/trends.md: Implement a plugin architecture for the Context Engine to manage context dynamically using lifecycle hooks.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine_plugins*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine supports plugin registration and lifecycle hooks",
+        "Tests verify plugin execution during context retrieval"
+      ]
+    },
+    {
+      "id": "scheduled-operations-cron-like-v2",
+      "status": "todo",
+      "area": "scheduler",
+      "risk": "low",
+      "title": "Scheduled operations for autonomous tasks",
+      "description": "Inspired by trend #7 in docs/trends.md: Implement cron-like scheduled tasks that run autonomously without user involvement.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron.py",
+        "tests/test_scheduler_cron*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler can register cron-like tasks",
+        "Tests verify task execution without user input"
+      ]
+    },
+    {
+      "id": "a2a-peer-task-delegation-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Peer-to-Peer Task Delegation",
+      "description": "Inspired by the A2A trend: Implement peer-to-peer task delegation mechanism to assign sub-tasks to other agents dynamically over network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a_peer_delegation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can delegate tasks to other peers via A2A protocol",
+        "Tests verify task assignment over mocked network calls"
+      ]
+    },
+    {
+      "id": "agent-discovery-service",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "low",
+      "title": "A2A Agent Discovery Service",
+      "description": "Inspired by the A2A trend: Build a discovery service to locate and read Agent Cards of peers in the network.",
+      "allowed_paths": [
+        "magda_agent/integration/discovery.py",
+        "tests/test_discovery_service*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover and retrieve Agent Cards of peers",
+        "Tests verify mock discovery and card parsing"
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking-db0c895d",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCPKernel Taint Tracking",
+      "description": "Inspired by MCPKernel trend: Implement taint tracking and sandboxed execution for external tool interactions.",
+      "allowed_paths": [
+        "magda_agent/safety/**",
+        "tests/test_mcpkernel*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint tracking module intercepts tool inputs",
+        "Tests verify tainted inputs are blocked"
+      ]
+    },
+    {
+      "id": "assert-policy-evaluation-fbaa6aeb",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ASSERT Policy-Driven Evaluation",
+      "description": "Inspired by ASSERT Microsoft trend: Build a policy-driven evaluation framework to secure agentic workflows.",
+      "allowed_paths": [
+        "magda_agent/safety/**",
+        "tests/test_assert_eval*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ASSERT evaluator evaluates workflows against policies",
+        "Tests verify framework properly identifies violations"
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-isolation",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams Git Worktree Isolation",
+      "description": "Inspired by Claude Agent SDK Agent Teams trend: Implement multi-agent workflows with git worktree isolation to allow subagents to operate concurrently without file conflicts.",
+      "allowed_paths": [
+        "magda_agent/agents/team_isolation.py",
+        "tests/test_team_isolation*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents spawn in isolated git worktrees",
+        "Concurrent tasks do not clash on filesystem",
+        "Tests verify isolation and cleanup"
+      ]
+    },
+    {
+      "id": "online-rl-feedback-integration",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL Feedback Integration",
+      "description": "Inspired by OpenClaw-RL trend: integrate online reinforcement learning from user feedback (next-state signals) directly into agent's habits.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "tests/test_online_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent collects explicit and implicit feedback signals",
+        "Feedback signals adjust habit weights dynamically",
+        "Tests verify weight shifts based on simulated feedback"
+      ]
+    },
+    {
+      "id": "context-engine-plugin-impl",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin Interface",
+      "description": "Inspired by Context Engine trend: Implement a plugin-architecture for managing context with lifecycle hooks.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine supports plugin registration",
+        "Lifecycle hooks are triggered during context update",
+        "Tests verify plugin hooks are called"
+      ]
+    },
+    {
+      "id": "guardrails-policy-layer",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Guardrails Policy Layer",
+      "description": "Inspired by Guardrails trend: Implement a policy layer to evaluate actions with external effects.",
+      "allowed_paths": [
+        "magda_agent/safety/guardrails.py",
+        "tests/test_guardrails*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy layer can evaluate and intercept tool calls",
+        "Tests verify policy enforcement"
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams with Git Worktree Isolation",
+      "description": "Inspired by Agent Teams trend: Spawn sub-agents for parallel tasks using git worktree isolation.",
+      "allowed_paths": [
+        "magda_agent/agents/teams.py",
+        "tests/test_teams*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Team manager can spawn sub-agents",
+        "Sub-agents operate in isolated git worktrees",
+        "Tests mock sub-agent parallel execution"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Action Tool Exporter",
+      "description": "Inspired by the MCP (Model Context Protocol) trend: Implement a module that automatically wraps Magda's internal skills into MCP-compatible JSON-RPC action tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter.py",
+        "tests/test_mcp_exporter*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported as MCP tools.",
+        "Exported tools conform to JSON-RPC client-server interface.",
+        "Tests verify successful skill wrapping and invocation."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-protocol-v4",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "A2A Peer Delegation Protocol",
+      "description": "Inspired by the A2A (Agent-to-Agent) Protocol trend: Build an async-first network layer to allow Magda to discover other agents and delegate specific task steps to them.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_protocol.py",
+        "tests/test_a2a_protocol*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover peers.",
+        "Agent can successfully delegate a task payload to a peer.",
+        "Tests mock network calls and verify correct delegation formats."
+      ]
+    },
+    {
+      "id": "agent-guard-runtime-safety-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Runtime Safety Controls",
+      "description": "Inspired by ACS (Agent Control Specification): Implement a set of 5 runtime validation checkpoints to intercept and validate tool outputs before applying state changes.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard.py",
+        "tests/test_acs_guard*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The 5 validation checkpoints are enforced on state-changing actions.",
+        "Violations block the action and raise an alert.",
+        "Tests cover each checkpoint with valid and invalid payloads."
+      ]
+    },
+    {
+      "id": "skill-creation-from-experience-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Skill creation from experience",
+      "description": "Inspired by trend: Skill creation from experience (Hermes). Implement a module to dynamically create and refine procedural skills based on past successful task executions.",
+      "allowed_paths": [
+        "magda_agent/learning/skill_extraction.py",
+        "tests/test_skill_extraction*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "System extracts successful procedures into new skills",
+        "Tests verify skill creation from mocked experience logs"
+      ]
+    },
+    {
+      "id": "longitudinal-quality-metrics-v2",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "low",
+      "title": "Longitudinal quality metrics",
+      "description": "Inspired by trend: Longitudinal quality metrics. Implement a tracking module to evaluate agent performance over multiple iterations, rather than just single-pass testing.",
+      "allowed_paths": [
+        "magda_agent/evaluation/longitudinal.py",
+        "tests/test_longitudinal_metrics*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module records performance metrics over time",
+        "Tests verify metric aggregation and trend reporting"
+      ]
+    },
+    {
+      "id": "online-rl-user-feedback-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL from user feedback",
+      "description": "Inspired by trend: Online RL from user feedback. Implement an online reinforcement learning loop to update agent behavior based on explicit user feedback and tool success signals.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "tests/test_online_rl_feedback*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Feedback signals adjust habit weights dynamically",
+        "Tests verify weight shifts based on simulated feedback"
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-v5",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Peer Delegation Support v5",
+      "description": "Inspired by the A2A trend: Ensure the agent can delegate tasks to A2A compliant peers.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_peer.py",
+        "tests/test_a2a_peer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent delegates tasks successfully to simulated A2A peer"
+      ]
+    },
+    {
+      "id": "mcp-context-exporter",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Context Exporter",
+      "description": "Inspired by MCP standard trend: Expose Magda's Context Engine memory states as MCP tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_context.py",
+        "tests/test_mcp_context.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory state can be exported and accessed via MCP interface"
+      ]
+    },
+    {
+      "id": "a2a-protocol-integration-v4",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Agent-to-Agent (A2A) Protocol integration",
+      "description": "Inspired by A2A trend: integrate Agent discovery via Agent Cards and peer-to-peer task delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_protocol_integration.py",
+        "tests/test_a2a_protocol_integration.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover and connect to peers using A2A protocol."
+      ]
+    },
+    {
+      "id": "acs-runtime-safety-controls-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS runtime safety controls",
+      "description": "Inspired by ACS trend: Implement 5 validation checkpoints for runtime safety controls.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_controls.py",
+        "tests/test_acs_controls.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS checkpoints are enforced during tool execution."
+      ]
+    },
+    {
+      "id": "scheduled-operations-cron",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Scheduled operations cron-like tasks",
+      "description": "Inspired by trend: Scheduled operations — cron-подобные задачи без участия пользователя. Implement cron-like scheduled tasks that the agent can run autonomously.",
+      "allowed_paths": [
+        "magda_agent/operations/cron.py",
+        "tests/test_cron.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can schedule and execute background tasks autonomously",
+        "Tests verify task execution according to schedule"
+      ]
+    },
+    {
+      "id": "skill-marketplace-agentskills-compatibility",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Skill marketplace compatibility",
+      "description": "Inspired by trend: Skill marketplace — совместимость с agentskills.io. Ensure skills are compatible with standard skill marketplace formats.",
+      "allowed_paths": [
+        "magda_agent/integration/skill_marketplace.py",
+        "tests/test_skill_marketplace_integration.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can export skills to agentskills.io format",
+        "Tests verify successful export format"
+      ]
+    },
+    {
+      "id": "a2a-json-rpc-server",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A JSON-RPC Server Interface",
+      "description": "Inspired by MCP JSON-RPC client-server interface trend: Implement a JSON-RPC server endpoint for Magda to receive A2A requests from other agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_server.py",
+        "tests/test_a2a_server.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Magda can start a JSON-RPC server.",
+        "Magda can receive and parse A2A task delegation requests over JSON-RPC.",
+        "Valid requests are routed to the Planner for execution."
+      ]
+    },
+    {
+      "id": "a2a-async-auth-tracing",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Enterprise-Ready Async Auth and Tracing",
+      "description": "Inspired by A2A Protocol trend (Async-first, enterprise-ready auth, tracing, monitoring): Add authentication and tracing mechanisms to the A2A Discovery and Delegation modules.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_security.py",
+        "magda_agent/integration/a2a_discovery.py",
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a_security*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A requests require authentication tokens.",
+        "A2A task delegations and discoveries are logged in the audit trail.",
+        "Unauthorized A2A requests are rejected."
       ]
     }
   ]

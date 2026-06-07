@@ -2,7 +2,8 @@ import asyncio
 import logging
 import os
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from magda_agent.visualization.server import CanvasServer
 from pydantic import BaseModel
 
 from typing import Any, Dict, List, Optional
@@ -27,6 +28,7 @@ from magda_agent.autonomy.task_store import TaskStore, TaskStatus
 from magda_agent.autonomy.executor import AutonomousExecutor
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
+from magda_agent.metacognition.assert_evaluator import AssertEvaluator
 from magda_agent.metacognition.confidence import ConfidenceCalibrator
 from magda_agent.metacognition.tracker import QualityTracker
 from magda_agent.learning.habits import HabitTracker
@@ -40,6 +42,7 @@ from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
+from magda_agent.safety.guardrails import RealtimeGuardrail
 from magda_agent.context.engine import ContextEngine
 from magda_agent.context.default_plugin import DefaultContextPlugin
 from magda_agent.tracing.tracer import ThoughtChainTracer
@@ -75,6 +78,7 @@ brainstem = Brainstem()
 planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tracker)
 long_term_memory = LongTermMemory()
 evaluator = Evaluator(llm=llm_client, memory=memory_system)
+assert_evaluator = AssertEvaluator(llm=llm_client, memory=memory_system)
 attachment_model = AttachmentModel()
 thalamus = Thalamus()
 hypothalamus = Hypothalamus()
@@ -82,6 +86,7 @@ insula = Insula()
 pineal_gland = PinealGland()
 salience_network = SalienceNetwork()
 global_workspace = GlobalWorkspace(salience_network=salience_network)
+guardrail = RealtimeGuardrail(policy_layer=policy_layer)
 thought_chain_tracer = ThoughtChainTracer()
 
 consciousness = Consciousness(
@@ -92,6 +97,7 @@ consciousness = Consciousness(
     planner=planner,
     long_term_memory=long_term_memory,
     evaluator=evaluator,
+    assert_evaluator=assert_evaluator,
     confidence_calibrator=confidence_calibrator,
     habit_tracker=habit_tracker,
     attachment=attachment_model,
@@ -107,6 +113,7 @@ consciousness = Consciousness(
     context_engine=context_engine,
     skill_creator=skill_creator,
     online_learner=online_learner,
+    guardrail=guardrail,
     tracer=thought_chain_tracer,
     style_adapter=style_adapter,
     user_model=user_model,
@@ -123,6 +130,8 @@ autonomous_executor = AutonomousExecutor(
     step_timeout=float(os.getenv("AUTONOMY_STEP_TIMEOUT", "60")),
 )
 
+canvas_server = CanvasServer(consciousness=consciousness)
+
 subconsciousness = Subconsciousness(
     llm=llm_client,
     emotions=emotional_engine,
@@ -138,11 +147,13 @@ async def lifespan(app: FastAPI):
     asyncio.create_task(subconsciousness.start())
     asyncio.create_task(cron_scheduler.start())
     await autonomous_executor.start()
+    asyncio.create_task(canvas_server.start_streaming())
     yield
     # Shutdown
     await subconsciousness.stop()
     await cron_scheduler.stop()
     await autonomous_executor.stop()
+    await canvas_server.stop_streaming()
     memory_system.close()
 
 app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)
@@ -243,3 +254,14 @@ async def resume_task(task_id: str):
     if not ok:
         raise HTTPException(status_code=409, detail="Task cannot be resumed")
     return {"status": "ok"}
+
+
+@app.websocket("/ws/canvas")
+async def websocket_canvas(websocket: WebSocket):
+    await canvas_server.connect(websocket)
+    try:
+        while True:
+            # We just keep the connection open, client doesn't need to send anything
+            data = await websocket.receive_text()
+    except WebSocketDisconnect:
+        canvas_server.disconnect(websocket)
