@@ -23,7 +23,7 @@ async def test_generator_agent():
 
     mock_planner = MagicMock()
 
-    def mock_get_current_plan():
+    def mock_get_current_plan(**kwargs):
         if getattr(mock_planner, 'cleared', False):
             return []
         return [{"skill": "test_skill", "skill_kwargs": {}}]

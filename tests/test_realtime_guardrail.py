@@ -31,10 +31,10 @@ async def test_guardrail_allows_legit_action():
 
     # Let's mock the planner more realistically for the loop
     current_plan = [{"skill": "test_skill", "description": "test"}]
-    def mock_get_current_plan():
+    def mock_get_current_plan(**kwargs):
         return current_plan
 
-    def mock_mark_completed(index, result):
+    def mock_mark_completed(index, result, **kwargs):
         nonlocal current_plan
         step = current_plan.pop(index)
         step['result'] = result
@@ -66,10 +66,10 @@ async def test_guardrail_stops_on_violation():
 
     # Setup planner
     current_plan = [{"skill": "dangerous_skill", "description": "dangerous"}]
-    planner.get_current_plan.side_effect = lambda: current_plan
+    planner.get_current_plan.side_effect = lambda **kwargs: current_plan
     planner.completed_steps = []
 
-    def mock_mark_completed(index, result):
+    def mock_mark_completed(index, result, **kwargs):
         nonlocal current_plan
         step = current_plan.pop(index)
         step['result'] = result
@@ -100,10 +100,10 @@ async def test_guardrail_review_required():
 
     # Setup planner
     current_plan = [{"skill": "sketchy_skill", "description": "sketchy"}]
-    planner.get_current_plan.side_effect = lambda: current_plan
+    planner.get_current_plan.side_effect = lambda **kwargs: current_plan
     planner.completed_steps = []
 
-    def mock_mark_completed(index, result):
+    def mock_mark_completed(index, result, **kwargs):
         nonlocal current_plan
         step = current_plan.pop(index)
         step['result'] = result
