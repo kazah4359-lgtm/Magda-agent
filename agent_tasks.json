@@ -2700,7 +2700,7 @@
     },
     {
       "id": "online-rl-feedback-integration",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL Feedback Integration",
@@ -3752,6 +3752,40 @@
         "Compressor reduces token size of text while maintaining key points",
         "Compressor selectively filters out low-salience memories",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "magentic-one-orchestration",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Magentic-One Orchestration",
+      "description": "Inspired by Magentic-One pattern (Microsoft) trend. Implement a multi-agent orchestration pattern using Magentic-One.",
+      "allowed_paths": [
+        "magda_agent/agents/magentic_one.py",
+        "tests/test_magentic_one.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Magentic-One multi-agent orchestration is implemented",
+        "Tests verify the orchestration logic"
+      ]
+    },
+    {
+      "id": "prempti-audit-trail",
+      "status": "todo",
+      "area": "security",
+      "risk": "medium",
+      "title": "Prempti Audit Trail",
+      "description": "Inspired by Prempti (Falco): tool-call interception + audit trail trend. Implement an audit trail for tool-call interceptions.",
+      "allowed_paths": [
+        "magda_agent/security/audit_trail.py",
+        "tests/test_audit_trail.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool-call interceptions are logged to an audit trail",
+        "Tests verify that audit logs are correctly generated"
       ]
     }
   ]
