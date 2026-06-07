@@ -25,6 +25,7 @@ from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.emotions.style_adapter import StyleAdapter
 from magda_agent.user_model.model import UserModel
 from magda_agent.learning.online import OnlineLearner
+from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
 from magda_agent.context.engine import ContextEngine
@@ -62,6 +63,7 @@ class Consciousness:
         context_engine: Optional[ContextEngine] = None,
         skill_creator: Optional[SkillCreator] = None,
         online_learner: Optional[OnlineLearner] = None,
+        openclaw_rl: Optional[OpenClawInteractiveLearner] = None,
         guardrail: Optional[RealtimeGuardrail] = None,
         tracer: Optional[ThoughtChainTracer] = None,
         style_adapter: Optional[StyleAdapter] = None,
@@ -92,6 +94,7 @@ class Consciousness:
         self.context_engine = context_engine
         self.skill_creator = skill_creator
         self.online_learner = online_learner
+        self.openclaw_rl = openclaw_rl
         self.guardrail = guardrail
         self.tracer = tracer
         self.skill_versioning = kwargs.get('skill_versioning', None)
@@ -128,6 +131,10 @@ class Consciousness:
             # For simplicity, we use the planner's last state or a generic string as the action context
             last_context = self.planner.get_state_summary() if getattr(self, 'planner', None) else "Recent action context"
             await self.online_learner.process_feedback(user_input, last_context, user_id)
+        # Let OpenClawRL learn from the interaction as next-state signal
+        if self.openclaw_rl:
+            await self.openclaw_rl.process_next_state_signal(user_input, last_context, user_id)
+
 
         if self.thalamus and not self.thalamus.filter_input(user_input):
             return "Message ignored by Thalamus."
