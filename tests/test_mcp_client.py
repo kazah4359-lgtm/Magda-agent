@@ -43,9 +43,9 @@ async def test_generator_agent_with_mcp_client():
         []
     ]
 
-    mock_planner.completed_steps = []
-    def mock_mark_completed(idx, result_str):
-        mock_planner.completed_steps.append({"skill": "test_mcp.run", "result": result_str, "description": "test_step"})
+    mock_planner.get_completed_steps.return_value = []
+    def mock_mark_completed(idx, result_str, user_id=None):
+        mock_planner.get_completed_steps.return_value.append({"skill": "test_mcp.run", "result": result_str, "description": "test_step"})
 
     mock_planner.mark_step_completed.side_effect = mock_mark_completed
 
@@ -80,9 +80,9 @@ async def test_generator_agent_mcp_timeout():
         []
     ]
 
-    mock_planner.completed_steps = []
-    def mock_mark_completed(idx, result_str):
-        mock_planner.completed_steps.append({"skill": "slow_mcp.tool", "result": result_str, "description": "slow_step"})
+    mock_planner.get_completed_steps.return_value = []
+    def mock_mark_completed(idx, result_str, user_id=None):
+        mock_planner.get_completed_steps.return_value.append({"skill": "slow_mcp.tool", "result": result_str, "description": "slow_step"})
 
     mock_planner.mark_step_completed.side_effect = mock_mark_completed
 

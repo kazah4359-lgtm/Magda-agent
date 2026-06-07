@@ -2597,7 +2597,7 @@
     },
     {
       "id": "scheduled-operations-cron-like-v2",
-      "status": "todo",
+      "status": "done",
       "area": "scheduler",
       "risk": "low",
       "title": "Scheduled operations for autonomous tasks",

@@ -33,19 +33,12 @@ class Subconsciousness:
 
     async def start(self):
         """Start the background reflection loop."""
-        self.is_running = True
-        self._stop_event.clear()
-        logging.info("Subconsciousness reflection loop started.")
-        while self.is_running:
-            try:
-                await asyncio.wait_for(self._stop_event.wait(), timeout=self.interval)
-            except asyncio.TimeoutError:
-                await self.reflect()
+        # This is now handled by CronScheduler in api.py
+        logging.warning("Subconsciousness.start() is deprecated. Use CronScheduler instead.")
 
     async def stop(self):
-        self.is_running = False
-        self._stop_event.set()
-        logging.info("Subconsciousness reflection loop stopped.")
+        # This is now handled by CronScheduler in api.py
+        logging.warning("Subconsciousness.stop() is deprecated. Use CronScheduler instead.")
 
     async def consolidate_episodic_to_semantic(self):
         """

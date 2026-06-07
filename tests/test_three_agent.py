@@ -23,15 +23,15 @@ async def test_generator_agent():
 
     mock_planner = MagicMock()
 
-    def mock_get_current_plan():
+    def mock_get_current_plan(user_id=None):
         if getattr(mock_planner, 'cleared', False):
             return []
         return [{"skill": "test_skill", "skill_kwargs": {}}]
     mock_planner.cleared = False
     mock_planner.get_current_plan.side_effect = mock_get_current_plan
 
-    mock_planner.completed_steps = [{"description": "step1", "skill": "test_skill", "result": "success"}]
-    def mock_mark_completed(*args):
+    mock_planner.get_completed_steps.return_value = [{"description": "step1", "skill": "test_skill", "result": "success"}]
+    def mock_mark_completed(*args, **kwargs):
         mock_planner.cleared = True
     mock_planner.mark_step_completed.side_effect = mock_mark_completed
 

@@ -25,13 +25,14 @@ class CronScheduler:
         self._task: asyncio.Task = None
         self.result_callback = result_callback
 
-    def schedule(self, cron_expr: str, func: Callable[..., Coroutine[Any, Any, Any]], *args, **kwargs) -> None:
+    def schedule(self, cron_expr: str, func: Callable[..., Coroutine[Any, Any, Any]], name: str = None, *args, **kwargs) -> None:
         """
         Schedules a task to run according to a cron expression.
 
         Args:
             cron_expr: The cron expression (e.g., "*/5 * * * *").
             func: The async function to execute.
+            name: Optional name for the task.
             *args: Arguments to pass to the function.
             **kwargs: Keyword arguments to pass to the function.
         """
@@ -42,7 +43,10 @@ class CronScheduler:
         itr = croniter(cron_expr, now)
         next_run = itr.get_next(datetime)
 
+        job_name = name or func.__name__
+
         job = {
+            "name": job_name,
             "cron_expr": cron_expr,
             "func": func,
             "args": args,
@@ -51,7 +55,16 @@ class CronScheduler:
             "iterator": itr
         }
         self.jobs.append(job)
-        logger.info(f"Scheduled task {func.__name__} with cron '{cron_expr}', next run: {next_run}")
+        logger.info(f"Scheduled task '{job_name}' with cron '{cron_expr}', next run: {next_run}")
+
+    def task(self, cron_expr: str, name: str = None):
+        """
+        A decorator to schedule a task.
+        """
+        def decorator(func: Callable[..., Coroutine[Any, Any, Any]]):
+            self.schedule(cron_expr, func, name=name)
+            return func
+        return decorator
 
     def _get_now(self) -> datetime:
         """
@@ -101,10 +114,11 @@ class CronScheduler:
         Executes a scheduled job and optionally calls the result callback.
         """
         func = job["func"]
+        name = job["name"]
         try:
-            logger.info(f"Executing scheduled task: {func.__name__}")
+            logger.info(f"Executing scheduled task: {name}")
             result = await func(*job["args"], **job["kwargs"])
             if self.result_callback and result is not None:
                 await self.result_callback(result)
         except Exception as e:
-            logger.error(f"Error executing scheduled task {func.__name__}: {e}", exc_info=True)
+            logger.error(f"Error executing scheduled task {name}: {e}", exc_info=True)

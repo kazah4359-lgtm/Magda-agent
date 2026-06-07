@@ -26,6 +26,7 @@ from magda_agent.planning.planner import Planner
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.scheduler.cron import CronScheduler
+from magda_agent.scheduler.autonomous_tasks import run_health_check, report_quality_metrics
 from magda_agent.autonomy.task_store import TaskStore, TaskStatus
 from magda_agent.autonomy.executor import AutonomousExecutor
 from magda_agent.memory.long_term import LongTermMemory
@@ -135,7 +136,26 @@ consciousness = Consciousness(
     skill_versioning=skill_versioning,
 )
 
+subconsciousness = Subconsciousness(
+    llm=llm_client,
+    emotions=emotional_engine,
+    memory=memory_system,
+    procedural_memory=procedural_memory,
+    semantic_memory=semantic_memory,
+    interval=300
+)
+
 cron_scheduler = CronScheduler()
+
+# Schedule Subconsciousness reflection
+# Default interval was 300 seconds, which is every 5 minutes
+cron_scheduler.schedule("*/5 * * * *", subconsciousness.reflect, name="reflection")
+
+# Schedule autonomous health check every hour
+cron_scheduler.schedule("0 * * * *", run_health_check, name="health_check")
+
+# Schedule quality metrics report every day at midnight
+cron_scheduler.schedule("0 0 * * *", report_quality_metrics, name="quality_report", tracker=quality_tracker)
 
 task_store = TaskStore(path=os.getenv("AUTONOMY_TASKS_PATH", "./autonomy_tasks.json"))
 autonomous_executor = AutonomousExecutor(
@@ -147,25 +167,14 @@ autonomous_executor = AutonomousExecutor(
 
 canvas_server = CanvasServer(consciousness=consciousness)
 
-subconsciousness = Subconsciousness(
-    llm=llm_client,
-    emotions=emotional_engine,
-    memory=memory_system,
-    procedural_memory=procedural_memory,
-    semantic_memory=semantic_memory,
-    interval=300
-)
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    asyncio.create_task(subconsciousness.start())
     asyncio.create_task(cron_scheduler.start())
     await autonomous_executor.start()
     asyncio.create_task(canvas_server.start_streaming())
     yield
     # Shutdown
-    await subconsciousness.stop()
     await cron_scheduler.stop()
     await autonomous_executor.stop()
     await canvas_server.stop_streaming()
