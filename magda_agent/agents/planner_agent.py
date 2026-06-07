@@ -20,10 +20,10 @@ class PlannerAgent:
         if not self.planner:
             return []
 
-        current_plan = self.planner.get_current_plan()
+        current_plan = self.planner.get_current_plan(user_id=user_id)
         if not current_plan:
             await self.planner.generate_plan(user_input, user_id=user_id)
-            current_plan = self.planner.get_current_plan()
+            current_plan = self.planner.get_current_plan(user_id=user_id)
 
         # Retrieve plan and automatically delegate steps if an A2A Delegator is available
         if self.a2a_delegator and current_plan:

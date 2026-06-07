@@ -1,4 +1,3 @@
-import aiohttp
 import logging
 from typing import Dict, Any, List
 from magda_agent.skills.registry import SkillRegistry
@@ -35,6 +34,8 @@ async def fetch_and_register_skills(url: str, registry: SkillRegistry) -> List[s
     """
     registered_skills = []
     try:
+        import aiohttp
+
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as response:
                 response.raise_for_status()

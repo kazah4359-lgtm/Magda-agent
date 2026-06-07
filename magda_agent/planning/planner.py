@@ -8,12 +8,14 @@ from magda_agent.learning.habits import HabitTracker
 from magda_agent.agents.sub_agent import SubAgent
 from magda_agent.planning.dag_planner import DAGPlanner
 
+
 class PlanStep(BaseModel):
     id: str = Field(default_factory=lambda: "")
     description: str
     skill: Optional[str] = None
     skill_kwargs: Optional[Dict[str, Any]] = None
     dependencies: List[str] = Field(default_factory=list)
+
 
 class TypedPlan(BaseModel):
     goal: str
@@ -22,6 +24,19 @@ class TypedPlan(BaseModel):
     steps: List[PlanStep]
     acceptance: List[str] = Field(default_factory=list)
 
+
+class UserPlanState(BaseModel):
+    """Mutable planning state isolated per user/request owner."""
+
+    current_plan: List[Dict[str, Any]] = Field(default_factory=list)
+    completed_steps: List[Dict[str, Any]] = Field(default_factory=list)
+    current_goal: Optional[str] = None
+    current_constraints: List[str] = Field(default_factory=list)
+    current_risk: Optional[str] = None
+    current_acceptance: List[str] = Field(default_factory=list)
+    paused_plan: Optional[Dict[str, Any]] = None
+
+
 class Planner:
     """
     Prefrontal Cortex (Planner) module.
@@ -29,32 +44,84 @@ class Planner:
     selecting which skills to use, resolving dependencies (DAG), and maintaining state.
     """
 
+    DEFAULT_STATE_KEY = "__default__"
+
     def __init__(self, llm: LLMClient, skills: SkillRegistry, habit_tracker: Optional[HabitTracker] = None):
         self.llm = llm
         self.skills = skills
         self.habit_tracker = habit_tracker
-        self.current_plan: List[Dict[str, Any]] = []
-        self.completed_steps: List[Dict[str, Any]] = []
-        self.current_goal: Optional[str] = None
-        self.current_constraints: List[str] = []
-        self.current_risk: Optional[str] = None
-        self.current_acceptance: List[str] = []
-        self.paused_plan: Optional[Dict[str, Any]] = None
+        self.user_states: Dict[str, UserPlanState] = {}
+
+    def _state_key(self, user_id: Optional[Any] = None) -> str:
+        return self.DEFAULT_STATE_KEY if user_id is None else str(user_id)
+
+    def get_user_state(self, user_id: Optional[Any] = None) -> UserPlanState:
+        key = self._state_key(user_id)
+        if key not in self.user_states:
+            self.user_states[key] = UserPlanState()
+        return self.user_states[key]
+
+    # Backwards-compatible properties for tests and single-user callers. New
+    # concurrent code should pass user_id to the methods below.
+    @property
+    def current_plan(self) -> List[Dict[str, Any]]:
+        return self.get_user_state().current_plan
+
+    @current_plan.setter
+    def current_plan(self, value: List[Dict[str, Any]]) -> None:
+        self.get_user_state().current_plan = value
+
+    @property
+    def completed_steps(self) -> List[Dict[str, Any]]:
+        return self.get_user_state().completed_steps
+
+    @completed_steps.setter
+    def completed_steps(self, value: List[Dict[str, Any]]) -> None:
+        self.get_user_state().completed_steps = value
+
+    @property
+    def current_goal(self) -> Optional[str]:
+        return self.get_user_state().current_goal
+
+    @current_goal.setter
+    def current_goal(self, value: Optional[str]) -> None:
+        self.get_user_state().current_goal = value
+
+    @property
+    def current_constraints(self) -> List[str]:
+        return self.get_user_state().current_constraints
+
+    @current_constraints.setter
+    def current_constraints(self, value: List[str]) -> None:
+        self.get_user_state().current_constraints = value
+
+    @property
+    def current_risk(self) -> Optional[str]:
+        return self.get_user_state().current_risk
+
+    @current_risk.setter
+    def current_risk(self, value: Optional[str]) -> None:
+        self.get_user_state().current_risk = value
+
+    @property
+    def current_acceptance(self) -> List[str]:
+        return self.get_user_state().current_acceptance
+
+    @current_acceptance.setter
+    def current_acceptance(self, value: List[str]) -> None:
+        self.get_user_state().current_acceptance = value
+
+    @property
+    def paused_plan(self) -> Optional[Dict[str, Any]]:
+        return self.get_user_state().paused_plan
+
+    @paused_plan.setter
+    def paused_plan(self, value: Optional[Dict[str, Any]]) -> None:
+        self.get_user_state().paused_plan = value
 
     async def generate_plan(self, user_input: str, user_id: int = None) -> List[Dict[str, Any]]:
-        """
-        Analyzes the user input and generates a sequence of steps.
-        Each step may use a skill.
-
-        Args:
-            user_input (str): The prompt from the user.
-            user_id (int, optional): The ID of the user.
-
-        Returns:
-            List[Dict[str, Any]]: A list of steps forming the plan.
-        """
         logging.info("Generating plan for input")
-
+        state = self.get_user_state(user_id)
         skills_desc = self.skills.get_skills_summary()
 
         system_prompt = (
@@ -83,8 +150,6 @@ class Planner:
 
         try:
             response_text = await self.llm.chat_completion(messages)
-
-            # Basic cleanup in case the LLM returned markdown code blocks
             if response_text.startswith("```json"):
                 response_text = response_text[7:]
             if response_text.startswith("```"):
@@ -92,19 +157,15 @@ class Planner:
             if response_text.endswith("```"):
                 response_text = response_text[:-3]
 
-            response_text = response_text.strip()
-
-            plan_dict = json.loads(response_text)
+            plan_dict = json.loads(response_text.strip())
             try:
                 typed_plan = TypedPlan(**plan_dict)
             except ValidationError as ve:
                 logging.error(f"Plan validation failed: {ve}")
-                self.clear_pending_plan()
+                self.clear_pending_plan(user_id=user_id)
                 return []
 
             plan_steps = [step.model_dump() for step in typed_plan.steps]
-
-            # Auto-assign IDs if not present to support fallback execution gracefully
             for i, step in enumerate(plan_steps):
                 if not step.get("id"):
                     step["id"] = f"step_{i}"
@@ -112,170 +173,130 @@ class Planner:
             for i, step in enumerate(plan_steps):
                 if step["skill"] is not None and not self.skills.has_skill(step["skill"]):
                     logging.error(f"Step {i} uses unknown skill: {step['skill']}.")
-                    self.clear_pending_plan()
+                    self.clear_pending_plan(user_id=user_id)
                     return []
                 if step["skill_kwargs"] is not None and not isinstance(step["skill_kwargs"], dict):
                     logging.error(f"Step {i} 'skill_kwargs' must be a dictionary or null.")
-                    self.clear_pending_plan()
+                    self.clear_pending_plan(user_id=user_id)
                     return []
 
             try:
                 plan_steps = DAGPlanner.topological_sort(plan_steps)
             except ValueError as ve:
                 logging.error(f"Plan cycle validation failed: {ve}")
-                self.clear_pending_plan()
+                self.clear_pending_plan(user_id=user_id)
                 return []
 
-            self.current_plan = plan_steps
-            self.completed_steps = []
-            self.current_goal = typed_plan.goal
-            self.current_constraints = typed_plan.constraints
-            self.current_risk = typed_plan.risk
-            self.current_acceptance = typed_plan.acceptance
+            state.current_plan = plan_steps
+            state.completed_steps = []
+            state.current_goal = typed_plan.goal
+            state.current_constraints = typed_plan.constraints
+            state.current_risk = typed_plan.risk
+            state.current_acceptance = typed_plan.acceptance
             return plan_steps
         except json.JSONDecodeError as e:
             logging.error(f"Failed to decode plan JSON: {e}")
-            self.clear_pending_plan()
+            self.clear_pending_plan(user_id=user_id)
             return []
         except Exception as e:
             logging.error(f"Error during plan generation: {e}")
-            self.clear_pending_plan()
+            self.clear_pending_plan(user_id=user_id)
             return []
 
     async def spawn_sub_agent(self, task: str, context: str) -> str:
-        """
-        Spawns an isolated sub-agent to execute a parallel task.
-
-        Args:
-            task (str): The specific task for the sub-agent.
-            context (str): The parent context to share with the sub-agent.
-
-        Returns:
-            str: The result from the sub-agent.
-        """
         logging.info(f"Planner spawning sub-agent for task: {task[:50]}")
         sub_agent = SubAgent(llm=self.llm)
-        result = await sub_agent.execute(task=task, context=context)
-        return result
+        return await sub_agent.execute(task=task, context=context)
 
-    def get_current_plan(self) -> List[Dict[str, Any]]:
-        """
-        Returns the currently active plan.
+    def get_current_plan(self, user_id: Optional[Any] = None) -> List[Dict[str, Any]]:
+        return self.get_user_state(user_id).current_plan
 
-        Returns:
-            List[Dict[str, Any]]: The current sequence of pending steps.
-        """
-        return self.current_plan
+    def get_completed_steps(self, user_id: Optional[Any] = None) -> List[Dict[str, Any]]:
+        return self.get_user_state(user_id).completed_steps
 
-    def mark_step_completed(self, step_index: int, result: str) -> None:
-        """
-        Marks a specific step as completed, storing its result.
-
-        Args:
-            step_index (int): The index of the step in the current plan.
-            result (str): The outcome or result of executing the step.
-        """
-        if 0 <= step_index < len(self.current_plan):
-            step = self.current_plan.pop(step_index)
+    def mark_step_completed(self, step_index: int, result: str, user_id: Optional[Any] = None) -> None:
+        state = self.get_user_state(user_id)
+        if 0 <= step_index < len(state.current_plan):
+            step = state.current_plan.pop(step_index)
             step['result'] = result
-            self.completed_steps.append(step)
+            state.completed_steps.append(step)
             logging.info(f"Step completed: {step.get('description')}")
         else:
             logging.warning(f"Invalid step index: {step_index}")
 
-    def get_executable_steps(self) -> List[Dict[str, Any]]:
-        """
-        Returns steps that are ready to be executed concurrently.
-        """
-        completed_ids = {step.get("id") for step in self.completed_steps if step.get("id")}
-        return DAGPlanner.get_executable_steps(self.current_plan, completed_ids)
+    def get_executable_steps(self, user_id: Optional[Any] = None) -> List[Dict[str, Any]]:
+        state = self.get_user_state(user_id)
+        completed_ids: Set[str] = {step.get("id") for step in state.completed_steps if step.get("id")}
+        return DAGPlanner.get_executable_steps(state.current_plan, completed_ids)
 
-    def get_state_summary(self) -> str:
-        """
-        Returns a summary of the current planner state.
-
-        Returns:
-            str: A formatted string describing pending and completed steps.
-        """
+    def get_state_summary(self, user_id: Optional[Any] = None) -> str:
+        state = self.get_user_state(user_id)
         summary = "Planner State:\n"
-        if not self.current_plan and not self.completed_steps:
+        if not state.current_plan and not state.completed_steps:
             return summary + "  No active plan."
 
-        if self.current_goal:
-            summary += f"  Goal: {self.current_goal}\n"
-            summary += f"  Risk: {self.current_risk}\n"
-            if self.current_constraints:
-                summary += f"  Constraints: {', '.join(self.current_constraints)}\n"
+        if state.current_goal:
+            summary += f"  Goal: {state.current_goal}\n"
+            summary += f"  Risk: {state.current_risk}\n"
+            if state.current_constraints:
+                summary += f"  Constraints: {', '.join(state.current_constraints)}\n"
 
-        if self.completed_steps:
+        if state.completed_steps:
             summary += "  Completed Steps:\n"
-            for step in self.completed_steps:
+            for step in state.completed_steps:
                 summary += f"    - {step.get('description')} (Skill: {step.get('skill')}) -> {step.get('result')}\n"
 
-        if self.current_plan:
+        if state.current_plan:
             summary += "  Pending Steps:\n"
-            for step in self.current_plan:
+            for step in state.current_plan:
                 deps = f" [deps: {', '.join(step.get('dependencies', []))}]" if step.get('dependencies') else ""
                 summary += f"    - {step.get('id')}: {step.get('description')} (Skill: {step.get('skill')}){deps}\n"
-
         return summary
 
-    def pause_current_plan(self) -> None:
-        """
-        Pauses the current active plan, saving its state to allow resuming later.
-        """
-        if not self.current_plan and not self.completed_steps:
+    def pause_current_plan(self, user_id: Optional[Any] = None) -> None:
+        state = self.get_user_state(user_id)
+        if not state.current_plan and not state.completed_steps:
             logging.warning("No active plan to pause.")
             return
 
-        self.paused_plan = {
-            "current_plan": self.current_plan,
-            "completed_steps": self.completed_steps,
-            "current_goal": self.current_goal,
-            "current_constraints": self.current_constraints,
-            "current_risk": self.current_risk,
-            "current_acceptance": self.current_acceptance
+        state.paused_plan = {
+            "current_plan": state.current_plan,
+            "completed_steps": state.completed_steps,
+            "current_goal": state.current_goal,
+            "current_constraints": state.current_constraints,
+            "current_risk": state.current_risk,
+            "current_acceptance": state.current_acceptance
         }
-
-        self.current_plan = []
-        self.completed_steps = []
-        self.current_goal = None
-        self.current_constraints = []
-        self.current_risk = None
-        self.current_acceptance = []
-
+        state.current_plan = []
+        state.completed_steps = []
+        state.current_goal = None
+        state.current_constraints = []
+        state.current_risk = None
+        state.current_acceptance = []
         logging.info("Current plan paused.")
 
-    def resume_plan(self) -> bool:
-        """
-        Resumes a previously paused plan.
-
-        Returns:
-            bool: True if a plan was successfully resumed, False otherwise.
-        """
-        if not self.paused_plan:
+    def resume_plan(self, user_id: Optional[Any] = None) -> bool:
+        state = self.get_user_state(user_id)
+        if not state.paused_plan:
             logging.warning("No paused plan to resume.")
             return False
 
-        self.current_plan = self.paused_plan.get("current_plan", [])
-        self.completed_steps = self.paused_plan.get("completed_steps", [])
-        self.current_goal = self.paused_plan.get("current_goal")
-        self.current_constraints = self.paused_plan.get("current_constraints", [])
-        self.current_risk = self.paused_plan.get("current_risk")
-        self.current_acceptance = self.paused_plan.get("current_acceptance", [])
-
-        self.paused_plan = None
+        state.current_plan = state.paused_plan.get("current_plan", [])
+        state.completed_steps = state.paused_plan.get("completed_steps", [])
+        state.current_goal = state.paused_plan.get("current_goal")
+        state.current_constraints = state.paused_plan.get("current_constraints", [])
+        state.current_risk = state.paused_plan.get("current_risk")
+        state.current_acceptance = state.paused_plan.get("current_acceptance", [])
+        state.paused_plan = None
         logging.info("Paused plan resumed.")
         return True
 
-    def clear_pending_plan(self) -> None:
-        """
-        Clears the current pending plan steps.
-        """
-        self.current_plan = []
-        self.current_goal = None
-        self.current_constraints = []
-        self.current_risk = None
-        self.current_acceptance = []
-        self.paused_plan = None
+    def clear_pending_plan(self, user_id: Optional[Any] = None) -> None:
+        state = self.get_user_state(user_id)
+        state.current_plan = []
+        state.current_goal = None
+        state.current_constraints = []
+        state.current_risk = None
+        state.current_acceptance = []
+        state.paused_plan = None
         logging.info("Pending plan steps cleared.")

@@ -8,11 +8,14 @@ from fastapi.testclient import TestClient
 
 import magda_agent.api as api_module
 from magda_agent.api import app
+
+AUTH_HEADERS = {"Authorization": "Bearer test-token"}
 from magda_agent.autonomy.task_store import TaskStore
 
 
 @pytest.fixture(autouse=True)
 def isolated_store(monkeypatch, tmp_path):
+    monkeypatch.setenv("MAGDA_API_TOKEN", "test-token")
     store = TaskStore(path=str(tmp_path / "tasks.json"))
     monkeypatch.setattr(api_module, "task_store", store)
     # Prevent the real background worker from consuming/advancing tasks.
@@ -29,22 +32,22 @@ client = TestClient(app)
 
 
 def test_create_and_get_task():
-    resp = client.post("/tasks", json={"goal": "summarize the news", "user_id": 5})
+    resp = client.post("/tasks", headers=AUTH_HEADERS, json={"goal": "summarize the news", "user_id": 5})
     assert resp.status_code == 200
     task = resp.json()["task"]
     assert task["status"] == "queued"
     assert task["goal"] == "summarize the news"
     task_id = task["id"]
 
-    detail = client.get(f"/tasks/{task_id}")
+    detail = client.get(f"/tasks/{task_id}", headers=AUTH_HEADERS)
     assert detail.status_code == 200
     assert detail.json()["goal"] == "summarize the news"
 
 
 def test_list_tasks_filtered_by_user():
-    client.post("/tasks", json={"goal": "a", "user_id": 100})
-    client.post("/tasks", json={"goal": "b", "user_id": 200})
-    resp = client.get("/tasks", params={"user_id": 100})
+    client.post("/tasks", headers=AUTH_HEADERS, json={"goal": "a", "user_id": 100})
+    client.post("/tasks", headers=AUTH_HEADERS, json={"goal": "b", "user_id": 200})
+    resp = client.get("/tasks", headers=AUTH_HEADERS, params={"user_id": 100})
     assert resp.status_code == 200
     tasks = resp.json()["tasks"]
     assert all(t["user_id"] == 100 for t in tasks)
@@ -52,22 +55,22 @@ def test_list_tasks_filtered_by_user():
 
 
 def test_max_iterations_is_clamped():
-    resp = client.post("/tasks", json={"goal": "x", "max_iterations": 9999})
+    resp = client.post("/tasks", headers=AUTH_HEADERS, json={"goal": "x", "max_iterations": 9999})
     assert resp.json()["task"]["max_iterations"] == 200
 
 
 def test_cancel_queued_task():
-    task_id = client.post("/tasks", json={"goal": "cancel me"}).json()["task"]["id"]
-    resp = client.post(f"/tasks/{task_id}/cancel")
+    task_id = client.post("/tasks", headers=AUTH_HEADERS, json={"goal": "cancel me"}).json()["task"]["id"]
+    resp = client.post(f"/tasks/{task_id}/cancel", headers=AUTH_HEADERS)
     assert resp.status_code == 200
-    assert client.get(f"/tasks/{task_id}").json()["status"] == "cancelled"
+    assert client.get(f"/tasks/{task_id}", headers=AUTH_HEADERS).json()["status"] == "cancelled"
 
 
 def test_get_missing_task_returns_404():
-    assert client.get("/tasks/doesnotexist").status_code == 404
+    assert client.get("/tasks/doesnotexist", headers=AUTH_HEADERS).status_code == 404
 
 
 def test_resume_non_paused_task_conflicts():
-    task_id = client.post("/tasks", json={"goal": "x"}).json()["task"]["id"]
+    task_id = client.post("/tasks", headers=AUTH_HEADERS, json={"goal": "x"}).json()["task"]["id"]
     # A queued task cannot be resumed (it isn't paused).
-    assert client.post(f"/tasks/{task_id}/resume").status_code == 409
+    assert client.post(f"/tasks/{task_id}/resume", headers=AUTH_HEADERS).status_code == 409

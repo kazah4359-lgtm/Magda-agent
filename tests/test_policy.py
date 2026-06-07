@@ -65,3 +65,16 @@ def test_basal_ganglia_all_denied() -> None:
 
     selected = bg.select_action(actions)
     assert selected is None
+
+def test_policy_layer_deny_programmer_alias() -> None:
+    policy = PolicyLayer()
+    allow, explanation = policy.evaluate("programmer", code="open('.env').read()")
+    assert allow is False
+    assert "denied" in explanation.lower()
+
+
+def test_policy_layer_deny_omnichannel_alias() -> None:
+    policy = PolicyLayer()
+    allow, explanation = policy.evaluate("omnichannel_send", recipient="blocked_user", message="hello")
+    assert allow is False
+    assert "denied" in explanation.lower()

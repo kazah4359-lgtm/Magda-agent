@@ -48,3 +48,10 @@ def test_network_isolation():
     assert "PermissionError" in result
     # Python internal networking triggers getaddrinfo and open(/etc/resolv.conf) which fails on file sandbox first.
     # As long as it throws PermissionError, it is properly isolated.
+
+def test_ctypes_import_bypass_is_blocked():
+    """ctypes must not be importable because it can bypass Python audit hooks."""
+    code = "import ctypes\nctypes.CDLL(None).system(b'echo bypassed')"
+    result = execute(code)
+    assert "PermissionError" in result
+    assert "imports are disabled" in result
