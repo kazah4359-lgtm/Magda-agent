@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 45
+    "max_todo_tasks": 50
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2506,7 +2506,7 @@
     },
     {
       "id": "agent-team-delegation-protocol",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "Agent Team Delegation Protocol",
@@ -3264,6 +3264,57 @@
       "acceptance": [
         "Fallback is triggered on guardrail violation.",
         "Test passes."
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-io-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Hermes agentskills.io export compatibility",
+      "description": "Inspired by Hermes Agent trend: Skill marketplace — совместимость с agentskills.io. Ensure magda can export skills using the open agentskills.io standard.",
+      "allowed_paths": [
+        "magda_agent/skills/agentskills_export.py",
+        "tests/test_agentskills_export.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can export tools matching the agentskills.io schema.",
+        "Tests verify schema validation for exported skills."
+      ]
+    },
+    {
+      "id": "openclaw-rl-next-state-signals-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online reinforcement learning from Next-State",
+      "description": "Inspired by OpenClaw-RL trend: implement online learning directly from next-state signals (user replies, tool outputs) without separate annotation.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl.py",
+        "tests/test_openclaw_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Learning module updates weights based on next-state signals.",
+        "Tests simulate conversation to verify learning."
+      ]
+    },
+    {
+      "id": "claude-evaluator-module-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude Evaluator Agent Team Module",
+      "description": "Inspired by Claude Agent SDK (Planner, Generator, Evaluator): Implement an Evaluator Agent module to evaluate the Generator's outputs before finalizing.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator.py",
+        "tests/test_evaluator_agent*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator agent can score Generator output.",
+        "Tests mock LLM and verify evaluation workflow."
       ]
     }
   ]
