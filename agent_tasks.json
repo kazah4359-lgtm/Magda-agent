@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 53
+    "max_todo_tasks": 60
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2631,7 +2631,7 @@
     },
     {
       "id": "agent-discovery-service",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "low",
       "title": "A2A Agent Discovery Service",
@@ -3545,6 +3545,57 @@
       "acceptance": [
         "Actions are evaluated against 5 security checkpoints.",
         "Tests mock violating actions and verify rejection."
+      ]
+    },
+    {
+      "id": "cross-platform-reach-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Cross-platform reach implementation",
+      "description": "Inspired by trend: Cross-platform reach — один агент, много каналов. Implement cross-platform capabilities to reach across multiple chat platforms simultaneously.",
+      "allowed_paths": [
+        "magda_agent/integration/cross_platform.py",
+        "tests/test_cross_platform.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can broadcast messages across multiple platforms.",
+        "Tests verify multi-platform message dispatch."
+      ]
+    },
+    {
+      "id": "skill-marketplace-agentskills-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Skill marketplace compatibility",
+      "description": "Inspired by trend: Skill marketplace — совместимость с agentskills.io. Implement compatibility to import and export skills from agentskills.io marketplace.",
+      "allowed_paths": [
+        "magda_agent/skills/agentskills_marketplace.py",
+        "tests/test_agentskills_marketplace.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can import skills from the marketplace.",
+        "Tests mock the marketplace and verify import mechanics."
+      ]
+    },
+    {
+      "id": "quality-metrics-longitudinal-v1",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "low",
+      "title": "Quality metrics longitudinal tracking",
+      "description": "Inspired by trend: Quality metrics — longitudinal tracking, не одноразовый pytest. Implement longitudinal tracking of code quality metrics.",
+      "allowed_paths": [
+        "magda_agent/evaluation/longitudinal_metrics.py",
+        "tests/test_longitudinal_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Metrics are stored over time across multiple test runs.",
+        "Tests verify accumulation of metric data."
       ]
     }
   ]

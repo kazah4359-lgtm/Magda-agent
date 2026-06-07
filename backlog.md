@@ -112,6 +112,7 @@
 * [x] FEATURE: Agent Skills MCP Export Enhancements (agent-skills-mcp-export)
 * [x] FEATURE: Multi-Channel Skills Sync (2026-06-XX)
 * [x] FEATURE: A2A Agent Cards Discovery (2026-06-05)
+* [x] MODULE: **A2A Agent Discovery Service** - `magda_agent/integration/discovery.py`. Discovers peers via Agent Cards.
 * [x] MODULE: **ASSERT Evaluator** — модуль magda_agent/metacognition/assert_evaluator.py.
 * [x] FEATURE: Multi-channel gateway (Telegram + Discord + API) (2026-06-05)
 * [x] MODULE: **User Model** — модуль `magda_agent/user_model/model.py`. (2026-06-05)
