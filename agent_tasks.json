@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 35
+    "max_todo_tasks": 40
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2361,7 +2361,7 @@
     },
     {
       "id": "a2a-task-delegation-v3",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Task Delegation (v3)",
@@ -2970,6 +2970,44 @@
       "acceptance": [
         "Agent can export skills to agentskills.io format",
         "Tests verify successful export format"
+      ]
+    },
+    {
+      "id": "a2a-json-rpc-server",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A JSON-RPC Server Interface",
+      "description": "Inspired by MCP JSON-RPC client-server interface trend: Implement a JSON-RPC server endpoint for Magda to receive A2A requests from other agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_server.py",
+        "tests/test_a2a_server.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Magda can start a JSON-RPC server.",
+        "Magda can receive and parse A2A task delegation requests over JSON-RPC.",
+        "Valid requests are routed to the Planner for execution."
+      ]
+    },
+    {
+      "id": "a2a-async-auth-tracing",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Enterprise-Ready Async Auth and Tracing",
+      "description": "Inspired by A2A Protocol trend (Async-first, enterprise-ready auth, tracing, monitoring): Add authentication and tracing mechanisms to the A2A Discovery and Delegation modules.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_security.py",
+        "magda_agent/integration/a2a_discovery.py",
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a_security*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A requests require authentication tokens.",
+        "A2A task delegations and discoveries are logged in the audit trail.",
+        "Unauthorized A2A requests are rejected."
       ]
     }
   ]

@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: A2A Task Delegation (v3)
 * [x] FEATURE: Longitudinal Quality Metrics CLI
 * [x] FEATURE: Agent Skills MCP Export Enhancements (agent-skills-mcp-export)
 * [x] FEATURE: Multi-Channel Skills Sync (2026-06-XX)
