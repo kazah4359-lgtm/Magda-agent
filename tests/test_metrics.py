@@ -1,5 +1,11 @@
 import pytest
+import sys
+import io
+import tempfile
+import os
+from unittest.mock import patch
 from magda_agent.metacognition.tracker import QualityTracker
+from magda_agent.metacognition.metrics_cli import main
 
 @pytest.fixture
 def quality_tracker():
@@ -51,3 +57,62 @@ def test_get_metrics_limit(quality_tracker):
 
     metrics = quality_tracker.get_metrics("pr_size", limit=5)
     assert len(metrics) <= 5
+
+
+
+
+
+
+def test_metrics_cli_list(capsys: pytest.CaptureFixture[str]) -> None:
+    """Test the list command from the CLI."""
+    # Setup test DB (we need to pass the same in-memory DB or temporary file)
+    # The CLI creates a new QualityTracker, so we'll use a temporary file instead of :memory:
+    # to avoid the DB disappearing between tracker instances.
+    import tempfile
+    import os
+
+    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+        db_path = tmp.name
+
+    try:
+        # Create a tracker and log some entries
+        tracker = QualityTracker(db_path=db_path)
+        tracker.log_metric("test_metric", 10.5, {"info": "first"})
+        tracker.log_metric("test_metric", 20.0, {"info": "second"})
+
+        # Mock sys.argv to simulate running the CLI
+        test_args = ["metrics_cli.py", "list", "test_metric", "--db", db_path]
+        with patch.object(sys, 'argv', test_args):
+            main()
+
+        # Capture output
+        captured = capsys.readouterr()
+
+        # Verify the output contains the metrics
+        assert "Recent metrics for test_metric:" in captured.out
+        assert "10.5" in captured.out
+        assert "20.0" in captured.out
+        assert "first" in captured.out
+        assert "second" in captured.out
+    finally:
+        if os.path.exists(db_path):
+            os.remove(db_path)
+
+def test_metrics_cli_list_empty(capsys: pytest.CaptureFixture[str]) -> None:
+    """Test the list command from the CLI when no metrics exist."""
+    import tempfile
+    import os
+
+    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+        db_path = tmp.name
+
+    try:
+        test_args = ["metrics_cli.py", "list", "non_existent_metric", "--db", db_path]
+        with patch.object(sys, 'argv', test_args):
+            main()
+
+        captured = capsys.readouterr()
+        assert "No entries found for non_existent_metric" in captured.out
+    finally:
+        if os.path.exists(db_path):
+            os.remove(db_path)

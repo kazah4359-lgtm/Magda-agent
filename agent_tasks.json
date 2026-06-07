@@ -2345,7 +2345,7 @@
     },
     {
       "id": "longitudinal-quality-metrics-cli",
-      "status": "todo",
+      "status": "done",
       "area": "metrics",
       "risk": "low",
       "title": "Longitudinal Quality Metrics CLI",
@@ -2936,6 +2936,40 @@
       ],
       "acceptance": [
         "ACS checkpoints are enforced during tool execution."
+      ]
+    },
+    {
+      "id": "scheduled-operations-cron",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Scheduled operations cron-like tasks",
+      "description": "Inspired by trend: Scheduled operations — cron-подобные задачи без участия пользователя. Implement cron-like scheduled tasks that the agent can run autonomously.",
+      "allowed_paths": [
+        "magda_agent/operations/cron.py",
+        "tests/test_cron.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can schedule and execute background tasks autonomously",
+        "Tests verify task execution according to schedule"
+      ]
+    },
+    {
+      "id": "skill-marketplace-agentskills-compatibility",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Skill marketplace compatibility",
+      "description": "Inspired by trend: Skill marketplace — совместимость с agentskills.io. Ensure skills are compatible with standard skill marketplace formats.",
+      "allowed_paths": [
+        "magda_agent/integration/skill_marketplace.py",
+        "tests/test_skill_marketplace_integration.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can export skills to agentskills.io format",
+        "Tests verify successful export format"
       ]
     }
   ]
