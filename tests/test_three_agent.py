@@ -30,9 +30,12 @@ async def test_generator_agent():
     mock_planner.cleared = False
     mock_planner.get_current_plan.side_effect = mock_get_current_plan
 
-    mock_planner.completed_steps = [{"description": "step1", "skill": "test_skill", "result": "success"}]
+
+    mock_planner.completed_steps = []
     def mock_mark_completed(*args, **kwargs):
         mock_planner.cleared = True
+        mock_planner.completed_steps.append({"description": "step1", "skill": "test_skill", "result": "success"})
+
     mock_planner.mark_step_completed.side_effect = mock_mark_completed
 
     mock_skills = MagicMock()
