@@ -275,3 +275,28 @@ def test_get_state_summary():
     assert "Pending step" in summary
     assert "Done step" in summary
     assert "Found it" in summary
+
+@pytest.mark.asyncio
+async def test_planner_isolates_plan_state_by_user():
+    mock_llm = MagicMock(spec=LLMClient)
+    mock_llm.chat_completion = AsyncMock(side_effect=[
+        '{"goal":"u1 goal","constraints":[],"risk":"low","steps":[{"id":"a","description":"User 1 step","skill":null,"skill_kwargs":null,"dependencies":[]}],"acceptance":[]}',
+        '{"goal":"u2 goal","constraints":[],"risk":"low","steps":[{"id":"b","description":"User 2 step","skill":null,"skill_kwargs":null,"dependencies":[]}],"acceptance":[]}',
+    ])
+    mock_skills = MagicMock(spec=SkillRegistry)
+    mock_skills.get_skills_summary.return_value = "Available Skills..."
+    mock_skills.has_skill.return_value = True
+
+    planner = Planner(llm=mock_llm, skills=mock_skills)
+    await planner.generate_plan("first", user_id="user-1")
+    await planner.generate_plan("second", user_id="user-2")
+
+    assert planner.get_current_plan(user_id="user-1")[0]["description"] == "User 1 step"
+    assert planner.get_current_plan(user_id="user-2")[0]["description"] == "User 2 step"
+
+    planner.mark_step_completed(0, "done-1", user_id="user-1")
+
+    assert planner.get_current_plan(user_id="user-1") == []
+    assert planner.get_current_plan(user_id="user-2")[0]["description"] == "User 2 step"
+    assert planner.get_completed_steps(user_id="user-1")[0]["result"] == "done-1"
+    assert planner.get_completed_steps(user_id="user-2") == []

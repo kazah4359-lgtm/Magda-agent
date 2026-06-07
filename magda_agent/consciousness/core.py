@@ -129,7 +129,7 @@ class Consciousness:
 
         if self.online_learner:
             # For simplicity, we use the planner's last state or a generic string as the action context
-            last_context = self.planner.get_state_summary() if getattr(self, 'planner', None) else "Recent action context"
+            last_context = self.planner.get_state_summary(user_id=user_id) if getattr(self, 'planner', None) else "Recent action context"
             await self.online_learner.process_feedback(user_input, last_context, user_id)
         # Let OpenClawRL learn from the interaction as next-state signal
         if self.openclaw_rl:
@@ -351,7 +351,7 @@ class Consciousness:
             habit_tracker=self.habit_tracker,
             planner=self.planner
         )
-        await evaluator_agent.evaluate(user_input, response, user_id=user_id, policies=self.planner.current_constraints if self.planner else None)
+        await evaluator_agent.evaluate(user_input, response, user_id=user_id, policies=self.planner.get_user_state(user_id).current_constraints if self.planner else None)
 
         return response
 
