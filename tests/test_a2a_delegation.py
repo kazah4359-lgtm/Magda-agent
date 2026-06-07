@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import MagicMock, AsyncMock
+from unittest.mock import MagicMock, AsyncMock, patch
 from magda_agent.integration.a2a_discovery import A2ADiscovery, AgentCard
 from magda_agent.integration.a2a_delegation import A2ADelegator
 from magda_agent.agents.planner_agent import PlannerAgent
@@ -30,9 +30,16 @@ def a2a_delegator(a2a_discovery):
     return A2ADelegator(a2a_discovery)
 
 @pytest.mark.asyncio
-async def test_a2a_delegator_finds_agent(a2a_delegator):
+@patch('httpx.AsyncClient.post', new_callable=AsyncMock)
+async def test_a2a_delegator_finds_agent(mock_post, a2a_delegator):
+    from unittest.mock import MagicMock
+    mock_response = MagicMock()
+    mock_response.json.return_value = {"result": {"status": "Success"}}
+    mock_response.raise_for_status.return_value = None
+    mock_post.return_value = mock_response
+
     result = await a2a_delegator.delegate_subplan("coding", {"task": "Write hello world"})
-    assert result == "Delegated to Agent TestAgent"
+    assert result == "Delegated to Agent TestAgent: Success"
 
 @pytest.mark.asyncio
 async def test_a2a_delegator_no_agent(a2a_delegator):
@@ -40,12 +47,19 @@ async def test_a2a_delegator_no_agent(a2a_delegator):
     assert result == "No agent found"
 
 @pytest.mark.asyncio
-async def test_planner_agent_delegation(a2a_delegator):
+@patch('httpx.AsyncClient.post', new_callable=AsyncMock)
+async def test_planner_agent_delegation(mock_post, a2a_delegator):
     # Test PlannerAgent integrates with A2ADelegator
     planner_agent = PlannerAgent(planner=None, a2a_delegator=a2a_delegator)
 
+    from unittest.mock import MagicMock
+    mock_response = MagicMock()
+    mock_response.json.return_value = {"result": {"status": "Success"}}
+    mock_response.raise_for_status.return_value = None
+    mock_post.return_value = mock_response
+
     result = await planner_agent.delegate_subplan("coding", {"task": "Refactor module"})
-    assert result == "Delegated to Agent TestAgent"
+    assert result == "Delegated to Agent TestAgent: Success"
 
 @pytest.mark.asyncio
 async def test_planner_agent_no_delegator():
@@ -56,12 +70,20 @@ async def test_planner_agent_no_delegator():
     assert result == "Delegation failed: No A2ADelegator configured."
 
 @pytest.mark.asyncio
-async def test_planner_agent_plan_delegation(a2a_delegator):
+@patch('httpx.AsyncClient.post', new_callable=AsyncMock)
+async def test_planner_agent_plan_delegation(mock_post, a2a_delegator):
+    from unittest.mock import MagicMock
     mock_planner = MagicMock()
     mock_planner.get_current_plan.return_value = [
         {"id": "step_1", "skill": "delegate_to_agent", "skill_kwargs": {"capability": "coding"}, "description": "Delegate coding task"}
     ]
     planner_agent = PlannerAgent(planner=mock_planner, a2a_delegator=a2a_delegator)
 
+    from unittest.mock import MagicMock
+    mock_response = MagicMock()
+    mock_response.json.return_value = {"result": {"status": "Success"}}
+    mock_response.raise_for_status.return_value = None
+    mock_post.return_value = mock_response
+
     plan = await planner_agent.plan("do coding task")
-    assert plan[0]["result"] == "Delegated to Agent TestAgent"
+    assert plan[0]["result"] == "Delegated to Agent TestAgent: Success"

@@ -1,6 +1,7 @@
 from typing import Dict, Any
 import logging
 from magda_agent.integration.a2a_discovery import A2ADiscovery
+import httpx
 
 class A2ADelegator:
     """
@@ -12,10 +13,11 @@ class A2ADelegator:
         """
         self.discovery = discovery
 
+
     async def delegate_subplan(self, capability: str, plan_context: Dict[str, Any]) -> str:
         """
         Finds an agent capable of executing the requested capability and delegates
-        the subplan to it. In a real environment, this would establish an MCP connection.
+        the subplan to it dynamically over the network using httpx.
 
         Args:
             capability: The required capability (e.g., 'code_execution').
@@ -33,5 +35,25 @@ class A2ADelegator:
         target_agent = agents[0]
 
         logging.info(f"Delegating sub-plan to Agent: {target_agent.name} (ID: {target_agent.agent_id})")
-        # Mocking the MCP call and returning a successful result
-        return f"Delegated to Agent {target_agent.name}"
+
+        endpoint = target_agent.endpoints.get("mcp")
+        if not endpoint:
+            return f"Agent {target_agent.name} missing MCP endpoint"
+
+        payload = {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "execute_subplan",
+            "params": {"capability": capability, "context": plan_context}
+        }
+
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(endpoint, json=payload, timeout=10.0)
+                response.raise_for_status()
+                data = response.json()
+                result = data.get("result", {})
+                return f"Delegated to Agent {target_agent.name}: {result.get('status', 'Success')}"
+        except Exception as e:
+            logging.error(f"Failed to delegate to {target_agent.name} at {endpoint}: {e}")
+            return f"Delegation to {target_agent.name} failed: {e}"
