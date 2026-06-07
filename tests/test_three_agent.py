@@ -31,7 +31,7 @@ async def test_generator_agent():
     mock_planner.get_current_plan.side_effect = mock_get_current_plan
 
     mock_planner.completed_steps = [{"description": "step1", "skill": "test_skill", "result": "success"}]
-    def mock_mark_completed(*args):
+    def mock_mark_completed(*args, **kwargs):
         mock_planner.cleared = True
     mock_planner.mark_step_completed.side_effect = mock_mark_completed
 
