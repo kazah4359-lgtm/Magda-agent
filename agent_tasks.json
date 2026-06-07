@@ -2417,7 +2417,7 @@
     },
     {
       "id": "agent-teams-claude-sdk",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Agent Teams via Git Worktree Isolation",
@@ -2436,7 +2436,7 @@
     },
     {
       "id": "a2a-agent-discovery-v4",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Agent Discovery v4",
@@ -3096,6 +3096,57 @@
       "acceptance": [
         "System gracefully falls back when guardrails trigger",
         "Tests verify fallback behavior"
+      ]
+    },
+    {
+      "id": "openclaw-live-canvas-visualizer",
+      "status": "todo",
+      "area": "gateway",
+      "risk": "medium",
+      "title": "Canvas live visualization support",
+      "description": "Inspired by trend: OpenClaw - Canvas для live визуализации. Add visualization capabilities and state streaming to the context engine.",
+      "allowed_paths": [
+        "magda_agent/gateway/canvas.py",
+        "tests/test_canvas*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas state is updated dynamically",
+        "Tests verify component updates without regressions"
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking-sandbox",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking Sandbox",
+      "description": "Inspired by trend: MCPKernel: taint tracking + sandboxed execution. Add taint tracking to tool outputs before they modify state or network.",
+      "allowed_paths": [
+        "magda_agent/safety/taint.py",
+        "tests/test_taint*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted inputs correctly raise policy violations",
+        "Tests verify isolation and taint propagation"
+      ]
+    },
+    {
+      "id": "post-merge-smoke-tests-evaluator",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "Post-merge smoke tests evaluator",
+      "description": "Inspired by trend: Post-merge smoke tests. Evaluate codebase dynamically via smoke testing after new code is merged.",
+      "allowed_paths": [
+        "magda_agent/evaluation/smoke.py",
+        "tests/test_smoke*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Smoke tests correctly identify functionality breakdown",
+        "Evaluator module integrates post-merge hooks seamlessly"
       ]
     }
   ]
