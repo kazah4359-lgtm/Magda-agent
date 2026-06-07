@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 60
+    "max_todo_tasks": 65
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2682,7 +2682,7 @@
     },
     {
       "id": "agent-teams-git-worktree-isolation",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Agent Teams Git Worktree Isolation",
@@ -3698,6 +3698,60 @@
       "acceptance": [
         "Multiple tools can run concurrently",
         "Tests confirm concurrency"
+      ]
+    },
+    {
+      "id": "hermes-skill-experience-generation",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Skill Creation from Experience",
+      "description": "Inspired by Hermes Agent trend: Self-improving agent с built-in learning loop that creates skills from experience. Implement a service that dynamically synthesizes executable python scripts for new agent skills based on repeated user queries.",
+      "allowed_paths": [
+        "magda_agent/skills/skill_generator.py",
+        "tests/test_skill_generator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "System synthesizes skills dynamically",
+        "Synthesized skills conform to safe python sandbox policies",
+        "Tests verify generation logic"
+      ]
+    },
+    {
+      "id": "claude-planner-generator-evaluator-triad",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Claude Triad Architecture",
+      "description": "Inspired by Claude Agent SDK trend: Трёхагентная архитектура Planner, Generator, Evaluator. Refactor the main autonomous loop to instantiate a distinct PlannerAgent, GeneratorAgent, and EvaluatorAgent working in sequence.",
+      "allowed_paths": [
+        "magda_agent/agents/triad_coordinator.py",
+        "tests/test_triad_coordinator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Triad coordinator orchestrates the 3 main agents",
+        "Messages are correctly passed and evaluated",
+        "Tests mock internal agents and pass"
+      ]
+    },
+    {
+      "id": "openclaw-context-compression",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Compression",
+      "description": "Inspired by OpenClaw trend: Context compression + selective retrieval. Implement a context compressor that selectively summarizes older memory entries to fit within limited context windows.",
+      "allowed_paths": [
+        "magda_agent/memory/compressor.py",
+        "tests/test_compressor*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Compressor reduces token size of text while maintaining key points",
+        "Compressor selectively filters out low-salience memories",
+        "Tests pass"
       ]
     }
   ]
