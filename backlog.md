@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: Agent Team Delegation Protocol (agent-team-delegation-protocol)
 * [x] FEATURE: Online RL from User Feedback (online-rl-feedback-loop)
 * [x] FEATURE: MCP Tools Integration Engine (mcp-tools-integration-v2)
 
