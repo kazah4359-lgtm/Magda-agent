@@ -2561,7 +2561,7 @@
     },
     {
       "id": "agent-teams-parallel-subagents-v2",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "Agent Teams: Parallel Subagent Execution",
@@ -3404,6 +3404,42 @@
         "Plugins can register lifecycle hooks",
         "Hooks are triggered accurately",
         "Tests verify hook execution"
+      ]
+    },
+    {
+      "id": "a2a-discovery-agent-cards-v1",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "A2A Discovery via Agent Cards",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol) Agent discovery через Agent Cards. Implement a discovery service that locates and connects to other agents using standard Agent Cards.",
+      "allowed_paths": [
+        "magda_agent/architecture/a2a_discovery.py",
+        "tests/test_a2a_discovery*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can broadcast and receive Agent Cards",
+        "Discovered agents are registered in local cache",
+        "Tests mock network operations"
+      ]
+    },
+    {
+      "id": "acs-guardrails-policy-layer-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guardrails Policy Layer",
+      "description": "Inspired by trend: ACS (Agent Control Specification) - 5 validation checkpoints. Implement a comprehensive policy layer implementing the 5 standard ACS checkpoints for tool execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_policy.py",
+        "tests/test_acs_policy*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All 5 ACS checkpoints are validated before tool execution",
+        "Violation triggers clear FallbackStrategy",
+        "Tests verify each checkpoint"
       ]
     }
   ]
