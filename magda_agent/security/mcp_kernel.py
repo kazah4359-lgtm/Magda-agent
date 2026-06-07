@@ -1,4 +1,6 @@
 import ast
+from magda_agent.safety.taint import is_tainted
+
 import builtins
 from typing import Any, Dict, Optional, Set
 
@@ -37,6 +39,8 @@ class MCPKernel:
             return False
 
     def execute(self, code: str, globals_dict: Optional[Dict[str, Any]] = None, locals_dict: Optional[Dict[str, Any]] = None) -> Any:
+        if is_tainted(code):
+            raise SecurityError("Code is tainted and unsafe to execute.")
         if not self.is_safe(code):
             raise SecurityError("Code contains unsafe operations and was blocked by MCPKernel taint tracking.")
 

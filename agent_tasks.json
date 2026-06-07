@@ -2648,7 +2648,7 @@
     },
     {
       "id": "mcpkernel-taint-tracking-db0c895d",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCPKernel Taint Tracking",
@@ -3596,6 +3596,57 @@
       "acceptance": [
         "Metrics are stored over time across multiple test runs.",
         "Tests verify accumulation of metric data."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v6",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Action Tool Exporter v6",
+      "description": "Inspired by the MCP-совместимость trend: Magda должна уметь экспортировать skills как MCP tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter.py",
+        "tests/test_mcp_exporter*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported as MCP tools.",
+        "Tests verify successful skill wrapping."
+      ]
+    },
+    {
+      "id": "a2a-delegation-v6",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A delegation v6",
+      "description": "Inspired by trend: A2A поддержка — возможность делегировать задачи другим агентам.",
+      "allowed_paths": [
+        "magda_agent/multi_agent/a2a_delegator.py",
+        "tests/test_a2a_delegator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can delegate tasks",
+        "Tests verify delegation logic"
+      ]
+    },
+    {
+      "id": "online-learning-v6",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online learning v6",
+      "description": "Inspired by trend: Online learning — учиться на каждом диалоге (не только reflections).",
+      "allowed_paths": [
+        "magda_agent/learning/online_learning.py",
+        "tests/test_online_learning*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Learning module extracts insights from dialogue in real time",
+        "Tests verify learning loop logic"
       ]
     }
   ]
