@@ -10,6 +10,7 @@ from magda_agent.skills.registry import SkillRegistry
 from magda_agent.planning.planner import Planner
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
+from magda_agent.metacognition.assert_evaluator import AssertEvaluator
 from magda_agent.metacognition.confidence import ConfidenceCalibrator
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.emotions.attachment import AttachmentModel
@@ -45,6 +46,7 @@ class Consciousness:
         planner: Optional[Planner] = None,
         long_term_memory: Optional[LongTermMemory] = None,
         evaluator: Optional[Evaluator] = None,
+        assert_evaluator: Optional[AssertEvaluator] = None,
         confidence_calibrator: Optional[ConfidenceCalibrator] = None,
         habit_tracker: Optional[HabitTracker] = None,
         attachment: Optional[AttachmentModel] = None,
@@ -73,6 +75,7 @@ class Consciousness:
         self.planner = planner
         self.long_term_memory = long_term_memory
         self.evaluator = evaluator
+        self.assert_evaluator = assert_evaluator
         self.confidence_calibrator = confidence_calibrator
         self.habit_tracker = habit_tracker
         self.attachment = attachment
@@ -336,11 +339,12 @@ class Consciousness:
         # 6. Metacognition (Self-Evaluation) via Evaluator Agent
         evaluator_agent = EvaluatorAgent(
             evaluator=self.evaluator,
+            assert_evaluator=self.assert_evaluator,
             confidence_calibrator=self.confidence_calibrator,
             habit_tracker=self.habit_tracker,
             planner=self.planner
         )
-        await evaluator_agent.evaluate(user_input, response, user_id=user_id)
+        await evaluator_agent.evaluate(user_input, response, user_id=user_id, policies=self.planner.current_constraints if self.planner else None)
 
         return response
 

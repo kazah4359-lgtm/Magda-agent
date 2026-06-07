@@ -26,6 +26,7 @@ from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.scheduler.cron import CronScheduler
 from magda_agent.memory.long_term import LongTermMemory
 from magda_agent.metacognition.evaluator import Evaluator
+from magda_agent.metacognition.assert_evaluator import AssertEvaluator
 from magda_agent.metacognition.confidence import ConfidenceCalibrator
 from magda_agent.metacognition.tracker import QualityTracker
 from magda_agent.learning.habits import HabitTracker
@@ -75,6 +76,7 @@ brainstem = Brainstem()
 planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tracker)
 long_term_memory = LongTermMemory()
 evaluator = Evaluator(llm=llm_client, memory=memory_system)
+assert_evaluator = AssertEvaluator(llm=llm_client, memory=memory_system)
 attachment_model = AttachmentModel()
 thalamus = Thalamus()
 hypothalamus = Hypothalamus()
@@ -93,6 +95,7 @@ consciousness = Consciousness(
     planner=planner,
     long_term_memory=long_term_memory,
     evaluator=evaluator,
+    assert_evaluator=assert_evaluator,
     confidence_calibrator=confidence_calibrator,
     habit_tracker=habit_tracker,
     attachment=attachment_model,
