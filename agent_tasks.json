@@ -2330,7 +2330,7 @@
     },
     {
       "id": "agent-skills-mcp-export",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Agent Skills MCP Export Enhancements",
@@ -2904,6 +2904,38 @@
       ],
       "acceptance": [
         "Memory state can be exported and accessed via MCP interface"
+      ]
+    },
+    {
+      "id": "a2a-protocol-integration-v4",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Agent-to-Agent (A2A) Protocol integration",
+      "description": "Inspired by A2A trend: integrate Agent discovery via Agent Cards and peer-to-peer task delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_protocol_integration.py",
+        "tests/test_a2a_protocol_integration.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover and connect to peers using A2A protocol."
+      ]
+    },
+    {
+      "id": "acs-runtime-safety-controls-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS runtime safety controls",
+      "description": "Inspired by ACS trend: Implement 5 validation checkpoints for runtime safety controls.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_controls.py",
+        "tests/test_acs_controls.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS checkpoints are enforced during tool execution."
       ]
     }
   ]

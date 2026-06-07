@@ -14,6 +14,9 @@ class MagdaMCPAdapter:
         """
         Extracts JSON schema parameters from the function signature.
         """
+        if hasattr(func, "__mcp_schema__"):
+            return getattr(func, "__mcp_schema__")
+
         sig = inspect.signature(func)
         properties = {}
         required = []
@@ -60,6 +63,36 @@ class MagdaMCPAdapter:
                 "inputSchema": schema
             })
         return tools
+
+    async def call_tool_async(self, name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Invokes an async skill via the MCP protocol format.
+        """
+        if not self.registry.has_skill(name):
+            return {
+                "content": [{"type": "text", "text": f"Error: Tool '{name}' not found."}],
+                "isError": True
+            }
+
+        try:
+            result = self.registry.execute_skill(name, **arguments)
+            if inspect.isawaitable(result):
+                try:
+                    result = await result
+                except Exception as e:
+                    return {
+                        "content": [{"type": "text", "text": f"Error executing async tool {name}: {e}"}],
+                        "isError": True
+                    }
+            return {
+                "content": [{"type": "text", "text": str(result)}],
+                "isError": False
+            }
+        except Exception as e:
+            return {
+                "content": [{"type": "text", "text": f"Error executing tool {name}: {e}"}],
+                "isError": True
+            }
 
     def call_tool(self, name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
         """

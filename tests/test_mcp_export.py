@@ -55,3 +55,59 @@ def test_call_tool_execution_error(adapter):
     # Let's adjust our test for that behavior.
     assert result["isError"] is False
     assert "Error executing skill" in result["content"][0]["text"]
+
+def dynamic_skill_with_schema(a: int) -> str:
+    """A dynamic skill with custom schema."""
+    return f"dynamic: {a}"
+
+dynamic_skill_with_schema.__mcp_schema__ = {
+    "type": "object",
+    "properties": {
+        "a": {"type": "integer"},
+        "b": {"type": "string"}
+    },
+    "required": ["a", "b"]
+}
+
+def test_dynamic_skill_schema(adapter):
+    adapter.registry.register_skill("dynamic_skill", dynamic_skill_with_schema, "Dynamic Test")
+    tools = adapter.list_tools()
+
+    dynamic_tool = next(t for t in tools if t["name"] == "dynamic_skill")
+    assert dynamic_tool["inputSchema"] == dynamic_skill_with_schema.__mcp_schema__
+
+import pytest
+
+async def async_sample_skill(a: int) -> str:
+    """An async sample skill for testing."""
+    return f"async: {a}"
+
+async def async_sample_skill_error(a: int) -> str:
+    """An async sample skill for testing."""
+    raise ValueError("async error")
+
+@pytest.fixture
+def async_adapter():
+    registry = SkillRegistry()
+    registry.register_skill("async_skill", async_sample_skill, "An async test skill")
+    registry.register_skill("async_skill_error", async_sample_skill_error, "An async test skill error")
+    return MagdaMCPAdapter(registry)
+
+@pytest.mark.asyncio
+async def test_call_tool_async_success(async_adapter):
+    result = await async_adapter.call_tool_async("async_skill", {"a": 42})
+    assert result["isError"] is False
+    assert result["content"][0]["type"] == "text"
+    assert result["content"][0]["text"] == "async: 42"
+
+@pytest.mark.asyncio
+async def test_call_tool_async_error(async_adapter):
+    result = await async_adapter.call_tool_async("async_skill_error", {"a": 42})
+    assert result["isError"] is True
+    assert "async error" in result["content"][0]["text"]
+
+@pytest.mark.asyncio
+async def test_call_tool_async_not_found(async_adapter):
+    result = await async_adapter.call_tool_async("missing_skill", {})
+    assert result["isError"] is True
+    assert "not found" in result["content"][0]["text"]
