@@ -2314,7 +2314,7 @@
     },
     {
       "id": "multi-channel-skills-sync",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "low",
       "title": "Multi-Channel Skills Sync",
@@ -2872,6 +2872,38 @@
       "acceptance": [
         "Feedback signals adjust habit weights dynamically",
         "Tests verify weight shifts based on simulated feedback"
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-v5",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Peer Delegation Support v5",
+      "description": "Inspired by the A2A trend: Ensure the agent can delegate tasks to A2A compliant peers.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_peer.py",
+        "tests/test_a2a_peer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent delegates tasks successfully to simulated A2A peer"
+      ]
+    },
+    {
+      "id": "mcp-context-exporter",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Context Exporter",
+      "description": "Inspired by MCP standard trend: Expose Magda's Context Engine memory states as MCP tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_context.py",
+        "tests/test_mcp_context.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory state can be exported and accessed via MCP interface"
       ]
     }
   ]
