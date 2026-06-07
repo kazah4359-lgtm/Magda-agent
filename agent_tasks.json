@@ -2543,7 +2543,7 @@
     },
     {
       "id": "prempti-audit-trail-v2",
-      "status": "todo",
+      "status": "done",
       "area": "security",
       "risk": "medium",
       "title": "Prempti: Tool-call interception and audit trail",
@@ -3369,6 +3369,41 @@
         "Fallback is triggered on guardrail violation.",
         "System gracefully degrades without crashing.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "hermes-persistent-memory-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Hermes Persistent Memory",
+      "description": "Inspired by Hermes Agent trend: Persistent memory: чем дольше работает, тем лучше знает пользователя. Implement a persistent user profile memory.",
+      "allowed_paths": [
+        "magda_agent/memory/hermes_persistent.py",
+        "tests/test_hermes_persistent.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Persistent memory stores user traits over time",
+        "Tests verify trait accumulation"
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-hooks",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "OpenClaw Context Engine Lifecycle Hooks",
+      "description": "Inspired by OpenClaw trend: Context Engine plugin interface с lifecycle hooks. Implement lifecycle hooks for plugins.",
+      "allowed_paths": [
+        "magda_agent/architecture/context_hooks.py",
+        "tests/test_context_hooks.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugins can register lifecycle hooks",
+        "Hooks are triggered accurately",
+        "Tests verify hook execution"
       ]
     }
   ]
