@@ -2614,7 +2614,7 @@
     },
     {
       "id": "a2a-peer-task-delegation-v2",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A Peer-to-Peer Task Delegation",
@@ -3494,6 +3494,57 @@
         "RL model dynamically updates from next-state signals",
         "Model improvements are verified in tests",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "hermes-cron-daily-reports-v2",
+      "status": "todo",
+      "area": "scheduler",
+      "risk": "low",
+      "title": "Hermes Cron Daily Reports",
+      "description": "Inspired by Hermes Agent trend: Cron scheduler: daily reports, nightly backups. Implement a cron-like scheduler capable of running daily report tasks.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_reports.py",
+        "tests/test_cron_reports.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler can register daily report tasks.",
+        "Tests mock time and verify tasks are triggered."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-plugin-lifecycle",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Lifecycle Plugins",
+      "description": "Inspired by OpenClaw trend: Context Engine plugin interface с lifecycle hooks. Enhance Context Engine with pre_retrieval and post_retrieval hooks.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_lifecycle.py",
+        "tests/test_context_engine_lifecycle.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugins can register lifecycle hooks.",
+        "Tests verify hooks are invoked appropriately during retrieval."
+      ]
+    },
+    {
+      "id": "acs-5-validation-checkpoints-v3",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS 5 Validation Checkpoints v3",
+      "description": "Inspired by ACS (Agent Control Specification) trend: 5 validation checkpoints in agentic workflows. Ensure all actions pass through 5 checks before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_checkpoints.py",
+        "tests/test_acs_checkpoints.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Actions are evaluated against 5 security checkpoints.",
+        "Tests mock violating actions and verify rejection."
       ]
     }
   ]
