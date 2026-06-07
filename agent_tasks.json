@@ -2417,7 +2417,7 @@
     },
     {
       "id": "agent-teams-claude-sdk",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Agent Teams via Git Worktree Isolation",
