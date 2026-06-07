@@ -59,6 +59,20 @@ class CronScheduler:
         """
         return datetime.now()
 
+
+    def list_jobs(self) -> List[Dict[str, Any]]:
+        """
+        Lists all currently scheduled jobs.
+        """
+        return self.jobs
+
+    def clear_jobs(self) -> None:
+        """
+        Clears all currently scheduled jobs.
+        """
+        self.jobs.clear()
+        logger.info("All scheduled jobs cleared.")
+
     async def start(self) -> None:
         """
         Starts the scheduler loop in the background.

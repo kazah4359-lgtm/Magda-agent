@@ -78,3 +78,12 @@ async def test_scheduler_start_stop(scheduler):
     await scheduler.stop()
     assert scheduler._running is False
     assert scheduler._task.done()
+
+@pytest.mark.asyncio
+async def test_scheduler_list_and_clear_jobs(scheduler):
+    async def dummy_task():
+        pass
+    scheduler.schedule("* * * * *", dummy_task)
+    assert len(scheduler.list_jobs()) == 1
+    scheduler.clear_jobs()
+    assert len(scheduler.list_jobs()) == 0

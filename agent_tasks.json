@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 53
+    "max_todo_tasks": 60
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2597,7 +2597,7 @@
     },
     {
       "id": "scheduled-operations-cron-like-v2",
-      "status": "todo",
+      "status": "done",
       "area": "scheduler",
       "risk": "low",
       "title": "Scheduled operations for autonomous tasks",
@@ -3494,6 +3494,62 @@
         "RL model dynamically updates from next-state signals",
         "Model improvements are verified in tests",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-discovery",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Peer Discovery and Delegation",
+      "description": "Inspired by A2A (Agent-to-Agent Protocol) trend: Enable Magda to discover other A2A-compliant agents using Agent Cards and delegate tasks.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a.py",
+        "magda_agent/integration/a2a_discovery.py",
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Magda can discover other agents via Agent Cards",
+        "Tests verify peer-to-peer delegation logic"
+      ]
+    },
+    {
+      "id": "skill-marketplace-agentskills-export",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Skill Marketplace Export formats",
+      "description": "Inspired by Hermes Agent trend: Skill marketplace — совместимость с agentskills.io. Ensure skills can be exported in the agentskills.io format.",
+      "allowed_paths": [
+        "magda_agent/skills/exporter.py",
+        "magda_agent/skills/marketplace.py",
+        "tests/test_skill_marketplace*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Exporter supports agentskills.io format",
+        "Tests verify JSON standard outputs"
+      ]
+    },
+    {
+      "id": "agent-teams-isolation-v4",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams Subagent Isolation",
+      "description": "Inspired by Claude Agent SDK: implement Git worktree isolation for parallel task execution via SubAgents.",
+      "allowed_paths": [
+        "magda_agent/agents/team_orchestrator.py",
+        "magda_agent/agents/sub_agent.py",
+        "tests/test_team_orchestrator*.py",
+        "tests/test_sub_agent*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "SubAgents can be spawned in isolated Git worktrees",
+        "Team Orchestrator manages the parallel execution contexts"
       ]
     }
   ]
