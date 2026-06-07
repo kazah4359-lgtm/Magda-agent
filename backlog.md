@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: MCPKernel Taint Tracking
 * [x] FEATURE: A2A Peer-to-Peer Task Delegation
 * [x] MODULE: **Context Engine Plugin Architecture** — модуль `magda_agent/memory/context_engine.py`. (2026-06-07)
   Inspired by trend #4 in docs/trends.md: Implement a plugin architecture for the Context Engine to manage context dynamically using lifecycle hooks.
