@@ -2524,7 +2524,7 @@
     },
     {
       "id": "agent-guard-runtime-governance-v2",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard: Runtime Governance Layer",
@@ -3315,6 +3315,60 @@
       "acceptance": [
         "Evaluator agent can score Generator output.",
         "Tests mock LLM and verify evaluation workflow."
+      ]
+    },
+    {
+      "id": "memory-virtual-context-compression",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Virtual context management and compression",
+      "description": "Inspired by trend: Virtual context management (MemGPT/Letta pattern). Implement context compression and selective retrieval to prevent context window exhaustion.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context.py",
+        "tests/test_virtual_context.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module can compress context effectively.",
+        "Module can selectively page memories in and out.",
+        "Tests verify compression and retrieval mechanisms."
+      ]
+    },
+    {
+      "id": "hierarchical-agent-delegation-isolation",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Hierarchical agent delegation with isolation",
+      "description": "Inspired by trend: Hierarchical delegation with git worktree isolation. Enhance the agent architecture to spawn sub-agents for parallel tasks in isolated environments.",
+      "allowed_paths": [
+        "magda_agent/architecture/hierarchical_delegation.py",
+        "tests/test_hierarchical_delegation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can dynamically spawn sub-agents.",
+        "Sub-agents run in isolated git worktrees.",
+        "Tests verify isolated task execution."
+      ]
+    },
+    {
+      "id": "realtime-guardrail-fallback-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Realtime guardrail fallback v4",
+      "description": "Inspired by OpenAI Agents SDK trend: Realtime guardrail fallback mechanisms during tool execution. Implement a more robust fallback system.",
+      "allowed_paths": [
+        "magda_agent/safety/guardrails_v4.py",
+        "tests/test_guardrails_v4*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Fallback is triggered on guardrail violation.",
+        "System gracefully degrades without crashing.",
+        "Tests pass."
       ]
     }
   ]

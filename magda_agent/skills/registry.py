@@ -13,6 +13,11 @@ class SkillRegistry:
         self.descriptions: Dict[str, str] = {}
         self.policy_layer = policy_layer
 
+        # Initialize AgentGuard if policy_layer is provided
+        from magda_agent.safety.agent_guard import AgentGuard
+        self.agent_guard = AgentGuard(policy_layer) if policy_layer else None
+
+
     def register_skill(self, name: str, func: Callable, description: str):
         self.skills[name] = func
         self.descriptions[name] = description
@@ -33,15 +38,16 @@ class SkillRegistry:
     def execute_skill(self, name: str, **kwargs) -> Any:
         if name not in self.skills:
             return f"Error: Skill '{name}' not found."
-        if self.policy_layer is not None:
-            allow, explanation = self.policy_layer.evaluate(name, **kwargs)
-            if not allow:
-                return f"Policy denied: {explanation}"
+
         try:
-            return self.skills[name](**kwargs)
+            if self.agent_guard is not None:
+                return self.agent_guard.execute_tool(self.skills[name], name, **kwargs)
+            else:
+                return self.skills[name](**kwargs)
         except Exception as e:
             logging.error(f"Error executing skill {name}: {e}")
             return f"Error executing skill {name}: {e}"
+
 
     def get_skills_summary(self) -> str:
         summary = "Available Skills:\n"
