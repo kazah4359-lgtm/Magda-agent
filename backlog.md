@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: MCP Action Tools Expansion (mcp-action-tools-v3)
 * [x] FEATURE: A2A Task Delegation (v3)
 * [x] FEATURE: Longitudinal Quality Metrics CLI
 * [x] FEATURE: Agent Skills MCP Export Enhancements (agent-skills-mcp-export)
