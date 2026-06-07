@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: Online RL Feedback Integration (online-rl-feedback-integration)
 * [x] MODULE: **Agent Teams Git Worktree Isolation** — модуль `magda_agent/agents/team_isolation.py`. (2026-06-07)
 * [x] FEATURE: A2A Peer-to-Peer Task Delegation
 * [x] MODULE: **Context Engine Plugin Architecture** — модуль `magda_agent/memory/context_engine.py`. (2026-06-07)

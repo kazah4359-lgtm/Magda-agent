@@ -25,6 +25,7 @@ from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.emotions.style_adapter import StyleAdapter
 from magda_agent.user_model.model import UserModel
 from magda_agent.learning.online import OnlineLearner
+from magda_agent.learning.online_rl import OnlineRLIntegrator
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
 from magda_agent.learning.feedback_loop import FeedbackLoop
 from magda_agent.attention.salience import SalienceNetwork
@@ -64,6 +65,7 @@ class Consciousness:
         context_engine: Optional[ContextEngine] = None,
         skill_creator: Optional[SkillCreator] = None,
         online_learner: Optional[OnlineLearner] = None,
+        online_rl_integrator: Optional[OnlineRLIntegrator] = None,
         openclaw_rl: Optional[OpenClawInteractiveLearner] = None,
         feedback_loop: Optional[FeedbackLoop] = None,
         guardrail: Optional[RealtimeGuardrail] = None,
@@ -96,6 +98,7 @@ class Consciousness:
         self.context_engine = context_engine
         self.skill_creator = skill_creator
         self.online_learner = online_learner
+        self.online_rl_integrator = online_rl_integrator
         self.openclaw_rl = openclaw_rl
         self.feedback_loop = feedback_loop
         self.guardrail = guardrail
@@ -341,6 +344,11 @@ class Consciousness:
             tags=["conversation"],
             user_id=user_id
         )
+
+        if self.online_rl_integrator:
+            await self.online_rl_integrator.process_feedback(user_input, "last_action_context", user_id)
+
+
 
         if self.long_term_memory:
             self.long_term_memory.store(text=memory_content, metadata={"type": "conversation"}, user_id=user_id)
