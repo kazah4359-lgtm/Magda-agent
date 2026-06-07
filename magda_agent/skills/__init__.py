@@ -7,6 +7,7 @@ if TYPE_CHECKING:
 from magda_agent.skills.system_execute_code import execute as code_executor
 from magda_agent.skills.internet_search import search_internet
 from magda_agent.skills.omnichannel import send_message as omnichannel_send
+from magda_agent.skills.names import SkillNames
 from magda_agent.skills.codex_worker import codex_worker
 from magda_agent.skills.mcp_kernel_executor import execute as mcp_kernel_executor
 from magda_agent.skills.web_navigation import web_navigate as web_navigation_skill
@@ -16,7 +17,7 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
 
     # Register Programmer Skill
     registry.register_skill(
-        name="programmer",
+        name=SkillNames.PROGRAMMER,
         func=code_executor,
         description="Executes Python code in a safe sandbox. Input: 'code' string."
     )
@@ -37,7 +38,7 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
 
     # Register Omnichannel Skill
     registry.register_skill(
-        name="omnichannel_send",
+        name=SkillNames.OMNICHANNEL_SEND,
         func=omnichannel_send,
         description="Sends a message to a recipient on a specified platform (telegram, whatsapp, email). Input: 'platform', 'recipient', 'message' strings."
     )

@@ -38,3 +38,15 @@ def test_mcp_kernel_blocks_attribute_bypass() -> None:
     code = "''.__class__.__mro__[1].__subclasses__()"
     with pytest.raises(SecurityError, match="Code contains unsafe operations"):
         kernel.execute(code)
+
+def test_mcp_kernel_blocks_generator_frame_builtins_bypass() -> None:
+    kernel = MCPKernel()
+    code = """
+gen = (i for i in [1, 2])
+for val in gen:
+    print = gen.gi_frame.f_builtins["exec"]
+    break
+print("import os; os.system('id')")
+"""
+    with pytest.raises(SecurityError, match="Code contains unsafe operations"):
+        kernel.execute(code)

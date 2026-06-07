@@ -58,3 +58,14 @@ def test_web_navigate_type_missing_args():
 def test_web_navigate_unknown_action():
     result = web_navigate("unknown")
     assert "Error: Unknown action" in result
+
+def test_load_url_blocks_link_local_metadata_ip():
+    result = load_url("http://169.254.169.254/latest/meta-data/")
+    assert "Error loading URL" in result
+    assert "blocked private or local" in result
+
+
+def test_load_url_blocks_loopback_ip():
+    result = load_url("http://127.0.0.1:8000/")
+    assert "Error loading URL" in result
+    assert "blocked private or local" in result

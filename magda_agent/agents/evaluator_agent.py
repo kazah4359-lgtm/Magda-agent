@@ -42,8 +42,8 @@ class EvaluatorAgent:
 
         if self.habit_tracker and self.evaluator and self.evaluator.last_evaluation:
             avg_score = self.evaluator.last_evaluation.get("average_score", 0.0)
-            if self.planner and self.planner.completed_steps:
-                for step in self.planner.completed_steps:
+            if self.planner and self.planner.get_completed_steps(user_id=user_id):
+                for step in self.planner.get_completed_steps(user_id=user_id):
                     skill = step.get("skill")
                     if skill:
                         self.habit_tracker.record_usage(user_input, skill, float(avg_score), user_id=user_id)

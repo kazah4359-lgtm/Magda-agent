@@ -3,12 +3,49 @@ Web navigation skill.
 Provides capabilities to load a URL, click on elements, and type text.
 Simulates a browser interaction for the agent.
 """
+import ipaddress
 import logging
+import socket
 from typing import Any
 import urllib.request
 import urllib.error
 import urllib.parse
 from html.parser import HTMLParser
+
+
+
+def _is_public_ip(address: str) -> bool:
+    ip = ipaddress.ip_address(address)
+    return not (
+        ip.is_private
+        or ip.is_loopback
+        or ip.is_link_local
+        or ip.is_multicast
+        or ip.is_reserved
+        or ip.is_unspecified
+    )
+
+
+def validate_public_http_url(url: str) -> str:
+    """Validate that a URL is HTTP(S) and resolves only to public IP addresses."""
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme not in {"http", "https"}:
+        raise ValueError("Only http and https URLs are allowed")
+    if not parsed.hostname:
+        raise ValueError("URL must include a hostname")
+
+    try:
+        addresses = socket.getaddrinfo(parsed.hostname, parsed.port, type=socket.SOCK_STREAM)
+    except socket.gaierror as exc:
+        raise ValueError(f"Could not resolve hostname '{parsed.hostname}'") from exc
+
+    resolved_ips = {entry[4][0] for entry in addresses}
+    if not resolved_ips:
+        raise ValueError(f"Could not resolve hostname '{parsed.hostname}'")
+    blocked = sorted(ip for ip in resolved_ips if not _is_public_ip(ip))
+    if blocked:
+        raise ValueError(f"URL resolves to blocked private or local address(es): {', '.join(blocked)}")
+    return url
 
 class SimpleDOMParser(HTMLParser):
     def __init__(self):
@@ -39,8 +76,9 @@ def load_url(url: str) -> str:
     """
     logging.info(f"Loading URL: {url}")
     try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Magda-Agent-Web-Navigator/1.0'})
-        with urllib.request.urlopen(req) as response:
+        validated_url = validate_public_http_url(url)
+        req = urllib.request.Request(validated_url, headers={'User-Agent': 'Magda-Agent-Web-Navigator/1.0'})
+        with urllib.request.urlopen(req, timeout=10) as response:
             html = response.read().decode('utf-8')
             parser = SimpleDOMParser()
             parser.feed(html)

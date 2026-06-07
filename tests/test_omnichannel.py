@@ -37,3 +37,18 @@ def test_omnichannel_sync_with_gateway():
 
     res_dc = send_message("discord", "user2", "Hello DC", gateway=gateway)
     assert res_dc == "Discord sent to user2: Hello DC"
+
+@pytest.mark.asyncio
+async def test_send_message_async_awaits_gateway_errors():
+    from magda_agent.skills.omnichannel import send_message_async
+
+    class FailingChannel:
+        async def send(self, recipient, message):
+            raise RuntimeError("network down")
+
+    gateway = GatewayRouter()
+    gateway.register_channel("telegram", FailingChannel())
+
+    result = await send_message_async("telegram", "user", "hello", gateway=gateway)
+    assert result.startswith("Error: Failed to send telegram message")
+    assert "network down" in result

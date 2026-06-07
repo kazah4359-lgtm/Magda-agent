@@ -77,3 +77,12 @@ def test_audit_logger_clear() -> None:
     assert len(logger.get_all()) == 1
     logger.clear()
     assert len(logger.get_all()) == 0
+
+def test_audit_logger_caps_entries() -> None:
+    logger = AuditLogger(max_capacity=2)
+    logger.log_call("tool1", {}, "why", "ok", 0.1)
+    logger.log_call("tool2", {}, "why", "ok", 0.1)
+    logger.log_call("tool3", {}, "why", "ok", 0.1)
+
+    trail = logger.get_all()
+    assert [entry["tool_name"] for entry in trail] == ["tool2", "tool3"]

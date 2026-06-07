@@ -1,6 +1,17 @@
 import logging
-from typing import Tuple, Dict, Any, List
+import re
+from typing import Any, Dict, List, Tuple
+
+from magda_agent.skills.names import SkillNames
 from magda_agent.tracing.audit import AuditLogger
+
+
+_SENSITIVE_CODE_PATTERNS = (
+    re.compile(r"(^|[/\\])\.env($|[/\\]|[\'\")])"),
+    re.compile(r"(^|[/\\])secrets?($|[/\\]|[\'\")])", re.IGNORECASE),
+    re.compile(r"api[_-]?key|token|password|private[_-]?key", re.IGNORECASE),
+)
+
 
 class PolicyLayer:
     """
@@ -10,47 +21,33 @@ class PolicyLayer:
     """
 
     def __init__(self) -> None:
-        """
-        Initializes the Policy Layer.
-        """
         self.audit_logger = AuditLogger()
 
     def evaluate(self, tool_name: str, **kwargs: Any) -> Tuple[bool, str]:
-        """
-        Evaluates a tool call against the safety policy.
-
-        Args:
-            tool_name (str): The name of the tool or action.
-            **kwargs: The arguments passed to the tool.
-
-        Returns:
-            Tuple[bool, str]: A tuple containing a boolean indicating whether the action is allowed,
-                              and an LLM-friendly explanation string.
-        """
         allow = True
         explanation = f"Action '{tool_name}' is allowed."
 
-        # Example policy rules
-        if tool_name == "system_execute_code":
-            # Check for sensitive paths
-            code = kwargs.get("code", "")
-            if ".env" in code or "secrets" in code:
+        canonical_tool = self._canonical_tool_name(tool_name)
+        if canonical_tool == SkillNames.PROGRAMMER:
+            code = str(kwargs.get("code", ""))
+            if self._mentions_sensitive_material(code):
                 allow = False
-                explanation = "Action denied: 'system_execute_code' cannot access sensitive paths like '.env' or 'secrets'."
-        elif tool_name == "send_message":
-            # Check for spam or blocked recipients
+                explanation = (
+                    "Action denied: 'programmer' cannot access sensitive paths or secret-like material "
+                    "such as .env, secrets, tokens, passwords, or private keys."
+                )
+        elif canonical_tool == SkillNames.OMNICHANNEL_SEND:
             recipient = kwargs.get("recipient", "")
             if recipient == "blocked_user":
                 allow = False
                 explanation = "Action denied: Cannot send message to a blocked recipient."
 
-        # Audit trail via AuditLogger
         self.audit_logger.log_call(
             tool_name=tool_name,
             kwargs=kwargs,
             why=kwargs.get("why", "No reason provided"),
             result={"allowed": allow, "explanation": explanation},
-            duration=0.0 # Time tracking is currently outside PolicyLayer, or instantaneous
+            duration=0.0,
         )
 
         if allow:
@@ -61,10 +58,19 @@ class PolicyLayer:
         return allow, explanation
 
     def get_audit_trail(self) -> List[Dict[str, Any]]:
-        """
-        Retrieves the audit trail of all evaluated actions from the AuditLogger.
-
-        Returns:
-            List[Dict[str, Any]]: The list of audit entries.
-        """
         return self.audit_logger.get_all()
+
+    @staticmethod
+    def _canonical_tool_name(tool_name: str) -> str:
+        aliases = {
+            SkillNames.SYSTEM_EXECUTE_CODE: SkillNames.PROGRAMMER,
+            SkillNames.SEND_MESSAGE: SkillNames.OMNICHANNEL_SEND,
+        }
+        return aliases.get(tool_name, tool_name)
+
+    @staticmethod
+    def _mentions_sensitive_material(value: str) -> bool:
+        lowered = value.lower()
+        if ".env" in lowered or "secret" in lowered:
+            return True
+        return any(pattern.search(value) for pattern in _SENSITIVE_CODE_PATTERNS)

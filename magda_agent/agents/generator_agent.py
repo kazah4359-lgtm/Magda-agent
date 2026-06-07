@@ -43,13 +43,13 @@ class GeneratorAgent:
         if not self.planner:
             return plan_str
 
-        plan = self.planner.get_current_plan()
+        plan = self.planner.get_current_plan(user_id=user_id)
         if plan:
             MAX_STEPS = 5
             SKILL_TIMEOUT = 10.0
             steps_executed = 0
             plan_stopped_early = False
-            current_plan = self.planner.get_current_plan()
+            current_plan = self.planner.get_current_plan(user_id=user_id)
 
             while current_plan and steps_executed < MAX_STEPS:
                 steps_executed += 1
@@ -73,16 +73,19 @@ class GeneratorAgent:
                             else:
                                 result = f"Guardrail Denied: {explanation}"
 
-                            self.planner.mark_step_completed(0, str(result))
+                            self.planner.mark_step_completed(0, str(result), user_id=user_id)
                             break
 
+                    task = None
                     try:
                         if hasattr(self, 'mcp_client') and self.mcp_client and self.mcp_client.has_tool(skill_name):
                             task = asyncio.create_task(self.mcp_client.execute_tool(skill_name, **kwargs))
                         else:
-                            task = asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
+                            task = asyncio.create_task(asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs))
                         result = await asyncio.wait_for(task, timeout=SKILL_TIMEOUT)
                     except asyncio.TimeoutError:
+                        if task is not None and not task.done():
+                            task.cancel()
                         logging.error(f"Timeout executing skill {skill_name}")
                         result = f"Error: Skill {skill_name} timed out after {SKILL_TIMEOUT} seconds."
                         plan_stopped_early = True
@@ -92,7 +95,7 @@ class GeneratorAgent:
                 else:
                     result = "No skill executed for this step."
 
-                self.planner.mark_step_completed(0, str(result))
+                self.planner.mark_step_completed(0, str(result), user_id=user_id)
                 if self.skill_versioning and skill_name:
                     success = 'Error:' not in str(result)
                     best = self.skill_versioning.get_best_version(skill_name, user_id=user_id)
@@ -101,26 +104,26 @@ class GeneratorAgent:
 
                 if plan_stopped_early:
                     break
-                current_plan = self.planner.get_current_plan()
+                current_plan = self.planner.get_current_plan(user_id=user_id)
 
             if current_plan and steps_executed >= MAX_STEPS:
                 plan_stopped_early = True
                 logging.warning("Plan execution stopped due to MAX_STEPS limit.")
 
             if plan_stopped_early:
-                self.planner.clear_pending_plan()
+                self.planner.clear_pending_plan(user_id=user_id)
             else:
-                if self.skill_creator and len(self.planner.completed_steps) > 1:
+                if self.skill_creator and len(self.planner.get_completed_steps(user_id=user_id)) > 1:
                     asyncio.create_task(
                         self.skill_creator.extract_and_store_skill(
                             user_input,
-                            self.planner.completed_steps,
+                            self.planner.get_completed_steps(user_id=user_id),
                             user_id=user_id
                         )
                     )
 
             plan_str = "Executed Plan Results:\n"
-            for i, step in enumerate(self.planner.completed_steps):
+            for i, step in enumerate(self.planner.get_completed_steps(user_id=user_id)):
                 plan_str += f"- Step {i+1}: {step.get('description')} (Skill: {step.get('skill')})\n"
                 plan_str += f"  Result: {step.get('result')}\n"
 

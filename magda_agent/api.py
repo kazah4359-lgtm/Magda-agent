@@ -1,8 +1,10 @@
 import asyncio
+import hmac
 import logging
 import os
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
+from fastapi.responses import JSONResponse
 from magda_agent.visualization.server import CanvasServer
 from pydantic import BaseModel
 
@@ -166,6 +168,34 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)
 
+_PUBLIC_HTTP_PATHS = {"/health"}
+
+
+def _configured_api_token() -> Optional[str]:
+    return os.getenv("MAGDA_API_TOKEN")
+
+
+def _is_authorized_header(authorization: Optional[str]) -> bool:
+    token = _configured_api_token()
+    if not token or not authorization:
+        return False
+    scheme, _, value = authorization.partition(" ")
+    if scheme.lower() != "bearer" or not value:
+        return False
+    return hmac.compare_digest(value, token)
+
+
+@app.middleware("http")
+async def require_api_authentication(request: Request, call_next):
+    thought_chain_tracer.start_trace()
+    if request.url.path in _PUBLIC_HTTP_PATHS:
+        return await call_next(request)
+    if not _configured_api_token():
+        return JSONResponse(status_code=503, content={"detail": "MAGDA_API_TOKEN must be configured before using the API"})
+    if not _is_authorized_header(request.headers.get("Authorization")):
+        return JSONResponse(status_code=401, content={"detail": "Invalid or missing bearer token"})
+    return await call_next(request)
+
 class ProcessInputRequest(BaseModel):
     text: str
     user_id: Optional[int] = None
@@ -266,6 +296,10 @@ async def resume_task(task_id: str):
 
 @app.websocket("/ws/canvas")
 async def websocket_canvas(websocket: WebSocket):
+    token = websocket.query_params.get("token")
+    if not _configured_api_token() or not hmac.compare_digest(token or "", _configured_api_token() or ""):
+        await websocket.close(code=1008)
+        return
     await canvas_server.connect(websocket)
     try:
         while True:
