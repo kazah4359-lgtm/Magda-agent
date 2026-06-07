@@ -2380,7 +2380,7 @@
     },
     {
       "id": "mcp-action-tools-v3",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "low",
       "title": "MCP Action Tools Expansion",
@@ -3008,6 +3008,60 @@
         "A2A requests require authentication tokens.",
         "A2A task delegations and discoveries are logged in the audit trail.",
         "Unauthorized A2A requests are rejected."
+      ]
+    },
+    {
+      "id": "context-engine-plugin-arch",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine plugin architecture",
+      "description": "Inspired by trend 'Context Engine — plugin-архитектура для управления контекстом': Implement a plugin interface with lifecycle hooks for managing working memory context.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine supports plugins",
+        "Plugins can hook into lifecycle events",
+        "Tests verify plugin execution"
+      ]
+    },
+    {
+      "id": "agent-teams-sub-agents",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams sub-agents spawning",
+      "description": "Inspired by trend 'Agent Teams — порождение sub-agents для параллельных задач': Enable the Planner/Manager to spawn isolated sub-agents for parallel task execution.",
+      "allowed_paths": [
+        "magda_agent/agents/teams.py",
+        "tests/test_agent_teams*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Manager can spawn sub-agents",
+        "Sub-agents execute tasks in parallel",
+        "Tests verify parallel execution and result gathering"
+      ]
+    },
+    {
+      "id": "cross-platform-reach-channels",
+      "status": "todo",
+      "area": "gateway",
+      "risk": "low",
+      "title": "Cross-platform reach across channels",
+      "description": "Inspired by trend 'Cross-platform reach — один агент, много каналов': Expand the Multi-channel Gateway to support more platforms beyond Telegram.",
+      "allowed_paths": [
+        "magda_agent/gateway/channels.py",
+        "tests/test_gateway_channels*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Gateway supports additional mocked channels",
+        "UnifiedMessage format remains consistent",
+        "Tests verify message routing from new channels"
       ]
     }
   ]

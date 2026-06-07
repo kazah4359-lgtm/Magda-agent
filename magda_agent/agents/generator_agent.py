@@ -8,6 +8,8 @@ from magda_agent.planning.planner import Planner
 from magda_agent.learning.skill_versioning import SkillVersioning
 from magda_agent.learning.skill_creator import SkillCreator
 from magda_agent.safety.guardrails import RealtimeGuardrail, FallbackStrategy
+from magda_agent.skills.mcp_client import MCPClient
+
 
 class GeneratorAgent:
     """
@@ -21,6 +23,7 @@ class GeneratorAgent:
         skill_versioning: Optional[SkillVersioning] = None,
         skill_creator: Optional[SkillCreator] = None,
         guardrail: Optional[RealtimeGuardrail] = None,
+        mcp_client: Optional[MCPClient] = None,
         tracer=None
     ):
         self.llm = llm
@@ -29,6 +32,7 @@ class GeneratorAgent:
         self.skill_versioning = skill_versioning
         self.skill_creator = skill_creator
         self.guardrail = guardrail
+        self.mcp_client = mcp_client
         self.tracer = tracer
 
     async def execute_plan(self, user_input: str, user_id: Optional[str] = None) -> str:
@@ -45,10 +49,11 @@ class GeneratorAgent:
             SKILL_TIMEOUT = 10.0
             steps_executed = 0
             plan_stopped_early = False
+            current_plan = self.planner.get_current_plan()
 
-            while self.planner.get_current_plan() and steps_executed < MAX_STEPS:
+            while current_plan and steps_executed < MAX_STEPS:
                 steps_executed += 1
-                step = self.planner.get_current_plan()[0]
+                step = current_plan[0]
                 skill_name = step.get('skill')
                 kwargs = step.get('skill_kwargs') or {}
 
@@ -72,7 +77,10 @@ class GeneratorAgent:
                             break
 
                     try:
-                        task = asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
+                        if hasattr(self, 'mcp_client') and self.mcp_client and self.mcp_client.has_tool(skill_name):
+                            task = asyncio.create_task(self.mcp_client.execute_tool(skill_name, **kwargs))
+                        else:
+                            task = asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
                         result = await asyncio.wait_for(task, timeout=SKILL_TIMEOUT)
                     except asyncio.TimeoutError:
                         logging.error(f"Timeout executing skill {skill_name}")
@@ -93,8 +101,9 @@ class GeneratorAgent:
 
                 if plan_stopped_early:
                     break
+                current_plan = self.planner.get_current_plan()
 
-            if self.planner.get_current_plan() and steps_executed >= MAX_STEPS:
+            if current_plan and steps_executed >= MAX_STEPS:
                 plan_stopped_early = True
                 logging.warning("Plan execution stopped due to MAX_STEPS limit.")
 
