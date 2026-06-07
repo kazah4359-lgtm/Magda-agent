@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 50
+    "max_todo_tasks": 53
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2580,7 +2580,7 @@
     },
     {
       "id": "context-engine-plugin-architecture-v3",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Plugin Architecture",
@@ -3440,6 +3440,60 @@
         "All 5 ACS checkpoints are validated before tool execution",
         "Violation triggers clear FallbackStrategy",
         "Tests verify each checkpoint"
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visualization",
+      "status": "todo",
+      "area": "ui",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Live Visualization",
+      "description": "Inspired by trend: OpenClaw Canvas для live визуализации. Implement an interface for live visualization of the agent's internal state and working memory.",
+      "allowed_paths": [
+        "magda_agent/ui/canvas.py",
+        "tests/test_canvas*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas can render current working memory and state",
+        "Canvas state updates dynamically upon agent state changes",
+        "Tests verify state representation"
+      ]
+    },
+    {
+      "id": "claude-agent-teams-subagent-spawning",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams Subagent Spawning",
+      "description": "Inspired by trend: Agent Teams: multi-agent с git worktree isolation / Subagent spawning. Implement a dedicated service to dynamically spawn, monitor, and clean up task-specific subagents.",
+      "allowed_paths": [
+        "magda_agent/multi_agent/team_spawner.py",
+        "tests/test_team_spawner*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Spawner can create isolated subagent processes",
+        "Spawner cleans up processes upon task completion",
+        "Tests verify full lifecycle management"
+      ]
+    },
+    {
+      "id": "openclaw-rl-reinforcement-learning-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Reinforcement Learning",
+      "description": "Inspired by trend: OpenClaw-RL: online reinforcement learning из next-state signals (user replies, tool outputs). Implement an online learning loop that updates behavior based on user replies.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl.py",
+        "tests/test_openclaw_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL model dynamically updates from next-state signals",
+        "Model improvements are verified in tests",
+        "Tests pass"
       ]
     }
   ]

@@ -8,7 +8,7 @@ from magda_agent.emotions.engine import PADState
 from magda_agent.memory.working import WorkingMemory, MemoryEntry
 from magda_agent.memory.episodic import EpisodicMemory
 from magda_agent.llm_client import LLMClient
-from magda_agent.context.engine import ContextEngine
+from magda_agent.memory.context_engine import ContextEngine
 from magda_agent.user_model.model import UserModel
 
 class MemorySystem:
