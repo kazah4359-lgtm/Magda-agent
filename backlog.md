@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+- [x] openclaw-rl-interactive-learning-v3: OpenClaw-RL Interactive Learning
 * [x] FEATURE: MCP Action Tools Expansion (mcp-action-tools-v3)
 * [x] FEATURE: A2A Task Delegation (v3)
 * [x] FEATURE: Longitudinal Quality Metrics CLI

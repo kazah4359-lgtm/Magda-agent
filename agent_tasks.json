@@ -2399,7 +2399,7 @@
     },
     {
       "id": "openclaw-rl-interactive-learning-v3",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Learning",
@@ -3062,6 +3062,40 @@
         "Gateway supports additional mocked channels",
         "UnifiedMessage format remains consistent",
         "Tests verify message routing from new channels"
+      ]
+    },
+    {
+      "id": "mcp-server-prefixed-tools",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP server-prefixed tools support",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement support for MCP server-prefixed tool names to properly route tool calls to external MCP servers.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_client.py",
+        "tests/test_mcp_client*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "System recognizes and routes MCP server-prefixed tool names",
+        "Tests verify correct routing"
+      ]
+    },
+    {
+      "id": "realtime-guardrail-fallback-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Realtime guardrail fallback",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement realtime guardrail fallback mechanisms when tools or actions fail policy checks.",
+      "allowed_paths": [
+        "magda_agent/safety/guardrails.py",
+        "tests/test_guardrails*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "System gracefully falls back when guardrails trigger",
+        "Tests verify fallback behavior"
       ]
     }
   ]
