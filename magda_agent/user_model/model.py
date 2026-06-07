@@ -37,6 +37,16 @@ class UserModel:
     def _get_path(self, user_id: int) -> str:
         return os.path.join(self.persist_dir, f"user_{user_id}.json")
 
+
+    def save_model(self, user_id: int, model_data: Dict[str, Any]):
+        """Save the updated user model to disk safely."""
+        path = self._get_path(user_id)
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(model_data, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            logging.error(f"Error saving user model for {user_id}: {e}")
+
     async def update_model(self, user_id: int, interaction_text: str):
         """Update the user model incrementally based on a recent interaction."""
         current_model = self.get_model(user_id)
