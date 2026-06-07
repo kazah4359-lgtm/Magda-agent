@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 40
+    "max_todo_tasks": 45
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2453,7 +2453,7 @@
     },
     {
       "id": "acs-runtime-safety-controls-v4",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Runtime Safety Controls v4",
@@ -3147,6 +3147,38 @@
       "acceptance": [
         "Smoke tests correctly identify functionality breakdown",
         "Evaluator module integrates post-merge hooks seamlessly"
+      ]
+    },
+    {
+      "id": "openclaw-sub-agents-rpc-v1",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "OpenClaw Sub-agents RPC v1",
+      "description": "Inspired by OpenClaw trends: Implement sub-agents for parallel tasks with RPC and isolated context.",
+      "allowed_paths": [
+        "magda_agent/architecture/sub_agents.py",
+        "tests/test_sub_agents_v1.py"
+      ],
+      "acceptance": [
+        "Sub-agents can be spawned and communicated with via RPC",
+        "Tests mock RPC calls and verify isolated contexts"
+      ]
+    },
+    {
+      "id": "runtime-function-tool-concurrency-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Runtime function tool concurrency v1",
+      "description": "Inspired by OpenAI Agents SDK trends: Add support for concurrent execution of function tools during agent runtime.",
+      "allowed_paths": [
+        "magda_agent/skills/concurrency.py",
+        "tests/test_tool_concurrency_v1.py"
+      ],
+      "acceptance": [
+        "Agent can execute multiple tool calls concurrently",
+        "Tests mock tools and verify concurrent execution speeds up processing"
       ]
     }
   ]
