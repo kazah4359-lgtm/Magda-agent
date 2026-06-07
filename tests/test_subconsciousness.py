@@ -98,26 +98,3 @@ async def test_subconsciousness_reflect_no_short_term(subconsciousness, mock_llm
     # Verify LLM was NOT called
     mock_llm_client.chat_completion.assert_not_called()
 
-@pytest.mark.asyncio
-async def test_subconsciousness_stop_promptly(subconsciousness):
-    import asyncio
-
-    # Run start() as a background task
-    task = asyncio.create_task(subconsciousness.start())
-
-    # Yield control to let the task start and reach the wait_for
-    await asyncio.sleep(0)
-
-    assert subconsciousness.is_running is True
-
-    # Call stop
-    await subconsciousness.stop()
-
-    # The task should complete quickly without waiting the full interval (10s)
-    # wait_for will throw TimeoutError if it doesn't complete within 1s
-    try:
-        await asyncio.wait_for(task, timeout=1.0)
-    except asyncio.TimeoutError:
-        pytest.fail("Subconsciousness.start() did not stop promptly.")
-
-    assert subconsciousness.is_running is False

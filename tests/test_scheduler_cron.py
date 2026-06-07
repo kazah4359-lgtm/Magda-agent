@@ -18,10 +18,29 @@ async def test_scheduler_accepts_cron_expression(scheduler):
     scheduler.schedule("* * * * *", dummy_task)
     assert len(scheduler.jobs) == 1
     assert scheduler.jobs[0]["cron_expr"] == "* * * * *"
+    assert scheduler.jobs[0]["name"] == "dummy_task"
+
+    # Named task
+    scheduler.schedule("* * * * *", dummy_task, name="custom_name")
+    assert len(scheduler.jobs) == 2
+    assert scheduler.jobs[1]["name"] == "custom_name"
 
     # Invalid cron
     with pytest.raises(ValueError, match="Invalid cron expression"):
         scheduler.schedule("invalid cron", dummy_task)
+
+@pytest.mark.asyncio
+async def test_scheduler_decorator(scheduler):
+    @scheduler.task("*/5 * * * *", name="decorated_task")
+    async def my_task():
+        return "done"
+
+    assert len(scheduler.jobs) == 1
+    assert scheduler.jobs[0]["name"] == "decorated_task"
+    assert scheduler.jobs[0]["cron_expr"] == "*/5 * * * *"
+
+    result = await scheduler.jobs[0]["func"]()
+    assert result == "done"
 
 @pytest.mark.asyncio
 async def test_scheduler_executes_task_on_schedule():
