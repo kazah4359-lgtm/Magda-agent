@@ -2665,7 +2665,7 @@
     },
     {
       "id": "assert-policy-evaluation-fbaa6aeb",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "ASSERT Policy-Driven Evaluation",
@@ -3647,6 +3647,57 @@
       "acceptance": [
         "Learning module extracts insights from dialogue in real time",
         "Tests verify learning loop logic"
+      ]
+    },
+    {
+      "id": "hermes-skill-creation-8563188e",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes: Skill Creation from Experience",
+      "description": "Inspired by Hermes Agent trend: Create skills dynamically from agent experience.",
+      "allowed_paths": [
+        "magda_agent/skills/**",
+        "tests/test_hermes_skills*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can generate code for a new skill",
+        "New skill is loaded dynamically"
+      ]
+    },
+    {
+      "id": "claude-context-compression-8e05f169",
+      "status": "todo",
+      "area": "memory",
+      "risk": "high",
+      "title": "Claude SDK: Context Compression",
+      "description": "Inspired by Claude Agent SDK trend: Implement context compression for subagents.",
+      "allowed_paths": [
+        "magda_agent/memory/**",
+        "tests/test_context_compression*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent contexts are compressed when large",
+        "Compression logic is tested"
+      ]
+    },
+    {
+      "id": "openai-tool-concurrency-f971883d",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI: Runtime Tool Concurrency",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement runtime function tool concurrency.",
+      "allowed_paths": [
+        "magda_agent/skills/**",
+        "tests/test_tool_concurrency*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Multiple tools can run concurrently",
+        "Tests confirm concurrency"
       ]
     }
   ]
