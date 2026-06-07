@@ -2278,7 +2278,7 @@
     },
     {
       "id": "assert-policy-driven-evaluation-v2",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "ASSERT Policy-driven Evaluation",
@@ -2767,6 +2767,60 @@
         "Team manager can spawn sub-agents",
         "Sub-agents operate in isolated git worktrees",
         "Tests mock sub-agent parallel execution"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Action Tool Exporter",
+      "description": "Inspired by the MCP (Model Context Protocol) trend: Implement a module that automatically wraps Magda's internal skills into MCP-compatible JSON-RPC action tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter.py",
+        "tests/test_mcp_exporter*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported as MCP tools.",
+        "Exported tools conform to JSON-RPC client-server interface.",
+        "Tests verify successful skill wrapping and invocation."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-protocol-v4",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "A2A Peer Delegation Protocol",
+      "description": "Inspired by the A2A (Agent-to-Agent) Protocol trend: Build an async-first network layer to allow Magda to discover other agents and delegate specific task steps to them.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_protocol.py",
+        "tests/test_a2a_protocol*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover peers.",
+        "Agent can successfully delegate a task payload to a peer.",
+        "Tests mock network calls and verify correct delegation formats."
+      ]
+    },
+    {
+      "id": "agent-guard-runtime-safety-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Runtime Safety Controls",
+      "description": "Inspired by ACS (Agent Control Specification): Implement a set of 5 runtime validation checkpoints to intercept and validate tool outputs before applying state changes.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard.py",
+        "tests/test_acs_guard*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The 5 validation checkpoints are enforced on state-changing actions.",
+        "Violations block the action and raise an alert.",
+        "Tests cover each checkpoint with valid and invalid payloads."
       ]
     }
   ]
