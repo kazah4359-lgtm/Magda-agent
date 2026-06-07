@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: Agent Skills MCP Export Enhancements (agent-skills-mcp-export)
 * [x] FEATURE: Multi-Channel Skills Sync (2026-06-XX)
 * [x] FEATURE: A2A Agent Cards Discovery (2026-06-05)
 * [x] MODULE: **ASSERT Evaluator** — модуль magda_agent/metacognition/assert_evaluator.py.
