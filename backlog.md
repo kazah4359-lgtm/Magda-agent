@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: A2A Agent Cards Discovery (2026-06-05)
 * [x] MODULE: **ASSERT Evaluator** — модуль magda_agent/metacognition/assert_evaluator.py.
 * [x] FEATURE: Multi-channel gateway (Telegram + Discord + API) (2026-06-05)
 * [x] MODULE: **User Model** — модуль `magda_agent/user_model/model.py`. (2026-06-05)

@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 30
+    "max_todo_tasks": 35
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2296,7 +2296,7 @@
     },
     {
       "id": "a2a-agent-cards-discovery-v2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "low",
       "title": "A2A Agent Cards Discovery",
@@ -2821,6 +2821,57 @@
         "The 5 validation checkpoints are enforced on state-changing actions.",
         "Violations block the action and raise an alert.",
         "Tests cover each checkpoint with valid and invalid payloads."
+      ]
+    },
+    {
+      "id": "skill-creation-from-experience-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Skill creation from experience",
+      "description": "Inspired by trend: Skill creation from experience (Hermes). Implement a module to dynamically create and refine procedural skills based on past successful task executions.",
+      "allowed_paths": [
+        "magda_agent/learning/skill_extraction.py",
+        "tests/test_skill_extraction*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "System extracts successful procedures into new skills",
+        "Tests verify skill creation from mocked experience logs"
+      ]
+    },
+    {
+      "id": "longitudinal-quality-metrics-v2",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "low",
+      "title": "Longitudinal quality metrics",
+      "description": "Inspired by trend: Longitudinal quality metrics. Implement a tracking module to evaluate agent performance over multiple iterations, rather than just single-pass testing.",
+      "allowed_paths": [
+        "magda_agent/evaluation/longitudinal.py",
+        "tests/test_longitudinal_metrics*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module records performance metrics over time",
+        "Tests verify metric aggregation and trend reporting"
+      ]
+    },
+    {
+      "id": "online-rl-user-feedback-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL from user feedback",
+      "description": "Inspired by trend: Online RL from user feedback. Implement an online reinforcement learning loop to update agent behavior based on explicit user feedback and tool success signals.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "tests/test_online_rl_feedback*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Feedback signals adjust habit weights dynamically",
+        "Tests verify weight shifts based on simulated feedback"
       ]
     }
   ]
