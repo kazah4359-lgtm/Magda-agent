@@ -76,6 +76,10 @@ online_learner = OnlineLearner(
 style_adapter = StyleAdapter()
 user_model = UserModel(llm=llm_client)
 
+from magda_agent.learning.feedback_loop import FeedbackLoop
+
+feedback_loop = FeedbackLoop(mirror_neurons=mirror_neurons, user_model=user_model)
+
 openclaw_rl = OpenClawInteractiveLearner(
     habit_tracker=habit_tracker,
     mirror_neurons=mirror_neurons,
@@ -121,6 +125,7 @@ consciousness = Consciousness(
     skill_creator=skill_creator,
     online_learner=online_learner,
     openclaw_rl=openclaw_rl,
+    feedback_loop=feedback_loop,
     guardrail=guardrail,
     tracer=thought_chain_tracer,
     style_adapter=style_adapter,

@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: Online RL from User Feedback (online-rl-feedback-loop)
 * [x] FEATURE: MCP Tools Integration Engine (mcp-tools-integration-v2)
 
 - [x] acs-runtime-safety-controls-v4: ACS Runtime Safety Controls v4

@@ -2488,7 +2488,7 @@
     },
     {
       "id": "online-rl-feedback-loop",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL from User Feedback",
@@ -3230,6 +3230,40 @@
       "acceptance": [
         "AgentBench tests can be run against the agent",
         "Tests pass the multi-domain benchmark baseline"
+      ]
+    },
+    {
+      "id": "runtime-function-tool-concurrency-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Runtime function tool concurrency v2",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement robust runtime function tool concurrency for Magda skills.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_engine.py",
+        "tests/test_tool_concurrency*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools can be executed concurrently.",
+        "Test passes."
+      ]
+    },
+    {
+      "id": "realtime-guardrail-fallback-v3",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Realtime guardrail fallback v3",
+      "description": "Inspired by OpenAI Agents SDK trend: Realtime guardrail fallback mechanisms during tool execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs.py",
+        "tests/test_acs*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Fallback is triggered on guardrail violation.",
+        "Test passes."
       ]
     }
   ]
