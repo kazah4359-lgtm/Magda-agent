@@ -2772,7 +2772,7 @@
     },
     {
       "id": "mcp-action-tool-exporter-v4",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Action Tool Exporter",
@@ -3872,6 +3872,40 @@
       "acceptance": [
         "Agent can run against SWE-bench harness.",
         "Tests pass with mock."
+      ]
+    },
+    {
+      "id": "hermes-skill-creation-v2-1052e4b3",
+      "status": "todo",
+      "area": "skills",
+      "risk": "high",
+      "title": "Hermes: Skill Creation from Experience v2",
+      "description": "Inspired by Hermes Agent trend: Skill creation from experience. Implement an automated workflow that generates new reusable Python skills dynamically when the agent detects a repeated pattern in user requests.",
+      "allowed_paths": [
+        "magda_agent/learning/skill_creator.py",
+        "tests/test_skill_creator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "System synthesizes skills dynamically from chat history.",
+        "Tests verify generation logic."
+      ]
+    },
+    {
+      "id": "online-rl-feedback-v5-ab746036",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL from user feedback v5",
+      "description": "Inspired by trend: Online RL from user feedback. Implement online reinforcement learning to adjust agent behavior based on implicit and explicit feedback without separate annotation.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_feedback.py",
+        "tests/test_rl_feedback*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent adjusts reward parameters based on immediate user feedback.",
+        "Tests confirm RL feedback loop."
       ]
     }
   ]
