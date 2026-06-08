@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 70
+    "max_todo_tasks": 75
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2826,7 +2826,7 @@
     },
     {
       "id": "skill-creation-from-experience-v2",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Skill creation from experience",
@@ -3994,6 +3994,74 @@
         "TeamOrchestrator can spawn SubAgents.",
         "Handles concurrent execution.",
         "Tests verify subagent isolation."
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-integration-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Skill Marketplace Integration",
+      "description": "Inspired by Hermes Agent trend: Skill marketplace integration. Implement a module to discover and install new skills from external marketplaces like agentskills.io.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace.py",
+        "tests/test_marketplace*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module can search and list skills from marketplace",
+        "Tests verify integration with mocked API"
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visualization-v1",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Visualization",
+      "description": "Inspired by OpenClaw trend: Canvas live visualization. Implement a module to stream agent's internal state to a visual canvas for better observability.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas.py",
+        "tests/test_canvas*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent state updates are formatted for canvas streaming",
+        "Tests verify visualization formatting logic"
+      ]
+    },
+    {
+      "id": "claude-dependency-graph-task-system-v1",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Claude Dependency Graph Task System",
+      "description": "Inspired by Claude SDK trend: Task system with dependency graphs. Enhance the planner to support complex task dependencies to handle sophisticated multi-agent orchestration.",
+      "allowed_paths": [
+        "magda_agent/planning/dependency_graph.py",
+        "tests/test_dependency_graph*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner can resolve and sort tasks by dependency",
+        "Tests pass for circular dependency detection"
+      ]
+    },
+    {
+      "id": "claude-subagent-spawning-v1",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Claude Subagent Spawning",
+      "description": "Inspired by Claude SDK trend: Subagent spawning. Enhance the orchestrator to dynamically spawn SubAgents for parallel tasks.",
+      "allowed_paths": [
+        "magda_agent/agents/spawner.py",
+        "tests/test_spagentspawner*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Orchestrator can spawn multiple subagents",
+        "Tests verify parallel execution"
       ]
     }
   ]
