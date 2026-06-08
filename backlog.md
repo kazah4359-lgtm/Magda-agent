@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+- [x] agent-guard-runtime-safety-v4: Agent Guard Runtime Safety Controls
 - [x] mcp-action-tool-exporter-v4: MCP Action Tool Exporter
 * [x] FEATURE: Guardrails Policy Layer (guardrails-policy-layer)
 
