@@ -9,7 +9,7 @@ from magda_agent.consciousness.core import Consciousness
 from magda_agent.memory.storage import MemorySystem
 from magda_agent.emotions.engine import EmotionalEngine
 from magda_agent.llm_client import LLMClient
-from magda_agent.context.engine import ContextEngine
+from magda_agent.memory.context_engine import ContextEngine
 from magda_agent.skills.registry import SkillRegistry
 
 @pytest.fixture

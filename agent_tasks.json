@@ -1408,7 +1408,8 @@
       "title": "Context Engine plugin interface with lifecycle hooks",
       "description": "Inspired by the OpenClaw trend: Implement a Context Engine plugin interface with lifecycle hooks (e.g., pre_process, compress, post_process) to dynamically filter input and compress short-term context. [blocked: duplicate of done task 'context-engine-plugin']",
       "allowed_paths": [
-        "magda_agent/context/**",
+        "magda_agent/memory/context_engine.py",
+        "magda_agent/memory/context_engine.py",
         "tests/test_context_engine*.py",
         "agent_tasks.json"
       ],
@@ -1640,7 +1641,7 @@
       "title": "Context Engine Canvas Visualization",
       "description": "Inspired by OpenClaw Canvas trend. Create a live visualization adapter for the Context Engine to broadcast the agent’s working memory and current focused tasks to an external Canvas client via websocket. [blocked: duplicate of done task 'context-engine-plugin']",
       "allowed_paths": [
-        "magda_agent/context/canvas.py",
+        "magda_agent/memory/canvas.py",
         "tests/test_canvas*.py",
         "agent_tasks.json"
       ],
@@ -2718,7 +2719,7 @@
     },
     {
       "id": "context-engine-plugin-impl",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Plugin Interface",

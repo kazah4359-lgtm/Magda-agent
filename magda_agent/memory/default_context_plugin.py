@@ -1,6 +1,6 @@
 import logging
 from typing import Any, Dict, List, Optional
-from magda_agent.context.plugin import ContextPlugin
+from magda_agent.memory.context_engine import ContextPlugin
 
 class DefaultContextPlugin(ContextPlugin):
     """
@@ -8,6 +8,14 @@ class DefaultContextPlugin(ContextPlugin):
     """
     def __init__(self, llm: Optional[Any] = None):
         self.llm = llm
+
+    async def bootstrap(self, config: Dict[str, Any]) -> None:
+        """Initialize the plugin with configuration."""
+        pass
+
+    async def ingest(self, content: str, metadata: Dict[str, Any]) -> str:
+        """Process incoming content before it is stored or used."""
+        return content
 
     async def assemble(self, context_items: List[Any], metadata: Dict[str, Any]) -> str:
         """Standard context assembly from memory entries."""
@@ -58,3 +66,15 @@ class DefaultContextPlugin(ContextPlugin):
         except Exception as e:
             logging.error(f"DefaultContextPlugin compaction failed: {e}")
             return context_items[1:] # Fallback to dropping
+
+    def before_retrieval(self, query: str, user_id: int) -> str:
+        """Called before context is retrieved. Can modify the query."""
+        return query
+
+    def after_retrieval(self, context: List[Any], query: str, user_id: int) -> List[Any]:
+        """Called after context is retrieved. Can modify the retrieved context."""
+        return context
+
+    def on_context_update(self, new_context: Any, user_id: int) -> None:
+        """Called when the overall context is updated."""
+        pass

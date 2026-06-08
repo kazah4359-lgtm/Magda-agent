@@ -30,7 +30,7 @@ from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
 from magda_agent.learning.feedback_loop import FeedbackLoop
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
-from magda_agent.context.engine import ContextEngine
+from magda_agent.memory.context_engine import ContextEngine
 from magda_agent.learning.skill_creator import SkillCreator
 from magda_agent.tracing.tracer import ThoughtChainTracer
 from magda_agent.safety.guardrails import RealtimeGuardrail
