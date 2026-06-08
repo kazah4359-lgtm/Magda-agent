@@ -2909,7 +2909,7 @@
     },
     {
       "id": "a2a-protocol-integration-v4",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "Agent-to-Agent (A2A) Protocol integration",
@@ -4246,6 +4246,38 @@
       "acceptance": [
         "Agent can receive and send messages via Telegram v2 API.",
         "Tests mock Telegram API."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visualization-v2",
+      "status": "todo",
+      "area": "ui",
+      "risk": "medium",
+      "title": "Canvas Live Visualization UI",
+      "description": "Inspired by OpenClaw trend: Add a Canvas interface for live visual feedback of agent state and outputs.",
+      "allowed_paths": [
+        "magda_agent/ui/canvas.py",
+        "tests/test_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas interface correctly initializes and visualizes text/objects dynamically."
+      ]
+    },
+    {
+      "id": "claude-dependency-graph-planner-v2",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Task system with dependency graphs",
+      "description": "Inspired by Claude SDK trend: Update the planner module to support resolving complex task dependency graphs during execution.",
+      "allowed_paths": [
+        "magda_agent/planning/dependency_graph.py",
+        "tests/test_dependency_graph.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner can traverse and execute tasks based on DAG dependencies."
       ]
     }
   ]
