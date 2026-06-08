@@ -19,7 +19,7 @@ class OnlineRLIntegrator:
         self.habit_tracker = habit_tracker
         self.mirror_neurons = mirror_neurons
 
-    async def process_feedback(self, user_reply: str, action_context: str, user_id: Optional[int] = None) -> None:
+    async def process_feedback(self, user_reply: str, action_context: str, user_id: Optional[int] = None, explicit_score: Optional[float] = None, tool_success: bool = False, skill_used: str = "rl_feedback_skill") -> None:
         """
         Processes explicit and implicit feedback signals to adjust habit weights.
 
@@ -27,20 +27,28 @@ class OnlineRLIntegrator:
             user_reply (str): The user's reply.
             action_context (str): The context of the action taken.
             user_id (Optional[int]): The ID of the user.
+            explicit_score (Optional[float]): Explicit user feedback score (e.g. from 0 to 10).
+            tool_success (bool): Whether the tool execution was successful.
+            skill_used (str): The name of the skill used.
         """
         if not user_reply or not action_context:
             return
 
         p_shift, a_shift, d_shift = self.mirror_neurons.empathize(user_reply)
 
-        # Calculate a dynamic weight based on the pleasure shift.
-        # Scale the p_shift (-1.0 to 1.0) to a score (0 to 10).
-        weight = (p_shift + 1.0) * 5.0
+        if explicit_score is not None:
+            base_score = explicit_score
+        else:
+            base_score = (p_shift + 1.0) * 5.0
+
+        weight = base_score
+        if tool_success:
+            weight += 2.0
 
         if weight >= 8.0:
             self.habit_tracker.record_usage(
                 input_text=action_context,
-                skill_used="rl_feedback_skill",
+                skill_used=skill_used,
                 evaluation_score=weight,
                 user_id=user_id
             )

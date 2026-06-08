@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: Online RL from User Feedback v2 (online-rl-user-feedback-v2)
 * [x] FEATURE: Longitudinal Quality Metrics (longitudinal-quality-metrics-v2)
 * [x] FEATURE: Skill creation from experience
 - [x] agent-guard-runtime-safety-v4: Agent Guard Runtime Safety Controls
