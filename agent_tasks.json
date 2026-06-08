@@ -2808,7 +2808,7 @@
     },
     {
       "id": "agent-guard-runtime-safety-v4",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard Runtime Safety Controls",
@@ -3940,6 +3940,60 @@
       "acceptance": [
         "A2A delegations generate tracing logs.",
         "Tests verify log generation."
+      ]
+    },
+    {
+      "id": "virtual-context-management-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Memory Architecture Virtual Context Management",
+      "description": "Inspired by trend: Virtual context management (MemGPT/Letta pattern). Implement dynamic paging for working memory limits.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context.py",
+        "tests/test_virtual_context*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "VirtualContextManager is implemented.",
+        "Pages out inactive items when working memory exceeds limits.",
+        "Tests verify paging operations."
+      ]
+    },
+    {
+      "id": "openclaw-rl-online-learning-v1",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "Online RL from user feedback",
+      "description": "Inspired by trend: OpenClaw-RL Interactive Learning. Implement online learning from user replies and next-state signals.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "tests/test_online_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "OnlineRLLearner captures next-state signals.",
+        "Updates weights based on tool outputs.",
+        "Tests cover learning feedback loop."
+      ]
+    },
+    {
+      "id": "multi-agent-orchestration-teams-v1",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams Subagent Spawning",
+      "description": "Inspired by trend: Multi-Agent Orchestration (Claude SDK). Implement hierarchical delegation via spawning parallel subagents.",
+      "allowed_paths": [
+        "magda_agent/agents/team_orchestrator.py",
+        "tests/test_team_orchestrator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "TeamOrchestrator can spawn SubAgents.",
+        "Handles concurrent execution.",
+        "Tests verify subagent isolation."
       ]
     }
   ]
