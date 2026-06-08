@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, ValidationError
 from magda_agent.llm_client import LLMClient
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.learning.habits import HabitTracker
-from magda_agent.agents.sub_agent import SubAgent
+from magda_agent.agents.teams import TeamManager
 from magda_agent.planning.dag_planner import DAGPlanner
 
 
@@ -205,8 +205,10 @@ class Planner:
 
     async def spawn_sub_agent(self, task: str, context: str) -> str:
         logging.info(f"Planner spawning sub-agent for task: {task[:50]}")
-        sub_agent = SubAgent(llm=self.llm)
-        return await sub_agent.execute(task=task, context=context)
+        manager = TeamManager(llm=self.llm)
+        results = await manager.spawn_and_execute([{'description': task}], context=context)
+        return results[0] if results else 'Error: No result from subagent.'
+        logging.info(f"Planner spawning sub-agent for task: {task[:50]}")
 
     def get_current_plan(self, user_id: Optional[Any] = None) -> List[Dict[str, Any]]:
         return self.get_user_state(user_id).current_plan

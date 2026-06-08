@@ -2754,7 +2754,7 @@
     },
     {
       "id": "agent-teams-git-worktree-v2",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Agent Teams with Git Worktree Isolation",
@@ -3821,6 +3821,57 @@
       "acceptance": [
         "Workflows are validated against 5 ACS checkpoints",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "agentbench-multi-domain-eval-v2",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "low",
+      "title": "AgentBench Multi-domain Evaluation v2",
+      "description": "Inspired by AgentBench trend: Integrate multi-domain benchmark tests into the agent's evaluation pipeline.",
+      "allowed_paths": [
+        "magda_agent/evaluation/agentbench_v2.py",
+        "tests/test_agentbench_v2*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "AgentBench tests can be run against the agent.",
+        "Tests verify pipeline logic with mock benchmark data."
+      ]
+    },
+    {
+      "id": "webarena-navigation-skills-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "WebArena Navigation Skill v2",
+      "description": "Inspired by WebArena trend: Implement a skill for web navigation tasks.",
+      "allowed_paths": [
+        "magda_agent/skills/web_navigation_v2.py",
+        "tests/test_web_navigation_v2*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill allows executing web navigation tasks.",
+        "Tests verify skill functions with a mocked web structure."
+      ]
+    },
+    {
+      "id": "swe-bench-verified-evaluation-v1",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "SWE-bench Verified Evaluation",
+      "description": "Inspired by SWE-bench Verified trend: Integrate SWE-bench evaluation harness.",
+      "allowed_paths": [
+        "magda_agent/evaluation/swe_bench.py",
+        "tests/test_swe_bench*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can run against SWE-bench harness.",
+        "Tests pass with mock."
       ]
     }
   ]
