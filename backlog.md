@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+- [x] mcp-action-tool-exporter-v4: MCP Action Tool Exporter
 * [x] FEATURE: Guardrails Policy Layer (guardrails-policy-layer)
 
 * [x] FEATURE: Online RL Feedback Integration (online-rl-feedback-integration)
