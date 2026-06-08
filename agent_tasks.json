@@ -2893,7 +2893,7 @@
     },
     {
       "id": "mcp-context-exporter",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Context Exporter",
@@ -4212,6 +4212,40 @@
       ],
       "acceptance": [
         "Context compression successfully reduces prompt size without losing critical facts."
+      ]
+    },
+    {
+      "id": "cron-scheduler-daily-reports-v4",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Scheduled operations: daily reports",
+      "description": "Inspired by trend: Scheduled operations — cron-подобные задачи без участия пользователя. Implement scheduled daily reports capability.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron.py",
+        "tests/test_cron*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cron scheduler handles daily reports.",
+        "Tests verify scheduled execution."
+      ]
+    },
+    {
+      "id": "cross-platform-telegram-channel-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Cross-platform reach: Telegram channel v2",
+      "description": "Inspired by trend: Cross-platform reach — один агент, много каналов. Add improved Telegram messenger integration.",
+      "allowed_paths": [
+        "magda_agent/channels/telegram.py",
+        "tests/test_telegram*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can receive and send messages via Telegram v2 API.",
+        "Tests mock Telegram API."
       ]
     }
   ]
