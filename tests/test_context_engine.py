@@ -1,8 +1,8 @@
 import pytest
+from typing import Any
 from unittest.mock import AsyncMock, MagicMock
-from magda_agent.context.engine import ContextEngine
-from magda_agent.context.plugin import ContextPlugin
-from magda_agent.context.default_plugin import DefaultContextPlugin
+from magda_agent.memory.context_engine import ContextEngine, ContextPlugin
+from magda_agent.memory.default_context_plugin import DefaultContextPlugin
 from magda_agent.memory.working import MemoryEntry
 from magda_agent.emotions.engine import PADState
 
@@ -27,6 +27,15 @@ class MockPlugin(ContextPlugin):
     async def compact(self, context_items, metadata):
         self.compact_called = True
         return context_items[:-1]
+
+    def before_retrieval(self, query: str, user_id: int) -> str:
+        return query
+
+    def after_retrieval(self, context: list, query: str, user_id: int) -> list:
+        return context
+
+    def on_context_update(self, new_context: Any, user_id: int) -> None:
+        pass
 
 @pytest.mark.asyncio
 async def test_context_engine_lifecycle():

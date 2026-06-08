@@ -48,8 +48,8 @@ from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
 from magda_agent.safety.guardrails import RealtimeGuardrail
-from magda_agent.context.engine import ContextEngine
-from magda_agent.context.default_plugin import DefaultContextPlugin
+from magda_agent.memory.context_engine import ContextEngine
+from magda_agent.memory.default_context_plugin import DefaultContextPlugin
 from magda_agent.tracing.tracer import ThoughtChainTracer
 
 logging.basicConfig(level=logging.INFO)
