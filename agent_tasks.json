@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 65
+    "max_todo_tasks": 70
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2790,7 +2790,7 @@
     },
     {
       "id": "a2a-peer-delegation-protocol-v4",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "A2A Peer Delegation Protocol",
@@ -3906,6 +3906,40 @@
       "acceptance": [
         "Agent adjusts reward parameters based on immediate user feedback.",
         "Tests confirm RL feedback loop."
+      ]
+    },
+    {
+      "id": "claude-context-window-1m-tokens",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Claude SDK 1M token context window support",
+      "description": "Inspired by Claude Agent SDK 1M token context window. Implement efficient memory indexing for up to 1M tokens.",
+      "allowed_paths": [
+        "magda_agent/memory/large_context.py",
+        "tests/test_large_context.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory module efficiently retrieves data from 1M token window",
+        "Tests mock large inputs and verify retrieval"
+      ]
+    },
+    {
+      "id": "a2a-enterprise-tracing",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Enterprise-Ready Tracing",
+      "description": "Inspired by A2A Protocol trend (enterprise-ready tracing). Add distributed tracing to A2A delegations.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing.py",
+        "tests/test_a2a_tracing.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A delegations generate tracing logs.",
+        "Tests verify log generation."
       ]
     }
   ]
