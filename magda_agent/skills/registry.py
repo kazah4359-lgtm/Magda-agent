@@ -17,6 +17,10 @@ class SkillRegistry:
         from magda_agent.safety.agent_guard import AgentGuard
         self.agent_guard = AgentGuard(policy_layer) if policy_layer else None
 
+        # Initialize RealtimeGuardrail
+        from magda_agent.safety.guardrails import RealtimeGuardrail
+        self.realtime_guardrail = RealtimeGuardrail(policy_layer) if policy_layer else None
+
 
     def register_skill(self, name: str, func: Callable, description: str):
         self.skills[name] = func
@@ -40,7 +44,9 @@ class SkillRegistry:
             return f"Error: Skill '{name}' not found."
 
         try:
-            if self.agent_guard is not None:
+            if self.realtime_guardrail is not None:
+                return self.realtime_guardrail.execute_with_guardrails(self.skills[name], name, **kwargs)
+            elif self.agent_guard is not None:
                 return self.agent_guard.execute_tool(self.skills[name], name, **kwargs)
             else:
                 return self.skills[name](**kwargs)

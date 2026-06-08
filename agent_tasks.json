@@ -2737,7 +2737,7 @@
     },
     {
       "id": "guardrails-policy-layer",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Guardrails Policy Layer",
@@ -3787,6 +3787,40 @@
       "acceptance": [
         "Tool-call interceptions are logged to an audit trail",
         "Tests verify that audit logs are correctly generated"
+      ]
+    },
+    {
+      "id": "openai-realtime-guardrail-fallback",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "OpenAI: Realtime Guardrail Fallback",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement realtime guardrail fallback for interrupted actions.",
+      "allowed_paths": [
+        "magda_agent/safety/guardrails.py",
+        "tests/test_guardrails*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Fallback mechanism triggers on blocked calls.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "acs-5-validation-checkpoints-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS 5 validation checkpoints v4",
+      "description": "Inspired by ACS trend: 5 validation checkpoints in agentic workflows. Enhance workflow validation logic.",
+      "allowed_paths": [
+        "magda_agent/safety/acs.py",
+        "tests/test_acs*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Workflows are validated against 5 ACS checkpoints",
+        "Tests pass."
       ]
     }
   ]
