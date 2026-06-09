@@ -183,6 +183,7 @@ a2a_server = A2AServer(planner=planner)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
+    await context_engine.bootstrap_all({})
     asyncio.create_task(cron_scheduler.start())
     asyncio.create_task(operations_scheduler.start())
     await autonomous_executor.start()

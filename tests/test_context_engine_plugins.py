@@ -45,3 +45,42 @@ def test_update_context() -> None:
 
     engine.update_context("new_data", 1)
     plugin.on_context_update.assert_called_once_with("new_data", 1)
+
+
+@pytest.mark.asyncio
+async def test_memory_system_context_integration():
+    """Test MemorySystem's interaction with ContextEngine hooks."""
+    from magda_agent.memory.storage import MemorySystem
+    from magda_agent.emotions.engine import PADState
+
+    engine = ContextEngine()
+    plugin = MagicMock(spec=ContextPlugin)
+    engine.register_plugin(plugin)
+
+    # Set up return values for hooks that expect a return
+    plugin.before_retrieval.side_effect = lambda q, uid: q + "_modified"
+    plugin.after_retrieval.side_effect = lambda ctx, q, uid: ctx + ["appended"]
+
+    mem_system = MemorySystem(context_engine=engine)
+
+    # 1. Test on_context_update hook via add_memory
+    pad = PADState(0, 0, 0)
+    await mem_system.add_memory("test content", 0.5, pad, user_id=1)
+
+    assert plugin.on_context_update.called
+    # The first argument should be a MemoryEntry
+    args, kwargs = plugin.on_context_update.call_args
+    assert args[0].content == "test content"
+    assert args[1] == 1
+
+    # 2. Test before_retrieval and after_retrieval hooks via retrieve_relevant
+    # We need some entries in working memory for base_retrieval to return something
+    # Actually, base_retrieval returns empty if no entries match, but we can still check the hook calls
+    result = mem_system.retrieve_relevant("query", user_id=1)
+
+    assert plugin.before_retrieval.called
+    plugin.before_retrieval.assert_called_with("query", 1)
+
+    assert plugin.after_retrieval.called
+    # result should contain "appended" from the hook
+    assert "appended" in result
