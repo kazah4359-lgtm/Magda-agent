@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: OpenClaw Canvas live visualization support (openclaw-live-canvas-visualizer)
 - [x] MCP server-prefixed tools support
 * [x] FEATURE: Cross-platform reach across channels (cross-platform-reach-channels)
 * [x] FEATURE: Agent Teams sub-agents spawning (agent-teams-sub-agents)

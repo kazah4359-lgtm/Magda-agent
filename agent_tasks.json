@@ -3103,7 +3103,7 @@
     },
     {
       "id": "openclaw-live-canvas-visualizer",
-      "status": "todo",
+      "status": "done",
       "area": "gateway",
       "risk": "medium",
       "title": "Canvas live visualization support",
@@ -4724,6 +4724,57 @@
       "acceptance": [
         "Director agent delegates to workers",
         "Orchestration handles Magentic-One pattern"
+      ]
+    },
+    {
+      "id": "falco-prempti-interception",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Falco Prempti Tool Interception",
+      "description": "Inspired by trend: Prempti (Falco): tool-call interception + audit trail. Implement tool call auditing.",
+      "allowed_paths": [
+        "magda_agent/safety/audit.py",
+        "tests/test_audit.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Audit logs are generated",
+        "Tests verify interception"
+      ]
+    },
+    {
+      "id": "hermes-skill-experience",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Hermes Skill Creation from Experience",
+      "description": "Inspired by trend: Skill creation from experience (Hermes). Implement experience to skill creation.",
+      "allowed_paths": [
+        "magda_agent/learning/experience.py",
+        "tests/test_experience.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Experience is converted to skills",
+        "Skills are validated"
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking-v3",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCPKernel Taint Tracking",
+      "description": "Inspired by trend: MCPKernel: taint tracking + sandboxed execution.",
+      "allowed_paths": [
+        "magda_agent/safety/taint.py",
+        "tests/test_taint.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted inputs are tracked",
+        "Sandboxed execution is verified"
       ]
     }
   ]
