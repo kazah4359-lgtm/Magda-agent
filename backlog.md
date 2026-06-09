@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+- [x] a2a-json-rpc-server: A2A JSON-RPC Server Interface
 - [x] acs-runtime-safety-controls-v2: ACS runtime safety controls
 * [x] FEATURE: Agent-to-Agent (A2A) Protocol integration
 * [x] FEATURE: Online RL from User Feedback v2 (online-rl-user-feedback-v2)
@@ -162,6 +163,9 @@
 
 * [ ] BUG: `Brainstem` integration in `Consciousness.process_input` does not halt long-running skills gracefully upon a 'stop' command. Need to implement a cancellation token or mechanism for active background tasks when a stop reflex is triggered. (2026-06-04)
 ## 🛠️ Запланированные Skills
+* [ ] FEATURE: OpenClaw Canvas Live Visualization
+* [ ] FEATURE: OpenClaw RL Next-State Signals
+* [ ] FEATURE: Claude Subagent Spawning
 
 * [x] SKILL: **Omnichannel Provider (Работа с провайдерами)** — модуль `magda_agent/skills/omnichannel.py`. (2026-06-04)
   Умение работы с разными провайдерами (Telegram, WhatsApp и другие) для взаимодействия с агентом.

@@ -2977,7 +2977,7 @@
     },
     {
       "id": "a2a-json-rpc-server",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A JSON-RPC Server Interface",
@@ -4418,6 +4418,57 @@
       "acceptance": [
         "ACS Guard implements formal 5 checkpoint interfaces",
         "Tests verify checkpoints block unsafe actions"
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visual",
+      "status": "todo",
+      "area": "ui",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Live Visualization",
+      "description": "Inspired by OpenClaw trends: Implement a Canvas for live visualization of the agent state.",
+      "allowed_paths": [
+        "magda_agent/ui/canvas.py",
+        "tests/test_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent state can be visualized in a canvas.",
+        "Canvas module connects successfully."
+      ]
+    },
+    {
+      "id": "openclaw-rl-next-state-signals",
+      "status": "todo",
+      "area": "core",
+      "risk": "high",
+      "title": "OpenClaw RL Next-State Signals",
+      "description": "Inspired by OpenClaw-RL: Implement online reinforcement learning using next-state signals like user replies and tool outputs.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_signals.py",
+        "tests/test_rl_signals.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent learns from next-state signals.",
+        "Feedback updates agent behavior."
+      ]
+    },
+    {
+      "id": "claude-subagent-spawning-teams",
+      "status": "todo",
+      "area": "core",
+      "risk": "high",
+      "title": "Claude Subagent Spawning",
+      "description": "Inspired by Claude Agent SDK trends: Implement subagent spawning for parallel execution of tasks using git worktree isolation.",
+      "allowed_paths": [
+        "magda_agent/agents/subagents.py",
+        "tests/test_subagents.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents can be spawned.",
+        "Tasks execute in parallel."
       ]
     }
   ]
