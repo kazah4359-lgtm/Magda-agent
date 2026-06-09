@@ -75,6 +75,9 @@ class MemorySystem:
         # Prefer ContextEngine.compact via working_memory.add, otherwise use local summarizer
         await self.working_memory.add(entry, summarizer=summarizer if self.llm else None)
 
+        if self.context_engine:
+            self.context_engine.update_context(entry, user_id)
+
         # Update user model with this new interaction
         if user_id is not None:
             await self.user_model.update_model(user_id, content)
@@ -146,42 +149,49 @@ class MemorySystem:
         Retrieve relevant memories. Since WorkingMemory is small, we use keyword matching.
         For robust semantic search, external modules should query SemanticMemory/EpisodicMemory.
         """
-        try:
-            u_id = user_id if user_id is not None else -1
-            entries = self.working_memory.get_entries(u_id)
 
-            if not entries:
+        def base_retrieval(q: str, uid: int) -> List[MemoryEntry]:
+            try:
+                entries = self.working_memory.get_entries(uid)
+
+                if not entries:
+                    return []
+
+                query_lower = q.lower()
+                query_words = set(query_lower.split())
+
+                scored_entries = []
+                for entry in entries:
+                    score = 0
+                    content_lower = entry.content.lower()
+                    # Basic exact match
+                    if query_lower in content_lower:
+                        score += 5
+                    # Word match
+                    for word in query_words:
+                        if len(word) > 3 and word in content_lower:
+                            score += 1
+
+                    if score > 0:
+                        scored_entries.append((score, entry))
+
+                if not scored_entries:
+                    # Fallback: just return the most important recent ones
+                    return sorted(entries, key=lambda x: x.importance, reverse=True)[:limit]
+
+                # Sort by score descending, then importance
+                scored_entries.sort(key=lambda x: (x[0], x[1].importance), reverse=True)
+                return [e[1] for e in scored_entries[:limit]]
+
+            except Exception as e:
+                logging.error(f"Failed to retrieve relevant memories in base_retrieval: {e}")
                 return []
 
-            query_lower = query.lower()
-            query_words = set(query_lower.split())
+        u_id = user_id if user_id is not None else -1
+        if self.context_engine:
+            return self.context_engine.retrieve_context(query, u_id, base_retrieval_func=base_retrieval)
 
-            scored_entries = []
-            for entry in entries:
-                score = 0
-                content_lower = entry.content.lower()
-                # Basic exact match
-                if query_lower in content_lower:
-                    score += 5
-                # Word match
-                for word in query_words:
-                    if len(word) > 3 and word in content_lower:
-                        score += 1
-
-                if score > 0:
-                    scored_entries.append((score, entry))
-
-            if not scored_entries:
-                # Fallback: just return the most important recent ones
-                return sorted(entries, key=lambda x: x.importance, reverse=True)[:limit]
-
-            # Sort by score descending, then importance
-            scored_entries.sort(key=lambda x: (x[0], x[1].importance), reverse=True)
-            return [e[1] for e in scored_entries[:limit]]
-
-        except Exception as e:
-            logging.error(f"Failed to retrieve relevant memories: {e}")
-            return []
+        return base_retrieval(query, u_id)
 
     def _calc_emotional_intensity(self, state: PADState) -> float:
         return math.sqrt(state.pleasure**2 + state.arousal**2 + state.dominance**2)
