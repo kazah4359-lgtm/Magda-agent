@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: Cross-platform reach across channels (cross-platform-reach-channels)
 * [x] FEATURE: Agent Teams sub-agents spawning (agent-teams-sub-agents)
 
 - [x] a2a-async-auth-tracing: A2A Enterprise-Ready Async Auth and Tracing
