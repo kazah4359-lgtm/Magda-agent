@@ -53,6 +53,7 @@ from magda_agent.safety.guardrails import RealtimeGuardrail
 from magda_agent.memory.context_engine import ContextEngine
 from magda_agent.memory.default_context_plugin import DefaultContextPlugin
 from magda_agent.tracing.tracer import ThoughtChainTracer
+from magda_agent.architecture.sub_agents import SubAgentRPCManager
 
 logging.basicConfig(level=logging.INFO)
 
@@ -178,7 +179,7 @@ autonomous_executor = AutonomousExecutor(
 
 canvas_server = CanvasServer(consciousness=consciousness)
 a2a_server = A2AServer(planner=planner)
-
+rpc_manager = SubAgentRPCManager(llm=llm_client)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
