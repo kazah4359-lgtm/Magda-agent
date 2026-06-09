@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 80
+    "max_todo_tasks": 90
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -2925,7 +2925,7 @@
     },
     {
       "id": "acs-runtime-safety-controls-v2",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "ACS runtime safety controls",
@@ -4278,6 +4278,57 @@
       ],
       "acceptance": [
         "Planner can traverse and execute tasks based on DAG dependencies."
+      ]
+    },
+    {
+      "id": "memgpt-virtual-context-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT Virtual Context Integration v2",
+      "description": "Inspired by trend: Virtual context management (MemGPT/Letta pattern). Implement virtual context management.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v2.py",
+        "tests/test_virtual_context_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtual context module is implemented.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "hierarchical-delegation-worktrees-v2",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Hierarchical Delegation Worktrees v2",
+      "description": "Inspired by trend: Hierarchical delegation with isolation and Git worktree per agent.",
+      "allowed_paths": [
+        "magda_agent/agents/hierarchical_delegation_v2.py",
+        "tests/test_hierarchical_delegation_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Hierarchical delegation uses git worktrees.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "hermes-skill-creation-loop-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "Hermes Skill Creation Loop v2",
+      "description": "Inspired by trend: Skill creation from experience (Hermes). Agent creates new skills from past executions.",
+      "allowed_paths": [
+        "magda_agent/learning/skill_loop_v2.py",
+        "tests/test_skill_loop_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can generate new skills based on experience.",
+        "Tests pass."
       ]
     }
   ]
