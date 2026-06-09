@@ -23,6 +23,7 @@ from magda_agent.learning.skill_creator import SkillCreator
 from magda_agent.learning.skill_versioning import SkillVersioning
 from magda_agent.skills import initialize_skills
 from magda_agent.planning.planner import Planner
+from magda_agent.integration.a2a_server import A2AServer
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.scheduler.cron import CronScheduler
@@ -174,7 +175,10 @@ autonomous_executor = AutonomousExecutor(
     step_timeout=float(os.getenv("AUTONOMY_STEP_TIMEOUT", "60")),
 )
 
+
 canvas_server = CanvasServer(consciousness=consciousness)
+a2a_server = A2AServer(planner=planner)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -192,6 +196,7 @@ async def lifespan(app: FastAPI):
     memory_system.close()
 
 app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)
+app.mount("/a2a", a2a_server.app)
 
 _PUBLIC_HTTP_PATHS = {"/health"}
 
