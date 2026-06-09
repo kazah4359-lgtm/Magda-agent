@@ -2995,7 +2995,7 @@
     },
     {
       "id": "a2a-async-auth-tracing",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "high",
       "title": "A2A Enterprise-Ready Async Auth and Tracing",
@@ -4469,6 +4469,57 @@
       "acceptance": [
         "Subagents can be spawned.",
         "Tasks execute in parallel."
+      ]
+    },
+    {
+      "id": "falco-tool-call-interception",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Prempti Tool Call Interception",
+      "description": "Inspired by trend: Prempti (Falco): tool-call interception + audit trail. Implement audit trailing for tool calls.",
+      "allowed_paths": [
+        "magda_agent/safety/audit_trail.py",
+        "tests/test_audit_trail.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All tool calls are recorded in an audit trail.",
+        "Tests pass successfully."
+      ]
+    },
+    {
+      "id": "longitudinal-quality-metrics-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Longitudinal quality metrics v3",
+      "description": "Inspired by trend: Longitudinal quality metrics. Track continuous improvement metrics.",
+      "allowed_paths": [
+        "magda_agent/metacognition/metrics.py",
+        "tests/test_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Metrics tracker stores test success rates over time.",
+        "Database schemas are correctly configured."
+      ]
+    },
+    {
+      "id": "mcpkernel-sandboxed-execution",
+      "status": "todo",
+      "area": "security",
+      "risk": "high",
+      "title": "MCPKernel: Taint Tracking and Sandboxed Execution",
+      "description": "Inspired by trend: MCPKernel: taint tracking + sandboxed execution. Implement taint tracking for external inputs.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_kernel.py",
+        "tests/test_mcp_kernel.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCPKernel blocks tainted inputs from execution.",
+        "Sandboxing works properly."
       ]
     }
   ]
