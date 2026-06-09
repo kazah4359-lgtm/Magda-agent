@@ -3069,7 +3069,7 @@
     },
     {
       "id": "mcp-server-prefixed-tools",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP server-prefixed tools support",
@@ -4622,6 +4622,57 @@
       "acceptance": [
         "Agent can generate skills",
         "Tests verify export schema"
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-v3",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Cron Scheduler v3",
+      "description": "Inspired by trend: Hermes Agent cron scheduler for daily reports and nightly backups. Implement a robust background job scheduler with persistence.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_v3.py",
+        "tests/test_cron_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler persists jobs and handles timezone correctness",
+        "Tests verify daily reports execution"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP server-prefixed tools concurrency v2",
+      "description": "Inspired by trend: Runtime function tool concurrency. Add parallelism explicitly for MCP tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_concurrency_v2.py",
+        "tests/test_mcp_concurrency_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Concurrent execution of MCP tools using asyncio",
+        "Tests verify thread safety"
+      ]
+    },
+    {
+      "id": "openclaw-local-first-gateway",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "OpenClaw Local-First Gateway",
+      "description": "Inspired by OpenClaw trends: Implement a local-first gateway as a control plane for channel routing.",
+      "allowed_paths": [
+        "magda_agent/architecture/gateway.py",
+        "tests/test_gateway.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Gateway routes requests to channels safely",
+        "Tests verify control plane boundaries"
       ]
     }
   ]
