@@ -3086,7 +3086,7 @@
     },
     {
       "id": "realtime-guardrail-fallback-v2",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Realtime guardrail fallback",
@@ -4673,6 +4673,57 @@
       "acceptance": [
         "Gateway routes requests to channels safely",
         "Tests verify control plane boundaries"
+      ]
+    },
+    {
+      "id": "task-system-dependency-graphs",
+      "status": "todo",
+      "area": "core",
+      "risk": "high",
+      "title": "Task System with Dependency Graphs",
+      "description": "Inspired by trend: Task system с dependency graphs (Claude Agent SDK). Implement dependency tracking for agent tasks.",
+      "allowed_paths": [
+        "magda_agent/core/task_graph.py",
+        "tests/test_task_graph.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tasks can express dependencies",
+        "Scheduler respects task dependency graphs"
+      ]
+    },
+    {
+      "id": "context-compression-selective-retrieval-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Compression & Selective Retrieval",
+      "description": "Inspired by trend: Context compression + selective retrieval (Memory Architecture). Add compression mechanisms to working memory.",
+      "allowed_paths": [
+        "magda_agent/memory/compression.py",
+        "tests/test_compression.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Old working memory is compressed before semantic conversion",
+        "Selective retrieval handles compressed blocks"
+      ]
+    },
+    {
+      "id": "magentic-one-orchestration-v2",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Magentic-One Multi-Agent Orchestration",
+      "description": "Inspired by trend: Magentic-One pattern (Microsoft). Implement Magentic-One style multi-agent delegation.",
+      "allowed_paths": [
+        "magda_agent/agents/magentic.py",
+        "tests/test_magentic.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Director agent delegates to workers",
+        "Orchestration handles Magentic-One pattern"
       ]
     }
   ]

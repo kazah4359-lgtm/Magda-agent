@@ -52,3 +52,42 @@ async def test_denied_action_async_tool() -> None:
     assert asyncio.iscoroutine(result_coro)
     result = await result_coro
     assert result == "Review requested for action 'unsafe_tool': Needs Review"
+
+
+def test_denied_action_warn_and_continue() -> None:
+    """Tests that a denied action with WARN_AND_CONTINUE strategy returns a warning message."""
+    policy = PolicyLayer()
+    policy.evaluate = MagicMock(return_value=(False, "Warning Reason"))
+    guard = RealtimeGuardrail(policy, default_strategy=FallbackStrategy.WARN_AND_CONTINUE)
+    mock_tool = MagicMock()
+
+    result = guard.execute_with_guardrails(mock_tool, "unsafe_tool", arg="value")
+    assert result == "Warning: Warning Reason. Action 'unsafe_tool' skipped."
+    mock_tool.assert_not_called()
+
+
+def test_allowed_action_exception_fallback() -> None:
+    """Tests that an allowed action handles exceptions and returns a fallback message."""
+    policy = PolicyLayer()
+    policy.evaluate = MagicMock(return_value=(True, "Allowed"))
+    guard = RealtimeGuardrail(policy)
+    mock_tool = MagicMock(side_effect=ValueError("Test Error"))
+
+    result = guard.execute_with_guardrails(mock_tool, "failing_tool", arg="value")
+    assert result == "Action 'failing_tool' failed during execution: Test Error"
+    mock_tool.assert_called_once_with(arg="value")
+
+@pytest.mark.asyncio
+async def test_allowed_action_async_exception_fallback() -> None:
+    """Tests that an allowed async action handles exceptions and returns a fallback message."""
+    policy = PolicyLayer()
+    policy.evaluate = MagicMock(return_value=(True, "Allowed"))
+    guard = RealtimeGuardrail(policy)
+
+    async def failing_async_tool(arg: str) -> str:
+        raise ValueError("Async Test Error")
+
+    result_coro = guard.execute_with_guardrails(failing_async_tool, "failing_async_tool", arg="value")
+    assert asyncio.iscoroutine(result_coro)
+    result = await result_coro
+    assert result == "Action 'failing_async_tool' failed during execution: Async Test Error"

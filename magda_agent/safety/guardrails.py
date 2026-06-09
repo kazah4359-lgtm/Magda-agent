@@ -7,6 +7,7 @@ from magda_agent.safety.policy import PolicyLayer
 class FallbackStrategy(Enum):
     STOP_EXECUTION = "stop_execution"
     REQUEST_REVIEW = "request_review"
+    WARN_AND_CONTINUE = "warn_and_continue"
     NONE = "none"
 
 class SecurityViolationError(Exception):
@@ -79,6 +80,8 @@ class RealtimeGuardrail:
                 raise SecurityViolationError(f"Action '{tool_name}' blocked: {explanation}")
             elif strategy == FallbackStrategy.REQUEST_REVIEW:
                 return f"Review requested for action '{tool_name}': {explanation}"
+            elif strategy == FallbackStrategy.WARN_AND_CONTINUE:
+                return f"Warning: {explanation}. Action '{tool_name}' skipped."
             return f"Action '{tool_name}' blocked: {explanation}"
 
         if not allow:
@@ -88,4 +91,19 @@ class RealtimeGuardrail:
                 return async_fallback()
             return handle_fallback()
 
-        return tool_func(**kwargs)
+        if asyncio.iscoroutinefunction(tool_func):
+            async def async_exec() -> Any:
+                try:
+                    return await tool_func(**kwargs)
+                except Exception as e:
+                    logging.error(f"Error executing tool '{tool_name}': {e}")
+                    # Return sensible fallback on exception
+                    return f"Action '{tool_name}' failed during execution: {str(e)}"
+            return async_exec()
+        else:
+            try:
+                return tool_func(**kwargs)
+            except Exception as e:
+                logging.error(f"Error executing tool '{tool_name}': {e}")
+                # Return sensible fallback on exception
+                return f"Action '{tool_name}' failed during execution: {str(e)}"
