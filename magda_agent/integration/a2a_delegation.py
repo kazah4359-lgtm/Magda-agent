@@ -12,6 +12,7 @@ class A2ADelegator:
         Initializes the delegator with the discovery component.
         """
         self.discovery = discovery
+        self.security_context = getattr(discovery, 'security_context', None)
 
 
     async def delegate_subplan(self, capability: str, plan_context: Dict[str, Any]) -> str:
@@ -47,9 +48,15 @@ class A2ADelegator:
             "params": {"capability": capability, "context": plan_context}
         }
 
+        headers = {}
+        if self.security_context:
+            token = self.security_context.generate_token()
+            headers["Authorization"] = f"Bearer {token}"
+            self.security_context.trace_action("delegate_subplan", {"capability": capability, "target_agent": target_agent.name})
+
         try:
             async with httpx.AsyncClient() as client:
-                response = await client.post(endpoint, json=payload, timeout=10.0)
+                response = await client.post(endpoint, json=payload, headers=headers, timeout=10.0)
                 response.raise_for_status()
                 data = response.json()
                 result = data.get("result", {})
