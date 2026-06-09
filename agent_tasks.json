@@ -3033,7 +3033,7 @@
     },
     {
       "id": "agent-teams-sub-agents",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Agent Teams sub-agents spawning",
@@ -4520,6 +4520,57 @@
       "acceptance": [
         "MCPKernel blocks tainted inputs from execution.",
         "Sandboxing works properly."
+      ]
+    },
+    {
+      "id": "scheduled-operations-cron-v2",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Scheduled operations cron-like tasks",
+      "description": "Inspired by trend: Scheduled operations — cron-подобные задачи без участия пользователя. Add a new generic cron scheduler for tasks.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_v2.py",
+        "tests/test_cron_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can schedule tasks autonomously.",
+        "Tests verify scheduled execution."
+      ]
+    },
+    {
+      "id": "cross-platform-reach-v2",
+      "status": "todo",
+      "area": "channels",
+      "risk": "medium",
+      "title": "Cross-platform reach channels",
+      "description": "Inspired by trend: Cross-platform reach — один агент, много каналов. Expand channel adapters for more platforms.",
+      "allowed_paths": [
+        "magda_agent/channels/reach_v2.py",
+        "tests/test_reach_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent supports multiple communication channels out of the box.",
+        "Tests verify cross-platform message formatting."
+      ]
+    },
+    {
+      "id": "online-learning-from-dialogue-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online learning from dialogue v3",
+      "description": "Inspired by trend: Online learning — учиться на каждом диалоге (не только reflections). Implement immediate context integration.",
+      "allowed_paths": [
+        "magda_agent/learning/dialogue_v3.py",
+        "tests/test_dialogue_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent immediately adjusts behavior based on current dialogue.",
+        "Tests verify prompt and dialogue learning updates."
       ]
     }
   ]
