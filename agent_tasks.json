@@ -3137,7 +3137,7 @@
     },
     {
       "id": "post-merge-smoke-tests-evaluator",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "Post-merge smoke tests evaluator",
@@ -4826,6 +4826,57 @@
       "acceptance": [
         "Context engine supports before/after retrieval hooks",
         "Tests verify hook execution order"
+      ]
+    },
+    {
+      "id": "implement-memory-context-compression-1aa5e465",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Implement memory context compression",
+      "description": "Inspired by trend: Claude Context Compression. Implement context compression for long-running workflows to avoid token limit issues.",
+      "allowed_paths": [
+        "magda_agent/memory/compression.py",
+        "tests/test_compression*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context can be compressed correctly while retaining important semantic info",
+        "Tests mock LLM calls and verify compression logic"
+      ]
+    },
+    {
+      "id": "implement-a2a-delegator-0c1de20a",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Implement A2A sub-plan delegator",
+      "description": "Inspired by trend: Agent-to-Agent (A2A) standard. Add a delegator module that can delegate parts of a plan to other agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a_delegator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Delegator correctly splits plan and formats A2A requests",
+        "Integration with PlannerAgent is tested with mocked endpoints"
+      ]
+    },
+    {
+      "id": "implement-acs-guard-881e0e4c",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Implement ACS Workflow Guard",
+      "description": "Inspired by trend: Agent Control Specification (ACS). Implement ACS runtime governance checkpoints.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard.py",
+        "tests/test_acs_guard*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guard intercepts state-changing actions properly",
+        "Checks tool policy and sanitizes outputs according to ACS guidelines"
       ]
     }
   ]
