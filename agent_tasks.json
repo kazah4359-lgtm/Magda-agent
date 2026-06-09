@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 90
+    "max_todo_tasks": 100
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -3051,7 +3051,7 @@
     },
     {
       "id": "cross-platform-reach-channels",
-      "status": "todo",
+      "status": "done",
       "area": "gateway",
       "risk": "low",
       "title": "Cross-platform reach across channels",
@@ -4571,6 +4571,57 @@
       "acceptance": [
         "Agent immediately adjusts behavior based on current dialogue.",
         "Tests verify prompt and dialogue learning updates."
+      ]
+    },
+    {
+      "id": "assert-policy-driven-evaluator",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "ASSERT Policy-Driven Evaluation",
+      "description": "Inspired by trend: ASSERT (Microsoft): policy-driven evaluation framework. Add policy-driven evaluator.",
+      "allowed_paths": [
+        "magda_agent/evals/assert_policy.py",
+        "tests/test_assert_policy.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator checks policies",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "web-arena-evaluation-framework",
+      "status": "todo",
+      "area": "testing",
+      "risk": "high",
+      "title": "WebArena Evaluation Suite",
+      "description": "Inspired by trend: WebArena: web navigation tasks. Add evaluation scripts for WebArena.",
+      "allowed_paths": [
+        "magda_agent/evals/web_arena.py",
+        "tests/test_web_arena.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator runs WebArena-like tasks",
+        "Metrics stored"
+      ]
+    },
+    {
+      "id": "hermes-skill-creation-from-exp",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "Skill creation from experience",
+      "description": "Inspired by trend: Skill creation from experience (Hermes). Agent generates skills from past executions.",
+      "allowed_paths": [
+        "magda_agent/skills/creation.py",
+        "tests/test_skill_creation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can generate skills",
+        "Tests verify export schema"
       ]
     }
   ]
