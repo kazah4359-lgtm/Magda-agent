@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: MCPKernel Taint Tracking Sandbox
 * [x] FEATURE: OpenClaw Canvas live visualization support (openclaw-live-canvas-visualizer)
 - [x] MCP server-prefixed tools support
 * [x] FEATURE: Cross-platform reach across channels (cross-platform-reach-channels)
@@ -187,7 +188,7 @@
 
 * [x] MODULE: **Curiosity Drive** — `magda_agent/exploration/curiosity.py`. (2026-06-05)
   Proactively suggests exploration tasks when boredom is high.
-* [ ] FEATURE: MCPKernel Taint Tracking
+* [x] FEATURE: MCPKernel Taint Tracking Sandbox
 * [x] FEATURE: ASSERT Policy-Driven Evaluation
 
 * [x] MODULE: **Operations Cron Scheduler** — модуль `magda_agent/operations/cron.py`. (2026-06-09)

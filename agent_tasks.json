@@ -3120,7 +3120,7 @@
     },
     {
       "id": "mcpkernel-taint-tracking-sandbox",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCPKernel Taint Tracking Sandbox",
@@ -4775,6 +4775,57 @@
       "acceptance": [
         "Tainted inputs are tracked",
         "Sandboxed execution is verified"
+      ]
+    },
+    {
+      "id": "openclaw-rl-online-learning-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Reinforcement Learning v2",
+      "description": "Inspired by trend: OpenClaw-RL online reinforcement learning from next-state signals. Implements learning from user replies and tool outputs.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v2.py",
+        "tests/test_openclaw_rl_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent implements RL logic from dialogue states",
+        "Tests verify learning signal generation"
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-cards-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Agent Discovery via Cards v2",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol) Agent discovery через Agent Cards. Add discovery components to the network layer.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v2.py",
+        "tests/test_a2a_discovery_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent cards can be generated and broadcasted",
+        "Tests verify protocol formatting"
+      ]
+    },
+    {
+      "id": "context-engine-plugin-interface-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin Interface v2",
+      "description": "Inspired by trend: Context Engine plugin interface with lifecycle hooks. Add lifecycle hooks architecture for memory retrieval.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_hooks_v2.py",
+        "tests/test_context_engine_hooks_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine supports before/after retrieval hooks",
+        "Tests verify hook execution order"
       ]
     }
   ]
