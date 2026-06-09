@@ -179,3 +179,8 @@
   Proactively suggests exploration tasks when boredom is high.
 * [ ] FEATURE: MCPKernel Taint Tracking
 * [x] FEATURE: ASSERT Policy-Driven Evaluation
+
+* [x] MODULE: **Operations Cron Scheduler** — модуль `magda_agent/operations/cron.py`. (2026-06-09)
+  Отвечает за cron-подобные фоновые задачи без участия пользователя.
+  Интеграция: Вызывается в `api.py` при старте.
+  Тесты: mock _get_now, проверить логику scheduler._execute_job.
