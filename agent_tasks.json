@@ -2960,7 +2960,7 @@
     },
     {
       "id": "skill-marketplace-agentskills-compatibility",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Skill marketplace compatibility",
@@ -4382,6 +4382,42 @@
       "acceptance": [
         "Agent utilizes online RL signals to optimize behavior.",
         "Tests verify learning process."
+      ]
+    },
+    {
+      "id": "claude-subagent-worktree",
+      "status": "todo",
+      "area": "execution",
+      "risk": "high",
+      "title": "Agent Teams Worktree Isolation",
+      "description": "Inspired by trend: Agent Teams: multi-agent с git worktree isolation (Claude Agent SDK). Implement SubAgent isolation.",
+      "allowed_paths": [
+        "magda_agent/agents/subagent.py",
+        "magda_agent/isolation/git_worktree.py",
+        "tests/test_git_worktree.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "SubAgents can spawn in isolated git worktrees",
+        "Changes in worktree do not affect main repo until merged",
+        "Tests verify isolation and lifecycle"
+      ]
+    },
+    {
+      "id": "acs-guardrails-checkpoint-interface",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Control Checkpoints Interface",
+      "description": "Inspired by trend: ACS (Agent Control Specification) — 5 validation checkpoints. Implement formal interface for ACS checkpoints.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard.py",
+        "tests/test_acs_guard.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS Guard implements formal 5 checkpoint interfaces",
+        "Tests verify checkpoints block unsafe actions"
       ]
     }
   ]
