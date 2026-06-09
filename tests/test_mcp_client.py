@@ -107,3 +107,26 @@ async def test_generator_agent_mcp_timeout():
         result = await agent.execute_plan("test input")
 
     assert "timed out" in result
+
+@pytest.mark.asyncio
+async def test_mcp_client_server_prefix_routing():
+    client = MCPClient(timeout=1.0)
+    client.register_mcp_server("github", {"url": "mock_github_url"})
+
+    assert client.has_tool("github__create_issue") is True
+    assert client.has_tool("github.create_pr") is True
+    assert client.has_tool("gitlab__create_issue") is False
+
+    with patch("httpx.AsyncClient.post") as mock_post:
+        mock_response = MagicMock()
+        mock_response.json.return_value = {"jsonrpc": "2.0", "result": "Issue Created", "id": "123"}
+        mock_response.raise_for_status.return_value = None
+        mock_post.return_value = mock_response
+
+        result = await client.execute_tool("github__create_issue", title="Test")
+        assert result == "Issue Created"
+        mock_post.assert_called_once()
+
+        # Check that the payload method was stripped of the prefix
+        call_kwargs = mock_post.call_args[1]
+        assert call_kwargs["json"]["method"] == "create_issue"
