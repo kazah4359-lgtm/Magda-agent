@@ -26,6 +26,7 @@ from magda_agent.planning.planner import Planner
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.scheduler.cron import CronScheduler
+from magda_agent.operations.cron import OperationsCronScheduler
 from magda_agent.scheduler.autonomous_tasks import run_health_check, report_quality_metrics
 from magda_agent.autonomy.task_store import TaskStore, TaskStatus
 from magda_agent.autonomy.executor import AutonomousExecutor
@@ -153,6 +154,7 @@ subconsciousness = Subconsciousness(
 )
 
 cron_scheduler = CronScheduler()
+operations_scheduler = OperationsCronScheduler()
 
 # Schedule Subconsciousness reflection
 # Default interval was 300 seconds, which is every 5 minutes
@@ -178,11 +180,13 @@ canvas_server = CanvasServer(consciousness=consciousness)
 async def lifespan(app: FastAPI):
     # Startup
     asyncio.create_task(cron_scheduler.start())
+    asyncio.create_task(operations_scheduler.start())
     await autonomous_executor.start()
     asyncio.create_task(canvas_server.start_streaming())
     yield
     # Shutdown
     await cron_scheduler.stop()
+    await operations_scheduler.stop()
     await autonomous_executor.stop()
     await canvas_server.stop_streaming()
     memory_system.close()

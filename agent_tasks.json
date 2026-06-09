@@ -2941,7 +2941,7 @@
     },
     {
       "id": "scheduled-operations-cron",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "medium",
       "title": "Scheduled operations cron-like tasks",
@@ -2949,7 +2949,9 @@
       "allowed_paths": [
         "magda_agent/operations/cron.py",
         "tests/test_cron.py",
-        "agent_tasks.json"
+        "agent_tasks.json",
+        "requirements.txt",
+        "magda_agent/api.py"
       ],
       "acceptance": [
         "Agent can schedule and execute background tasks autonomously",
@@ -4329,6 +4331,57 @@
       "acceptance": [
         "Agent can generate new skills based on experience.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "agent-teams-subagent-spawning",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Subagent spawning via OpenClaw context engine",
+      "description": "Inspired by trend: Agent Teams: multi-agent with git worktree isolation. Implement dynamic subagent spawning using OpenClaw patterns.",
+      "allowed_paths": [
+        "magda_agent/agents/team_spawning.py",
+        "tests/test_team_spawning*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Team spawner dynamically provisions subagents",
+        "Subagents have isolated workspaces"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP server-prefixed tool names and concurrency",
+      "description": "Inspired by trend: Runtime function tool concurrency. Update MCP handler to execute actions in parallel.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_concurrency.py",
+        "tests/test_mcp_concurrency*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Concurrent execution of MCP tools",
+        "Test suite reflects parallel execution speedup"
+      ]
+    },
+    {
+      "id": "openclaw-rl-reinforcement-v1",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Reinforcement Learning",
+      "description": "Inspired by trend: OpenClaw-RL: online reinforcement learning from next-state signals. Agent learns simply by talking.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl.py",
+        "tests/test_openclaw_rl*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent utilizes online RL signals to optimize behavior.",
+        "Tests verify learning process."
       ]
     }
   ]
