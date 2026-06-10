@@ -17,7 +17,7 @@ async def test_process_feedback_positive(mock_habit_tracker, mock_mirror_neurons
     mock_mirror_neurons.empathize.return_value = (0.8, 0.1, 0.0)
     integrator = OnlineRLIntegrator(mock_habit_tracker, mock_mirror_neurons)
 
-    await integrator.process_feedback("Great job!", "test_context", user_id=1)
+    await integrator.process_feedback("Great job!", "test_context", user_id=1, skill_used="rl_feedback_skill")
 
     # weight = (0.8 + 1.0) * 5.0 = 9.0
     mock_habit_tracker.record_usage.assert_called_once_with(
@@ -26,13 +26,15 @@ async def test_process_feedback_positive(mock_habit_tracker, mock_mirror_neurons
         evaluation_score=9.0,
         user_id=1
     )
+    assert integrator.skill_weights["rl_feedback_skill"] == 1.1
 
 @pytest.mark.asyncio
 async def test_process_feedback_negative(mock_habit_tracker, mock_mirror_neurons):
     mock_mirror_neurons.empathize.return_value = (-0.5, 0.1, 0.0)
     integrator = OnlineRLIntegrator(mock_habit_tracker, mock_mirror_neurons)
 
-    await integrator.process_feedback("Terrible.", "test_context", user_id=1)
+    await integrator.process_feedback("Terrible.", "test_context", user_id=1, skill_used="rl_feedback_skill")
 
     # weight = (-0.5 + 1.0) * 5.0 = 2.5 (less than 8.0)
     mock_habit_tracker.record_usage.assert_not_called()
+    assert integrator.skill_weights["rl_feedback_skill"] == 0.9

@@ -3186,7 +3186,7 @@
     },
     {
       "id": "online-rl-from-feedback-v4",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL from user feedback v4",
@@ -4928,6 +4928,57 @@
       "acceptance": [
         "Can provision and run commands in a simulated remote VM",
         "Tests verify boundaries and credentials protection"
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-system",
+      "status": "todo",
+      "area": "scheduler",
+      "risk": "high",
+      "title": "Hermes Cron Scheduler System",
+      "description": "Inspired by trend: Cron scheduler: daily reports, nightly backups, scheduled tasks (Hermes). Implement a robust cron scheduling system for autonomous background tasks.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron.py",
+        "tests/test_cron.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "System can parse cron expressions and schedule tasks",
+        "Tests verify tasks trigger at correct times without overlapping"
+      ]
+    },
+    {
+      "id": "openai-realtime-guardrail-fallback-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "OpenAI Realtime Guardrail Fallback",
+      "description": "Inspired by trend: Realtime guardrail fallback (OpenAI). Implement dynamic fallback strategies when runtime safety guardrails block a tool call.",
+      "allowed_paths": [
+        "magda_agent/safety/fallback.py",
+        "tests/test_fallback.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Fallback mechanisms intercept blocked actions and substitute safer alternatives",
+        "Tests verify that fallback is triggered appropriately"
+      ]
+    },
+    {
+      "id": "claude-evaluator-subagent",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude Evaluator Subagent",
+      "description": "Inspired by trend: Planner, Generator, Evaluator pattern (Claude). Implement an Evaluator Subagent to review Generator outputs against Planner constraints.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator.py",
+        "tests/test_evaluator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator Subagent can successfully score outputs against defined constraints",
+        "Tests verify the evaluator detects and rejects flawed outputs"
       ]
     }
   ]
