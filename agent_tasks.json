@@ -3154,7 +3154,7 @@
     },
     {
       "id": "openclaw-sub-agents-rpc-v1",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "high",
       "title": "OpenClaw Sub-agents RPC v1",
