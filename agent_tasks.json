@@ -3220,7 +3220,7 @@
     },
     {
       "id": "agentbench-multi-domain-eval",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "low",
       "title": "AgentBench Multi-domain Evaluation",
@@ -5030,6 +5030,57 @@
       "acceptance": [
         "Importer can fetch and unpack external skill definitions",
         "Tests verify behavior and cache invalidation"
+      ]
+    },
+    {
+      "id": "swe-bench-evaluation-integration",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "SWE-bench Evaluation Integration",
+      "description": "Inspired by trend: SWE-bench Evaluation. Integrate SWE-bench evaluation harness for code agent benchmarking.",
+      "allowed_paths": [
+        "magda_agent/evaluation/swe_bench.py",
+        "tests/test_swe_bench.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Integration with SWE-bench dataset runs local code evaluation",
+        "Tests mock SWE-bench interactions"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-validation-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Validation",
+      "description": "Inspired by trend: MCP standards. Validate the schemas of newly registered MCP action tools automatically.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_validator.py",
+        "tests/test_mcp_validator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Validator correctly intercepts and validates tool JSON schemas",
+        "Tests mock MCP schemas and verify correct exception paths"
+      ]
+    },
+    {
+      "id": "persistent-memory-layer-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Persistent Memory Layer Expansion",
+      "description": "Inspired by trend: Persistent memory. Extend the context engine to directly persist long-running conversational memory chunks safely.",
+      "allowed_paths": [
+        "magda_agent/memory/persistent_v3.py",
+        "tests/test_persistent_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine saves context across sessions",
+        "Tests verify memory chunks are persisted using mock database clients"
       ]
     }
   ]

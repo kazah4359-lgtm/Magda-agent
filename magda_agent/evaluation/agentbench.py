@@ -21,8 +21,28 @@ class AgentBenchHarness:
             db_path (str): The path to the SQLite database used by QualityTracker.
         """
         self.tracker = QualityTracker(db_path=db_path)
-        self.suites = ["web_navigation", "os_interaction", "reasoning"]
+        self.suites = ["web_navigation", "os_interaction", "reasoning", "coding"]
         self.llm = LLMClient()
+
+    def compare_with_baseline(self, score: float, suite_name: str) -> bool:
+        """
+        Compares the given score against the suite's baseline.
+
+        Args:
+            score (float): The score to compare.
+            suite_name (str): The name of the suite.
+
+        Returns:
+            bool: True if the score meets or exceeds the baseline, False otherwise.
+        """
+        baselines = {
+            "web_navigation": 0.6,
+            "os_interaction": 0.5,
+            "reasoning": 0.8,
+            "coding": 0.7
+        }
+        return score >= baselines.get(suite_name, 0.5)
+
 
     async def run_evaluation_suite(self, suite_name: str) -> Dict[str, Any]:
         """
@@ -57,7 +77,7 @@ class AgentBenchHarness:
 
         passed = int(score * tasks_run)
 
-        metadata = {"suite": suite_name, "tasks_run": tasks_run, "passed": passed}
+        metadata = {"suite": suite_name, "tasks_run": tasks_run, "passed": passed, "meets_baseline": self.compare_with_baseline(score, suite_name)}
 
         return {
             "score": score,

@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: AgentBench Multi-domain Evaluation (agentbench-multi-domain-eval)
 * [x] FEATURE: MCPKernel Taint Tracking Sandbox
 * [x] FEATURE: OpenClaw Canvas live visualization support (openclaw-live-canvas-visualizer)
 - [x] MCP server-prefixed tools support

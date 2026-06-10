@@ -13,7 +13,7 @@ def temp_db(tmp_path):
 @patch("magda_agent.evaluation.agentbench.LLMClient")
 async def test_run_evaluation_suite(mock_llm_client, temp_db):
     mock_instance = MagicMock()
-    mock_instance.generate = AsyncMock(side_effect=["0.85", "0.70", "invalid"])
+    mock_instance.generate = AsyncMock(side_effect=["0.85", "0.70", "invalid", "0.90"])
     mock_llm_client.return_value = mock_instance
 
     harness = AgentBenchHarness(db_path=temp_db)
@@ -37,13 +37,13 @@ async def test_run_evaluation_suite(mock_llm_client, temp_db):
 @patch("magda_agent.evaluation.agentbench.LLMClient")
 async def test_trigger_evaluations_logs_metrics(mock_llm_client, temp_db):
     mock_instance = MagicMock()
-    mock_instance.generate = AsyncMock(side_effect=["0.85", "0.70", "0.90"])
+    mock_instance.generate = AsyncMock(side_effect=["0.85", "0.70", "0.90", "0.80"])
     mock_llm_client.return_value = mock_instance
 
     harness = AgentBenchHarness(db_path=temp_db)
 
     results = await harness.trigger_evaluations()
-    assert len(results) == 3
+    assert len(results) == 4
 
     # Verify the metrics were logged to SQLite via QualityTracker
     conn = sqlite3.connect(temp_db)
@@ -52,8 +52,9 @@ async def test_trigger_evaluations_logs_metrics(mock_llm_client, temp_db):
     rows = cursor.fetchall()
     conn.close()
 
-    assert len(rows) == 3
+    assert len(rows) == 4
     metrics = {row[0]: row[1] for row in rows}
     assert metrics["agentbench_reasoning_score"] == 0.90 # the suites are queried in order: web_nav (0.85), os_inter (0.70), reasoning (0.90)
     assert metrics["agentbench_web_navigation_score"] == 0.85
     assert metrics["agentbench_os_interaction_score"] == 0.70
+    assert metrics["agentbench_coding_score"] == 0.80
