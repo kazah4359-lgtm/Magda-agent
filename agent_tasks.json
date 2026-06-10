@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 105
+    "max_todo_tasks": 110
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -3203,7 +3203,7 @@
     },
     {
       "id": "assert-policy-framework",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "ASSERT Policy-Driven Evaluation",
@@ -4979,6 +4979,57 @@
       "acceptance": [
         "Evaluator Subagent can successfully score outputs against defined constraints",
         "Tests verify the evaluator detects and rejects flawed outputs"
+      ]
+    },
+    {
+      "id": "cross-platform-channel-hub",
+      "status": "todo",
+      "area": "channels",
+      "risk": "medium",
+      "title": "Cross-Platform Channel Hub",
+      "description": "Inspired by trend: Multi-platform agents (Hermes). Implement a centralized messaging hub that abstracts Telegram, Discord, and Slack channels.",
+      "allowed_paths": [
+        "magda_agent/channels/hub.py",
+        "tests/test_channel_hub.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ChannelHub handles incoming messages dynamically from any configured platform",
+        "Tests verify hub routing logic with mock channels"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-registry",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Registry",
+      "description": "Inspired by trend: MCP standard for agent-to-tool communication. Create a registry specialized in handling tools exported via the Model Context Protocol.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry.py",
+        "tests/test_mcp_registry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tool registry dynamically loads and verifies external MCP tools",
+        "Tests mock external tools and ensure registry handles valid schemas"
+      ]
+    },
+    {
+      "id": "skill-marketplace-importer-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Skill Marketplace Importer v2",
+      "description": "Inspired by trend: Skill marketplace (agentskills.io). Implement a module for pulling down and caching skills dynamically from the marketplace.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_importer.py",
+        "tests/test_marketplace_importer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Importer can fetch and unpack external skill definitions",
+        "Tests verify behavior and cache invalidation"
       ]
     }
   ]
