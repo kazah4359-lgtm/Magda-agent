@@ -195,3 +195,4 @@
   Отвечает за cron-подобные фоновые задачи без участия пользователя.
   Интеграция: Вызывается в `api.py` при старте.
   Тесты: mock _get_now, проверить логику scheduler._execute_job.
+* [x] FEATURE: Online RL from User Feedback v4 (online-rl-from-feedback-v4)

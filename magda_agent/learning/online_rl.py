@@ -1,5 +1,5 @@
 import logging
-from typing import Optional
+from typing import Optional, Dict
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
 
@@ -18,6 +18,7 @@ class OnlineRLIntegrator:
         """
         self.habit_tracker = habit_tracker
         self.mirror_neurons = mirror_neurons
+        self.skill_weights: Dict[str, float] = {}
 
     async def process_feedback(self, user_reply: str, action_context: str, user_id: Optional[int] = None, explicit_score: Optional[float] = None, tool_success: bool = False, skill_used: str = "rl_feedback_skill") -> None:
         """
@@ -45,13 +46,18 @@ class OnlineRLIntegrator:
         if tool_success:
             weight += 2.0
 
+        if skill_used not in self.skill_weights:
+            self.skill_weights[skill_used] = 1.0
+
         if weight >= 8.0:
+            self.skill_weights[skill_used] += 0.1
             self.habit_tracker.record_usage(
                 input_text=action_context,
                 skill_used=skill_used,
                 evaluation_score=weight,
                 user_id=user_id
             )
-            logging.info(f"Online RL: Positive feedback (weight={weight:.2f}). Recorded usage.")
+            logging.info(f"Online RL: Positive feedback (weight={weight:.2f}). Recorded usage. New weight for {skill_used}: {self.skill_weights[skill_used]:.2f}")
         else:
-            logging.info(f"Online RL: Negative/Neutral feedback (weight={weight:.2f}). No usage recorded.")
+            self.skill_weights[skill_used] = max(0.1, self.skill_weights[skill_used] - 0.1)
+            logging.info(f"Online RL: Negative/Neutral feedback (weight={weight:.2f}). No usage recorded. New weight for {skill_used}: {self.skill_weights[skill_used]:.2f}")
