@@ -3170,7 +3170,7 @@
     },
     {
       "id": "runtime-function-tool-concurrency-v1",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Runtime function tool concurrency v1",
@@ -4877,6 +4877,57 @@
       "acceptance": [
         "Guard intercepts state-changing actions properly",
         "Checks tool policy and sanitizes outputs according to ACS guidelines"
+      ]
+    },
+    {
+      "id": "agentskills-marketplace-integration",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "AgentSkills Marketplace Integration",
+      "description": "Inspired by trend: Skill marketplace. Allow importing skills from agentskills.io format.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace.py",
+        "tests/test_marketplace.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Can parse and load standard agentskills definitions",
+        "Tests verify correct import and schema translation"
+      ]
+    },
+    {
+      "id": "virtual-context-management-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "high",
+      "title": "Virtual Context Management",
+      "description": "Inspired by MemGPT/Letta patterns: Manage an explicit, multi-layered working memory context block that spans interactions.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context.py",
+        "tests/test_virtual_context.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context sizes dynamically maintained to prevent overflow",
+        "Tests verify context paging mechanisms"
+      ]
+    },
+    {
+      "id": "cloud-vm-sandbox-isolation",
+      "status": "todo",
+      "area": "operations",
+      "risk": "high",
+      "title": "Cloud VM Sandbox Isolation",
+      "description": "Inspired by Google Jules: Execute sensitive tool actions in fully isolated cloud VMs instead of local system.",
+      "allowed_paths": [
+        "magda_agent/isolation/cloud_vm.py",
+        "tests/test_cloud_vm.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Can provision and run commands in a simulated remote VM",
+        "Tests verify boundaries and credentials protection"
       ]
     }
   ]
