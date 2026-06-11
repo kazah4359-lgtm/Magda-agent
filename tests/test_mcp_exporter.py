@@ -4,7 +4,8 @@ from magda_agent.integration.mcp_exporter import MCPExporter
 from magda_agent.skills.registry import SkillRegistry
 
 @pytest.fixture
-def registry():
+def registry() -> SkillRegistry:
+    """Creates a SkillRegistry fixture with dummy skills."""
     reg = SkillRegistry()
 
     async def dummy_skill(param1: str) -> str:
@@ -20,10 +21,12 @@ def registry():
     return reg
 
 @pytest.fixture
-def exporter(registry):
+def exporter(registry: SkillRegistry) -> MCPExporter:
+    """Creates an MCPExporter fixture."""
     return MCPExporter(registry)
 
-def test_export_tools(exporter):
+def test_export_tools(exporter: MCPExporter) -> None:
+    """Tests if tools are correctly exported via the adapter."""
     tools = exporter.export_tools()
     assert len(tools) == 2
     names = [t["name"] for t in tools]
@@ -31,7 +34,8 @@ def test_export_tools(exporter):
     assert "dummy_sync_skill" in names
 
 @pytest.mark.asyncio
-async def test_handle_rpc_request_success(exporter):
+async def test_handle_rpc_request_success(exporter: MCPExporter) -> None:
+    """Tests a successful JSON-RPC tool execution request."""
     req = {
         "jsonrpc": "2.0",
         "method": "dummy_skill",
@@ -46,7 +50,8 @@ async def test_handle_rpc_request_success(exporter):
     assert res["result"]["content"][0]["text"] == "Result: test"
 
 @pytest.mark.asyncio
-async def test_handle_rpc_request_invalid_method(exporter):
+async def test_handle_rpc_request_invalid_method(exporter: MCPExporter) -> None:
+    """Tests handling of an invalid JSON-RPC method."""
     req = {
         "jsonrpc": "2.0",
         "method": "non_existent_skill",
@@ -58,7 +63,8 @@ async def test_handle_rpc_request_invalid_method(exporter):
     assert res["error"]["code"] == -32601
 
 @pytest.mark.asyncio
-async def test_handle_rpc_request_invalid_jsonrpc(exporter):
+async def test_handle_rpc_request_invalid_jsonrpc(exporter: MCPExporter) -> None:
+    """Tests handling of an invalid JSON-RPC version."""
     req = {
         "method": "dummy_skill",
         "params": {"param1": "test"},
@@ -70,7 +76,8 @@ async def test_handle_rpc_request_invalid_jsonrpc(exporter):
 
 
 @pytest.mark.asyncio
-async def test_handle_rpc_request_error_in_tool(exporter):
+async def test_handle_rpc_request_error_in_tool(exporter: MCPExporter) -> None:
+    """Tests error handling when the underlying tool raises an exception."""
     req = {
         "jsonrpc": "2.0",
         "method": "dummy_skill",

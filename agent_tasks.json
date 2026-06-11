@@ -3603,7 +3603,7 @@
     },
     {
       "id": "mcp-action-tool-exporter-v6",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Action Tool Exporter v6",
@@ -5819,6 +5819,59 @@
       "acceptance": [
         "Skills can be exported as MCP tools.",
         "Tests verify JSON-RPC formatted responses."
+      ]
+    },
+    {
+      "id": "memgpt-virtual-context-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT Virtual Context Management v1",
+      "description": "Inspired by the trend: 'Virtual context management (MemGPT/Letta pattern -> стандарт)'. Implement a virtual context window manager that pages episodic memory in and out of the LLM context automatically.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context.py",
+        "tests/test_virtual_context.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtual context manager tracks current token usage.",
+        "Paging algorithm evicts older context into ChromaDB when token limit is approached.",
+        "Tests verify eviction and retrieval logic."
+      ]
+    },
+    {
+      "id": "acs-checkpoints-framework-v3",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Agent Control Specification Checkpoints v3",
+      "description": "Inspired by the June 2026 standard: 'ACS (Agent Control Specification) — 5 validation checkpoints in agentic workflows'. Implement the 5 explicit validation checkpoints for tool execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_checkpoints_v3.py",
+        "tests/test_acs_checkpoints_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The 5 ACS checkpoints are explicitly implemented as a validation pipeline.",
+        "Tests verify that workflows failing a checkpoint are blocked and audited."
+      ]
+    },
+    {
+      "id": "falco-prempti-audit-trail-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Falco Prempti Tool Audit Trail v1",
+      "description": "Inspired by the trend: 'Prempti (Falco): tool-call interception + audit trail'. Implement a robust audit trail logger that intercepts all action tool calls and logs their input, output, and execution time to an SQLite database for security audits.",
+      "allowed_paths": [
+        "magda_agent/safety/audit_trail.py",
+        "tests/test_audit_trail.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Audit logger intercepts tool calls via HookRegistry or Registry wrapper.",
+        "Tool execution traces are saved to a durable SQLite audit log.",
+        "Tests verify logging occurs without breaking tool execution."
       ]
     }
   ]
