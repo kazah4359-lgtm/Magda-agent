@@ -3376,7 +3376,7 @@
     },
     {
       "id": "hermes-persistent-memory-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Hermes Persistent Memory",
