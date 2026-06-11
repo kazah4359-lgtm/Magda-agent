@@ -3340,7 +3340,7 @@
     },
     {
       "id": "hierarchical-agent-delegation-isolation",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Hierarchical agent delegation with isolation",
@@ -5355,6 +5355,42 @@
       "acceptance": [
         "Subagent can continuously poll uncompressed episodic memories and generate concise summaries",
         "Tests verify subagent loop runs asynchronously using mocks"
+      ]
+    },
+    {
+      "id": "magentic-one-orchestrator-pattern",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Magentic-One Multi-Agent Orchestrator",
+      "description": "Inspired by Microsoft's Magentic-One pattern: Implement a multi-agent orchestrator that dynamically adjusts the sub-agent team size based on task difficulty.",
+      "allowed_paths": [
+        "magda_agent/architecture/magentic_one.py",
+        "tests/test_magentic_one.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Orchestrator correctly evaluates task difficulty.",
+        "Orchestrator spawns proportional number of sub-agents.",
+        "Tests verify dynamic scaling logic."
+      ]
+    },
+    {
+      "id": "virtual-context-manager-letta",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT/Letta Virtual Context Management",
+      "description": "Inspired by MemGPT/Letta standard: Implement a virtual context management module that automatically pages out semantic memories.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context.py",
+        "tests/test_virtual_context.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module calculates token length of current working context.",
+        "Module pages out older memories correctly.",
+        "Tests verify paging behavior with mock context."
       ]
     }
   ]
