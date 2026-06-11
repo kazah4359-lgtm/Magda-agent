@@ -119,3 +119,32 @@ class ACSWorkflowGuard:
             logging.info(f"ACS Checkpoint {i} Passed: {reason}")
 
         return True
+    def validate_with_fallback(self, workflow_data: Dict[str, Any], fallback_action: Dict[str, Any] = None) -> Tuple[bool, Dict[str, Any]]:
+        """
+        Validates the workflow data through all 5 ACS checkpoints with a realtime fallback.
+        If validation fails, returns the fallback action if provided, or an error action.
+
+        Args:
+            workflow_data (Dict[str, Any]): The workflow context data.
+            fallback_action (Dict[str, Any], optional): The fallback data to return on failure. Defaults to None.
+
+        Returns:
+            Tuple[bool, Dict[str, Any]]: A tuple containing a boolean indicating if original validation passed,
+                                         and the resulting workflow data (original or fallback).
+        """
+        passed = self.validate_workflow(workflow_data)
+        if passed:
+            return True, workflow_data
+
+        if fallback_action is not None:
+            logging.info("ACS validation failed, triggering fallback action.")
+            return False, fallback_action
+
+        logging.warning("ACS validation failed and no fallback provided. Returning error state.")
+        return False, {
+            "action": "error",
+            "tool": "none",
+            "current_state": workflow_data.get("current_state", "unknown"),
+            "next_state": "error",
+            "output": "Action blocked by safety guardrails."
+        }
