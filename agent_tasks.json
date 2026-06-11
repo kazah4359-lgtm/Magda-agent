@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 120
+    "max_todo_tasks": 150
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -3501,7 +3501,7 @@
     },
     {
       "id": "hermes-cron-daily-reports-v2",
-      "status": "todo",
+      "status": "done",
       "area": "scheduler",
       "risk": "low",
       "title": "Hermes Cron Daily Reports",
@@ -5537,6 +5537,57 @@
       "area": "architecture",
       "risk": "medium",
       "title": "Context Hooks Telemetry plugin",
+      "description": "Inspired by trend: telemetry over hook pipeline. Implement a Telemetry ContextPlugin for tracking hook executions and context sizes.",
+      "allowed_paths": [
+        "magda_agent/architecture/telemetry_plugin.py",
+        "tests/test_telemetry_plugin.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "TelemetryPlugin registers on before_retrieval and after_retrieval",
+        "Metrics are collected properly"
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v6",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning v6",
+      "description": "Inspired by OpenClaw-RL trend: Expand the online reinforcement learning module to train the agent directly from next-state signals (user replies).",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl.py",
+        "tests/test_interactive_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module processes user replies as reward/penalty signals.",
+        "Tests verify learning state updates based on interactions."
+      ]
+    },
+    {
+      "id": "openclaw-context-hooks-v3",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Hooks V3 Integration",
+      "description": "Integrate the HookRegistry properly inside ContextEngine so that plugins can register on initialization.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "HookRegistry is used by ContextEngine",
+        "Tests verify initialization and hook forwarding"
+      ]
+    },
+    {
+      "id": "openclaw-context-hooks-telemetry-v2",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Context Hooks Telemetry plugin v2",
       "description": "Inspired by trend: telemetry over hook pipeline. Implement a Telemetry ContextPlugin for tracking hook executions and context sizes.",
       "allowed_paths": [
         "magda_agent/architecture/telemetry_plugin.py",
