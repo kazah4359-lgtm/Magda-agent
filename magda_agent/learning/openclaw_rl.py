@@ -20,7 +20,7 @@ class OpenClawInteractiveLearner:
         self.mirror_neurons = mirror_neurons
         self.user_model = user_model
 
-    async def process_next_state_signal(self, user_reply: str, action_context: str, user_id: int) -> None:
+    async def process_next_state_signal(self, user_reply: str, action_context: str, user_id: int, tool_output: Optional[str] = None) -> None:
         """
         Analyzes the user's reply as a next-state signal, and reinforces habits and updates preferences.
 
@@ -28,11 +28,16 @@ class OpenClawInteractiveLearner:
             user_reply (str): The text of the user's reply.
             action_context (str): The context of the action that was taken.
             user_id (int): The user's ID.
+            tool_output (Optional[str], optional): The output of the tool, if any. Defaults to None.
         """
         if not user_reply or not action_context:
             return
 
-        p_shift, a_shift, d_shift = self.mirror_neurons.empathize(user_reply)
+        signal_text = user_reply
+        if tool_output:
+            signal_text += f" [Tool Output: {tool_output}]"
+
+        p_shift, a_shift, d_shift = self.mirror_neurons.empathize(signal_text)
         model_data = self.user_model.get_model(user_id)
 
         if p_shift > 0.0:

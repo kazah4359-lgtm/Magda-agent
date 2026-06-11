@@ -63,3 +63,26 @@ async def test_openclaw_rl_negative_signal(mock_habit_tracker, mock_mirror_neuro
     model_data = user_model.get_model(2)
     assert model_data["preferences"]["last_p_shift"] == -0.3
     assert "(cautious)" in model_data["communication_style"]
+
+@pytest.mark.asyncio
+async def test_openclaw_rl_tool_output(mock_habit_tracker: MagicMock, mock_mirror_neurons: MagicMock, user_model: UserModel) -> None:
+    """Tests that the OpenClawInteractiveLearner correctly processes next-state signals with tool outputs."""
+    learner = OpenClawInteractiveLearner(mock_habit_tracker, mock_mirror_neurons, user_model)
+
+    # Mock positive empathize
+    mock_mirror_neurons.empathize.return_value = (0.5, 0.1, 0.0)
+
+    await learner.process_next_state_signal("This is fine", "test_context", 3, tool_output="Success: data saved")
+
+    # Check mirror neurons called with both
+    mock_mirror_neurons.empathize.assert_called_once_with("This is fine [Tool Output: Success: data saved]")
+
+    # Check habit tracker
+    mock_habit_tracker.record_usage.assert_called_once_with(
+        input_text="test_context", skill_used="rl_skill", evaluation_score=10.0, user_id=3
+    )
+
+    # Check user model modification
+    model_data = user_model.get_model(3)
+    assert model_data["preferences"]["last_p_shift"] == 0.5
+    assert "(friendly)" in model_data["communication_style"]

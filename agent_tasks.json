@@ -3288,7 +3288,7 @@
     },
     {
       "id": "openclaw-rl-next-state-signals-v3",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Online reinforcement learning from Next-State",
@@ -5217,6 +5217,59 @@
       "acceptance": [
         "CronScheduler can schedule and execute tasks periodically.",
         "Pytest tests verify scheduling logic."
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-expansion-v1",
+      "status": "todo",
+      "area": "orchestration",
+      "risk": "medium",
+      "title": "Hermes-inspired Cron Scheduler Expansion",
+      "description": "Inspired by Hermes Agent trend: Expand the CronScheduler to support dynamic job registration at runtime and daily reporting functions.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_v5.py",
+        "tests/test_cron_v5*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "CronScheduler can dynamically register and execute new jobs.",
+        "A daily report skeleton job is added.",
+        "Pytest tests verify registration logic."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-compression-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Compression",
+      "description": "Inspired by MemGPT/Letta pattern and Claude Context Compression trends: Implement a context compression mechanism within the ContextEngine to summarize older memory chunks automatically.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context compression summarizes older memories.",
+        "Tests verify that context length stays within bounds without losing key facts."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Runtime Function Tool Concurrency",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement runtime function tool concurrency specifically for external MCP action tools to speed up parallel API calls.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry.py",
+        "magda_agent/skills/mcp_engine.py",
+        "tests/test_mcp_concurrency.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Multiple independent MCP tools can be executed concurrently.",
+        "Tests mock concurrent execution and verify completion times."
       ]
     }
   ]
