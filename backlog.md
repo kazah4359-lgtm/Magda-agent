@@ -197,3 +197,6 @@
   Интеграция: Вызывается в `api.py` при старте.
   Тесты: mock _get_now, проверить логику scheduler._execute_job.
 * [x] FEATURE: Online RL from User Feedback v4 (online-rl-from-feedback-v4)
+* [x] FEATURE: Quality metrics longitudinal tracking
+* [x] FEATURE: A2A delegation v6
+* [x] FEATURE: Online learning v6

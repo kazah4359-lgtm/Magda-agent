@@ -1,7 +1,39 @@
 import pytest
 import sqlite3
+import os
+from magda_agent.evaluation.longitudinal_metrics import LongitudinalMetricsTracker
 from magda_agent.evaluation.longitudinal import LongitudinalEvaluator
 from magda_agent.metacognition.tracker import QualityTracker
+
+@pytest.fixture
+def test_db_path():
+    path = "./test_longitudinal_metrics_db.sqlite3"
+    yield path
+    if os.path.exists(path):
+        os.remove(path)
+
+def test_record_and_retrieve_metric(test_db_path):
+    tracker = LongitudinalMetricsTracker(db_path=test_db_path)
+
+    # Record metrics
+    tracker.record_metric("test_coverage", 85.5)
+    tracker.record_metric("test_coverage", 86.2)
+    tracker.record_metric("code_complexity", 10.5)
+
+    # Retrieve metrics
+    coverage_history = tracker.get_metrics_history("test_coverage", limit=10)
+    complexity_history = tracker.get_metrics_history("code_complexity", limit=10)
+    empty_history = tracker.get_metrics_history("non_existent_metric", limit=10)
+
+    assert len(coverage_history) == 2
+    # Since they are ordered by timestamp DESC, the last one added should be first
+    assert coverage_history[0]["value"] == 86.2
+    assert coverage_history[1]["value"] == 85.5
+
+    assert len(complexity_history) == 1
+    assert complexity_history[0]["value"] == 10.5
+
+    assert len(empty_history) == 0
 
 def create_mock_evaluator():
     evaluator = LongitudinalEvaluator(":memory:")

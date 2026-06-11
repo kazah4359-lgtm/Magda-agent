@@ -3569,7 +3569,7 @@
     },
     {
       "id": "skill-marketplace-agentskills-v1",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Skill marketplace compatibility",
@@ -3586,7 +3586,7 @@
     },
     {
       "id": "quality-metrics-longitudinal-v1",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "low",
       "title": "Quality metrics longitudinal tracking",
@@ -3620,7 +3620,7 @@
     },
     {
       "id": "a2a-delegation-v6",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A delegation v6",
@@ -3637,7 +3637,7 @@
     },
     {
       "id": "online-learning-v6",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online learning v6",
@@ -5768,6 +5768,57 @@
       "acceptance": [
         "MCP tools can be executed concurrently using asyncio.gather.",
         "Tests verify concurrent execution and result aggregation."
+      ]
+    },
+    {
+      "id": "a2a-delegation-v8",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "A2A Delegation Protocol v8",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol) open standard. Implement A2A delegation allowing the agent to delegate sub-plans to peers.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a_delegation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Delegator can delegate sub-plans to peers.",
+        "Tests mock peer responses and verify delegation."
+      ]
+    },
+    {
+      "id": "openclaw-context-hooks-v5",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Hooks V5",
+      "description": "Inspired by trend: plugin architecture. Integrate the HookRegistry inside ContextEngine to let plugins register on initialization.",
+      "allowed_paths": [
+        "magda_agent/architecture/context_hooks_v5.py",
+        "magda_agent/memory/context_engine.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "HookRegistry is used by ContextEngine",
+        "Tests verify initialization and hook forwarding"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v8",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Action Tool Exporter v8",
+      "description": "Inspired by trend: MCP (Model Context Protocol). Expand MCP exporter to wrap internal skills into standard JSON-RPC 2.0 interface.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter.py",
+        "tests/test_mcp_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported as MCP tools.",
+        "Tests verify JSON-RPC formatted responses."
       ]
     }
   ]
