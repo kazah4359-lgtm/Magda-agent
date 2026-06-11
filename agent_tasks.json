@@ -3393,7 +3393,7 @@
     },
     {
       "id": "openclaw-context-engine-hooks",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "high",
       "title": "OpenClaw Context Engine Lifecycle Hooks",
@@ -3411,7 +3411,7 @@
     },
     {
       "id": "a2a-discovery-agent-cards-v1",
-      "status": "todo",
+      "status": "blocked",
       "area": "architecture",
       "risk": "medium",
       "title": "A2A Discovery via Agent Cards",
@@ -3429,7 +3429,7 @@
     },
     {
       "id": "acs-guardrails-policy-layer-v1",
-      "status": "todo",
+      "status": "blocked",
       "area": "safety",
       "risk": "high",
       "title": "ACS Guardrails Policy Layer",
@@ -3447,7 +3447,7 @@
     },
     {
       "id": "openclaw-canvas-live-visualization",
-      "status": "todo",
+      "status": "blocked",
       "area": "ui",
       "risk": "medium",
       "title": "OpenClaw Canvas Live Visualization",
@@ -3465,7 +3465,7 @@
     },
     {
       "id": "claude-agent-teams-subagent-spawning",
-      "status": "todo",
+      "status": "blocked",
       "area": "multi-agent",
       "risk": "high",
       "title": "Agent Teams Subagent Spawning",
@@ -3483,7 +3483,7 @@
     },
     {
       "id": "openclaw-rl-reinforcement-learning-v2",
-      "status": "todo",
+      "status": "blocked",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Online Reinforcement Learning",
@@ -5425,6 +5425,127 @@
       "acceptance": [
         "A2A delegation module can delegate tasks to other peers correctly.",
         "Tests mock peer discovery and verify task delegation flow."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-taint-tracking-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Tool Taint Tracking Sandbox v2",
+      "description": "Inspired by MCPKernel trend: Add taint tracking to external MCP action tools execution to block unsafe calls dynamically.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_taint.py",
+        "tests/test_mcp_taint.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted inputs are tracked through tool execution.",
+        "Security sandbox blocks tainted string usage in critical endpoints.",
+        "Tests verify taint propagation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v4",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning v4",
+      "description": "Inspired by OpenClaw-RL trend: Expand the online reinforcement learning module to train the agent directly from next-state signals (user replies).",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl.py",
+        "tests/test_interactive_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module processes user replies as reward/penalty signals.",
+        "Tests verify learning state updates based on interactions."
+      ]
+    },
+    {
+      "id": "claude-dependency-graph-planner-v3",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Claude Task System with Dependency Graphs v3",
+      "description": "Inspired by Claude Agent SDK: Implement a task system with dependency graphs in the planner to support complex multi-step workflows.",
+      "allowed_paths": [
+        "magda_agent/architecture/dependency_graph.py",
+        "tests/test_dependency_graph.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner can resolve tasks using a dependency graph.",
+        "Tests verify topological sorting and execution order."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-taint-tracking-v3",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Tool Taint Tracking Sandbox v3",
+      "description": "Inspired by MCPKernel trend: Add taint tracking to external MCP action tools execution to block unsafe calls dynamically.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_taint.py",
+        "tests/test_mcp_taint.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted inputs are tracked through tool execution.",
+        "Security sandbox blocks tainted string usage in critical endpoints.",
+        "Tests verify taint propagation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v5",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning v5",
+      "description": "Inspired by OpenClaw-RL trend: Expand the online reinforcement learning module to train the agent directly from next-state signals (user replies).",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl.py",
+        "tests/test_interactive_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module processes user replies as reward/penalty signals.",
+        "Tests verify learning state updates based on interactions."
+      ]
+    },
+    {
+      "id": "openclaw-context-hooks-v2",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Hooks V2 Integration",
+      "description": "Integrate the HookRegistry properly inside ContextEngine so that plugins can register on initialization.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "HookRegistry is used by ContextEngine",
+        "Tests verify initialization and hook forwarding"
+      ]
+    },
+    {
+      "id": "openclaw-context-hooks-telemetry",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Context Hooks Telemetry plugin",
+      "description": "Inspired by trend: telemetry over hook pipeline. Implement a Telemetry ContextPlugin for tracking hook executions and context sizes.",
+      "allowed_paths": [
+        "magda_agent/architecture/telemetry_plugin.py",
+        "tests/test_telemetry_plugin.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "TelemetryPlugin registers on before_retrieval and after_retrieval",
+        "Metrics are collected properly"
       ]
     }
   ]
