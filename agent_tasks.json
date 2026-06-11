@@ -3237,7 +3237,7 @@
     },
     {
       "id": "runtime-function-tool-concurrency-v2",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Runtime function tool concurrency v2",
@@ -5081,6 +5081,57 @@
       "acceptance": [
         "Context engine saves context across sessions",
         "Tests verify memory chunks are persisted using mock database clients"
+      ]
+    },
+    {
+      "id": "mcp-export-error-translation-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Exporter error translation",
+      "description": "Inspired by MCP standard trend: Ensure MCPExporter correctly translates MagdaMCPAdapter string errors starting with 'Error' into standard JSON-RPC errors.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter.py",
+        "tests/test_mcp_exporter*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Errors starting with 'Error' return valid JSON-RPC error format.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-discovery-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Peer Delegation Discovery",
+      "description": "Inspired by A2A Protocol trend: Implement discovery using Agent Cards for the peer-to-peer task delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a.py",
+        "tests/test_a2a*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Cards can be broadcast and discovered.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "context-engine-plugin-lifecycle-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine plugin lifecycle hooks",
+      "description": "Inspired by OpenClaw trend: Implement Context Engine plugin interface with before_retrieval and after_retrieval lifecycle hooks.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Lifecycle hooks fire correctly before and after memory fetch.",
+        "Tests pass."
       ]
     }
   ]
