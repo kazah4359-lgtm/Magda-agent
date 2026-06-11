@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 110
+    "max_todo_tasks": 120
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -3254,7 +3254,7 @@
     },
     {
       "id": "realtime-guardrail-fallback-v3",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Realtime guardrail fallback v3",
@@ -5132,6 +5132,40 @@
       "acceptance": [
         "Lifecycle hooks fire correctly before and after memory fetch.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "prempti-tool-call-interception-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Prempti Tool Call Interception and Audit Trail",
+      "description": "Inspired by trend: Prempti (Falco) tool-call interception + audit trail. Implement comprehensive audit logging.",
+      "allowed_paths": [
+        "magda_agent/safety/audit.py",
+        "tests/test_audit*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All tool calls are logged to audit trail",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "mcp-kernel-taint-tracking-v3",
+      "status": "todo",
+      "area": "security",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking v3",
+      "description": "Inspired by trend: MCPKernel taint tracking + sandboxed execution. Implement taint tracking for all tool inputs.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_kernel.py",
+        "tests/test_mcp_kernel*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted inputs are blocked",
+        "Tests pass"
       ]
     }
   ]
