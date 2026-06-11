@@ -3322,7 +3322,7 @@
     },
     {
       "id": "memory-virtual-context-compression",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Virtual context management and compression",
@@ -5304,6 +5304,57 @@
       "acceptance": [
         "A2A tracing module can record and retrieve delegation traces",
         "Tests mock tracing and verify output structure"
+      ]
+    },
+    {
+      "id": "mcp-agentskills-marketplace-integration",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP AgentSkills Marketplace Integration",
+      "description": "Inspired by trend: Skill marketplace (agentskills.io). Allow Magda to fetch and register compatible skills dynamically from a marketplace.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace.py",
+        "tests/test_marketplace.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Marketplace integration can fetch available tools",
+        "Marketplace can parse MCP JSON schemas correctly"
+      ]
+    },
+    {
+      "id": "a2a-discovery-agent-cards-v3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Discovery Agent Cards v3",
+      "description": "Inspired by A2A standard trend: Implement standardized Agent Cards for P2P agent discovery in the a2a integration layer.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_cards.py",
+        "tests/test_a2a_cards.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Card format handles capability lists and capabilities matching",
+        "Tests verify card parsing and schema validation"
+      ]
+    },
+    {
+      "id": "claude-context-compression-subagent",
+      "status": "todo",
+      "area": "memory",
+      "risk": "high",
+      "title": "Claude-style Context Compression Subagent",
+      "description": "Inspired by Claude Context Compression trend: Spin up a lightweight context compression subagent that continuously summarizes episodic memory in the background.",
+      "allowed_paths": [
+        "magda_agent/agents/compression_subagent.py",
+        "tests/test_compression_subagent.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent can continuously poll uncompressed episodic memories and generate concise summaries",
+        "Tests verify subagent loop runs asynchronously using mocks"
       ]
     }
   ]

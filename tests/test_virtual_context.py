@@ -1,3 +1,4 @@
+from unittest.mock import AsyncMock
 import pytest
 from magda_agent.memory.virtual_context import VirtualContextManager
 from magda_agent.memory.working import WorkingMemory, MemoryEntry
@@ -55,3 +56,32 @@ async def test_virtual_context_page_in():
     entries = wm.get_entries(user_id=2)
     assert len(entries) == 1
     assert "Historical facts about Python" in entries[0].content
+
+@pytest.mark.asyncio
+async def test_virtual_context_compress_without_llm() -> None:
+    """Test that context compression works with fallback summary when LLM is absent."""
+    vcm = VirtualContextManager()
+    state = PADState(0.1, 0.2, 0.3)
+    e1 = MemoryEntry("First", 0.5, state, user_id=1)
+    e2 = MemoryEntry("Second", 0.5, state, user_id=1)
+
+    summary = await vcm.compress_context([e1, e2])
+    assert "Summary of 2 items: First\nSecond" in summary.content
+    assert summary.importance == 0.5
+    assert summary.user_id == 1
+
+@pytest.mark.asyncio
+async def test_virtual_context_compress_with_llm() -> None:
+    """Test that context compression leverages the LLM client to generate summaries."""
+    mock_llm = AsyncMock()
+    mock_llm.chat_completion.return_value = "Mocked Summary"
+    vcm = VirtualContextManager(llm_client=mock_llm)
+
+    state = PADState(0.1, 0.2, 0.3)
+    e1 = MemoryEntry("First", 0.5, state, user_id=1)
+    e2 = MemoryEntry("Second", 0.5, state, user_id=1)
+
+    summary = await vcm.compress_context([e1, e2])
+    assert summary.content == "Mocked Summary"
+    assert summary.importance == 0.5
+    assert summary.user_id == 1

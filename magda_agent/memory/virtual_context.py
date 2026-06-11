@@ -1,5 +1,6 @@
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Optional
+from magda_agent.llm_client import LLMClient
 from magda_agent.emotions.engine import PADState
 from magda_agent.memory.working import MemoryEntry
 
@@ -12,6 +13,35 @@ class VirtualContextManager:
     VirtualContextManager handles paging out old short-term memory (WorkingMemory)
     into EpisodicMemory, and paging it back in when requested via semantic search.
     """
+    def __init__(self, llm_client: Optional['LLMClient'] = None) -> None:
+        """Initializes the VirtualContextManager with an optional LLM client."""
+        self.llm_client = llm_client
+
+    async def compress_context(self, entries: List['MemoryEntry']) -> 'MemoryEntry':
+        """
+        Compresses multiple memory entries into a single summary entry.
+        """
+        if not entries:
+            raise ValueError("No entries to compress")
+
+        combined_text = "\n".join(e.content for e in entries)
+
+        if self.llm_client:
+            prompt = [{"role": "system", "content": "Summarize these memory entries concisely."},
+                      {"role": "user", "content": combined_text}]
+            summary = await self.llm_client.chat_completion(prompt)
+        else:
+            summary = f"Summary of {len(entries)} items: {combined_text[:50]}..."
+
+        user_id = entries[0].user_id
+        avg_importance = sum(e.importance for e in entries) / len(entries)
+        avg_p = sum(e.emotional_state.pleasure for e in entries) / len(entries)
+        avg_a = sum(e.emotional_state.arousal for e in entries) / len(entries)
+        avg_d = sum(e.emotional_state.dominance for e in entries) / len(entries)
+        state = PADState(avg_p, avg_a, avg_d)
+
+        return MemoryEntry(content=summary, importance=avg_importance, emotional_state=state, user_id=user_id)
+
 
     async def page_out(self, working_memory: 'WorkingMemory', episodic_memory: 'EpisodicMemory', user_id: int, count: int = 1) -> None:
         """
@@ -22,6 +52,14 @@ class VirtualContextManager:
             return
 
         to_remove = entries[:count]
+        if len(to_remove) > 1:
+            try:
+                # Attempt to compress context before paging out
+                compressed_entry = await self.compress_context(to_remove)
+                to_remove = [compressed_entry]
+            except Exception as e:
+                logging.error(f"Context compression failed during page_out: {e}")
+
         for entry in to_remove:
             metadata = {
                 "paged_out": True,
