@@ -3552,7 +3552,7 @@
     },
     {
       "id": "cross-platform-reach-v1",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Cross-platform reach implementation",
@@ -5717,6 +5717,57 @@
       "acceptance": [
         "Context Engine plugin interface added for MCP tools.",
         "Lifecycle hooks correctly trigger before and after tool usage."
+      ]
+    },
+    {
+      "id": "hermes-skill-experience-creation-v1",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Hermes-style Skill Creation from Experience",
+      "description": "Inspired by Hermes Agent trend: Implement a self-improving agent capability that automatically creates and refines skills based on past experience and execution trace history.",
+      "allowed_paths": [
+        "magda_agent/learning/experience_skills.py",
+        "tests/test_experience_skills.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module can parse execution traces and synthesize new Python skills.",
+        "Tests verify skill creation and storage in procedural memory."
+      ]
+    },
+    {
+      "id": "claude-subagent-spawning-v1-fix2",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude-style Subagent Spawning and Context Compression",
+      "description": "Inspired by Claude Agent SDK: Implement dynamic subagent spawning for parallel execution with compressed context passing to optimize token usage.",
+      "allowed_paths": [
+        "magda_agent/architecture/subagent_spawning.py",
+        "tests/test_subagent_spawning.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Manager can spawn subagents with isolated context boundaries.",
+        "Tests verify context compression before passing to subagents."
+      ]
+    },
+    {
+      "id": "openai-mcp-function-concurrency-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK MCP Function Concurrency",
+      "description": "Inspired by OpenAI Agents SDK: Implement runtime function tool concurrency specifically for MCP server-prefixed tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency.py",
+        "tests/test_mcp_concurrency.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tools can be executed concurrently using asyncio.gather.",
+        "Tests verify concurrent execution and result aggregation."
       ]
     }
   ]
