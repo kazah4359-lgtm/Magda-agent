@@ -3305,7 +3305,7 @@
     },
     {
       "id": "claude-evaluator-module-v2",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "Claude Evaluator Agent Team Module",
@@ -5270,6 +5270,40 @@
       "acceptance": [
         "Multiple independent MCP tools can be executed concurrently.",
         "Tests mock concurrent execution and verify completion times."
+      ]
+    },
+    {
+      "id": "acs-workflow-guardrails-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Workflow Guardrails",
+      "description": "Inspired by trend: ACS (Agent Control Specification). Implement 5 validation checkpoints in agentic workflows to standardize runtime safety controls.",
+      "allowed_paths": [
+        "magda_agent/safety/acs.py",
+        "tests/test_acs_guardrails.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS validation checkpoints are implemented and callable",
+        "Tests verify the checkpoints block unsafe transitions"
+      ]
+    },
+    {
+      "id": "a2a-tracing-module-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Protocol Tracing Module",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol). Implement an async-first tracing module for agent-to-agent delegation to support enterprise-ready monitoring.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing.py",
+        "tests/test_a2a_tracing.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A tracing module can record and retrieve delegation traces",
+        "Tests mock tracing and verify output structure"
       ]
     }
   ]
