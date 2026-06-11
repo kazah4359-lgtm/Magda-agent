@@ -3535,7 +3535,7 @@
     },
     {
       "id": "acs-5-validation-checkpoints-v3",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS 5 Validation Checkpoints v3",
@@ -5683,6 +5683,40 @@
       "acceptance": [
         "HookRegistry is used by ContextEngine",
         "Tests verify initialization and hook forwarding"
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-isolation-v2",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams via Git Worktree Isolation v2",
+      "description": "Implement Agent Teams using git worktree isolation to allow multiple agents to work on separate parallel tasks safely (Claude Agent SDK pattern).",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v2.py",
+        "tests/test_agent_teams_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent teams can spawn isolated workspaces via git worktrees.",
+        "Sub-agents operate securely within their designated worktrees."
+      ]
+    },
+    {
+      "id": "mcp-tools-integration-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Tools Integration Engine v4",
+      "description": "Update the MCP tools integration engine to strictly follow the latest MCP standard for context engine plugins, including lifecycle hooks.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_engine_v4.py",
+        "tests/test_mcp_engine_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context Engine plugin interface added for MCP tools.",
+        "Lifecycle hooks correctly trigger before and after tool usage."
       ]
     }
   ]
