@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 314
+    "max_todo_tasks": 316
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -3671,7 +3671,7 @@
     },
     {
       "id": "claude-context-compression-8e05f169",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "high",
       "title": "Claude SDK: Context Compression",
@@ -5923,6 +5923,40 @@
       "acceptance": [
         "A2A tracing events are securely logged.",
         "Tests verify log extraction format."
+      ]
+    },
+    {
+      "id": "agent-guard-runtime-governance-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Runtime Governance v1",
+      "description": "Inspired by trend: Agent Guard runtime governance layer between agent and outside world. Implement policy layer for tool execution.",
+      "allowed_paths": [
+        "magda_agent/safety/agent_guard.py",
+        "tests/test_agent_guard.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Guard intercepts tool calls and validates against policy.",
+        "Tests verify policy enforcement."
+      ]
+    },
+    {
+      "id": "mcp-kernel-taint-tracking-v2-fixed",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking v2",
+      "description": "Inspired by trend: MCPKernel taint tracking. Implement robust string taint tracking for sandboxed execution.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_tracking_v2.py",
+        "tests/test_taint_tracking_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted strings correctly propagate origin.",
+        "Tests verify tracking."
       ]
     }
   ]
