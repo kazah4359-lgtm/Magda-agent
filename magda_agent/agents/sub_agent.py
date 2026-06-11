@@ -2,6 +2,7 @@ import logging
 from typing import Optional
 from magda_agent.llm_client import LLMClient
 from magda_agent.isolation.git_worktree import GitWorktreeManager
+from magda_agent.memory.subagent_compression import SubagentContextCompressor
 
 class SubAgent:
     """
@@ -16,6 +17,7 @@ class SubAgent:
         self.system_prompt = system_prompt or "You are an isolated Sub-Agent executing a specific task."
         self.use_isolation = use_isolation
         self.worktree_manager = GitWorktreeManager() if use_isolation else None
+        self.context_compressor = SubagentContextCompressor(llm=llm)
 
     async def execute(self, task: str, context: str) -> str:
         """
@@ -35,7 +37,9 @@ class SubAgent:
                 logging.error(f"Failed to create isolated worktree: {e}")
                 return f"Error: Failed to create isolated worktree - {e}"
 
+        # Compress the combined context if it's too large
         full_context = f"Parent Context:\n{current_context}\n\nAssigned Task:\n{task}"
+        full_context = await self.context_compressor.compress_context(full_context)
         messages = [
             {"role": "system", "content": self.system_prompt},
             {"role": "user", "content": full_context}
