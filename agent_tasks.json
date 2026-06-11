@@ -3358,7 +3358,7 @@
     },
     {
       "id": "realtime-guardrail-fallback-v4",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Realtime guardrail fallback v4",
@@ -5391,6 +5391,40 @@
         "Module calculates token length of current working context.",
         "Module pages out older memories correctly.",
         "Tests verify paging behavior with mock context."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-compression-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Compression v2",
+      "description": "Inspired by MemGPT/Letta pattern and Claude Context Compression trends: Implement an advanced context compression mechanism within the ContextEngine to summarize older memory chunks automatically and maintain semantic links.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Advanced context compression summarizes older memories with semantic links.",
+        "Tests verify that context length stays within bounds without losing key facts and semantics."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-protocol-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Peer Delegation Protocol v2",
+      "description": "Inspired by A2A standard trend: Enhance the A2A tracing module by adding specific peer-to-peer task delegation mechanisms.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a_delegation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A delegation module can delegate tasks to other peers correctly.",
+        "Tests mock peer discovery and verify task delegation flow."
       ]
     }
   ]
