@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 150
+    "max_todo_tasks": 314
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -3518,7 +3518,7 @@
     },
     {
       "id": "openclaw-context-engine-plugin-lifecycle",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Context Engine Lifecycle Plugins",
@@ -5597,6 +5597,58 @@
       "acceptance": [
         "TelemetryPlugin registers on before_retrieval and after_retrieval",
         "Metrics are collected properly"
+      ]
+    },
+    {
+      "id": "acs-runtime-governance-layer-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Runtime Governance Layer v2",
+      "description": "Inspired by ACS (Agent Control Specification) Microsoft June 2026 standard: Implement an enhanced policy-driven evaluation framework checking every tool call in magda_agent/safety/acs_guard_v2.py.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_v2.py",
+        "tests/test_acs_guard_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Intercepts tool calls.",
+        "Tests verify intercepts and policy applications."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-taint-tracking-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Tool Taint Tracking Sandbox v4",
+      "description": "Inspired by MCPKernel trend: Add taint tracking to external MCP action tools execution to block unsafe calls dynamically.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_taint.py",
+        "tests/test_mcp_taint.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted inputs are tracked through tool execution.",
+        "Security sandbox blocks tainted string usage in critical endpoints.",
+        "Tests verify taint propagation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v7",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning v7",
+      "description": "Inspired by OpenClaw-RL trend: Expand the online reinforcement learning module to train the agent directly from next-state signals (user replies).",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl.py",
+        "tests/test_interactive_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module processes user replies as reward/penalty signals.",
+        "Tests verify learning state updates based on interactions."
       ]
     }
   ]
