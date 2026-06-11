@@ -5601,7 +5601,7 @@
     },
     {
       "id": "acs-runtime-governance-layer-v2",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Runtime Governance Layer v2",
@@ -5649,6 +5649,40 @@
       "acceptance": [
         "Module processes user replies as reward/penalty signals.",
         "Tests verify learning state updates based on interactions."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v8",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning v8",
+      "description": "Inspired by OpenClaw-RL trend: Expand the online reinforcement learning module to train the agent directly from next-state signals (user replies).",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl.py",
+        "tests/test_openclaw_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module processes user replies as reward/penalty signals.",
+        "Tests verify learning state updates based on interactions."
+      ]
+    },
+    {
+      "id": "openclaw-context-hooks-v4",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Hooks V4",
+      "description": "Inspired by trend: plugin architecture. Integrate the HookRegistry inside ContextEngine to let plugins register on initialization.",
+      "allowed_paths": [
+        "magda_agent/architecture/context_hooks.py",
+        "magda_agent/memory/context_engine.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "HookRegistry is used by ContextEngine",
+        "Tests verify initialization and hook forwarding"
       ]
     }
   ]

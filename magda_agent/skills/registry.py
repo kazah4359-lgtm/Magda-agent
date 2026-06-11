@@ -22,8 +22,8 @@ class SkillRegistry:
         self.realtime_guardrail = RealtimeGuardrail(policy_layer) if policy_layer else None
 
         # Initialize ACSGuard
-        from magda_agent.safety.acs_guard import ACSGuard
-        self.acs_guard = ACSGuard()
+        from magda_agent.safety.acs_guard_v2 import ACSGuardV2
+        self.acs_guard = ACSGuardV2(policy_layer=policy_layer)
 
 
 
@@ -76,7 +76,7 @@ class SkillRegistry:
                 # Need to manually call it or re-intercept
                 passed, reason = self.acs_guard.checkpoint_5_output_sanitization(workflow_data)
                 if not passed:
-                    from magda_agent.safety.acs_guard import SecurityViolationError
+                    from magda_agent.safety.acs_guard_v2 import SecurityViolationError
                     raise SecurityViolationError(f"Action blocked by ACS checkpoint 5: {reason}")
 
             return result

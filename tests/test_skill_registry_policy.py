@@ -13,7 +13,7 @@ def test_execute_skill_denied_by_policy() -> None:
 
     result = registry.execute_skill("system_execute_code", code="open('.env')")
 
-    assert "Action 'system_execute_code' blocked:" in result or result.startswith("Policy denied:")
+    assert "Action blocked by ACS checkpoint 3" in result or "Action 'system_execute_code' blocked:" in result or result.startswith("Policy denied:")
     assert "denied" in result.lower()
 
 
