@@ -3271,7 +3271,7 @@
     },
     {
       "id": "hermes-agent-skills-io-v2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Hermes agentskills.io export compatibility",
@@ -5166,6 +5166,57 @@
       "acceptance": [
         "Tainted inputs are blocked",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "openclaw-rl-online-learning-v5",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Reinforcement Learning Module v5",
+      "description": "Inspired by OpenClaw-RL trend: Add an online reinforcement learning module that updates skill_weights based on user feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v5.py",
+        "tests/test_openclaw_rl_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "OnlineRLIntegrator parses user feedback and adjusts weights.",
+        "Pytest tests verify weight adjustment logic."
+      ]
+    },
+    {
+      "id": "context-engine-plugin-hooks-v5",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine plugin hooks v5",
+      "description": "Inspired by OpenClaw trend: Add lifecycle hooks (before_retrieval, after_retrieval) to ContextEngine.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_hooks_v5.py",
+        "tests/test_context_engine_hooks_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ContextEngine supports plugin hooks.",
+        "Pytest tests verify hooks execute correctly."
+      ]
+    },
+    {
+      "id": "periodic-cron-scheduler-v5",
+      "status": "todo",
+      "area": "orchestration",
+      "risk": "medium",
+      "title": "Periodic Cron Scheduler v5",
+      "description": "Inspired by Hermes Agent trend: Implement a CronScheduler for periodic background tasks.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_v5.py",
+        "tests/test_cron_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "CronScheduler can schedule and execute tasks periodically.",
+        "Pytest tests verify scheduling logic."
       ]
     }
   ]
