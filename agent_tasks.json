@@ -3654,7 +3654,7 @@
     },
     {
       "id": "hermes-skill-creation-8563188e",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Hermes: Skill Creation from Experience",
@@ -5872,6 +5872,57 @@
         "Audit logger intercepts tool calls via HookRegistry or Registry wrapper.",
         "Tool execution traces are saved to a durable SQLite audit log.",
         "Tests verify logging occurs without breaking tool execution."
+      ]
+    },
+    {
+      "id": "claude-evaluator-subagent-85b14c3e",
+      "status": "todo",
+      "title": "Claude Evaluator Subagent",
+      "area": "agents",
+      "risk": "medium",
+      "description": "Inspired by Claude Agent SDK pattern: Implement a standalone Evaluator Subagent that validates outputs of Generator agents within the team before returning the result to the Planner.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator_subagent.py",
+        "tests/test_evaluator_subagent.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator subagent can score other agents' outputs based on predefined policies.",
+        "Tests mock interactions to verify evaluation logic."
+      ]
+    },
+    {
+      "id": "openclaw-context-compressor-hook",
+      "status": "todo",
+      "title": "OpenClaw Context Compressor Hook",
+      "area": "memory",
+      "risk": "medium",
+      "description": "Inspired by OpenClaw trends: Create a Context Engine lifecycle hook plugin that automatically compresses short-term memory during the `before_retrieval` phase to maintain a compact context window.",
+      "allowed_paths": [
+        "magda_agent/memory/compression_hook.py",
+        "tests/test_compression_hook.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Compression plugin correctly hooks into Context Engine.",
+        "Memory tokens are reduced while retaining semantic importance."
+      ]
+    },
+    {
+      "id": "a2a-delegation-tracing-v4",
+      "status": "todo",
+      "title": "A2A Delegation Tracing v4",
+      "area": "integration",
+      "risk": "medium",
+      "description": "Inspired by A2A Protocol trends: Implement an enterprise-ready tracing integration specifically for tracing A2A peer delegation events.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing_v4.py",
+        "tests/test_a2a_tracing_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A tracing events are securely logged.",
+        "Tests verify log extraction format."
       ]
     }
   ]

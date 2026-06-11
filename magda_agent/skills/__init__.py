@@ -58,6 +58,35 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
         description="Navigates the web by loading URLs and interacting with DOM elements. Input: 'action' string ('load', 'click', 'type') and kwargs ('url', 'element_id', 'text')."
     )
 
+
+    from magda_agent.skills.hermes_skills import HermesSkillCreator
+    def generate_skill_sync(skill_name: str, description: str, instructions: str) -> str:
+        import asyncio
+        from magda_agent.llm_client import LLMClient
+        client = LLMClient()
+        creator = HermesSkillCreator(llm_client=client)
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                import threading
+                result = None
+                def run_in_thread():
+                    nonlocal result
+                    result = asyncio.run(creator.generate_skill(skill_name, description, instructions))
+                t = threading.Thread(target=run_in_thread)
+                t.start()
+                t.join()
+                return result
+        except RuntimeError:
+            pass
+        return asyncio.run(creator.generate_skill(skill_name, description, instructions))
+
+    registry.register_skill(
+        name="hermes_skill_creator",
+        func=generate_skill_sync,
+        description="Generate Python code for a new agent skill based on experience. Input: 'skill_name', 'description', 'instructions' strings."
+    )
+
     return registry
 
 from magda_agent.skills.marketplace import fetch_and_register_skills
