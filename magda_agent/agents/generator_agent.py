@@ -1,6 +1,6 @@
 import logging
 import asyncio
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Tuple
 
 from magda_agent.llm_client import LLMClient
 from magda_agent.skills.registry import SkillRegistry
@@ -35,9 +35,62 @@ class GeneratorAgent:
         self.mcp_client = mcp_client
         self.tracer = tracer
 
+    async def _execute_step(self, step: Dict[str, Any], user_id: Optional[str] = None) -> Tuple[str, bool]:
+        """Executes a single plan step, returning (result_string, plan_stopped_early_bool)."""
+        SKILL_TIMEOUT = 10.0
+        skill_name = step.get('skill')
+        kwargs = step.get('skill_kwargs') or {}
+        plan_stopped_early = False
+        result = ""
+
+        if skill_name:
+            # Real-time guardrail check before execution
+            if self.guardrail:
+                allowed, explanation, strategy = self.guardrail.check_action(skill_name, **kwargs)
+                if not allowed:
+                    if strategy == FallbackStrategy.STOP_EXECUTION:
+                        result = f"Guardrail Fallback (STOP): {explanation}"
+                        plan_stopped_early = True
+                        logging.warning(f"Plan stopped by guardrail: {explanation}")
+                    elif strategy == FallbackStrategy.REQUEST_REVIEW:
+                        result = f"Guardrail Fallback (REVIEW REQUIRED): {explanation}"
+                        plan_stopped_early = True # Also stop for now until human intervention
+                        logging.warning(f"Plan paused for review by guardrail: {explanation}")
+                    else:
+                        result = f"Guardrail Denied: {explanation}"
+
+                    return result, plan_stopped_early
+
+            task = None
+            try:
+                if hasattr(self, 'mcp_client') and self.mcp_client and self.mcp_client.has_tool(skill_name):
+                    task = asyncio.create_task(self.mcp_client.execute_tool(skill_name, **kwargs))
+                else:
+                    task = asyncio.create_task(asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs))
+                result = await asyncio.wait_for(task, timeout=SKILL_TIMEOUT)
+            except asyncio.TimeoutError:
+                if task is not None and not task.done():
+                    task.cancel()
+                logging.error(f"Timeout executing skill {skill_name}")
+                result = f"Error: Skill {skill_name} timed out after {SKILL_TIMEOUT} seconds."
+                plan_stopped_early = True
+            except Exception as e:
+                logging.error(f"Error executing skill {skill_name}: {e}")
+                result = f"Error: {e}"
+        else:
+            result = "No skill executed for this step."
+
+        if self.skill_versioning and skill_name:
+            success = 'Error:' not in str(result)
+            best = self.skill_versioning.get_best_version(skill_name, user_id=user_id)
+            if best:
+                self.skill_versioning.record_usage_outcome(skill_name, best['version'], success, str(result), user_id=user_id)
+
+        return str(result), plan_stopped_early
+
     async def execute_plan(self, user_input: str, user_id: Optional[str] = None) -> str:
         """
-        Executes the plan step by step and returns the string representation of results.
+        Executes the plan step by step (concurrently where possible) and returns results.
         """
         plan_str = ""
         if not self.planner:
@@ -46,66 +99,33 @@ class GeneratorAgent:
         plan = self.planner.get_current_plan(user_id=user_id)
         if plan:
             MAX_STEPS = 5
-            SKILL_TIMEOUT = 10.0
             steps_executed = 0
             plan_stopped_early = False
-            current_plan = self.planner.get_current_plan(user_id=user_id)
 
-            while current_plan and steps_executed < MAX_STEPS:
-                steps_executed += 1
-                step = current_plan[0]
-                skill_name = step.get('skill')
-                kwargs = step.get('skill_kwargs') or {}
+            while steps_executed < MAX_STEPS:
+                executable_steps = self.planner.get_executable_steps(user_id=user_id)
+                if not executable_steps:
+                    break
 
-                if skill_name:
-                    # Real-time guardrail check before execution
-                    if self.guardrail:
-                        allowed, explanation, strategy = self.guardrail.check_action(skill_name, **kwargs)
-                        if not allowed:
-                            if strategy == FallbackStrategy.STOP_EXECUTION:
-                                result = f"Guardrail Fallback (STOP): {explanation}"
-                                plan_stopped_early = True
-                                logging.warning(f"Plan stopped by guardrail: {explanation}")
-                            elif strategy == FallbackStrategy.REQUEST_REVIEW:
-                                result = f"Guardrail Fallback (REVIEW REQUIRED): {explanation}"
-                                plan_stopped_early = True # Also stop for now until human intervention
-                                logging.warning(f"Plan paused for review by guardrail: {explanation}")
-                            else:
-                                result = f"Guardrail Denied: {explanation}"
+                # Respect MAX_STEPS limit when selecting batch
+                remaining_steps = MAX_STEPS - steps_executed
+                if len(executable_steps) > remaining_steps:
+                    executable_steps = executable_steps[:remaining_steps]
 
-                            self.planner.mark_step_completed(0, str(result), user_id=user_id)
-                            break
+                # Execute all currently executable steps concurrently
+                tasks = [self._execute_step(step, user_id=user_id) for step in executable_steps]
+                results = await asyncio.gather(*tasks)
 
-                    task = None
-                    try:
-                        if hasattr(self, 'mcp_client') and self.mcp_client and self.mcp_client.has_tool(skill_name):
-                            task = asyncio.create_task(self.mcp_client.execute_tool(skill_name, **kwargs))
-                        else:
-                            task = asyncio.create_task(asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs))
-                        result = await asyncio.wait_for(task, timeout=SKILL_TIMEOUT)
-                    except asyncio.TimeoutError:
-                        if task is not None and not task.done():
-                            task.cancel()
-                        logging.error(f"Timeout executing skill {skill_name}")
-                        result = f"Error: Skill {skill_name} timed out after {SKILL_TIMEOUT} seconds."
+                for step, (result, stopped) in zip(executable_steps, results):
+                    steps_executed += 1
+                    self.planner.mark_step_id_completed(step['id'], result, user_id=user_id)
+                    if stopped:
                         plan_stopped_early = True
-                    except Exception as e:
-                        logging.error(f"Error executing skill {skill_name}: {e}")
-                        result = f"Error: {e}"
-                else:
-                    result = "No skill executed for this step."
-
-                self.planner.mark_step_completed(0, str(result), user_id=user_id)
-                if self.skill_versioning and skill_name:
-                    success = 'Error:' not in str(result)
-                    best = self.skill_versioning.get_best_version(skill_name, user_id=user_id)
-                    if best:
-                        self.skill_versioning.record_usage_outcome(skill_name, best['version'], success, str(result), user_id=user_id)
 
                 if plan_stopped_early:
                     break
-                current_plan = self.planner.get_current_plan(user_id=user_id)
 
+            current_plan = self.planner.get_current_plan(user_id=user_id)
             if current_plan and steps_executed >= MAX_STEPS:
                 plan_stopped_early = True
                 logging.warning("Plan execution stopped due to MAX_STEPS limit.")

@@ -3688,7 +3688,7 @@
     },
     {
       "id": "openai-tool-concurrency-f971883d",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "OpenAI: Runtime Tool Concurrency",
