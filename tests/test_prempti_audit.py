@@ -1,6 +1,6 @@
 import pytest
 import time
-from magda_agent.tracing.prempti_audit import PremptiAuditLogger
+from magda_agent.security.audit_trail import PremptiAuditLogger
 
 def test_prempti_audit_logger_log_call() -> None:
     """Test that log_call correctly appends an entry to the trail."""
@@ -51,7 +51,8 @@ def test_prempti_audit_logger_sanitize() -> None:
             "token": "secret_token",
             "auth_header": "Bearer xyz"
         },
-        "list_of_secrets": [{"secret_key": "abc"}, {"normal": "def"}]
+        "list_of_secrets": [{"secret_key": "abc"}, {"normal": "def"}],
+        "auth_header": {"Authorization": "Bearer secret_token"}
     }
 
     logger.log_call("test_tool", sensitive_kwargs, "testing", "Success", 0.1)
@@ -66,6 +67,7 @@ def test_prempti_audit_logger_sanitize() -> None:
     assert logged_kwargs["nested"]["auth_header"] == "***"
     assert logged_kwargs["list_of_secrets"][0]["secret_key"] == "***"
     assert logged_kwargs["list_of_secrets"][1]["normal"] == "def"
+    assert logged_kwargs["auth_header"]["Authorization"] == "***"
 
 def test_prempti_audit_logger_sanitize_list() -> None:
     """Test that sensitive lists of primitives are correctly sanitized."""
@@ -82,3 +84,11 @@ def test_prempti_audit_logger_sanitize_list() -> None:
 
     assert logged_kwargs["api_keys"] == ["***", "***"]
     assert logged_kwargs["normal_list"] == ["val1", "val2"]
+
+def test_prempti_audit_logger_clear() -> None:
+    """Test that clear empties the logs."""
+    logger = PremptiAuditLogger()
+    logger.log_call("test_tool", {}, "testing", "Success", 0.1)
+    assert len(logger.get_all()) == 1
+    logger.clear()
+    assert len(logger.get_all()) == 0

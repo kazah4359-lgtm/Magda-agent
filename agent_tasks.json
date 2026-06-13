@@ -3776,7 +3776,7 @@
     },
     {
       "id": "prempti-audit-trail",
-      "status": "todo",
+      "status": "done",
       "area": "security",
       "risk": "medium",
       "title": "Prempti Audit Trail",
@@ -6127,6 +6127,40 @@
       "acceptance": [
         "Discord bridge handles incoming messages and forwards to agent.",
         "Tests mock Discord API and verify handling."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-integration-v3",
+      "status": "todo",
+      "area": "multi_agent",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Integration v3",
+      "description": "Inspired by OpenClaw trend: Canvas for live visualization. Implement an advanced module in the visualization directory to track agent state.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_v3.py",
+        "tests/test_canvas_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas v3 handles complex agent state properly.",
+        "Tests mock components and verify state transitions."
+      ]
+    },
+    {
+      "id": "hermes-skill-discovery-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Skill Discovery v2",
+      "description": "Inspired by Hermes Agent trend: Self-improving agent that discovers skills. Create a skill discovery pipeline.",
+      "allowed_paths": [
+        "magda_agent/skills/discovery_v2.py",
+        "tests/test_discovery_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill discovery pipeline correctly identifies new capabilities.",
+        "Tests mock LLM responses and verify extraction."
       ]
     }
   ]
