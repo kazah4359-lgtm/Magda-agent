@@ -1,6 +1,8 @@
 import logging
 from typing import Dict, Any, Tuple, Optional
 from magda_agent.safety.policy import PolicyLayer
+from magda_agent.security.audit_trail import PremptiAuditLogger
+
 
 class SecurityViolationError(Exception):
     """Exception raised when an action is blocked by the ACS Guard V2."""
@@ -21,6 +23,7 @@ class ACSGuardV2:
         """
         self.logger = logging.getLogger(__name__)
         self.policy_layer = policy_layer
+        self.audit_logger = PremptiAuditLogger()
 
     def checkpoint_1_input_validation(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
         """
@@ -117,7 +120,22 @@ class ACSGuardV2:
             passed, reason = checkpoint(workflow_data)
             if not passed:
                 self.logger.warning(f"ACS Checkpoint {i} Failed: {reason}")
+                self.audit_logger.log_call(
+                    tool_name=workflow_data.get("tool", "unknown"),
+                    kwargs=workflow_data.get("kwargs", {}),
+                    why=f"Checkpoint {i} Failed: {reason}",
+                    result="blocked",
+                    duration=0.0
+                )
                 raise SecurityViolationError(f"Action blocked by ACS checkpoint {i}: {reason}")
             self.logger.debug(f"ACS Checkpoint {i} Passed: {reason}")
+
+        self.audit_logger.log_call(
+            tool_name=workflow_data.get("tool", "unknown"),
+            kwargs=workflow_data.get("kwargs", {}),
+            why="All 5 checkpoints passed.",
+            result="allowed",
+            duration=0.0
+        )
 
         return workflow_data
