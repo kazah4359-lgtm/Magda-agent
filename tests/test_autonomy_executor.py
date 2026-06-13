@@ -19,18 +19,37 @@ class FakePlanner:
     async def generate_plan(self, objective, user_id=None):
         steps = self._plans.pop(0) if self._plans else []
         self._current = [dict(s) for s in steps]
+        for i, step in enumerate(self._current):
+            if "id" not in step:
+                step["id"] = f"step_{i}"
+            if "dependencies" not in step:
+                step["dependencies"] = []
         self.completed_steps = []
         return self._current
 
-    def get_current_plan(self):
+    def get_current_plan(self, user_id=None):
         return self._current
 
-    def mark_step_completed(self, index, result):
-        step = self._current.pop(index)
-        step["result"] = result
-        self.completed_steps.append(step)
+    def get_executable_steps(self, user_id=None):
+        completed_ids = {s["id"] for s in self.completed_steps}
+        executable = []
+        for step in self._current:
+            if all(dep in completed_ids for dep in step.get("dependencies", [])):
+                executable.append(step)
+        return executable
 
-    def clear_pending_plan(self):
+    def get_completed_steps(self, user_id=None):
+        return self.completed_steps
+
+    def mark_step_id_completed(self, step_id, result, user_id=None):
+        for i, step in enumerate(self._current):
+            if step["id"] == step_id:
+                step = self._current.pop(i)
+                step["result"] = result
+                self.completed_steps.append(step)
+                return
+
+    def clear_pending_plan(self, user_id=None):
         self._current = []
 
 

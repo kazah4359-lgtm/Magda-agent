@@ -36,18 +36,27 @@ async def test_generator_agent_with_mcp_client():
 
     mock_planner = MagicMock(spec=Planner)
 
-    # Needs to return something on the first check of while loop, then []
-    mock_planner.get_current_plan.side_effect = [
-        [{"skill": "test_mcp.run", "skill_kwargs": {"data": "123"}, "description": "test_step"}],
-        [{"skill": "test_mcp.run", "skill_kwargs": {"data": "123"}, "description": "test_step"}],
-        []
-    ]
+    step = {"id": "s1", "skill": "test_mcp.run", "skill_kwargs": {"data": "123"}, "description": "test_step", "dependencies": []}
+    current_plan = [step]
+    def mock_get_current_plan(user_id=None):
+        return current_plan
+    def mock_get_executable_steps(user_id=None):
+        return current_plan
+
+    mock_planner.get_current_plan.side_effect = mock_get_current_plan
+    mock_planner.get_executable_steps.side_effect = mock_get_executable_steps
 
     mock_planner.get_completed_steps.return_value = []
-    def mock_mark_completed(idx, result_str, user_id=None):
-        mock_planner.get_completed_steps.return_value.append({"skill": "test_mcp.run", "result": result_str, "description": "test_step"})
+    def mock_mark_id_completed(step_id, result_str, user_id=None):
+        nonlocal current_plan
+        for i, s in enumerate(current_plan):
+            if s["id"] == step_id:
+                completed_step = current_plan.pop(i)
+                completed_step['result'] = result_str
+                mock_planner.get_completed_steps.return_value.append(completed_step)
+                return
 
-    mock_planner.mark_step_completed.side_effect = mock_mark_completed
+    mock_planner.mark_step_id_completed.side_effect = mock_mark_id_completed
 
     mcp_client = MCPClient()
     mcp_client.register_remote_tool("test_mcp.run", {"url": "mock"})
@@ -74,17 +83,27 @@ async def test_generator_agent_mcp_timeout():
     mock_skills = MagicMock(spec=SkillRegistry)
     mock_planner = MagicMock(spec=Planner)
 
-    mock_planner.get_current_plan.side_effect = [
-        [{"skill": "slow_mcp.tool", "skill_kwargs": {}, "description": "slow_step"}],
-        [{"skill": "slow_mcp.tool", "skill_kwargs": {}, "description": "slow_step"}],
-        []
-    ]
+    step = {"id": "s1", "skill": "slow_mcp.tool", "skill_kwargs": {}, "description": "slow_step", "dependencies": []}
+    current_plan = [step]
+    def mock_get_current_plan(user_id=None):
+        return current_plan
+    def mock_get_executable_steps(user_id=None):
+        return current_plan
+
+    mock_planner.get_current_plan.side_effect = mock_get_current_plan
+    mock_planner.get_executable_steps.side_effect = mock_get_executable_steps
 
     mock_planner.get_completed_steps.return_value = []
-    def mock_mark_completed(idx, result_str, user_id=None):
-        mock_planner.get_completed_steps.return_value.append({"skill": "slow_mcp.tool", "result": result_str, "description": "slow_step"})
+    def mock_mark_id_completed(step_id, result_str, user_id=None):
+        nonlocal current_plan
+        for i, s in enumerate(current_plan):
+            if s["id"] == step_id:
+                completed_step = current_plan.pop(i)
+                completed_step['result'] = result_str
+                mock_planner.get_completed_steps.return_value.append(completed_step)
+                return
 
-    mock_planner.mark_step_completed.side_effect = mock_mark_completed
+    mock_planner.mark_step_id_completed.side_effect = mock_mark_id_completed
 
     mcp_client = MCPClient()
     mcp_client.register_remote_tool("slow_mcp.tool", {})
@@ -102,8 +121,10 @@ async def test_generator_agent_mcp_timeout():
     )
     agent.mcp_client = mcp_client
 
-    with patch("magda_agent.agents.generator_agent.asyncio.wait_for") as mock_wait:
-        mock_wait.side_effect = asyncio.TimeoutError()
+    async def mock_timeout_coro(*args, **kwargs):
+        raise asyncio.TimeoutError()
+
+    with patch("magda_agent.agents.generator_agent.asyncio.wait_for", side_effect=mock_timeout_coro):
         result = await agent.execute_plan("test input")
 
     assert "timed out" in result

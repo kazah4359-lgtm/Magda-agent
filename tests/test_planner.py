@@ -223,6 +223,9 @@ async def test_consciousness_plan_max_steps():
 
 @pytest.mark.asyncio
 async def test_consciousness_plan_timeout():
+    async def mock_timeout_coro(*args, **kwargs):
+        raise asyncio.TimeoutError()
+
     from magda_agent.consciousness.core import Consciousness
     from magda_agent.emotions.engine import EmotionalEngine
     from magda_agent.memory.storage import MemorySystem
@@ -253,7 +256,7 @@ async def test_consciousness_plan_timeout():
         planner=real_planner
     )
 
-    with patch('asyncio.wait_for', side_effect=asyncio.TimeoutError):
+    with patch('asyncio.wait_for', side_effect=mock_timeout_coro):
         await consciousness.process_input("Help me test timeout")
 
     # verify 1 step completed with timeout error, and pending plan is cleared

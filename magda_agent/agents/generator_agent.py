@@ -52,7 +52,7 @@ class GeneratorAgent:
 
             while steps_executed < MAX_STEPS:
                 executable_steps = self.planner.get_executable_steps(user_id=user_id)
-                if not executable_steps:
+                if not executable_steps or not isinstance(executable_steps, list):
                     break
 
                 batch_tasks = []
@@ -62,10 +62,15 @@ class GeneratorAgent:
                     if steps_executed >= MAX_STEPS:
                         break
 
-                    steps_executed += 1
                     skill_name = step.get('skill')
                     kwargs = step.get('skill_kwargs') or {}
                     step_id = step.get('id')
+
+                    if not step_id:
+                        logging.warning(f"Step missing ID, skipping: {step.get('description')}")
+                        continue
+
+                    steps_executed += 1
 
                     if not skill_name:
                         self.planner.mark_step_id_completed(step_id, "No skill executed for this step.", user_id=user_id)
@@ -102,9 +107,7 @@ class GeneratorAgent:
                         break
 
                 if not batch_tasks:
-                    if plan_stopped_early:
-                        break
-                    continue
+                    break
 
                 # Run batch concurrently
                 results = await asyncio.gather(*batch_tasks, return_exceptions=True)
