@@ -264,70 +264,95 @@ class Consciousness:
             tracer=self.tracer
         )
 
-        await planner_agent.plan(user_input, user_id=user_id)
-        plan_str = await generator_agent.execute_plan(user_input, user_id=user_id)
-
-        # 4. LLM Reasoning
-        if self.tracer:
-            self.tracer.add_step("llm_reasoning_start", {"plan_str": plan_str})
-        emotion_summary = self.emotions.get_summary(user_id=user_id)
-        if self.hypothalamus:
-            emotion_summary += f" | {self.hypothalamus.get_drives_summary()}"
-
-        if self.pineal_gland:
-            emotion_summary += f" | Time of day: {self.pineal_gland.get_time_context()}"
-
-        if self.attachment:
-            self.attachment.record_interaction(user_id)
-            attachment_prompt = self.attachment.get_attachment_prompt(user_id)
-            if attachment_prompt:
-                emotion_summary += f"\n{attachment_prompt}"
-
-        system_prompt = self.llm.get_system_prompt(
-            context=context_str,
-            emotions=emotion_summary
+        evaluator_agent = EvaluatorAgent(
+            evaluator=self.evaluator,
+            assert_evaluator=self.assert_evaluator,
+            confidence_calibrator=self.confidence_calibrator,
+            habit_tracker=self.habit_tracker,
+            planner=self.planner
         )
 
-        if self.style_adapter:
-            um = None
-            if self.user_model and user_id is not None:
-                um = self.user_model.get_model(user_id)
-            pad_state = self.emotions.get_state_history(user_id)[0]
-            style_modifier = self.style_adapter.get_style_prompt(pad_state, um)
-            if style_modifier:
-                system_prompt += f"\n\n{style_modifier}"
+        from magda_agent.agents.triad_coordinator import TriadCoordinator
+        coordinator = TriadCoordinator(planner_agent, generator_agent, evaluator_agent)
 
-        if plan_str:
-            system_prompt += f"\n\n{plan_str}\nUse the plan results to generate the final response."
+        _mem_context_str = context_str
 
-        if self.evaluator:
-            eval_feedback = self.evaluator.get_feedback_for_prompt()
-            if eval_feedback:
-                system_prompt += f"\n\n{eval_feedback}"
+        def message_builder(plan_str: str) -> list:
+            if self.tracer:
+                self.tracer.add_step("llm_reasoning_start", {"plan_str": plan_str})
+            emotion_summary = self.emotions.get_summary(user_id=user_id)
+            if self.hypothalamus:
+                emotion_summary += f" | {self.hypothalamus.get_drives_summary()}"
 
-        messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_input}
-        ]
+            if self.pineal_gland:
+                emotion_summary += f" | Time of day: {self.pineal_gland.get_time_context()}"
 
-        # Determine if a skill should be used (Simplified logic for PoC)
-        # In a real system, the LLM would decide which tool to call.
+            if self.attachment:
+                self.attachment.record_interaction(user_id)
+                attachment_prompt = self.attachment.get_attachment_prompt(user_id)
+                if attachment_prompt:
+                    emotion_summary += f"\n{attachment_prompt}"
 
-        # Action Selection using Basal Ganglia if available
-        if self.basal_ganglia:
-            possible_actions = [
-                {"action": "chat", "priority": 10},
-                {"action": "ignore", "priority": 1}
+            system_prompt = self.llm.get_system_prompt(
+                context=_mem_context_str,
+                emotions=emotion_summary
+            )
+
+            if self.style_adapter:
+                um = None
+                if self.user_model and user_id is not None:
+                    um = self.user_model.get_model(user_id)
+                pad_state = self.emotions.get_state_history(user_id)[0]
+                style_modifier = self.style_adapter.get_style_prompt(pad_state, um)
+                if style_modifier:
+                    system_prompt += f"\n\n{style_modifier}"
+
+            if plan_str:
+                system_prompt += f"\n\n{plan_str}\nUse the plan results to generate the final response."
+
+            if self.evaluator:
+                eval_feedback = self.evaluator.get_feedback_for_prompt()
+                if eval_feedback:
+                    system_prompt += f"\n\n{eval_feedback}"
+
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_input}
             ]
-            selected_action = self.basal_ganglia.select_action(possible_actions)
-            if selected_action and selected_action["action"] == "ignore":
-                if self.tracer:
-                    self.tracer.add_step("action_selection", {"selected_action": "ignore"})
-                return "Message ignored by Basal Ganglia."
-            elif selected_action and self.tracer:
-                self.tracer.add_step("action_selection", {"selected_action": selected_action["action"]})
+            return messages
 
-        response = await generator_agent.generate_response(messages)
+        class ActionIgnored(Exception):
+            pass
+
+        def pre_generation_hook() -> None:
+            if self.basal_ganglia:
+                possible_actions = [
+                    {"action": "chat", "priority": 10},
+                    {"action": "ignore", "priority": 1}
+                ]
+                selected_action = self.basal_ganglia.select_action(possible_actions)
+                if selected_action and selected_action["action"] == "ignore":
+                    if self.tracer:
+                        self.tracer.add_step("action_selection", {"selected_action": "ignore"})
+                    raise ActionIgnored("Message ignored by Basal Ganglia.")
+                elif selected_action and self.tracer:
+                    self.tracer.add_step("action_selection", {"selected_action": selected_action["action"]})
+
+        # We evaluate policies dynamically inside a lambda to ensure fresh evaluation if needed,
+        # but the coordinator expects a List[str] Optional. We will pass it as a property or evaluate late.
+        # Actually, passing it evaluated before `coordinate()` is fine since the state is already loaded.
+        policies = self.planner.get_user_state(user_id).current_constraints if self.planner else None
+
+        try:
+            response = await coordinator.coordinate(
+                user_input,
+                user_id=user_id,
+                message_builder=message_builder,
+                pre_generation_hook=pre_generation_hook,
+                policies=policies
+            )
+        except ActionIgnored as e:
+            return str(e)
 
         if self.confidence_calibrator:
             confidence = await self.confidence_calibrator.estimate_confidence(user_input, response)
@@ -348,23 +373,12 @@ class Consciousness:
         if self.online_rl_integrator:
             await self.online_rl_integrator.process_feedback(user_input, "last_action_context", user_id)
 
-
-
         if self.long_term_memory:
             self.long_term_memory.store(text=memory_content, metadata={"type": "conversation"}, user_id=user_id)
 
         # Gradual emotional decay after processing
         self.emotions.decay(user_id=user_id)
 
-        # 6. Metacognition (Self-Evaluation) via Evaluator Agent
-        evaluator_agent = EvaluatorAgent(
-            evaluator=self.evaluator,
-            assert_evaluator=self.assert_evaluator,
-            confidence_calibrator=self.confidence_calibrator,
-            habit_tracker=self.habit_tracker,
-            planner=self.planner
-        )
-        await evaluator_agent.evaluate(user_input, response, user_id=user_id, policies=self.planner.get_user_state(user_id).current_constraints if self.planner else None)
 
         return response
 

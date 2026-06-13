@@ -3723,7 +3723,7 @@
     },
     {
       "id": "claude-planner-generator-evaluator-triad",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Claude Triad Architecture",
@@ -5990,6 +5990,40 @@
       ],
       "acceptance": [
         "Dynamic registration endpoint is functional.",
+        "Tests verify tools are registered properly."
+      ]
+    },
+    {
+      "id": "claude-task-system-dependency-graphs",
+      "status": "todo",
+      "title": "Claude Task System Dependency Graphs",
+      "area": "multi-agent",
+      "risk": "medium",
+      "description": "Inspired by Claude Agent SDK trend: Task system with dependency graphs. Implement a task dependency graph for subagents to resolve order of operations.",
+      "allowed_paths": [
+        "magda_agent/architecture/dependency_graph.py",
+        "tests/test_dependency_graph.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "DependencyGraph correctly calculates execution order",
+        "Tests verify dependency cycles are detected"
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registration-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registration v2",
+      "description": "Inspired by MCP trends: Create an endpoint to dynamically register new MCP tools at runtime, specifically handling async skills.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_dynamic_v2.py",
+        "tests/test_mcp_dynamic_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dynamic registration endpoint handles async safely.",
         "Tests verify tools are registered properly."
       ]
     }
