@@ -3705,7 +3705,7 @@
     },
     {
       "id": "hermes-skill-experience-generation",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Hermes Skill Creation from Experience",
@@ -5957,6 +5957,40 @@
       "acceptance": [
         "Tainted strings correctly propagate origin.",
         "Tests verify tracking."
+      ]
+    },
+    {
+      "id": "openclaw-context-compressor-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenClaw Context Compressor",
+      "description": "Inspired by OpenClaw trends: Create a skill that automatically compresses short-term memory during the `before_retrieval` phase.",
+      "allowed_paths": [
+        "magda_agent/skills/compression_v2.py",
+        "tests/test_compression_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Compression plugin correctly hooks into Context Engine.",
+        "Tests verify memory tokens are reduced."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registration-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registration",
+      "description": "Inspired by MCP trends: Implement an endpoint to dynamically register new MCP tools at runtime.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_dynamic.py",
+        "tests/test_mcp_dynamic.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dynamic registration endpoint is functional.",
+        "Tests verify tools are registered properly."
       ]
     }
   ]
