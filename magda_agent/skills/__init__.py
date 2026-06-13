@@ -60,6 +60,7 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
 
 
     from magda_agent.skills.hermes_skills import HermesSkillCreator
+    from magda_agent.skills.skill_generator import SkillGenerator
     def generate_skill_sync(skill_name: str, description: str, instructions: str) -> str:
         import asyncio
         from magda_agent.llm_client import LLMClient
@@ -81,10 +82,40 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
             pass
         return asyncio.run(creator.generate_skill(skill_name, description, instructions))
 
+    def generate_skill_from_queries_sync(queries: list[str]) -> Optional[str]:
+        """
+        Synchronously wraps the generate_skill_from_queries coroutine.
+        """
+        import asyncio
+        from magda_agent.llm_client import LLMClient
+        client = LLMClient()
+        generator = SkillGenerator(llm_client=client)
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                import threading
+                result = None
+                def run_in_thread():
+                    nonlocal result
+                    result = asyncio.run(generator.generate_skill_from_queries(queries))
+                t = threading.Thread(target=run_in_thread)
+                t.start()
+                t.join()
+                return result
+        except RuntimeError:
+            pass
+        return asyncio.run(generator.generate_skill_from_queries(queries))
+
     registry.register_skill(
         name="hermes_skill_creator",
         func=generate_skill_sync,
         description="Generate Python code for a new agent skill based on experience. Input: 'skill_name', 'description', 'instructions' strings."
+    )
+
+    registry.register_skill(
+        name="hermes_skill_generator",
+        func=generate_skill_from_queries_sync,
+        description="Generate Python code for a new agent skill based on repeated user queries. Input: 'queries' list of strings."
     )
 
     return registry
