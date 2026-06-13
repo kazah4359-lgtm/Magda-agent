@@ -3759,7 +3759,7 @@
     },
     {
       "id": "magentic-one-orchestration",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Magentic-One Orchestration",
@@ -6076,6 +6076,57 @@
       "acceptance": [
         "Converter wraps Magda skills into MCP compatible schemas.",
         "Tests verify correct JSON-RPC output formatting."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v1-af26a87c",
+      "status": "todo",
+      "title": "MCP Action Tool Exporter",
+      "area": "integration",
+      "risk": "medium",
+      "description": "Inspired by the trend: MCP-compatible tools. Export Magda's action tools as standard MCP JSON-RPC endpoints.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter.py",
+        "tests/test_mcp_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP action tool exporter is implemented.",
+        "Tests verify tool schema conversion."
+      ]
+    },
+    {
+      "id": "online-rl-user-feedback-v1-cf2a4ca2",
+      "status": "todo",
+      "title": "Online RL from User Feedback",
+      "area": "learning",
+      "risk": "high",
+      "description": "Inspired by OpenClaw trends: Online learning from interactions. Implement a module that updates tool execution weights based on user feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/online_feedback_rl.py",
+        "tests/test_online_feedback_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module parses user feedback and adjusts weights.",
+        "Tests verify weight adjustments."
+      ]
+    },
+    {
+      "id": "discord-bridge-integration-v1-76aaabb3",
+      "status": "todo",
+      "title": "Discord Bridge Integration",
+      "area": "integration",
+      "risk": "medium",
+      "description": "Inspired by trend: Cross-platform reach. Add a bridge for Discord integration to allow the agent to run on Discord.",
+      "allowed_paths": [
+        "magda_agent/integration/discord_bridge.py",
+        "tests/test_discord_bridge.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Discord bridge handles incoming messages and forwards to agent.",
+        "Tests mock Discord API and verify handling."
       ]
     }
   ]
