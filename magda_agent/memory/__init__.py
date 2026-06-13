@@ -5,6 +5,7 @@ from .semantic import SemanticMemory
 from .procedural import ProceduralMemory
 from .context_engine import ContextEngine, ContextPlugin
 from .hermes_persistent import HermesPersistentMemory
+from .compressor import ContextCompressor
 
 __all__ = [
     "MemorySystem",
@@ -15,5 +16,6 @@ __all__ = [
     "ProceduralMemory",
     "ContextEngine",
     "ContextPlugin",
-    "HermesPersistentMemory"
+    "HermesPersistentMemory",
+    "ContextCompressor"
 ]
