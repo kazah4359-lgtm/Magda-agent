@@ -3793,7 +3793,7 @@
     },
     {
       "id": "openai-realtime-guardrail-fallback",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "OpenAI: Realtime Guardrail Fallback",
@@ -6161,6 +6161,40 @@
       "acceptance": [
         "Skill discovery pipeline correctly identifies new capabilities.",
         "Tests mock LLM responses and verify extraction."
+      ]
+    },
+    {
+      "id": "hermes-persistent-memory-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Hermes Persistent Memory Update",
+      "description": "Inspired by Hermes Agent trend: Persistent memory so the agent knows the user better over time. Update the persistent memory to be deeper.",
+      "allowed_paths": [
+        "magda_agent/memory/hermes_persistent_v2.py",
+        "tests/test_hermes_persistent_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Persistent memory correctly tracks deeper user preferences.",
+        "Tests use mock DB to verify tracking."
+      ]
+    },
+    {
+      "id": "openclaw-rl-next-state-signals-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Next State Signals",
+      "description": "Inspired by OpenClaw trend: OpenClaw-RL online reinforcement learning from next-state signals (user replies, tool outputs).",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_signals.py",
+        "tests/test_openclaw_rl_signals.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "OpenClaw-RL module processes next-state signals.",
+        "Tests verify signal parsing."
       ]
     }
   ]

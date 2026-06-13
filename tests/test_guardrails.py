@@ -91,3 +91,30 @@ async def test_allowed_action_async_exception_fallback() -> None:
     assert asyncio.iscoroutine(result_coro)
     result = await result_coro
     assert result == "Action 'failing_async_tool' failed during execution: Async Test Error"
+
+@pytest.mark.asyncio
+async def test_allowed_action_async_interrupted_fallback() -> None:
+    """Tests that an allowed async action handles CancelledError properly by re-raising."""
+    policy = PolicyLayer()
+    policy.evaluate = MagicMock(return_value=(True, "Allowed"))
+    guard = RealtimeGuardrail(policy)
+
+    async def interrupted_async_tool(arg: str) -> str:
+        raise asyncio.CancelledError()
+
+    result_coro = guard.execute_with_guardrails(interrupted_async_tool, "interrupted_async_tool", arg="value")
+    assert asyncio.iscoroutine(result_coro)
+    with pytest.raises(asyncio.CancelledError):
+        await result_coro
+
+def test_allowed_action_interrupted_fallback() -> None:
+    """Tests that an allowed sync action handles KeyboardInterrupt properly by re-raising."""
+    policy = PolicyLayer()
+    policy.evaluate = MagicMock(return_value=(True, "Allowed"))
+    guard = RealtimeGuardrail(policy)
+
+    def interrupted_tool(arg: str) -> str:
+        raise KeyboardInterrupt()
+
+    with pytest.raises(KeyboardInterrupt):
+        guard.execute_with_guardrails(interrupted_tool, "interrupted_tool", arg="value")
