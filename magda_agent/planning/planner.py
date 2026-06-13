@@ -226,6 +226,17 @@ class Planner:
         else:
             logging.warning(f"Invalid step index: {step_index}")
 
+    def mark_step_id_completed(self, step_id: str, result: str, user_id: Optional[Any] = None) -> None:
+        state = self.get_user_state(user_id)
+        for i, step in enumerate(state.current_plan):
+            if step.get("id") == step_id:
+                step = state.current_plan.pop(i)
+                step['result'] = result
+                state.completed_steps.append(step)
+                logging.info(f"Step completed by ID: {step_id} - {step.get('description')}")
+                return
+        logging.warning(f"Step ID not found in current plan: {step_id}")
+
     def get_executable_steps(self, user_id: Optional[Any] = None) -> List[Dict[str, Any]]:
         state = self.get_user_state(user_id)
         completed_ids: Set[str] = {step.get("id") for step in state.completed_steps if step.get("id")}
