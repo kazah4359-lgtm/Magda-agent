@@ -95,6 +95,9 @@ class RealtimeGuardrail:
             async def async_exec() -> Any:
                 try:
                     return await tool_func(**kwargs)
+                except asyncio.CancelledError:
+                    logging.warning(f"Action '{tool_name}' was interrupted (CancelledError). Re-raising to preserve loop state.")
+                    raise
                 except Exception as e:
                     logging.error(f"Error executing tool '{tool_name}': {e}")
                     # Return sensible fallback on exception
@@ -103,6 +106,9 @@ class RealtimeGuardrail:
         else:
             try:
                 return tool_func(**kwargs)
+            except KeyboardInterrupt:
+                logging.warning(f"Action '{tool_name}' was interrupted (KeyboardInterrupt). Re-raising to preserve application state.")
+                raise
             except Exception as e:
                 logging.error(f"Error executing tool '{tool_name}': {e}")
                 # Return sensible fallback on exception
