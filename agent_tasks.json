@@ -3741,7 +3741,7 @@
     },
     {
       "id": "openclaw-context-compression",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Context Compression",
@@ -6025,6 +6025,57 @@
       "acceptance": [
         "Dynamic registration endpoint handles async safely.",
         "Tests verify tools are registered properly."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-integration-f03dd8e2",
+      "status": "todo",
+      "area": "multi_agent",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Integration",
+      "description": "Inspired by OpenClaw trend: Canvas for live visualization. Implement a module in the visualization directory to track agent state.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas.py",
+        "tests/test_canvas_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas class handles agent state correctly.",
+        "Tests mock components and verify state parsing."
+      ]
+    },
+    {
+      "id": "claude-team-isolation-e8e2a610",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude SDK Git Worktree Isolation",
+      "description": "Inspired by Claude Agent SDK trend: Agent Teams with git worktree isolation. Implement a worktree isolator for subagents running code locally.",
+      "allowed_paths": [
+        "magda_agent/architecture/worktree_isolation.py",
+        "tests/test_worktree_isolation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WorktreeIsolator isolates subagents.",
+        "Tests verify worktree tracking."
+      ]
+    },
+    {
+      "id": "agentskills-mcp-converter-7a0a55ff",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "AgentSkills to MCP Converter",
+      "description": "Inspired by MCP standards. Implement a converter that exports legacy Magda skills to standard MCP JSON-RPC.",
+      "allowed_paths": [
+        "magda_agent/integration/agentskills_mcp.py",
+        "tests/test_agentskills_mcp.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Converter wraps Magda skills into MCP compatible schemas.",
+        "Tests verify correct JSON-RPC output formatting."
       ]
     }
   ]
