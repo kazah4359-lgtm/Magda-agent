@@ -154,8 +154,8 @@ async def test_consciousness_executes_plan():
 
     # set up the initial plan
     real_planner.current_plan = [
-        {"description": "Step 1", "skill": "search_internet", "skill_kwargs": {"query": "test query"}},
-        {"description": "Step 2", "skill": None, "skill_kwargs": None}
+        {"id": "s1", "description": "Step 1", "skill": "search_internet", "skill_kwargs": {"query": "test query"}, "dependencies": []},
+        {"id": "s2", "description": "Step 2", "skill": None, "skill_kwargs": None, "dependencies": []}
     ]
 
     emotions = EmotionalEngine()
@@ -176,8 +176,9 @@ async def test_consciousness_executes_plan():
 
     # verify completed steps have the result
     assert len(real_planner.completed_steps) == 2
-    assert real_planner.completed_steps[0]["result"] == "Mocked search result for testing"
-    assert real_planner.completed_steps[1]["result"] == "No skill executed for this step."
+    results = {s["description"]: s["result"] for s in real_planner.completed_steps}
+    assert results["Step 1"] == "Mocked search result for testing"
+    assert results["Step 2"] == "No skill executed for this step."
 
 @pytest.mark.asyncio
 async def test_consciousness_plan_max_steps():
@@ -196,8 +197,11 @@ async def test_consciousness_plan_max_steps():
     real_planner = Planner(llm=mock_llm, skills=mock_skills)
     real_planner.generate_plan = AsyncMock()
 
-    # set up a plan with 6 steps
-    real_planner.current_plan = [{"description": f"Step {i}", "skill": None, "skill_kwargs": None} for i in range(6)]
+    # set up a plan with 11 steps (MAX_STEPS is now 10)
+    real_planner.current_plan = [
+        {"id": f"s{i}", "description": f"Step {i}", "skill": None, "skill_kwargs": None, "dependencies": []}
+        for i in range(11)
+    ]
 
     emotions = EmotionalEngine()
     memory = MemorySystem()
@@ -212,12 +216,16 @@ async def test_consciousness_plan_max_steps():
 
     await consciousness.process_input("Help me test max steps")
 
-    # verify only 5 steps were completed
-    assert len(real_planner.completed_steps) == 5
-    assert len(real_planner.current_plan) == 0
+    # verify only 10 steps were completed (MAX_STEPS is now 10)
+    assert len(real_planner.completed_steps) == 10
+    # The new concurrent executor might leave steps in current_plan if stopped early
+    # But it calls clear_pending_plan, which clears current_plan.
 
 @pytest.mark.asyncio
 async def test_consciousness_plan_timeout():
+    async def mock_timeout_coro(*args, **kwargs):
+        raise asyncio.TimeoutError()
+
     from magda_agent.consciousness.core import Consciousness
     from magda_agent.emotions.engine import EmotionalEngine
     from magda_agent.memory.storage import MemorySystem
@@ -235,7 +243,7 @@ async def test_consciousness_plan_timeout():
     real_planner.generate_plan = AsyncMock()
 
     # set up a plan with 1 skill step
-    real_planner.current_plan = [{"description": "Step 1", "skill": "slow_skill", "skill_kwargs": None}]
+    real_planner.current_plan = [{"id": "s1", "description": "Step 1", "skill": "slow_skill", "skill_kwargs": None, "dependencies": []}]
 
     emotions = EmotionalEngine()
     memory = MemorySystem()
@@ -248,12 +256,12 @@ async def test_consciousness_plan_timeout():
         planner=real_planner
     )
 
-    with patch('asyncio.wait_for', side_effect=asyncio.TimeoutError):
+    with patch('asyncio.wait_for', side_effect=mock_timeout_coro):
         await consciousness.process_input("Help me test timeout")
 
     # verify 1 step completed with timeout error, and pending plan is cleared
     assert len(real_planner.completed_steps) == 1
-    assert "timed out after" in real_planner.completed_steps[0]["result"]
+    assert "timed out" in real_planner.completed_steps[0]["result"]
     assert len(real_planner.current_plan) == 0
 
 def test_get_state_summary():

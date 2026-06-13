@@ -120,7 +120,7 @@ class AutonomousExecutor:
             if not steps:
                 await self.store.append_progress(task_id, "Planner returned no steps.", event="warn")
             else:
-                last_summary = await self._execute_plan(task_id, planner)
+                last_summary = await self._execute_plan(task_id, planner, user_id=task.user_id)
                 if await self._interrupted(task_id):
                     return
 
@@ -148,40 +148,76 @@ class AutonomousExecutor:
             task_id, f"Stopped after {task.max_iterations} iterations (budget reached).", event="completed"
         )
 
-    async def _execute_plan(self, task_id: str, planner: Any) -> str:
-        """Execute the planner's current plan sequentially with no artificial cap."""
+    async def _execute_plan(self, task_id: str, planner: Any, user_id: Optional[Any] = None) -> str:
+        """Execute the planner's current plan concurrently where possible."""
         steps_executed = 0
-        while planner.get_current_plan() and steps_executed < self.max_steps_per_iteration:
+        while steps_executed < self.max_steps_per_iteration:
             if await self._interrupted(task_id):
                 break
-            steps_executed += 1
-            step = planner.get_current_plan()[0]
-            skill_name = step.get("skill")
-            kwargs = step.get("skill_kwargs") or {}
-            description = step.get("description", "")
 
-            if skill_name:
-                try:
-                    coro = asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
-                    result = await asyncio.wait_for(coro, timeout=self.step_timeout)
-                except asyncio.TimeoutError:
-                    result = f"Error: skill '{skill_name}' timed out after {self.step_timeout}s."
-                except Exception as exc:
-                    result = f"Error executing skill '{skill_name}': {exc}"
-            else:
-                result = "No skill required for this step."
+            executable_steps = planner.get_executable_steps(user_id=user_id)
+            if not executable_steps or not isinstance(executable_steps, list):
+                break
 
-            planner.mark_step_completed(0, str(result))
-            await self.store.append_progress(
-                task_id, f"Step: {description} (skill={skill_name}) -> {str(result)[:400]}", event="step"
-            )
+            batch_tasks = []
+            step_metadatas = []
 
+            for step in executable_steps:
+                if steps_executed >= self.max_steps_per_iteration:
+                    break
+
+                skill_name = step.get("skill")
+                kwargs = step.get("skill_kwargs") or {}
+                description = step.get("description", "")
+                step_id = step.get("id")
+
+                if not step_id:
+                    logging.warning(f"Step missing ID in AutonomousExecutor, skipping: {description}")
+                    continue
+
+                steps_executed += 1
+
+                if not skill_name:
+                    planner.mark_step_id_completed(step_id, "No skill required for this step.", user_id=user_id)
+                    await self.store.append_progress(
+                        task_id, f"Step: {description} (skill=None) -> No skill required.", event="step"
+                    )
+                    continue
+
+                coro = asyncio.to_thread(self.skills.execute_skill, skill_name, **kwargs)
+                batch_tasks.append(asyncio.wait_for(coro, timeout=self.step_timeout))
+                step_metadatas.append({"id": step_id, "skill": skill_name, "description": description})
+
+            if not batch_tasks:
+                break
+
+            results = await asyncio.gather(*batch_tasks, return_exceptions=True)
+
+            for i, result in enumerate(results):
+                meta = step_metadatas[i]
+                step_id = meta["id"]
+                skill_name = meta["skill"]
+                description = meta["description"]
+
+                if isinstance(result, asyncio.TimeoutError):
+                    result_str = f"Error: skill '{skill_name}' timed out after {self.step_timeout}s."
+                elif isinstance(result, Exception):
+                    result_str = f"Error executing skill '{skill_name}': {result}"
+                else:
+                    result_str = str(result)
+
+                planner.mark_step_id_completed(step_id, result_str, user_id=user_id)
+                await self.store.append_progress(
+                    task_id, f"Step: {description} (skill={skill_name}) -> {result_str[:400]}", event="step"
+                )
+
+        completed_steps = planner.get_completed_steps(user_id=user_id)
         summary_lines = []
-        for i, step in enumerate(planner.completed_steps, start=1):
+        for i, step in enumerate(completed_steps, start=1):
             summary_lines.append(
                 f"{i}. {step.get('description')} (skill={step.get('skill')}) -> {step.get('result')}"
             )
-        planner.clear_pending_plan()
+        planner.clear_pending_plan(user_id=user_id)
         return "\n".join(summary_lines)
 
     async def _evaluate(self, goal: str, objective: str, results: str) -> Dict[str, Any]:

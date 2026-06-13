@@ -20,28 +20,32 @@ async def test_guardrail_allows_legit_action():
     agent = GeneratorAgent(llm=llm, skills=skills, planner=planner, guardrail=guardrail)
 
     # Setup planner with a simple step
-    planner.get_current_plan.return_value = [{"skill": "test_skill", "description": "test"}]
+    step = {"id": "s1", "skill": "test_skill", "description": "test", "dependencies": []}
+    planner.get_current_plan.return_value = [step]
 
     # Mock skill execution
     skills.execute_skill.return_value = "Success"
 
-    # We need to mock mark_step_completed to avoid issues if it tries to pop from the list
-    # Actually, execute_plan uses self.planner.get_current_plan()[0] and then marks it completed.
-    # In the real Planner, mark_step_completed moves the step.
-
     # Let's mock the planner more realistically for the loop
-    current_plan = [{"skill": "test_skill", "description": "test"}]
+    current_plan = [step]
     def mock_get_current_plan(user_id=None):
         return current_plan
 
-    def mock_mark_completed(index, result, user_id=None):
+    def mock_get_executable_steps(user_id=None):
+        return current_plan
+
+    def mock_mark_id_completed(step_id, result, user_id=None):
         nonlocal current_plan
-        step = current_plan.pop(index)
-        step['result'] = result
-        planner.get_completed_steps.return_value.append(step)
+        for i, s in enumerate(current_plan):
+            if s["id"] == step_id:
+                completed_step = current_plan.pop(i)
+                completed_step['result'] = result
+                planner.get_completed_steps.return_value.append(completed_step)
+                return
 
     planner.get_current_plan.side_effect = mock_get_current_plan
-    planner.mark_step_completed.side_effect = mock_mark_completed
+    planner.get_executable_steps.side_effect = mock_get_executable_steps
+    planner.mark_step_id_completed.side_effect = mock_mark_id_completed
     planner.get_completed_steps.return_value = []
 
     result = await agent.execute_plan("user input")
@@ -65,17 +69,22 @@ async def test_guardrail_stops_on_violation():
     agent = GeneratorAgent(llm=llm, skills=skills, planner=planner, guardrail=guardrail)
 
     # Setup planner
-    current_plan = [{"skill": "dangerous_skill", "description": "dangerous"}]
+    step = {"id": "s1", "skill": "dangerous_skill", "description": "dangerous", "dependencies": []}
+    current_plan = [step]
     planner.get_current_plan.side_effect = lambda user_id=None: current_plan
+    planner.get_executable_steps.side_effect = lambda user_id=None: current_plan
     planner.completed_steps = []
 
-    def mock_mark_completed(index, result, user_id=None):
+    def mock_mark_id_completed(step_id, result, user_id=None):
         nonlocal current_plan
-        step = current_plan.pop(index)
-        step['result'] = result
-        planner.get_completed_steps.return_value.append(step)
+        for i, s in enumerate(current_plan):
+            if s["id"] == step_id:
+                completed_step = current_plan.pop(i)
+                completed_step['result'] = result
+                planner.get_completed_steps.return_value.append(completed_step)
+                return
 
-    planner.mark_step_completed.side_effect = mock_mark_completed
+    planner.mark_step_id_completed.side_effect = mock_mark_id_completed
     planner.get_completed_steps.return_value = []
 
     result = await agent.execute_plan("user input")
@@ -100,17 +109,22 @@ async def test_guardrail_review_required():
     agent = GeneratorAgent(llm=llm, skills=skills, planner=planner, guardrail=guardrail)
 
     # Setup planner
-    current_plan = [{"skill": "sketchy_skill", "description": "sketchy"}]
+    step = {"id": "s1", "skill": "sketchy_skill", "description": "sketchy", "dependencies": []}
+    current_plan = [step]
     planner.get_current_plan.side_effect = lambda user_id=None: current_plan
+    planner.get_executable_steps.side_effect = lambda user_id=None: current_plan
     planner.completed_steps = []
 
-    def mock_mark_completed(index, result, user_id=None):
+    def mock_mark_id_completed(step_id, result, user_id=None):
         nonlocal current_plan
-        step = current_plan.pop(index)
-        step['result'] = result
-        planner.get_completed_steps.return_value.append(step)
+        for i, s in enumerate(current_plan):
+            if s["id"] == step_id:
+                completed_step = current_plan.pop(i)
+                completed_step['result'] = result
+                planner.get_completed_steps.return_value.append(completed_step)
+                return
 
-    planner.mark_step_completed.side_effect = mock_mark_completed
+    planner.mark_step_id_completed.side_effect = mock_mark_id_completed
     planner.get_completed_steps.return_value = []
 
     result = await agent.execute_plan("user input")
