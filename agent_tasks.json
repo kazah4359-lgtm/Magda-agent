@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 316
+    "max_todo_tasks": 319
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -3827,7 +3827,7 @@
     },
     {
       "id": "agentbench-multi-domain-eval-v2",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "low",
       "title": "AgentBench Multi-domain Evaluation v2",
@@ -6195,6 +6195,57 @@
       "acceptance": [
         "OpenClaw-RL module processes next-state signals.",
         "Tests verify signal parsing."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v9-49248ff3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Action Tool Exporter v9",
+      "description": "Inspired by trend: MCP (Model Context Protocol). Expand MCP exporter to wrap internal skills into standard JSON-RPC 2.0 interface with advanced validation.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter_v9.py",
+        "tests/test_mcp_exporter_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported as MCP tools.",
+        "Tests verify JSON-RPC formatted responses and advanced schema validation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v9-a80ac612",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning v9",
+      "description": "Inspired by OpenClaw-RL trend: Expand the online reinforcement learning module to train the agent directly from next-state signals (user replies) efficiently.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl_v9.py",
+        "tests/test_interactive_rl_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module processes user replies as reward/penalty signals.",
+        "Tests verify learning state updates based on interactions."
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-isolation-v3-a95945d3",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams via Git Worktree Isolation v3",
+      "description": "Implement Agent Teams using git worktree isolation to allow multiple agents to work on separate parallel tasks safely (Claude Agent SDK pattern).",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v3.py",
+        "tests/test_agent_teams_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent teams can spawn isolated workspaces via git worktrees.",
+        "Sub-agents operate securely within their designated worktrees."
       ]
     }
   ]
