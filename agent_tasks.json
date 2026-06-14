@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 319
+    "max_todo_tasks": 324
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -3844,7 +3844,7 @@
     },
     {
       "id": "webarena-navigation-skills-v2",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "WebArena Navigation Skill v2",
@@ -6246,6 +6246,57 @@
       "acceptance": [
         "Agent teams can spawn isolated workspaces via git worktrees.",
         "Sub-agents operate securely within their designated worktrees."
+      ]
+    },
+    {
+      "id": "agent-teams-parallel-subagents-v4",
+      "status": "todo",
+      "area": "multi_agent",
+      "risk": "medium",
+      "title": "Agent Teams Parallel Subagents",
+      "description": "Inspired by Claude Agent SDK: Implement isolated parallel subagents for concurrent tasks.",
+      "allowed_paths": [
+        "magda_agent/architecture/parallel_subagents.py",
+        "tests/test_parallel_subagents.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents run in parallel.",
+        "Tests verify async execution."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registry-v4",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registry",
+      "description": "Inspired by MCP trends: Dynamically register tools at runtime via MCP protocol.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_dynamic_registry.py",
+        "tests/test_mcp_dynamic_registry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Registry dynamically adds tools.",
+        "Tests verify registration."
+      ]
+    },
+    {
+      "id": "acs-guardrails-v3",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guardrails Integration V3",
+      "description": "Inspired by ACS trends: Implement the 5 validation checkpoints for actions.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_v3.py",
+        "tests/test_acs_guard_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All checkpoints evaluate actions.",
+        "Tests mock evaluations correctly."
       ]
     }
   ]
