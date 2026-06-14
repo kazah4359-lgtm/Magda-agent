@@ -3878,7 +3878,7 @@
     },
     {
       "id": "hermes-skill-creation-v2-1052e4b3",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "high",
       "title": "Hermes: Skill Creation from Experience v2",
@@ -6348,6 +6348,40 @@
       "acceptance": [
         "Online RL feedback processor adjusts skill weights dynamically.",
         "Tests verify learning loop integration."
+      ]
+    },
+    {
+      "id": "a2a-service-discovery-v2-2a05c8f7",
+      "status": "todo",
+      "area": "multi_agent",
+      "risk": "high",
+      "title": "A2A Service Discovery using Agent Cards v2",
+      "description": "Inspired by A2A Protocol trend: Implement service discovery via Agent Cards to allow agents to find capabilities of peers.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery.py",
+        "tests/test_a2a_discovery*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent cards can be published and discovered.",
+        "Tests verify A2A service discovery."
+      ]
+    },
+    {
+      "id": "acs-taint-tracking-v2-6d90c285",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Output Taint Tracking Checkpoint v2",
+      "description": "Inspired by ACS Guardrails trend: Implement taint tracking for the output sanitization checkpoint.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_taint_v2.py",
+        "tests/test_acs_taint_v2*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Outputs from tools are taint-tracked.",
+        "Tests verify the tracking logic."
       ]
     }
   ]

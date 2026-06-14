@@ -1,4 +1,5 @@
 import logging
+import re
 from typing import List, Dict, Optional, Any
 
 from magda_agent.llm_client import LLMClient
@@ -58,3 +59,44 @@ class SkillCreator:
                 logging.warning("LLM generated an empty skill procedure.")
         except Exception as e:
             logging.error(f"Failed to extract and store skill: {e}")
+
+    async def analyze_chat_and_generate_skill(self, chat_history: List[Dict[str, str]], user_id: Optional[int] = None) -> None:
+        """
+        Analyzes chat history to detect repeated patterns and dynamically generates a Python skill.
+        """
+        chat_text = ""
+        for i, msg in enumerate(chat_history):
+            role = msg.get("role", "unknown")
+            text = msg.get("content", "")
+            chat_text += f"{role.capitalize()}: {text}\n"
+
+        prompt = f"""
+        Analyze the following chat history for repeated patterns in user requests.
+        If you find a repeated pattern that can be automated, generate a Python function (a 'skill') that encapsulates this task.
+        Return ONLY valid Python code starting with 'def '. Do not include markdown formatting or explanations.
+        If no pattern is found, return exactly 'NO_PATTERN'.
+
+        Chat History:
+        {chat_text}
+        """
+
+        try:
+            response = await self.llm.chat_completion([{"role": "user", "content": prompt}])
+            code = response.strip()
+
+            if code and code != "NO_PATTERN" and code.startswith("def "):
+                # Extract function name from code
+                match = re.search(r"def\s+([a-zA-Z0-9_]+)\(", code)
+                skill_name = match.group(1) if match else "generated_skill"
+
+                self.procedural_memory.store_procedure(
+                    name=skill_name,
+                    procedure=code,
+                    user_id=user_id,
+                    metadata={"source": "dynamic_generation", "type": "python_code"}
+                )
+                logging.info(f"Dynamically generated and stored new Python skill: {skill_name}")
+            else:
+                logging.info("No repeated pattern detected or failed to generate valid Python skill.")
+        except Exception as e:
+            logging.error(f"Failed to analyze chat and generate skill: {e}")
