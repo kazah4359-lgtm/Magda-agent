@@ -11,6 +11,8 @@ from magda_agent.skills.names import SkillNames
 from magda_agent.skills.codex_worker import codex_worker
 from magda_agent.skills.mcp_kernel_executor import execute as mcp_kernel_executor
 from magda_agent.skills.web_navigation import web_navigate as web_navigation_skill
+from magda_agent.skills.web_navigation_v2 import web_navigate_v2 as web_navigation_skill_v2
+
 
 def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegistry:
     registry = SkillRegistry(policy_layer=policy_layer)
@@ -116,6 +118,14 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
         name="hermes_skill_generator",
         func=generate_skill_from_queries_sync,
         description="Generate Python code for a new agent skill based on repeated user queries. Input: 'queries' list of strings."
+    )
+
+
+    # Register Web Navigation V2 Skill
+    registry.register_skill(
+        name="web_navigation_v2",
+        func=web_navigation_skill_v2,
+        description="Advanced web navigation skill v2 inspired by WebArena. Provides load, click, type, scroll, and submit actions. Input: 'action' string and kwargs."
     )
 
     return registry
