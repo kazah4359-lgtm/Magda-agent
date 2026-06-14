@@ -55,6 +55,7 @@ from magda_agent.memory.default_context_plugin import DefaultContextPlugin
 from magda_agent.tracing.tracer import ThoughtChainTracer
 from magda_agent.architecture.sub_agents import SubAgentRPCManager
 from magda_agent.integration.cross_platform import CrossPlatformDispatcher
+from magda_agent.integration.discord_bridge import DiscordBridge
 
 logging.basicConfig(level=logging.INFO)
 
@@ -183,6 +184,10 @@ a2a_server = A2AServer(planner=planner)
 rpc_manager = SubAgentRPCManager(llm=llm_client)
 cross_platform_dispatcher = CrossPlatformDispatcher()
 
+discord_bridge = DiscordBridge(token=os.getenv("DISCORD_BOT_TOKEN", "dummy"), agent_callback=consciousness.process_input)
+cross_platform_dispatcher.register_platform("discord", discord_bridge)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
@@ -191,12 +196,14 @@ async def lifespan(app: FastAPI):
     asyncio.create_task(operations_scheduler.start())
     await autonomous_executor.start()
     asyncio.create_task(canvas_server.start_streaming())
+    asyncio.create_task(discord_bridge.start())
     yield
     # Shutdown
     await cron_scheduler.stop()
     await operations_scheduler.stop()
     await autonomous_executor.stop()
     await canvas_server.stop_streaming()
+    await discord_bridge.stop()
     memory_system.close()
 
 app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)

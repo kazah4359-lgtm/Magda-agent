@@ -20,3 +20,4 @@ datasets<3.0.0
 croniter
 websockets==12.0
 PyYAML
+discord.py>=2.3.2
