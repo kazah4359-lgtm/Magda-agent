@@ -3895,7 +3895,7 @@
     },
     {
       "id": "online-rl-feedback-v5-ab746036",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL from user feedback v5",
@@ -6416,6 +6416,57 @@
       "acceptance": [
         "Scheduler correctly triggers backup jobs at specified intervals.",
         "Tests mock time and verify backup execution."
+      ]
+    },
+    {
+      "id": "mcp-skill-exporter-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP-compatible Skill Exporter",
+      "description": "Inspired by trend: MCP tools integration. Implement a skill exporter that enables converting Magda skills into standard Model Context Protocol tools for external consumption.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_exporter.py",
+        "tests/test_mcp_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill exporter correctly transforms Magda skills to MCP JSON-RPC format.",
+        "Tests verify the exported skills behave according to MCP standards."
+      ]
+    },
+    {
+      "id": "a2a-secure-delegation-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Secure Auth Delegation",
+      "description": "Inspired by trend: A2A support and token-based auth delegation. Add token auth flow to the Agent-to-Agent protocol integration for secure peer delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_auth.py",
+        "tests/test_a2a_auth.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A secure token-based authentication handles peer requests.",
+        "Tests verify token validation and rejection of unauthorized delegates."
+      ]
+    },
+    {
+      "id": "context-engine-hooks-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Lifecycle Hooks",
+      "description": "Inspired by trend: Context Engine plugin interface. Implement lifecycle hooks in memory components allowing dynamic context management plugins to attach and detach.",
+      "allowed_paths": [
+        "magda_agent/memory/context_hooks.py",
+        "tests/test_context_hooks.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine exposes standard lifecycle hooks.",
+        "Tests verify plugins are triggered on hook execution."
       ]
     }
   ]
