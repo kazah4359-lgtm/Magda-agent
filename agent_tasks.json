@@ -3861,7 +3861,7 @@
     },
     {
       "id": "swe-bench-verified-evaluation-v1",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "SWE-bench Verified Evaluation",
@@ -6297,6 +6297,57 @@
       "acceptance": [
         "All checkpoints evaluate actions.",
         "Tests mock evaluations correctly."
+      ]
+    },
+    {
+      "id": "mcp-compatible-skills-export-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Compatible Skills Export",
+      "description": "Inspired by MCP trends: Create a tool to export Magda skills as MCP-compatible endpoints.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_export.py",
+        "tests/test_mcp_export.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP export module can output valid JSON-RPC schema.",
+        "Tests verify schema formatting."
+      ]
+    },
+    {
+      "id": "a2a-task-delegation-v2",
+      "status": "todo",
+      "area": "multi_agent",
+      "risk": "high",
+      "title": "A2A Task Delegation Protocol",
+      "description": "Inspired by A2A (Agent-to-Agent Protocol) trends: Implement an async A2A protocol for delegating subtasks to other agents securely.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a_delegation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A delegation module handles agent discovery and task dispatch.",
+        "Tests verify delegation logic via mocks."
+      ]
+    },
+    {
+      "id": "online-rl-from-feedback-v2-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL from Interaction Feedback",
+      "description": "Inspired by OpenClaw-RL trend: Implement a module to perform online reinforcement learning directly from user interactions.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl_feedback.py",
+        "tests/test_online_rl_feedback.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Online RL feedback processor adjusts skill weights dynamically.",
+        "Tests verify learning loop integration."
       ]
     }
   ]
