@@ -6114,7 +6114,7 @@
     },
     {
       "id": "discord-bridge-integration-v1-76aaabb3",
-      "status": "todo",
+      "status": "done",
       "title": "Discord Bridge Integration",
       "area": "integration",
       "risk": "medium",
@@ -6382,6 +6382,40 @@
       "acceptance": [
         "Outputs from tools are taint-tracked.",
         "Tests verify the tracking logic."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-plugin-v4-abc123",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Plugin Architecture v4",
+      "description": "Inspired by OpenClaw trend: Context Engine plugin interface with lifecycle hooks. Implement a robust plugin architecture for the context engine.",
+      "allowed_paths": [
+        "magda_agent/memory/context_plugin_v4.py",
+        "tests/test_context_plugin_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin architecture supports registering and running lifecycle hooks.",
+        "Tests verify hook execution and context management."
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-nightly-v2-def456",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Hermes Cron Scheduler Nightly Backups v2",
+      "description": "Inspired by Hermes Agent trend: Cron scheduler for nightly backups. Implement scheduled backup operations for memory layers.",
+      "allowed_paths": [
+        "magda_agent/operations/nightly_backup_v2.py",
+        "tests/test_nightly_backup_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler correctly triggers backup jobs at specified intervals.",
+        "Tests mock time and verify backup execution."
       ]
     }
   ]
