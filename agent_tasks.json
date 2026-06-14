@@ -3810,7 +3810,7 @@
     },
     {
       "id": "acs-5-validation-checkpoints-v4",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "ACS 5 validation checkpoints v4",
