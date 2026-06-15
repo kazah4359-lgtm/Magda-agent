@@ -57,10 +57,36 @@ async def command_state_handler(message: Message) -> None:
     """Returns the internal state of the agent from the microservice."""
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
-            response = await client.get(f"{CONSCIOUSNESS_API_URL}/state")
+            # Pass user_id if available to get user-specific state
+            params = {}
+            if message.from_user and message.from_user.id:
+                params["user_id"] = message.from_user.id
+
+            response = await client.get(f"{CONSCIOUSNESS_API_URL}/state", params=params)
             response.raise_for_status()
             state_info = response.json().get("state", "No state information.")
-            await message.answer(f"<b>My Internal State:</b>\n<pre>{state_info}</pre>")
+
+            # Enhancing presentation
+            lines = state_info.strip().split("\n")
+            formatted_lines = []
+            for line in lines:
+                line = line.strip()
+                if not line: continue
+                if "Current Emotion" in line:
+                    p = float(line.split("P:")[1].split(",")[0])
+                    emoji = "😊" if p > 0 else "😟" if p < 0 else "😐"
+                    formatted_lines.append(f"🎭 <b>Emotions:</b> {emoji} {line}")
+                elif "Mental State" in line:
+                    formatted_lines.append(f"🧠 <b>Mental Profile:</b> {line.replace('Mental State:', '').strip()}")
+                elif "Drives" in line:
+                    formatted_lines.append(f"🔋 <b>Physical State:</b> {line}")
+                elif "Memory" in line:
+                    formatted_lines.append(f"💾 <b>Cognitive Load:</b> {line}")
+                else:
+                    formatted_lines.append(line)
+
+            final_text = "<b>Current Mind Profile:</b>\n\n" + "\n".join(formatted_lines)
+            await message.answer(final_text)
     except Exception as e:
         logging.error(f"Failed to get state: {e}")
         await message.answer("Error: Could not retrieve internal state from Consciousness API.")

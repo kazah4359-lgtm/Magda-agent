@@ -41,6 +41,24 @@
   },
   "tasks": [
     {
+      "id": "cognitive-biases-illusions",
+      "status": "todo",
+      "area": "cognition",
+      "risk": "medium",
+      "title": "Implement Cognitive Biases and Illusions",
+      "description": "Implement cognitive biases and illusions to model human-like irrationality, overconfidence, and optimism in planning and reasoning.",
+      "allowed_paths": [
+        "magda_agent/emotions/**",
+        "magda_agent/planning/**",
+        "tests/test_biases*.py"
+      ],
+      "acceptance": [
+        "MentalStates module supports bias modifiers",
+        "Planner behavior is modulated by optimism/pessimism states",
+        "Tests verify irrational behavior under specific mental conditions"
+      ]
+    },
+    {
       "id": "architecture-contracts",
       "status": "done",
       "area": "architecture",
