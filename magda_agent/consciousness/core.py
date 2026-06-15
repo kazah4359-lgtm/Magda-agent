@@ -5,6 +5,7 @@ import logging
 from typing import List, Dict, Any, Optional
 from magda_agent.llm_client import LLMClient
 from magda_agent.emotions.engine import EmotionalEngine
+from magda_agent.emotions.mental_states import MentalStates
 from magda_agent.memory.storage import MemorySystem
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.planning.planner import Planner
@@ -106,6 +107,7 @@ class Consciousness:
         self.skill_versioning = kwargs.get('skill_versioning', None)
         self.style_adapter = style_adapter
         self.user_model = user_model
+        self.mental_states = MentalStates()
 
         if self.global_workspace:
             self.global_workspace.register_listener(self._broadcast_event)
@@ -281,6 +283,7 @@ class Consciousness:
             if self.tracer:
                 self.tracer.add_step("llm_reasoning_start", {"plan_str": plan_str})
             emotion_summary = self.emotions.get_summary(user_id=user_id)
+            emotion_summary += f" | {self.mental_states.get_summary(user_id)}"
             if self.hypothalamus:
                 emotion_summary += f" | {self.hypothalamus.get_drives_summary()}"
 
@@ -357,6 +360,12 @@ class Consciousness:
         if self.confidence_calibrator:
             confidence = await self.confidence_calibrator.estimate_confidence(user_input, response)
             response = self.confidence_calibrator.add_caveat_if_needed(response, confidence)
+
+        # Update mental states based on evaluation
+        if self.evaluator and self.evaluator.last_evaluation:
+            avg_score = self.evaluator.last_evaluation.get("average_score", 10.0)
+            self.mental_states.update_from_action_result(success=(avg_score >= 7.0), user_id=user_id)
+
         if self.tracer:
             self.tracer.add_step("response_generated", {"response": response})
 
@@ -386,6 +395,7 @@ class Consciousness:
         planner_state = self.planner.get_state_summary() if self.planner else "Planner: Not available"
         return f"""
 {self.emotions.get_summary()}
+{self.mental_states.get_summary()}
 {self.memory.get_summary()}
 {self.skills.get_skills_summary()}
 {planner_state}
