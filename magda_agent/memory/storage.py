@@ -10,6 +10,7 @@ from magda_agent.memory.episodic import EpisodicMemory
 from magda_agent.llm_client import LLMClient
 from magda_agent.memory.context_engine import ContextEngine
 from magda_agent.user_model.model import UserModel
+from magda_agent.memory.large_context import LargeContextWindow
 
 class MemorySystem:
     """
@@ -21,6 +22,7 @@ class MemorySystem:
         self.short_term_limit = short_term_limit
         self.working_memory = WorkingMemory(limit=short_term_limit, context_engine=context_engine)
         self.episodic_memory = EpisodicMemory(persist_directory=persist_directory)
+        self.large_context = LargeContextWindow()
         self.llm = llm
         self.context_engine = context_engine
         self.user_model = UserModel(persist_dir="./user_models", llm=self.llm)
@@ -74,6 +76,19 @@ class MemorySystem:
 
         # Prefer ContextEngine.compact via working_memory.add, otherwise use local summarizer
         await self.working_memory.add(entry, summarizer=summarizer if self.llm else None)
+
+        # Also add to the large context window (1M token Claude context)
+        # Approximate tokens as roughly 1.3 * word count for standard English
+        word_count = len(content.split())
+        approx_tokens = int(word_count * 1.3) + 1
+
+        pad_p = emotional_state.pleasure if emotional_state else 0.0
+        pad_a = emotional_state.arousal if emotional_state else 0.0
+        pad_d = emotional_state.dominance if emotional_state else 0.0
+
+        self.large_context.add_chunk(content, tokens=approx_tokens, metadata={"user_id": user_id, "importance": importance, "pad_p": pad_p, "pad_a": pad_a, "pad_d": pad_d})
+
+
 
         if self.context_engine:
             self.context_engine.update_context(entry, user_id)
@@ -189,9 +204,44 @@ class MemorySystem:
 
         u_id = user_id if user_id is not None else -1
         if self.context_engine:
-            return self.context_engine.retrieve_context(query, u_id, base_retrieval_func=base_retrieval)
+            results = self.context_engine.retrieve_context(query, u_id, base_retrieval_func=base_retrieval)
+        else:
+            results = base_retrieval(query, u_id)
 
-        return base_retrieval(query, u_id)
+        # Try retrieving from the 1M token context window if we have few results
+        if len(results) < limit:
+            large_results = self.large_context.retrieve(query, max_results=limit)
+
+            existing_contents = set(getattr(r, "content", r) for r in results)
+
+            for chunk in large_results:
+                if len(results) >= limit:
+                    break
+
+                chunk_user_id = chunk.get("metadata", {}).get("user_id")
+
+                # Check user_id matches
+                if u_id != chunk_user_id and not (u_id == -1 and chunk_user_id is None):
+                    continue
+
+                if chunk["content"] in existing_contents:
+                    continue
+
+                # Convert dict to MemoryEntry to maintain compatibility
+                pad_p = chunk.get("metadata", {}).get("pad_p", 0.0)
+                pad_a = chunk.get("metadata", {}).get("pad_a", 0.0)
+                pad_d = chunk.get("metadata", {}).get("pad_d", 0.0)
+
+                new_entry = MemoryEntry(
+                    content=chunk["content"],
+                    importance=chunk.get("metadata", {}).get("importance", 0.5),
+                    emotional_state=PADState(pad_p, pad_a, pad_d),
+                    tags=[],
+                    user_id=chunk_user_id if chunk_user_id != -1 else None
+                )
+                results.append(new_entry)
+
+        return results
 
     def _calc_emotional_intensity(self, state: PADState) -> float:
         return math.sqrt(state.pleasure**2 + state.arousal**2 + state.dominance**2)
@@ -201,6 +251,7 @@ class MemorySystem:
 
     def close(self):
         """Clean up memory systems on shutdown."""
+        self.large_context.chunks.clear()
         try:
             if hasattr(self.episodic_memory.client, "clear_system_cache"):
                 self.episodic_memory.client.clear_system_cache()

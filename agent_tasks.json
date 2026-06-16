@@ -3930,7 +3930,7 @@
     },
     {
       "id": "claude-context-window-1m-tokens",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Claude SDK 1M token context window support",
@@ -6485,6 +6485,57 @@
       "acceptance": [
         "Context engine exposes standard lifecycle hooks.",
         "Tests verify plugins are triggered on hook execution."
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-creation-loop-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Hermes Agent Skills Creation Loop v3",
+      "description": "Inspired by Hermes Agent trend. Implement a skills creation loop from experience.",
+      "allowed_paths": [
+        "magda_agent/learning/skills_creation.py",
+        "tests/test_skills_creation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can create skills from experience",
+        "Tests mock skill creation"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency-v5",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Concurrency v5",
+      "description": "Inspired by OpenAI Agents SDK trend. Add runtime function tool concurrency.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency.py",
+        "tests/test_mcp_concurrency.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools can be executed concurrently",
+        "Tests verify concurrent execution"
+      ]
+    },
+    {
+      "id": "acs-guard-runtime-governance-v5",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guard Runtime Governance v5",
+      "description": "Inspired by ACS standard. Implement runtime safety controls.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_v5.py",
+        "tests/test_acs_guard_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS checkpoints are enforced",
+        "Tests verify policy enforcement"
       ]
     }
   ]
