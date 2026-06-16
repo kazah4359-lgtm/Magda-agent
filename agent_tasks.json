@@ -42,7 +42,7 @@
   "tasks": [
     {
       "id": "cognitive-biases-illusions",
-      "status": "todo",
+      "status": "done",
       "area": "cognition",
       "risk": "medium",
       "title": "Implement Cognitive Biases and Illusions",

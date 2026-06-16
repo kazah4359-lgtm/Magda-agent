@@ -27,12 +27,13 @@ class TriadCoordinator:
         user_id: Optional[str] = None,
         message_builder: Optional[Callable[[str], List[Dict[str, Any]]]] = None,
         pre_generation_hook: Optional[Callable[[], None]] = None,
-        policies: Optional[List[str]] = None
+        policies: Optional[List[str]] = None,
+        mental_state: Optional[Any] = None
     ) -> str:
         """
         Executes the triad flow: Plan -> Execute -> Generate -> Evaluate.
         """
-        await self.planner_agent.plan(user_input, user_id=user_id)
+        await self.planner_agent.plan(user_input, user_id=user_id, mental_state=mental_state)
         plan_str = await self.generator_agent.execute_plan(user_input, user_id=user_id)
 
         messages = []

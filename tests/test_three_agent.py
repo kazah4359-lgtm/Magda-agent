@@ -14,7 +14,7 @@ async def test_planner_agent():
     plan = await agent.plan("test input")
 
     assert plan == [{"step": 1}]
-    mock_planner.generate_plan.assert_called_once_with("test input", user_id=None)
+    mock_planner.generate_plan.assert_called_once_with("test input", user_id=None, mental_state=None)
 
 @pytest.mark.asyncio
 async def test_generator_agent():

@@ -352,7 +352,8 @@ class Consciousness:
                 user_id=user_id,
                 message_builder=message_builder,
                 pre_generation_hook=pre_generation_hook,
-                policies=policies
+                policies=policies,
+                mental_state=self.mental_states._get_state(user_id)
             )
         except ActionIgnored as e:
             return str(e)

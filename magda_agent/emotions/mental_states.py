@@ -1,10 +1,12 @@
 from typing import Dict, Optional
 
 class MentalState:
-    def __init__(self, fear: float = 0.0, desire: float = 0.5, tension: float = 0.0):
+    def __init__(self, fear: float = 0.0, desire: float = 0.5, tension: float = 0.0, optimism: float = 0.5, overconfidence: float = 0.0):
         self.fear = fear
         self.desire = desire
         self.tension = tension
+        self.optimism = optimism
+        self.overconfidence = overconfidence
 
 class MentalStates:
     """
@@ -29,10 +31,22 @@ class MentalStates:
             state.fear = self._clamp(state.fear - 0.1)
             state.desire = self._clamp(state.desire + 0.1)
             state.tension = self._clamp(state.tension - 0.2)
+            state.optimism = self._clamp(state.optimism + 0.05)
+            state.overconfidence = self._clamp(state.overconfidence + 0.05)
         else:
             state.fear = self._clamp(state.fear + 0.1)
             state.tension = self._clamp(state.tension + 0.1)
             state.desire = self._clamp(state.desire - 0.1)
+            state.optimism = self._clamp(state.optimism - 0.1)
+            state.overconfidence = self._clamp(state.overconfidence - 0.05)
+
+    def apply_bias_modifier(self, optimism_mod: float = 0.0, overconfidence_mod: float = 0.0, user_id: Optional[int] = None) -> None:
+        """
+        Manually apply modifiers to cognitive biases.
+        """
+        state = self._get_state(user_id)
+        state.optimism = self._clamp(state.optimism + optimism_mod)
+        state.overconfidence = self._clamp(state.overconfidence + overconfidence_mod)
 
     def get_state_label(self, user_id: Optional[int] = None) -> str:
         """
@@ -55,7 +69,7 @@ class MentalStates:
         """
         state = self._get_state(user_id)
         label = self.get_state_label(user_id)
-        return f"Mental State: {label} (Fear: {state.fear:.2f}, Desire: {state.desire:.2f}, Tension: {state.tension:.2f})"
+        return f"Mental State: {label} (Fear: {state.fear:.2f}, Desire: {state.desire:.2f}, Tension: {state.tension:.2f}, Optimism: {state.optimism:.2f}, Overconfidence: {state.overconfidence:.2f})"
 
     def _clamp(self, value: float, min_val: float = 0.0, max_val: float = 1.0) -> float:
         return max(min_val, min(max_val, value))
