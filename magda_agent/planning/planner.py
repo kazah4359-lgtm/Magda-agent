@@ -7,6 +7,7 @@ from magda_agent.skills.registry import SkillRegistry
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.agents.teams import TeamManager
 from magda_agent.planning.dag_planner import DAGPlanner
+from magda_agent.emotions.mental_states import MentalState
 
 
 class PlanStep(BaseModel):
@@ -119,7 +120,7 @@ class Planner:
     def paused_plan(self, value: Optional[Dict[str, Any]]) -> None:
         self.get_user_state().paused_plan = value
 
-    async def generate_plan(self, user_input: str, user_id: int = None) -> List[Dict[str, Any]]:
+    async def generate_plan(self, user_input: str, user_id: int = None, mental_state: Optional[MentalState] = None) -> List[Dict[str, Any]]:
         logging.info("Generating plan for input")
         state = self.get_user_state(user_id)
         skills_desc = self.skills.get_skills_summary()
@@ -137,6 +138,19 @@ class Planner:
             "- 'acceptance': an array of string acceptance criteria\n"
             "Only output the JSON object, nothing else."
         )
+
+        if mental_state:
+            bias_instructions = []
+            if mental_state.optimism > 0.7:
+                bias_instructions.append("You are feeling very optimistic. You can take more risks and propose more ambitious steps.")
+            elif mental_state.optimism < 0.3:
+                bias_instructions.append("You are feeling pessimistic. Be cautious and prioritize safety and verification in your plan.")
+
+            if mental_state.overconfidence > 0.7:
+                bias_instructions.append("You are very confident in your abilities. You might skip some redundant verification steps or combine multiple complex operations.")
+
+            if bias_instructions:
+                system_prompt += "\n\nCognitive Bias Modifiers:\n" + "\n".join(bias_instructions)
 
         if self.habit_tracker:
             suggested_strategy = self.habit_tracker.suggest_strategy(user_input, user_id=user_id)

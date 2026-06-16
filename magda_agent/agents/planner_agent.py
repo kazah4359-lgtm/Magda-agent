@@ -1,6 +1,7 @@
 import logging
 from typing import Optional, List, Dict, Any
 from magda_agent.planning.planner import Planner
+from magda_agent.emotions.mental_states import MentalState
 
 class PlannerAgent:
     """
@@ -12,7 +13,7 @@ class PlannerAgent:
 
 
 
-    async def plan(self, user_input: str, user_id: Optional[str] = None) -> List[Dict[str, Any]]:
+    async def plan(self, user_input: str, user_id: Optional[str] = None, mental_state: Optional[MentalState] = None) -> List[Dict[str, Any]]:
         """
         Generates a plan based on the user input.
         If a plan step requires a capability available on an external agent, it delegates the sub-plan.
@@ -22,7 +23,7 @@ class PlannerAgent:
 
         current_plan = self.planner.get_current_plan(user_id=user_id)
         if not current_plan:
-            await self.planner.generate_plan(user_input, user_id=user_id)
+            await self.planner.generate_plan(user_input, user_id=user_id, mental_state=mental_state)
             current_plan = self.planner.get_current_plan(user_id=user_id)
 
         # Retrieve plan and automatically delegate steps if an A2A Delegator is available
