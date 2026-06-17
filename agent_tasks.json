@@ -4072,7 +4072,7 @@
     },
     {
       "id": "claude-subagent-spawning-v1",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Claude Subagent Spawning",
@@ -6828,6 +6828,57 @@
       "acceptance": [
         "Skills can be exported as MCP tools dynamically.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "openclaw-local-first-gateway-v1-unique",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "OpenClaw Local-First Gateway",
+      "description": "Inspired by OpenClaw trends: Implement a local-first gateway control plane to proxy messages from channels before they reach consciousness.",
+      "allowed_paths": [
+        "magda_agent/gateway/local_first.py",
+        "tests/test_local_first_gateway.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Gateway proxies and normalizes messages.",
+        "Tests verify local-first routing."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v9-unique",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Exporter v9",
+      "description": "Inspired by MCP trends: Extend the tool exporter to support the latest JSON-RPC standard used by MCP tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_export_v9.py",
+        "tests/test_mcp_export_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools can be exported compliant with MCP v9 JSON-RPC.",
+        "Tests confirm exported schema validity."
+      ]
+    },
+    {
+      "id": "hermes-cron-nightly-backups-v1-unique",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Cron Nightly Backups",
+      "description": "Inspired by Hermes Agent trends: Add a scheduled task via the cron operations scheduler to backup episodic memory databases nightly.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_backups.py",
+        "tests/test_cron_backups.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cron scheduler triggers backups of sqlite3 databases.",
+        "Tests verify backup routines run successfully."
       ]
     }
   ]
