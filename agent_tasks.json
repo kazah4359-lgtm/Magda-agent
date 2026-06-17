@@ -3947,13 +3947,16 @@
     },
     {
       "id": "a2a-enterprise-tracing",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Enterprise-Ready Tracing",
       "description": "Inspired by A2A Protocol trend (enterprise-ready tracing). Add distributed tracing to A2A delegations.",
       "allowed_paths": [
         "magda_agent/integration/a2a_tracing.py",
+        "magda_agent/integration/a2a_delegation.py",
+        "magda_agent/integration/a2a_server.py",
+        "magda_agent/integration/a2a_security.py",
         "tests/test_a2a_tracing.py",
         "agent_tasks.json"
       ],

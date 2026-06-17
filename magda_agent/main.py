@@ -50,7 +50,7 @@ async def error_handler(event: ErrorEvent) -> None:
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
-    await message.answer(f"Hello, {message.from_user.full_name}! I am Magda, your AGI agent. I have a mind of my own now.")
+    await message.answer(f"Hello, {message.from_user.full_name}! I am Magdalina, your AGI agent. I have a mind of my own now.")
 
 @dp.message(Command("state"))
 async def command_state_handler(message: Message) -> None:

@@ -1,6 +1,7 @@
 import uuid
 import logging
 from typing import Dict, Any
+from magda_agent.integration.a2a_tracing import A2ATracer
 
 class A2ASecurityContext:
     """
@@ -36,14 +37,15 @@ class A2ASecurityContext:
     def trace_action(self, action: str, details: Dict[str, Any]) -> str:
         """
         Logs an action in the audit trail and returns a trace ID.
+        Uses A2ATracer to ensure distributed tracing continuity.
 
         Args:
             action: The action name.
             details: Action details for the audit trail.
 
         Returns:
-            str: The generated trace ID.
+            str: The current or generated trace ID.
         """
-        trace_id = uuid.uuid4().hex
+        trace_id = A2ATracer.get_or_create_trace_id()
         logging.info(f"[AUDIT TRAIL] TraceID: {trace_id} | Action: {action} | Details: {details}")
         return trace_id
