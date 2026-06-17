@@ -176,7 +176,7 @@
 ## 🛠️ Запланированные Skills
 * [x] FEATURE: OpenClaw Canvas Live Visualization
 * [x] FEATURE: OpenClaw RL Next-State Signals
-* [ ] FEATURE: Claude Subagent Spawning
+* [x] FEATURE: Claude Subagent Spawning
 
 * [x] SKILL: **Omnichannel Provider (Работа с провайдерами)** — модуль `magda_agent/skills/omnichannel.py`. (2026-06-04)
   Умение работы с разными провайдерами (Telegram, WhatsApp и другие) для взаимодействия с агентом.
