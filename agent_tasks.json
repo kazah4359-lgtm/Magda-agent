@@ -4089,7 +4089,7 @@
     },
     {
       "id": "post-merge-smoke-tests-v1",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "Post-merge smoke tests",
@@ -6879,6 +6879,57 @@
       "acceptance": [
         "Cron scheduler triggers backups of sqlite3 databases.",
         "Tests verify backup routines run successfully."
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-daily-reports-v3",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Cron Scheduler Daily Reports v3",
+      "description": "Inspired by Hermes Agent trend: Implement daily automated reports via the cron operations scheduler.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_reports_v3.py",
+        "tests/test_cron_reports_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cron scheduler properly aggregates daily events.",
+        "Tests verify report generation."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registration-v5",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registration v5",
+      "description": "Inspired by MCP standard trend: Allow dynamically registering new tools over MCP via the skill registry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_v5.py",
+        "tests/test_mcp_registry_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be dynamically registered via MCP adapter.",
+        "Tests verify MCP registration logic."
+      ]
+    },
+    {
+      "id": "claude-agent-evaluator-v2",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude Agent Evaluator v2",
+      "description": "Inspired by Claude Agent SDK trend: Create a specialized sub-agent for evaluating output from Generator sub-agents.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator_v2.py",
+        "tests/test_evaluator_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator sub-agent critiques inputs and provides actionable feedback.",
+        "Tests verify evaluator output format."
       ]
     }
   ]
