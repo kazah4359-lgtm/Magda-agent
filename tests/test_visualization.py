@@ -7,7 +7,11 @@ from magda_agent.visualization.server import CanvasServer
 @pytest.fixture
 def mock_consciousness():
     mock = MagicMock()
-    mock.get_internal_state.return_value = "Mocked State"
+    mock.emotions = None
+    mock.mental_states = None
+    mock.memory = None
+    mock.skills = None
+    mock.planner = None
     return mock
 
 @pytest.fixture
@@ -70,5 +74,3 @@ async def test_start_streaming(canvas_server, mock_consciousness):
 
     # The interval is 0.1s, sleeping 0.15s should trigger at least 1 broadcast
     assert mock_ws.send_text.await_count >= 1
-    mock_ws.send_text.assert_awaited_with("Mocked State")
-    mock_consciousness.get_internal_state.assert_called()

@@ -174,7 +174,7 @@
 
 * [ ] BUG: `Brainstem` integration in `Consciousness.process_input` does not halt long-running skills gracefully upon a 'stop' command. Need to implement a cancellation token or mechanism for active background tasks when a stop reflex is triggered. (2026-06-04)
 ## 🛠️ Запланированные Skills
-* [ ] FEATURE: OpenClaw Canvas Live Visualization
+* [x] FEATURE: OpenClaw Canvas Live Visualization
 * [x] FEATURE: OpenClaw RL Next-State Signals
 * [ ] FEATURE: Claude Subagent Spawning
 
