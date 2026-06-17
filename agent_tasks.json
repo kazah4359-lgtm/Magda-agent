@@ -4157,7 +4157,7 @@
     },
     {
       "id": "mcp-json-rpc-interface-v1",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP JSON-RPC Interface",
@@ -7083,6 +7083,57 @@
       "acceptance": [
         "WebSocket payload contains valid multi-agent node isolation metrics.",
         "Tests verify WS payloads."
+      ]
+    },
+    {
+      "id": "openclaw-online-rl-integration-v1",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw Online RL Integration",
+      "description": "Inspired by OpenClaw trends: Implement OpenClaw-RL to capture next-state signals and update agent weights.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl.py",
+        "tests/test_openclaw_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "OpenClaw-RL logic is implemented.",
+        "Tests verify weight updates based on feedback."
+      ]
+    },
+    {
+      "id": "acs-guard-tool-sandboxing-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guard Tool Sandboxing",
+      "description": "Inspired by ACS Spec trends: Introduce a taint tracking mechanism to sandbox MCP tool executions dynamically.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_sandboxing.py",
+        "tests/test_acs_sandboxing.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint tracking is implemented.",
+        "Tests verify sandboxing of restricted tools."
+      ]
+    },
+    {
+      "id": "hermes-agent-skill-marketplace-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Hermes Agent Skill Marketplace",
+      "description": "Inspired by Hermes Agent trends: Create an interface for discovering and importing skills from agentskills.io format.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_import.py",
+        "tests/test_marketplace_import.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Can import skills conforming to marketplace standards.",
+        "Tests pass."
       ]
     }
   ]
