@@ -97,3 +97,5 @@ class VirtualContextManager:
             # Add to working memory. Note: this might trigger another page_out if limit is exceeded!
             await working_memory.add(entry)
             logging.debug(f"Paged in memory entry for user {user_id}: {event_text[:30]}...")
+
+# Implemented virtual context management

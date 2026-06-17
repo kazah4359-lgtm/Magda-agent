@@ -7,6 +7,7 @@ from typing import List, Dict, Optional
 from magda_agent.emotions.engine import PADState
 from magda_agent.memory.working import WorkingMemory, MemoryEntry
 from magda_agent.memory.episodic import EpisodicMemory
+from magda_agent.memory.virtual_context import VirtualContextManager
 from magda_agent.llm_client import LLMClient
 from magda_agent.memory.context_engine import ContextEngine
 from magda_agent.user_model.model import UserModel
@@ -22,6 +23,9 @@ class MemorySystem:
         self.short_term_limit = short_term_limit
         self.working_memory = WorkingMemory(limit=short_term_limit, context_engine=context_engine)
         self.episodic_memory = EpisodicMemory(persist_directory=persist_directory)
+        self.virtual_context_manager = VirtualContextManager(llm_client=llm)
+        self.working_memory.virtual_context_manager = self.virtual_context_manager
+        self.working_memory.episodic_memory = self.episodic_memory
         self.large_context = LargeContextWindow()
         self.llm = llm
         self.context_engine = context_engine

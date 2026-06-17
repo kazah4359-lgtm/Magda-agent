@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] MODULE: **Virtual Context Manager** — magda_agent/memory/virtual_context.py.
 * [x] FEATURE: Hermes Skill Creation from Experience (hermes-skill-creation-8563188e)
 * [x] FEATURE: MCP Action Tool Exporter v6 (mcp-action-tool-exporter-v6)
 * [x] FEATURE: AgentBench Multi-domain Evaluation (agentbench-multi-domain-eval)

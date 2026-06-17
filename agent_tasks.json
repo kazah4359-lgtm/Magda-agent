@@ -3967,7 +3967,7 @@
     },
     {
       "id": "virtual-context-management-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Memory Architecture Virtual Context Management",
@@ -6539,6 +6539,40 @@
       "acceptance": [
         "ACS checkpoints are enforced",
         "Tests verify policy enforcement"
+      ]
+    },
+    {
+      "id": "a2a-async-error-handling-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "A2A Async Error Handling",
+      "description": "Inspired by A2A trends: Add robust error handling and retry logic for A2A delegated tasks.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_error.py",
+        "tests/test_a2a_error.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A delegation handles errors gracefully.",
+        "Tests verify retry logic."
+      ]
+    },
+    {
+      "id": "context-engine-memory-compression-plugin-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Memory Compression Plugin",
+      "description": "Inspired by Context Engine trends: Implement a specialized plugin for ContextEngine that compresses memory instead of just dropping when compacting.",
+      "allowed_paths": [
+        "magda_agent/memory/compression_plugin.py",
+        "tests/test_compression_plugin.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Compression plugin compresses memories correctly.",
+        "Tests verify the plugin logic."
       ]
     }
   ]
