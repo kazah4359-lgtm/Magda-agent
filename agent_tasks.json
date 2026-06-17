@@ -3985,7 +3985,7 @@
     },
     {
       "id": "openclaw-rl-online-learning-v1",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "Online RL from user feedback",
@@ -6573,6 +6573,57 @@
       "acceptance": [
         "Compression plugin compresses memories correctly.",
         "Tests verify the plugin logic."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registration-v3",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registration v3",
+      "description": "Inspired by MCP trends: Dynamically register tools at runtime via MCP protocol with enhanced validation.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_dynamic_registry.py",
+        "tests/test_mcp_dynamic_registry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Registry dynamically adds tools.",
+        "Tests verify registration."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-discovery-v3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Peer Delegation Discovery v3",
+      "description": "Inspired by A2A Protocol trend: Implement discovery using Agent Cards for the peer-to-peer task delegation efficiently.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a.py",
+        "tests/test_a2a*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Cards can be broadcast and discovered.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "agent-teams-parallel-subagents-v5",
+      "status": "todo",
+      "area": "multi_agent",
+      "risk": "medium",
+      "title": "Agent Teams Parallel Subagents v5",
+      "description": "Inspired by Claude Agent SDK: Implement isolated parallel subagents for concurrent tasks.",
+      "allowed_paths": [
+        "magda_agent/architecture/parallel_subagents.py",
+        "tests/test_parallel_subagents.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents run in parallel.",
+        "Tests verify async execution."
       ]
     }
   ]
