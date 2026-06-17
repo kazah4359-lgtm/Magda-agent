@@ -1,6 +1,7 @@
 from typing import Dict, Any
 import logging
 from magda_agent.integration.a2a_discovery import A2ADiscovery
+from magda_agent.integration.a2a_tracing import A2ATracer
 import httpx
 
 class A2ADelegator:
@@ -49,6 +50,9 @@ class A2ADelegator:
         }
 
         headers = {}
+        # Inject distributed tracing header
+        A2ATracer.inject_headers(headers)
+
         if self.security_context:
             token = self.security_context.generate_token()
             headers["Authorization"] = f"Bearer {token}"

@@ -1,7 +1,9 @@
 import json
+import logging
 from typing import Any, Dict, Optional
 from fastapi import FastAPI, Request, Response
 from magda_agent.planning.planner import Planner
+from magda_agent.integration.a2a_tracing import A2ATracer
 
 class A2AServer:
     """
@@ -20,6 +22,16 @@ class A2AServer:
 
     async def handle_request(self, request: Request) -> Response:
         """Handles the JSON-RPC request."""
+        # Extract trace ID from headers
+        trace_id = A2ATracer.extract_from_headers(dict(request.headers))
+        if trace_id:
+            A2ATracer.set_trace_id(trace_id)
+            logging.info(f"[A2A SERVER] Received request with TraceID: {trace_id}")
+        else:
+            # Optionally start a new trace if none provided
+            trace_id = A2ATracer.get_or_create_trace_id()
+            logging.info(f"[A2A SERVER] Starting new TraceID: {trace_id}")
+
         try:
             data = await request.json()
         except Exception:
