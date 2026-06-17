@@ -4055,7 +4055,7 @@
     },
     {
       "id": "claude-dependency-graph-task-system-v1",
-      "status": "todo",
+      "status": "done",
       "area": "planning",
       "risk": "medium",
       "title": "Claude Dependency Graph Task System",
@@ -6777,6 +6777,57 @@
       "acceptance": [
         "An audit log correctly records intercepted actions.",
         "Tests verify audit entries."
+      ]
+    },
+    {
+      "id": "openclaw-rl-user-feedback-v5",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL User Feedback v5",
+      "description": "Inspired by OpenClaw trends: Implement continuous online reinforcement learning from user feedback for adapting agent behavior parameters.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v5.py",
+        "tests/test_openclaw_rl_v5*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent adjusts to user feedback dynamically.",
+        "Tests verify learning state updates."
+      ]
+    },
+    {
+      "id": "acs-guard-runtime-safety-controls-v6",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guard Runtime Safety Controls v6",
+      "description": "Inspired by ACS trends: Implement an advanced runtime safety policy to intercept and validate tool execution across all skills.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_v6.py",
+        "tests/test_acs_guard_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy guard successfully intercepts unsafe executions.",
+        "Tests verify all 5 check points."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-action-tool-v7",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "MCP Dynamic Action Tool v7",
+      "description": "Inspired by MCP standard trend: Enhance skill registry to allow dynamic exporting and registration of action tools over MCP.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_export_v7.py",
+        "tests/test_mcp_export_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported as MCP tools dynamically.",
+        "Tests pass."
       ]
     }
   ]

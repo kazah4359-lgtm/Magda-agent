@@ -6,7 +6,7 @@ from magda_agent.llm_client import LLMClient
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.agents.teams import TeamManager
-from magda_agent.planning.dag_planner import DAGPlanner
+from magda_agent.planning.dependency_graph import DependencyGraph
 from magda_agent.emotions.mental_states import MentalState
 
 
@@ -195,7 +195,7 @@ class Planner:
                     return []
 
             try:
-                plan_steps = DAGPlanner.topological_sort(plan_steps)
+                plan_steps = DependencyGraph.topological_sort(plan_steps)
             except ValueError as ve:
                 logging.error(f"Plan cycle validation failed: {ve}")
                 self.clear_pending_plan(user_id=user_id)
@@ -254,7 +254,7 @@ class Planner:
     def get_executable_steps(self, user_id: Optional[Any] = None) -> List[Dict[str, Any]]:
         state = self.get_user_state(user_id)
         completed_ids: Set[str] = {step.get("id") for step in state.completed_steps if step.get("id")}
-        return DAGPlanner.get_executable_steps(state.current_plan, completed_ids)
+        return DependencyGraph.get_executable_steps(state.current_plan, completed_ids)
 
     def get_state_summary(self, user_id: Optional[Any] = None) -> str:
         state = self.get_user_state(user_id)
