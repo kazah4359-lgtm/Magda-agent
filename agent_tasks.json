@@ -4021,7 +4021,7 @@
     },
     {
       "id": "hermes-skill-marketplace-integration-v1",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Hermes Skill Marketplace Integration",
@@ -6675,6 +6675,57 @@
       "acceptance": [
         "Cron reports module can aggregate daily events.",
         "Tests verify report generation."
+      ]
+    },
+    {
+      "id": "openclaw-memory-compaction-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Memory Compaction Background Routine",
+      "description": "Inspired by OpenClaw. Implement a background routine that periodically compacts memory layers to save context space.",
+      "allowed_paths": [
+        "magda_agent/memory/compaction.py",
+        "tests/test_compaction.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Compaction routine runs in background.",
+        "Tests verify compaction logic."
+      ]
+    },
+    {
+      "id": "mcp-advanced-tool-taint-tracking-v2",
+      "status": "todo",
+      "area": "security",
+      "risk": "medium",
+      "title": "Advanced MCP Tool Taint Tracking",
+      "description": "Inspired by MCPKernel. Add advanced taint tracking that follows data flow from MCP tool inputs to outputs.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_taint.py",
+        "tests/test_mcp_taint.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Data flow from inputs to outputs is tracked.",
+        "Tests verify correct taint propagation."
+      ]
+    },
+    {
+      "id": "claude-agent-code-review-worker-v1",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude Agent Code Review Worker",
+      "description": "Inspired by Claude Agent SDK. Create a specialized sub-agent for reviewing code pull requests.",
+      "allowed_paths": [
+        "magda_agent/agents/code_review.py",
+        "tests/test_code_review.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Worker can read a PR diff and generate comments.",
+        "Tests verify worker output format."
       ]
     }
   ]

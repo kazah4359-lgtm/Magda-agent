@@ -48,3 +48,45 @@ async def test_fetch_and_register_skills():
         assert call_args_2["name"] == "mock_skill_2"
         assert call_args_2["description"] == "Dynamic marketplace skill"
         assert callable(call_args_2["func"])
+
+@pytest.mark.asyncio
+async def test_search_marketplace_skills():
+    from magda_agent.skills.marketplace import search_marketplace_skills
+    mock_url = "https://mock-marketplace.io/skills.json"
+    mock_data = {
+        "skills": [
+            {
+                "name": "data_analysis",
+                "description": "A skill to analyze data"
+            },
+            {
+                "name": "text_summarizer",
+                "description": "Summarizes large chunks of text"
+            },
+            {
+                "name": "image_generator",
+                "description": "Generates images from text"
+            }
+        ]
+    }
+
+    with patch('aiohttp.ClientSession.get') as mock_get:
+        mock_response = AsyncMock()
+        mock_response.json.return_value = mock_data
+        mock_response.raise_for_status = MagicMock()
+        mock_get.return_value.__aenter__.return_value = mock_response
+
+        # Search by name
+        results = await search_marketplace_skills(mock_url, "text")
+        assert len(results) == 2
+        assert any(r["name"] == "text_summarizer" for r in results)
+        assert any(r["name"] == "image_generator" for r in results)
+
+        # Search by description
+        results = await search_marketplace_skills(mock_url, "analyze")
+        assert len(results) == 1
+        assert results[0]["name"] == "data_analysis"
+
+        # Search with no match
+        results = await search_marketplace_skills(mock_url, "nonexistent")
+        assert len(results) == 0
