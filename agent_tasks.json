@@ -4003,7 +4003,7 @@
     },
     {
       "id": "multi-agent-orchestration-teams-v1",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Agent Teams Subagent Spawning",
@@ -6624,6 +6624,57 @@
       "acceptance": [
         "Subagents run in parallel.",
         "Tests verify async execution."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visualization-v3",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Visualization",
+      "description": "Inspired by OpenClaw Canvas. Implement a live visualization endpoint for agent state in magda_agent/visualization/canvas.py.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas.py",
+        "tests/test_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas endpoint exposes current agent state.",
+        "Tests mock state retrieval and verify output format."
+      ]
+    },
+    {
+      "id": "openai-mcp-server-prefixed-tools-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Server-Prefixed Tools",
+      "description": "Inspired by OpenAI Agents SDK. Add support for prefixing tool names with their originating MCP server name to avoid conflicts.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_engine.py",
+        "tests/test_mcp_engine_prefixes.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP engine registers tools with server prefixes.",
+        "Tests verify prefixed tool registration."
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-daily-reports-v2",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Cron Scheduler Daily Reports",
+      "description": "Inspired by Hermes Agent. Add support for generating daily reports via the cron scheduler.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_reports.py",
+        "tests/test_cron_reports.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cron reports module can aggregate daily events.",
+        "Tests verify report generation."
       ]
     }
   ]
