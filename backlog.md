@@ -118,7 +118,7 @@
 * [x] FEATURE: Guardrails Policy Layer (guardrails-policy-layer)
 
 * [x] FEATURE: Online RL Feedback Integration (online-rl-feedback-integration)
-* [x] MODULE: **Agent Teams Git Worktree Isolation** — модуль `magda_agent/agents/team_isolation.py`. (2026-06-07)
+* [x] MODULE: **Agent Teams Git Worktree Isolation** — `magda_agent/agents/isolation.py`. (2026-06-07)
 * [x] FEATURE: A2A Peer-to-Peer Task Delegation
 * [x] MODULE: **Context Engine Plugin Architecture** — модуль `magda_agent/memory/context_engine.py`. (2026-06-07)
   Inspired by trend #4 in docs/trends.md: Implement a plugin architecture for the Context Engine to manage context dynamically using lifecycle hooks.
