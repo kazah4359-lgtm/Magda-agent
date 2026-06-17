@@ -59,3 +59,38 @@ async def fetch_and_register_skills(url: str, registry: SkillRegistry) -> List[s
         logger.error(f"Failed to fetch and register skills from {url}: {e}")
 
     return registered_skills
+
+async def search_marketplace_skills(url: str, query: str) -> List[Dict[str, Any]]:
+    """
+    Searches an agentskills.io compliant marketplace for skills matching the given query.
+
+    Args:
+        url (str): The URL of the marketplace JSON endpoint.
+        query (str): The search query to filter skills by name or description.
+
+    Returns:
+        List[Dict[str, Any]]: A list of skill definitions matching the query.
+    """
+    matched_skills = []
+    try:
+        import aiohttp
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as response:
+                response.raise_for_status()
+                data = await response.json()
+
+                skills_list = data.get("skills", [])
+                query_lower = query.lower()
+
+                for skill_def in skills_list:
+                    name = skill_def.get("name", "").lower()
+                    description = skill_def.get("description", "").lower()
+
+                    if query_lower in name or query_lower in description:
+                        matched_skills.append(skill_def)
+
+    except Exception as e:
+        logger.error(f"Failed to search skills from {url}: {e}")
+
+    return matched_skills
