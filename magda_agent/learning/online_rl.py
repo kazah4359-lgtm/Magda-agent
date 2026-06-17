@@ -61,3 +61,19 @@ class OnlineRLIntegrator:
         else:
             self.skill_weights[skill_used] = max(0.1, self.skill_weights[skill_used] - 0.1)
             logging.info(f"Online RL: Negative/Neutral feedback (weight={weight:.2f}). No usage recorded. New weight for {skill_used}: {self.skill_weights[skill_used]:.2f}")
+
+
+class OnlineRLLearner:
+    """
+    Online RL Learner.
+    Captures next-state signals and updates weights based on tool outputs.
+    """
+    def __init__(self, habit_tracker: HabitTracker, mirror_neurons: MirrorNeurons) -> None:
+        self.integrator = OnlineRLIntegrator(habit_tracker, mirror_neurons)
+
+    async def learn_from_feedback(self, user_reply: str, action_context: str, user_id: Optional[int] = None, tool_output: Optional[str] = None, tool_success: bool = False, skill_used: str = "rl_skill") -> None:
+        signal_text = user_reply
+        if tool_output:
+            signal_text += f" [Tool Output: {tool_output}]"
+
+        await self.integrator.process_feedback(signal_text, action_context, user_id=user_id, tool_success=tool_success, skill_used=skill_used)
