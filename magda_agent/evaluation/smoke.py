@@ -41,3 +41,27 @@ class SmokeEvaluator:
                 "stderr": str(e),
                 "command": self.command
             }
+
+
+class PostMergeSmokeWorkflow:
+    """
+    Workflow to automatically run smoke tests after merges to ensure stability.
+    """
+    def __init__(self, evaluator: Optional[SmokeEvaluator] = None):
+        self.evaluator = evaluator or SmokeEvaluator()
+
+    def run_workflow(self) -> bool:
+        """
+        Executes the post-merge smoke tests workflow.
+
+        Returns:
+            bool: True if the tests passed, False otherwise.
+        """
+        logging.info("Initiating post-merge smoke test workflow...")
+        result = self.evaluator.evaluate()
+        if result["success"]:
+            logging.info("Post-merge smoke tests passed successfully.")
+            return True
+        else:
+            logging.error(f"Post-merge smoke tests failed with return code {result['returncode']}")
+            return False

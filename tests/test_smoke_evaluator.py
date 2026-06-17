@@ -42,3 +42,17 @@ def test_smoke_evaluator_exception():
         assert result["success"] is False
         assert result["returncode"] == -1
         assert "Command not found" in result["stderr"]
+
+from magda_agent.evaluation.smoke import PostMergeSmokeWorkflow
+
+def test_post_merge_smoke_workflow_success():
+    evaluator = SmokeEvaluator()
+    evaluator.evaluate = MagicMock(return_value={"success": True, "returncode": 0, "stdout": "", "stderr": "", "command": ""})
+    workflow = PostMergeSmokeWorkflow(evaluator=evaluator)
+    assert workflow.run_workflow() is True
+
+def test_post_merge_smoke_workflow_failure():
+    evaluator = SmokeEvaluator()
+    evaluator.evaluate = MagicMock(return_value={"success": False, "returncode": 1, "stdout": "", "stderr": "error", "command": ""})
+    workflow = PostMergeSmokeWorkflow(evaluator=evaluator)
+    assert workflow.run_workflow() is False
