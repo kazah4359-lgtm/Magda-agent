@@ -4123,7 +4123,7 @@
     },
     {
       "id": "online-rl-user-feedback-v6",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL from user feedback v6",
@@ -6981,6 +6981,57 @@
       "acceptance": [
         "Evaluator sub-agent critiques inputs and provides actionable feedback.",
         "Tests verify evaluator output format."
+      ]
+    },
+    {
+      "id": "hermes-agent-multi-platform-v1",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Hermes Agent Multi-Platform Support",
+      "description": "Inspired by Hermes trend: Multi-platform integration. Expand channel support to encompass Telegram, Discord, and Slack seamlessly.",
+      "allowed_paths": [
+        "magda_agent/channels/multi_platform_v1.py",
+        "tests/test_multi_platform_v1*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can dispatch to Telegram, Discord, and Slack.",
+        "Tests verify multi-platform routing."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-hooks-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Plugins",
+      "description": "Inspired by OpenClaw Context Engine trend. Implement a plugin-based context manager allowing custom lifecycle hooks.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_v1.py",
+        "tests/test_context_engine_v1*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine accepts plugins and runs lifecycle hooks.",
+        "Tests verify plugin integration."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency-v1-unique",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Runtime Tool Concurrency",
+      "description": "Inspired by MCP / OpenAI SDK trend: Runtime function tool concurrency. Implement support for invoking multiple skills concurrently.",
+      "allowed_paths": [
+        "magda_agent/skills/tool_concurrency_v1.py",
+        "tests/test_tool_concurrency_v1*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent correctly schedules multiple tools concurrently.",
+        "Tests verify concurrent invocation."
       ]
     }
   ]

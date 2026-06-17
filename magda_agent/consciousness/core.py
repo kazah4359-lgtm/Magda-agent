@@ -27,6 +27,7 @@ from magda_agent.emotions.style_adapter import StyleAdapter
 from magda_agent.user_model.model import UserModel
 from magda_agent.learning.online import OnlineLearner
 from magda_agent.learning.online_rl import OnlineRLIntegrator
+from magda_agent.learning.online_rl_v6 import OnlineRLFeedbackLoopV6
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
 from magda_agent.learning.feedback_loop import FeedbackLoop
 from magda_agent.attention.salience import SalienceNetwork
@@ -67,6 +68,7 @@ class Consciousness:
         skill_creator: Optional[SkillCreator] = None,
         online_learner: Optional[OnlineLearner] = None,
         online_rl_integrator: Optional[OnlineRLIntegrator] = None,
+        online_rl_v6: Optional[OnlineRLFeedbackLoopV6] = None,
         openclaw_rl: Optional[OpenClawInteractiveLearner] = None,
         feedback_loop: Optional[FeedbackLoop] = None,
         guardrail: Optional[RealtimeGuardrail] = None,
@@ -100,6 +102,7 @@ class Consciousness:
         self.skill_creator = skill_creator
         self.online_learner = online_learner
         self.online_rl_integrator = online_rl_integrator
+        self.online_rl_v6 = online_rl_v6
         self.openclaw_rl = openclaw_rl
         self.feedback_loop = feedback_loop
         self.guardrail = guardrail
@@ -144,6 +147,8 @@ class Consciousness:
             await self.feedback_loop.process_feedback(user_input, user_id)
         if self.openclaw_rl:
             await self.openclaw_rl.process_next_state_signal(user_input, last_context, user_id)
+        if self.online_rl_v6:
+            await self.online_rl_v6.adjust_behavior(user_input, last_context, user_id)
 
 
         if self.thalamus and not self.thalamus.filter_input(user_input):
