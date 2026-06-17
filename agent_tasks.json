@@ -4038,7 +4038,7 @@
     },
     {
       "id": "openclaw-canvas-live-visualization-v1",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "low",
       "title": "OpenClaw Canvas Live Visualization",
@@ -6726,6 +6726,57 @@
       "acceptance": [
         "Worker can read a PR diff and generate comments.",
         "Tests verify worker output format."
+      ]
+    },
+    {
+      "id": "openclaw-rl-dynamic-behavior-adjustment-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "OpenClaw RL Dynamic Behavior Adjustment",
+      "description": "Inspired by OpenClaw trend: Online reinforcement learning from user feedback. Implement an advanced RL module that dynamically adjusts agent behavior weights based on the user's implicit emotional shifts.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl.py",
+        "tests/test_openclaw_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent adjusts behavior based on simulated emotional feedback.",
+        "Tests verify that internal weights change correctly in response to feedback signals."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registration-v4",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registration v4",
+      "description": "Inspired by Model Context Protocol trends. Enhance the skill registry to allow dynamically registering new tools via MCP during runtime.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry.py",
+        "tests/test_mcp_registry*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be dynamically registered and unregistered using an MCP adapter.",
+        "Tests confirm registration and successful execution of dynamically added skills."
+      ]
+    },
+    {
+      "id": "acs-guard-audit-trail-v1",
+      "status": "todo",
+      "area": "security",
+      "risk": "medium",
+      "title": "ACS Guard Audit Trail",
+      "description": "Inspired by ACS Specification. Implement an audit logging mechanism that records all tools evaluated and intercepted by the ACSGuard policy layer.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_audit.py",
+        "tests/test_acs_audit.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "An audit log correctly records intercepted actions.",
+        "Tests verify audit entries."
       ]
     }
   ]
