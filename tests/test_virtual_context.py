@@ -85,3 +85,5 @@ async def test_virtual_context_compress_with_llm() -> None:
     assert summary.content == "Mocked Summary"
     assert summary.importance == 0.5
     assert summary.user_id == 1
+
+# Added tests for virtual context management
