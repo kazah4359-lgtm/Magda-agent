@@ -203,3 +203,5 @@
 * [x] FEATURE: Quality metrics longitudinal tracking
 * [x] FEATURE: A2A delegation v6
 * [x] FEATURE: Online learning v6
+
+* [x] MODULE: **Reflection to task generation** (`magda_agent/planning/reflection_tasks.py`). Inspired by trend: Reflection -> new task generation. Agent should generate new tasks based on reflections from previous failures.

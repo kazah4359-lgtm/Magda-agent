@@ -2,6 +2,7 @@ import asyncio
 import json
 import logging
 from typing import List
+from magda_agent.planning.reflection_tasks import ReflectionTaskGenerator
 from magda_agent.llm_client import LLMClient
 from magda_agent.emotions.engine import EmotionalEngine
 from magda_agent.memory.storage import MemorySystem
@@ -247,6 +248,30 @@ class Subconsciousness:
 
         for task in proposed_tasks:
             logging.info(f"Subconscious proposed task: {task}")
+
+        # 3.5 Use proposed tasks, lessons, and anti-patterns to generate structured tasks
+        if reflection_text and (lessons or anti_patterns or proposed_tasks):
+            try:
+                task_generator = ReflectionTaskGenerator(self.llm)
+                generated_tasks = await task_generator.generate_tasks_from_reflection(
+                    reflection_text=reflection_text,
+                    lessons=lessons,
+                    anti_patterns=anti_patterns
+                )
+
+                if generated_tasks:
+                    with open("agent_tasks.json", "r") as f:
+                        tasks_data = json.load(f)
+
+                    for new_task in generated_tasks:
+                        tasks_data["tasks"].append(new_task)
+                        logging.info(f"Appended new generated task from reflection: {new_task['id']}")
+
+                    with open("agent_tasks.json", "w") as f:
+                        json.dump(tasks_data, f, ensure_ascii=False, indent=2)
+                        f.write("\n")
+            except Exception as e:
+                logging.error(f"Failed to generate and append structured reflection tasks: {e}")
 
         # 4. Consolidate episodic memory to semantic memory
         await self.consolidate_episodic_to_semantic()

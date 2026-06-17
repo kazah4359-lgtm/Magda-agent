@@ -68,7 +68,7 @@ async def test_subconsciousness_reflect(subconsciousness, mock_llm_client, mock_
     mock_memory_system.consolidate.assert_called_once()
 
     # Verify LLM was called
-    mock_llm_client.chat_completion.assert_called_once()
+    mock_llm_client.chat_completion.assert_called()
 
     # Verify emotions were updated with PARSED values
     mock_emotions.update.assert_called_once_with(0.1, -0.05, 0.15)
