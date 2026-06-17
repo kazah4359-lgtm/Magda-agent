@@ -4140,7 +4140,7 @@
     },
     {
       "id": "agent-teams-git-worktree-v1",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Agent Teams Git Worktree Isolation",
@@ -7032,6 +7032,57 @@
       "acceptance": [
         "Agent correctly schedules multiple tools concurrently.",
         "Tests verify concurrent invocation."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-evaluator-v1",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "MCP Dynamic Evaluator Plugin",
+      "description": "Inspired by MCP standards trend: Develop an evaluator plugin that evaluates new skills against an MCP dynamic verification sandbox.",
+      "allowed_paths": [
+        "magda_agent/evaluation/mcp_eval.py",
+        "tests/test_mcp_eval.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator uses MCP registry sandboxes correctly.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "acs-guard-memory-policy-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guard Memory Access Policy",
+      "description": "Inspired by ACS Specification trend: Implement an ACS runtime policy layer for restricting sub-agent access to user-specific memory stores.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_memory.py",
+        "tests/test_acs_memory.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy blocks unauthorized memory reads based on user_id context.",
+        "Tests confirm all checkpoints."
+      ]
+    },
+    {
+      "id": "openclaw-multi-agent-canvas-v1",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Multi-Agent Canvas Extension",
+      "description": "Inspired by OpenClaw Canvas trend: Extend the Canvas WebSockets to stream sub-agent states and isolate them visually in the client.",
+      "allowed_paths": [
+        "magda_agent/visualization/multi_agent_stream.py",
+        "tests/test_multi_agent_stream.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WebSocket payload contains valid multi-agent node isolation metrics.",
+        "Tests verify WS payloads."
       ]
     }
   ]
