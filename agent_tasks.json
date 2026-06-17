@@ -4106,7 +4106,7 @@
     },
     {
       "id": "reflection-task-generation-v1",
-      "status": "todo",
+      "status": "done",
       "area": "planning",
       "risk": "medium",
       "title": "Reflection to task generation",
@@ -6925,6 +6925,57 @@
       "allowed_paths": [
         "magda_agent/agents/evaluator_v2.py",
         "tests/test_evaluator_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator sub-agent critiques inputs and provides actionable feedback.",
+        "Tests verify evaluator output format."
+      ]
+    },
+    {
+      "id": "hermes-cron-nightly-backups-v2",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Cron Nightly Backups v2",
+      "description": "Inspired by Hermes Agent trends: Add a scheduled task via the cron operations scheduler to backup episodic memory databases nightly.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_backups_v2.py",
+        "tests/test_cron_backups_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cron scheduler triggers backups of sqlite3 databases.",
+        "Tests verify backup routines run successfully."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registration-v6",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registration v6",
+      "description": "Inspired by MCP standard trend: Allow dynamically registering new tools over MCP via the skill registry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_v6.py",
+        "tests/test_mcp_registry_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be dynamically registered via MCP adapter.",
+        "Tests verify MCP registration logic."
+      ]
+    },
+    {
+      "id": "claude-agent-evaluator-v3",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude Agent Evaluator v3",
+      "description": "Inspired by Claude Agent SDK trend: Create a specialized sub-agent for evaluating output from Generator sub-agents.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator_v3.py",
+        "tests/test_evaluator_v3.py",
         "agent_tasks.json"
       ],
       "acceptance": [
