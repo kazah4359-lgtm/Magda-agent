@@ -4322,7 +4322,7 @@
     },
     {
       "id": "hierarchical-delegation-worktrees-v2",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Hierarchical Delegation Worktrees v2",
@@ -7502,6 +7502,57 @@
       "acceptance": [
         "WebSocket server is capable of streaming cognitive state representations.",
         "Tests verify WebSocket stream output mocking asyncio event loops."
+      ]
+    },
+    {
+      "id": "mcp-kernel-taint-tracking-v1-9876",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Kernel Taint Tracking Sandbox v1",
+      "description": "Inspired by MCPKernel trend: Implement taint tracking for sandboxed execution to prevent tainted data from escaping the MCP boundary.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_kernel_sandbox.py",
+        "tests/test_mcp_kernel_sandbox.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP sandbox implements taint tracking.",
+        "Tests pass correctly preventing data escape."
+      ]
+    },
+    {
+      "id": "assert-policy-eval-framework-v1-4321",
+      "status": "todo",
+      "area": "metacognition",
+      "risk": "medium",
+      "title": "ASSERT Policy Driven Eval Framework v1",
+      "description": "Inspired by Microsoft's ASSERT trend: Build a policy-driven evaluation framework to evaluate execution plans dynamically against system constraints.",
+      "allowed_paths": [
+        "magda_agent/metacognition/assert_framework.py",
+        "tests/test_assert_framework.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ASSERT framework evaluates dynamically.",
+        "Pytest checks validation correctness."
+      ]
+    },
+    {
+      "id": "prempti-audit-logger-v2-5678",
+      "status": "todo",
+      "area": "safety",
+      "risk": "low",
+      "title": "Prempti Audit Logger v2 Integration",
+      "description": "Inspired by Prempti (Falco) trend: Build an advanced audit logger to intercept tool calls and ensure rigorous audit trails without data leaks.",
+      "allowed_paths": [
+        "magda_agent/safety/prempti_logger_v2.py",
+        "tests/test_prempti_logger_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Audit Logger captures tool calls properly.",
+        "Tests confirm redaction of sensitive arguments."
       ]
     }
   ]
