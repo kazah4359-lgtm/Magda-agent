@@ -1,6 +1,6 @@
 import pytest
 from magda_agent.security.mcp_kernel import MCPKernel, SecurityError
-from magda_agent.safety.taint import mark_tainted, is_tainted, sanitize
+from magda_agent.security.mcp_kernel_taint import mark_tainted, is_tainted, sanitize
 from magda_agent.safety.runtime_guard import RuntimeGuard, SecurityException
 
 def test_tainted_string():

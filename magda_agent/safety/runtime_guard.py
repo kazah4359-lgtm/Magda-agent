@@ -1,5 +1,5 @@
 from typing import Callable, Any
-from magda_agent.safety.taint import is_tainted
+from magda_agent.security.mcp_kernel_taint import is_tainted
 
 class SecurityException(Exception):
     """Exception raised for security violations."""
