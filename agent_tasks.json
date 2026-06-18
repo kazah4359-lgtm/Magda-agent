@@ -4223,7 +4223,7 @@
     },
     {
       "id": "claude-context-compression-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "high",
       "title": "Context compression + selective retrieval v2",
@@ -7214,6 +7214,38 @@
       ],
       "acceptance": [
         "Multi-agent manager spawns isolated context subagents."
+      ]
+    },
+    {
+      "id": "mcp-server-prefixed-tools-v3",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Server Prefixed Tools",
+      "description": "Inspired by MCP standard trend: Allow routing tools with server prefixes.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_router_v3.py",
+        "tests/test_mcp_router_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Router handles server prefixed tool names correctly."
+      ]
+    },
+    {
+      "id": "agent-teams-parallel-subagents-v3",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Agent Teams Parallel Subagents",
+      "description": "Inspired by Claude Multi-Agent trend: Run subagents in parallel with isolated worktrees.",
+      "allowed_paths": [
+        "magda_agent/agents/parallel_subagents_v3.py",
+        "tests/test_parallel_subagents_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Parallel execution of subagents works correctly."
       ]
     }
   ]

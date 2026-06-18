@@ -6,6 +6,7 @@ from .procedural import ProceduralMemory
 from .context_engine import ContextEngine, ContextPlugin
 from .hermes_persistent import HermesPersistentMemory
 from .compressor import ContextCompressor
+from .compression_v2 import ContextCompressorV2
 from .large_context import LargeContextWindow
 
 __all__ = [
@@ -19,5 +20,6 @@ __all__ = [
     "ContextPlugin",
     "HermesPersistentMemory",
     "ContextCompressor",
+    "ContextCompressorV2",
     "LargeContextWindow"
 ]
