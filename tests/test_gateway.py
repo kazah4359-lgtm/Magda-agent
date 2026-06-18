@@ -71,7 +71,7 @@ async def test_channel_sending():
     dc = DiscordAdapter(gateway)
     rest = RestAdapter(gateway)
 
-    assert "Telegram sent to 1: hi" == await tg.send("1", "hi")
+    assert "Telegram sent to 1: hi (Mock/No Token)" == await tg.send("1", "hi")
     assert "Discord sent to 2: hello" == await dc.send("2", "hello")
 
     rest_resp = await rest.send("3", "hey")

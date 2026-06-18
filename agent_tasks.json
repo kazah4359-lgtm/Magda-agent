@@ -4256,7 +4256,7 @@
     },
     {
       "id": "cross-platform-telegram-channel-v4",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Cross-platform reach: Telegram channel v2",
@@ -7297,6 +7297,57 @@
       "acceptance": [
         "A2A Delegator can dispatch tasks securely.",
         "Pytest tests verify task delegation logic."
+      ]
+    },
+    {
+      "id": "context-engine-plugin-lifecycle-v5-6804",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Context Engine Plugin Lifecycle Hooks v5",
+      "description": "Inspired by OpenClaw Context Engine trend: Implement lifecycle hooks (on_load, on_unload) for context engine plugins.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_lifecycle_v5.py",
+        "tests/test_context_engine_lifecycle_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugins can be loaded and unloaded with lifecycle events.",
+        "Tests verify the execution of hooks without calling real APIs."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v5-6805",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning",
+      "description": "Inspired by OpenClaw online RL trend: Implement OpenClaw-RL to capture next-state signals and update agent weights from interactions.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v5.py",
+        "tests/test_openclaw_rl_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Online learning from next-state signals is correctly implemented.",
+        "Tests mock LLM calls and verify the interactive learning."
+      ]
+    },
+    {
+      "id": "agent-teams-subagent-spawning-v5-6806",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Agent Teams Parallel Subagent Spawning",
+      "description": "Inspired by Claude Agent Teams trend: Implement parallel subagent spawning with git worktree isolation.",
+      "allowed_paths": [
+        "magda_agent/agents/parallel_subagents_v5.py",
+        "tests/test_parallel_subagents_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents are correctly spawned and run in isolated parallel context.",
+        "Tests mock git and system operations and verify spawning logic."
       ]
     }
   ]
