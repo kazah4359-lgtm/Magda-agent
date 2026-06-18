@@ -4273,7 +4273,7 @@
     },
     {
       "id": "openclaw-canvas-live-visualization-v2",
-      "status": "todo",
+      "status": "done",
       "area": "ui",
       "risk": "medium",
       "title": "Canvas Live Visualization UI",
@@ -7348,6 +7348,58 @@
       "acceptance": [
         "Subagents are correctly spawned and run in isolated parallel context.",
         "Tests mock git and system operations and verify spawning logic."
+      ]
+    },
+    {
+      "id": "mcp-compatibility-export-v1-a1b2c3d4",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Compatibility Export",
+      "description": "Inspired by MCP standard trend: Allow exporting Magda skills as MCP-compatible tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_export.py",
+        "tests/test_mcp_export.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported in MCP standard tool format.",
+        "Tests verify the exported structure."
+      ]
+    },
+    {
+      "id": "acs-runtime-governance-layer-v1-e5f6g7h8",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Runtime Governance Layer",
+      "description": "Inspired by ACS Specification trend: Implement a runtime governance layer that evaluates every tool call against policy rules before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/runtime_governance.py",
+        "tests/test_runtime_governance.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool calls are evaluated against policy rules before execution.",
+        "Violations block execution and raise an appropriate exception.",
+        "Tests verify policy enforcement with mocked tool calls."
+      ]
+    },
+    {
+      "id": "openclaw-virtual-context-manager-v2-i9j0k1l2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Virtual Context Manager for MemorySystem v2",
+      "description": "Inspired by MemGPT/OpenClaw trends: Implement advanced virtual context management for explicit memory paging out of the active context window.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v2.py",
+        "tests/test_virtual_context_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtual context manager can paginate explicit memory blocks.",
+        "Tests verify memory pagination logic using mocks."
       ]
     }
   ]
