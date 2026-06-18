@@ -4289,7 +4289,7 @@
     },
     {
       "id": "claude-dependency-graph-planner-v2",
-      "status": "todo",
+      "status": "done",
       "area": "planning",
       "risk": "medium",
       "title": "Task system with dependency graphs",
@@ -7400,6 +7400,57 @@
       "acceptance": [
         "Virtual context manager can paginate explicit memory blocks.",
         "Tests verify memory pagination logic using mocks."
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-export-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes-style Skill Marketplace Export",
+      "description": "Inspired by Hermes Agent trend: Skill marketplace integration. Add ability to export dynamically created skills to the agentskills.io standard format.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_exporter.py",
+        "tests/test_marketplace_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dynamically created skills can be exported to agentskills.io standard format.",
+        "Tests verify the exported format is valid."
+      ]
+    },
+    {
+      "id": "openclaw-local-first-context-engine",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Local-First Context Engine",
+      "description": "Inspired by OpenClaw trend: local-first architecture. Ensure the context engine falls back to local resources gracefully when external APIs are unavailable.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_local.py",
+        "tests/test_context_engine_local.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine can operate in a degraded local-first mode.",
+        "Tests mock API failures and verify graceful local fallback."
+      ]
+    },
+    {
+      "id": "claude-evaluator-subagent-policy",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude Evaluator Subagent Policy Enforcement",
+      "description": "Inspired by Claude Agent SDK: Planner, Generator, Evaluator pattern. Add strict policy enforcement rules to the Evaluator subagent to check against system constraints.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator_policy.py",
+        "tests/test_evaluator_policy.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator subagent can check generated outputs against strict system policies.",
+        "Tests verify that policy violations result in rejected output evaluations."
       ]
     }
   ]
