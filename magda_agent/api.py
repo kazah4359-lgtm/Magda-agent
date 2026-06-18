@@ -26,6 +26,7 @@ from magda_agent.planning.planner import Planner
 from magda_agent.integration.a2a_server import A2AServer
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
+from magda_agent.evaluation.agentbench import daily_agentbench_eval
 from magda_agent.scheduler.cron import CronScheduler
 from magda_agent.operations.cron import OperationsCronScheduler
 from magda_agent.scheduler.autonomous_tasks import run_health_check, report_quality_metrics
@@ -176,6 +177,9 @@ cron_scheduler.schedule("0 * * * *", run_health_check, name="health_check")
 
 # Schedule quality metrics report every day at midnight
 cron_scheduler.schedule("0 0 * * *", report_quality_metrics, name="quality_report", tracker=quality_tracker)
+
+# Schedule daily AgentBench evaluation
+cron_scheduler.schedule("0 0 * * *", daily_agentbench_eval, name="agentbench_eval")
 
 task_store = TaskStore(path=os.getenv("AUTONOMY_TASKS_PATH", "./autonomy_tasks.json"))
 autonomous_executor = AutonomousExecutor(
