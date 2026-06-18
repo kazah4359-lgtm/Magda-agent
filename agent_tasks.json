@@ -4305,7 +4305,7 @@
     },
     {
       "id": "memgpt-virtual-context-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "MemGPT Virtual Context Integration v2",
@@ -7451,6 +7451,57 @@
       "acceptance": [
         "Evaluator subagent can check generated outputs against strict system policies.",
         "Tests verify that policy violations result in rejected output evaluations."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency-v2-a9a0b782",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP concurrent action tool execution v2",
+      "description": "Inspired by MCP standard trend: Implement runtime function tool concurrency for executing multiple tools at once without waiting for sequential completion.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_router_v2_concurrency.py",
+        "tests/test_mcp_router_v2_concurrency.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Router can execute multiple tools concurrently.",
+        "Tests verify concurrent execution timing and results."
+      ]
+    },
+    {
+      "id": "agent-teams-subagent-isolation-v2-49252226",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Agent Teams Subagent Git Worktree Isolation v2",
+      "description": "Inspired by Claude Agent Teams trend: Implement Subagent spawning with strict Git Worktree isolation and context context separation.",
+      "allowed_paths": [
+        "magda_agent/agents/isolation_v2.py",
+        "tests/test_isolation_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents have strictly isolated git worktrees.",
+        "Tests mock git calls and verify isolation paths."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visualization-v2-553ba456",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Visualization WebSockets v2",
+      "description": "Inspired by OpenClaw trend: Provide Canvas for live visualization of the internal cognitive state using FastAPI WebSockets.",
+      "allowed_paths": [
+        "magda_agent/visualization/server_v2.py",
+        "tests/test_visualization_server_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WebSocket server is capable of streaming cognitive state representations.",
+        "Tests verify WebSocket stream output mocking asyncio event loops."
       ]
     }
   ]
