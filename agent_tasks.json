@@ -4207,7 +4207,7 @@
     },
     {
       "id": "openclaw-canvas-live-endpoints-v2",
-      "status": "todo",
+      "status": "done",
       "area": "visualization",
       "risk": "low",
       "title": "Canvas Live Visualization API v2",
@@ -7182,6 +7182,38 @@
       ],
       "acceptance": [
         "Tool calls correctly pass through the new ACS runtime guardrail checkpoint."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-integration-v8",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Enterprise Integration v8",
+      "description": "Inspired by trend: A2A Enterprise-ready integration. Add tracing and auth layers to the A2A JSON-RPC client.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_enterprise_v8.py",
+        "tests/test_a2a_enterprise_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tracing and auth layers are implemented for A2A client."
+      ]
+    },
+    {
+      "id": "claude-multi-agent-spawning-v3",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude multi-agent spawning v3",
+      "description": "Inspired by Claude Agent Teams trend: Subagent spawning. Implement a basic multi-agent manager.",
+      "allowed_paths": [
+        "magda_agent/agents/multi_agent_manager_v3.py",
+        "tests/test_multi_agent_manager_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Multi-agent manager spawns isolated context subagents."
       ]
     }
   ]

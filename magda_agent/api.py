@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import JSONResponse
 from magda_agent.visualization.server import CanvasServer
+from magda_agent.visualization.canvas_api_v2 import get_canvas_v2_router
 from pydantic import BaseModel
 
 from typing import Any, Dict, List, Optional
@@ -219,6 +220,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Magda Consciousness API", lifespan=lifespan)
 app.mount("/a2a", a2a_server.app)
+app.include_router(get_canvas_v2_router(canvas_server, token=os.getenv('MAGDA_API_TOKEN')))
 
 _PUBLIC_HTTP_PATHS = {"/health"}
 
