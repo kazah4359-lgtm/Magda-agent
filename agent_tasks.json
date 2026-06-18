@@ -4339,7 +4339,7 @@
     },
     {
       "id": "hermes-skill-creation-loop-v2",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "Hermes Skill Creation Loop v2",
@@ -7553,6 +7553,57 @@
       "acceptance": [
         "Audit Logger captures tool calls properly.",
         "Tests confirm redaction of sensitive arguments."
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-integration-v3-bd5e414d",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes-style Skill Marketplace Export v3",
+      "description": "Inspired by Hermes Agent trend: Skill marketplace integration. Add ability to export dynamically created skills to the agentskills.io standard format, expanding on v2.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_exporter_v3.py",
+        "tests/test_marketplace_exporter_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dynamically created skills can be exported to agentskills.io standard format.",
+        "Tests verify the exported format is valid."
+      ]
+    },
+    {
+      "id": "claude-agent-teams-subagent-isolation-v3-56a1b5e7",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Agent Teams Subagent Git Worktree Isolation v3",
+      "description": "Inspired by Claude Agent Teams trend: Implement Subagent spawning with strict Git Worktree isolation and context separation, expanding on v2.",
+      "allowed_paths": [
+        "magda_agent/agents/isolation_v3.py",
+        "tests/test_isolation_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents have strictly isolated git worktrees.",
+        "Tests mock git calls and verify isolation paths."
+      ]
+    },
+    {
+      "id": "openclaw-local-first-context-engine-v2-618a2738",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Local-First Context Engine v2",
+      "description": "Inspired by OpenClaw trend: local-first architecture. Ensure the context engine falls back to local resources gracefully when external APIs are unavailable, expanding on previous v1.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_local_v2.py",
+        "tests/test_context_engine_local_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine can operate in a degraded local-first mode.",
+        "Tests mock API failures and verify graceful local fallback."
       ]
     }
   ]
