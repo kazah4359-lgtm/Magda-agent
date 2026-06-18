@@ -4,7 +4,7 @@ from datetime import datetime
 from unittest.mock import AsyncMock, patch
 
 from magda_agent.scheduler.cron_reports import DailyReportScheduler
-from magda_agent.operations.cron import OperationsCronScheduler
+from magda_agent.scheduler.cron import CronScheduler
 
 @pytest.fixture
 def scheduler():
@@ -18,7 +18,7 @@ async def test_register_daily_report(scheduler):
 
     assert "daily_summary" in scheduler._registered_reports
 
-    # Check underlying OperationsCronScheduler
+    # Check underlying CronScheduler
     assert len(scheduler.scheduler.jobs) == 1
     job = scheduler.scheduler.jobs[0]
     assert job["name"] == "daily_summary"
@@ -32,7 +32,7 @@ async def test_register_nightly_backup(scheduler):
 
     assert "db_backup" in scheduler._registered_reports
 
-    # Check underlying OperationsCronScheduler
+    # Check underlying CronScheduler
     assert len(scheduler.scheduler.jobs) == 1
     job = scheduler.scheduler.jobs[0]
     assert job["name"] == "db_backup"
@@ -40,7 +40,7 @@ async def test_register_nightly_backup(scheduler):
 
 @pytest.mark.asyncio
 async def test_scheduler_triggers_reports_on_time():
-    ops_scheduler = OperationsCronScheduler()
+    ops_scheduler = CronScheduler()
     scheduler = DailyReportScheduler(scheduler=ops_scheduler)
 
     mock_report = AsyncMock(return_value="report_generated")

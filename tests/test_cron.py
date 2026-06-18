@@ -3,11 +3,11 @@ import asyncio
 from datetime import datetime
 from unittest.mock import AsyncMock, patch
 
-from magda_agent.operations.cron import OperationsCronScheduler
+from magda_agent.scheduler.cron import CronScheduler
 
 @pytest.fixture
 def scheduler():
-    return OperationsCronScheduler()
+    return CronScheduler()
 
 @pytest.mark.asyncio
 async def test_scheduler_accepts_cron_expression(scheduler):
@@ -44,7 +44,7 @@ async def test_scheduler_executes_task_on_schedule():
     mock_task = AsyncMock(return_value="result")
     mock_callback = AsyncMock()
 
-    scheduler = OperationsCronScheduler(result_callback=mock_callback)
+    scheduler = CronScheduler(result_callback=mock_callback)
     now = datetime(2026, 6, 1, 12, 0, 0)
 
     with patch.object(scheduler, '_get_now') as mock_get_now:

@@ -1,22 +1,22 @@
 import logging
 from typing import Callable, Any, Coroutine, Dict
-from magda_agent.operations.cron import OperationsCronScheduler
+from magda_agent.scheduler.cron import CronScheduler
 
 logger = logging.getLogger(__name__)
 
 class DailyReportScheduler:
     """
-    A scheduler dedicated to running daily reports and backups using the OperationsCronScheduler.
+    A scheduler dedicated to running daily reports and backups using the CronScheduler.
     """
 
-    def __init__(self, scheduler: OperationsCronScheduler | None = None) -> None:
+    def __init__(self, scheduler: CronScheduler | None = None) -> None:
         """
         Initializes the DailyReportScheduler.
 
         Args:
-            scheduler: The OperationsCronScheduler instance. If None, a new one is created.
+            scheduler: The CronScheduler instance. If None, a new one is created.
         """
-        self.scheduler = scheduler or OperationsCronScheduler()
+        self.scheduler = scheduler or CronScheduler()
         self._registered_reports: Dict[str, Callable[..., Coroutine[Any, Any, Any]]] = {}
 
     def register_daily_report(self, name: str, report_func: Callable[..., Coroutine[Any, Any, Any]], cron_expr: str = "0 9 * * *") -> None:

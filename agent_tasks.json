@@ -4239,7 +4239,7 @@
     },
     {
       "id": "cron-scheduler-daily-reports-v4",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Scheduled operations: daily reports",
@@ -7246,6 +7246,57 @@
       ],
       "acceptance": [
         "Parallel execution of subagents works correctly."
+      ]
+    },
+    {
+      "id": "context-engine-virtual-memory-v1-6aa1fc58",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Virtual context management for MemorySystem",
+      "description": "Inspired by MemGPT/Letta pattern in docs/trends.md: Implement virtual context management in the MemorySystem to allow the agent to explicitly page memories in and out of the active context window.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context.py",
+        "tests/test_virtual_context.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtual context manager can swap memory blocks in and out.",
+        "Pytest tests verify pagination without calling real APIs."
+      ]
+    },
+    {
+      "id": "openclaw-rl-next-state-signals-v1-d14a492a",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Next-State Signals capture",
+      "description": "Inspired by OpenClaw trend in docs/trends.md: Implement online reinforcement learning from next-state signals (user replies, tool outputs).",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "tests/test_online_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "OnlineRLLearner captures next-state signals.",
+        "Tests verify signal capture and weight updates using OnlineRLIntegrator."
+      ]
+    },
+    {
+      "id": "a2a-task-delegation-v1-5088edc2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A task delegation integration",
+      "description": "Inspired by A2A Protocol trend in docs/trends.md: Implement peer-to-peer task delegation using A2ADDelegator and A2ASecurityContext for async tracing.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation.py",
+        "tests/test_a2a_delegation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Delegator can dispatch tasks securely.",
+        "Pytest tests verify task delegation logic."
       ]
     }
   ]
