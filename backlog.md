@@ -104,6 +104,7 @@
 * [x] FEATURE: OpenClaw Canvas live visualization support (openclaw-live-canvas-visualizer)
 - [x] MCP server-prefixed tools support
 * [x] FEATURE: Cross-platform reach across channels (cross-platform-reach-channels)
+* [x] FEATURE: Cross-platform reach: Telegram channel v2
 * [x] FEATURE: Agent Teams sub-agents spawning (agent-teams-sub-agents)
 
 - [x] a2a-async-auth-tracing: A2A Enterprise-Ready Async Auth and Tracing

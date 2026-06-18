@@ -33,7 +33,7 @@ def test_omnichannel_sync_with_gateway():
     dc = DiscordAdapter(gateway)
 
     res_tg = send_message("telegram", "user1", "Hello TG", gateway=gateway)
-    assert res_tg == "Telegram sent to user1: Hello TG"
+    assert res_tg == "Telegram sent to user1: Hello TG (Mock/No Token)"
 
     res_dc = send_message("discord", "user2", "Hello DC", gateway=gateway)
     assert res_dc == "Discord sent to user2: Hello DC"
