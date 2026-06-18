@@ -4174,7 +4174,7 @@
     },
     {
       "id": "agentbench-eval-multi-domain-v1",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "AgentBench Multi-Domain Evaluation",
