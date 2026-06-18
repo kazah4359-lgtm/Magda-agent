@@ -4356,7 +4356,7 @@
     },
     {
       "id": "agent-teams-subagent-spawning",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Subagent spawning via OpenClaw context engine",
@@ -7604,6 +7604,57 @@
       "acceptance": [
         "Context engine can operate in a degraded local-first mode.",
         "Tests mock API failures and verify graceful local fallback."
+      ]
+    },
+    {
+      "id": "a2a-task-delegation-streaming-v1-uuid",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Task Delegation Streaming Interface",
+      "description": "Inspired by trend: A2A open standard. Implement a streaming interface for A2A peer-to-peer task delegation to support long-horizon task coordination.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_streaming.py",
+        "tests/test_a2a_streaming.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A streaming interface supports chunked updates for task delegation.",
+        "Tests verify chunked response processing."
+      ]
+    },
+    {
+      "id": "mcp-kernel-sandbox-taint-policy-v1-uuid",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Kernel Taint Tracking Policy Engine",
+      "description": "Inspired by trend: MCPKernel taint tracking + sandboxed execution. Build a dynamic taint tracking policy engine to restrict untrusted tool outputs.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_taint_policy.py",
+        "tests/test_mcp_taint_policy.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint policy engine evaluates data streams before execution.",
+        "Tests ensure malicious untrusted output is blocked."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-feedback-v1-uuid",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Feedback Formatter",
+      "description": "Inspired by trend: OpenClaw-RL interactive learning. Implement an interactive feedback formatter to capture explicit and implicit user signals during conversations.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_feedback.py",
+        "tests/test_interactive_feedback.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Feedback formatter correctly parses user corrections.",
+        "Tests ensure parsed signals are accurately extracted."
       ]
     }
   ]
