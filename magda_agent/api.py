@@ -42,6 +42,7 @@ from magda_agent.learning.online import OnlineLearner
 from magda_agent.learning.online_rl import OnlineRLIntegrator
 from magda_agent.learning.online_rl_v6 import OnlineRLFeedbackLoopV6
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
+from magda_agent.learning.lessons import TaskRecoveryLessons
 from magda_agent.user_model.model import UserModel
 from magda_agent.reflexes.brainstem import Brainstem
 from magda_agent.thalamus.router import Thalamus
@@ -101,10 +102,13 @@ from magda_agent.learning.feedback_loop import FeedbackLoop
 
 feedback_loop = FeedbackLoop(mirror_neurons=mirror_neurons, user_model=user_model)
 
+recovery_lessons = TaskRecoveryLessons(procedural_memory=procedural_memory, llm=llm_client)
+
 openclaw_rl = OpenClawInteractiveLearner(
     habit_tracker=habit_tracker,
     mirror_neurons=mirror_neurons,
     user_model=user_model,
+    recovery_lessons=recovery_lessons
 )
 brainstem = Brainstem()
 planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tracker)

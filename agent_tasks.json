@@ -4390,7 +4390,7 @@
     },
     {
       "id": "openclaw-rl-reinforcement-v1",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Online Reinforcement Learning",
