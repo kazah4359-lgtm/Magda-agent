@@ -4407,7 +4407,7 @@
     },
     {
       "id": "claude-subagent-worktree",
-      "status": "todo",
+      "status": "done",
       "area": "execution",
       "risk": "high",
       "title": "Agent Teams Worktree Isolation",
@@ -7706,6 +7706,57 @@
       "acceptance": [
         "Feedback formatter correctly parses user corrections.",
         "Tests ensure parsed signals are accurately extracted."
+      ]
+    },
+    {
+      "id": "openclaw-rl-metrics-v1-4b8afd35",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Metrics System",
+      "description": "Inspired by OpenClaw trend: Implement an online reinforcement learning metrics system to capture longitudinal quality updates based on next-state signals.",
+      "allowed_paths": [
+        "magda_agent/learning/metrics.py",
+        "tests/test_rl_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL Metrics System correctly captures and logs next-state signals.",
+        "Tests pass correctly mocking LLM client."
+      ]
+    },
+    {
+      "id": "a2a-discovery-v2-8142d1f8",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Discovery v2 (Agent Cards)",
+      "description": "Inspired by A2A open standard trend: Implement an Agent Discovery service using Agent Cards for asynchronous peer-to-peer task delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v2.py",
+        "tests/test_a2a_discovery_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Discovery service properly parses Agent Cards.",
+        "Tests verify A2A protocol behavior."
+      ]
+    },
+    {
+      "id": "mcp-kernel-runtime-v3-629cf94c",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Kernel Runtime v3",
+      "description": "Inspired by MCPKernel taint tracking trend: Implement the MCP Kernel Runtime module that acts as a runtime proxy enforcing taint policy for tool calls.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_kernel_runtime_v3.py",
+        "tests/test_mcp_kernel_runtime_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Kernel properly intercepts and enforces taint tracking.",
+        "Tests mock the runtime proxy accurately."
       ]
     }
   ]

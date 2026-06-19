@@ -208,3 +208,6 @@
 
 * [x] MODULE: **Reflection to task generation** (`magda_agent/planning/reflection_tasks.py`). Inspired by trend: Reflection -> new task generation. Agent should generate new tasks based on reflections from previous failures.
 * [x] FEATURE: Task system with dependency graphs (claude-dependency-graph-planner-v2)
+
+* [x] MODULE: **Agent Teams Worktree Isolation** — `claude-subagent-worktree`.
+  Implemented SubAgent isolation using GitWorktreeManager.

@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 import asyncio
 import logging
 import os
@@ -68,3 +69,14 @@ class GitWorktreeManager:
             logging.error(f"Error executing git worktree remove: {e}")
             if os.path.exists(worktree_path):
                 shutil.rmtree(worktree_path)
+
+    @asynccontextmanager
+    async def isolated_environment(self, branch_name: Optional[str] = None):
+        """
+        Context manager for creating and automatically cleaning up an isolated git worktree.
+        """
+        worktree_path = await self.create_worktree_async(branch_name=branch_name)
+        try:
+            yield worktree_path
+        finally:
+            await self.remove_worktree_async(worktree_path)
