@@ -4,7 +4,9 @@ Inspired by OpenClaw trend: Add a Canvas interface for live visual feedback of a
 """
 import json
 from typing import Any, Dict, List, Optional
+import logging
 
+logger = logging.getLogger(__name__)
 
 class CanvasVisualizer:
     """
@@ -23,6 +25,19 @@ class CanvasVisualizer:
         Initializes the canvas interface.
         """
         self._is_initialized = True
+        logger.info("Canvas visualizer initialized")
+
+    def connect(self) -> bool:
+        """
+        Connects to the Canvas live visualizer.
+
+        Returns:
+            bool: True if connection is successful, False otherwise.
+        """
+        if not self._is_initialized:
+            raise RuntimeError("CanvasVisualizer is not initialized. Call initialize() first.")
+        logger.info("Canvas visualizer connected")
+        return True
 
     def render_text(self, text: str) -> None:
         """
@@ -34,6 +49,7 @@ class CanvasVisualizer:
         if not self._is_initialized:
             raise RuntimeError("CanvasVisualizer is not initialized. Call initialize() first.")
         self._history.append({"type": "text", "content": text})
+        logger.debug(f"Rendered text to canvas: {text}")
 
     def render_object(self, obj: Dict[str, Any]) -> None:
         """
@@ -45,6 +61,7 @@ class CanvasVisualizer:
         if not self._is_initialized:
             raise RuntimeError("CanvasVisualizer is not initialized. Call initialize() first.")
         self._history.append({"type": "object", "content": obj})
+        logger.debug("Rendered object to canvas")
 
     def get_history(self) -> List[Dict[str, Any]]:
         """
