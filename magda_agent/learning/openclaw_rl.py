@@ -1,9 +1,10 @@
 import json
 import logging
-from typing import Optional
+from typing import Optional, List
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.user_model.model import UserModel
+from magda_agent.learning.lessons import TaskRecoveryLessons
 
 class OpenClawInteractiveLearner:
     """
@@ -14,13 +15,22 @@ class OpenClawInteractiveLearner:
         self,
         habit_tracker: HabitTracker,
         mirror_neurons: MirrorNeurons,
-        user_model: UserModel
+        user_model: UserModel,
+        recovery_lessons: Optional[TaskRecoveryLessons] = None
     ) -> None:
         self.habit_tracker = habit_tracker
         self.mirror_neurons = mirror_neurons
         self.user_model = user_model
+        self.recovery_lessons = recovery_lessons
 
-    async def process_next_state_signal(self, user_reply: str, action_context: str, user_id: int, tool_output: Optional[str] = None) -> None:
+    async def process_next_state_signal(
+        self,
+        user_reply: str,
+        action_context: str,
+        user_id: int,
+        tool_output: Optional[str] = None,
+        skills_used: Optional[List[str]] = None
+    ) -> None:
         """
         Analyzes the user's reply as a next-state signal, and reinforces habits and updates preferences.
 
@@ -41,9 +51,11 @@ class OpenClawInteractiveLearner:
         model_data = self.user_model.get_model(user_id)
 
         if p_shift > 0.0:
-            # Positive signal, reinforce the habit explicitly
-            self.habit_tracker.record_usage(input_text=action_context, skill_used="rl_skill", evaluation_score=10.0, user_id=user_id)
-            logging.info(f"OpenClaw-RL: Positive signal received (p_shift={p_shift:.2f}). Reinforced habit.")
+            # Positive signal, reinforce the habits explicitly
+            skills = skills_used or ["rl_skill"]
+            for skill in skills:
+                self.habit_tracker.record_usage(input_text=action_context, skill_used=skill, evaluation_score=10.0, user_id=user_id)
+            logging.info(f"OpenClaw-RL: Positive signal received (p_shift={p_shift:.2f}). Reinforced habits: {skills}")
 
             # Adjust communication style towards friendly if not present
             if "(friendly)" not in model_data.get("communication_style", ""):
@@ -51,6 +63,15 @@ class OpenClawInteractiveLearner:
 
         elif p_shift < 0.0:
             logging.info(f"OpenClaw-RL: Negative signal received (p_shift={p_shift:.2f}).")
+
+            # Directive signal: generate recovery lesson for significant negative feedback
+            if p_shift <= -0.2 and self.recovery_lessons:
+                logging.info("OpenClaw-RL: Significant negative signal. Generating recovery lesson.")
+                await self.recovery_lessons.generate_and_store_lesson(
+                    task_description=action_context,
+                    failure_reason=user_reply,
+                    user_id=user_id
+                )
 
             # Adjust communication style towards cautious if not present
             if "(cautious)" not in model_data.get("communication_style", ""):

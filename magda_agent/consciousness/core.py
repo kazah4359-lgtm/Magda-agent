@@ -138,15 +138,29 @@ class Consciousness:
         if self.context_engine:
             user_input = await self.context_engine.ingest(user_input, {"user_id": user_id})
 
+        # For simplicity, we use the planner's last state or a generic string as the action context
+        last_context = self.planner.get_state_summary(user_id=user_id) if getattr(self, 'planner', None) else "Recent action context"
+
         if self.online_learner:
-            # For simplicity, we use the planner's last state or a generic string as the action context
-            last_context = self.planner.get_state_summary(user_id=user_id) if getattr(self, 'planner', None) else "Recent action context"
             await self.online_learner.process_feedback(user_input, last_context, user_id)
+
+        # Extract skills used in the previous turn if available
+        skills_used = []
+        if self.planner:
+            completed_steps = self.planner.get_completed_steps(user_id)
+            if completed_steps:
+                skills_used = [step.get("skill") for step in completed_steps if step.get("skill")]
+
         # Let OpenClawRL learn from the interaction as next-state signal
         if self.feedback_loop:
             await self.feedback_loop.process_feedback(user_input, user_id)
         if self.openclaw_rl:
-            await self.openclaw_rl.process_next_state_signal(user_input, last_context, user_id)
+            await self.openclaw_rl.process_next_state_signal(
+                user_input,
+                last_context,
+                user_id,
+                skills_used=skills_used
+            )
         if self.online_rl_v6:
             await self.online_rl_v6.adjust_behavior(user_input, last_context, user_id)
 
