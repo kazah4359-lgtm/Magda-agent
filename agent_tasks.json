@@ -4426,7 +4426,7 @@
     },
     {
       "id": "acs-guardrails-checkpoint-interface",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Control Checkpoints Interface",
@@ -7757,6 +7757,57 @@
       "acceptance": [
         "MCP Kernel properly intercepts and enforces taint tracking.",
         "Tests mock the runtime proxy accurately."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-memory-visualization-59894892",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Memory Visualization",
+      "description": "Inspired by the OpenClaw Canvas trend: Implement a Memory Visualizer component that streams memory structures to the Canvas for live visualization.",
+      "allowed_paths": [
+        "magda_agent/visualization/memory_canvas.py",
+        "tests/test_memory_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory visualizer correctly formats memory blocks for Canvas consumption.",
+        "Tests mock Canvas and verify data structure."
+      ]
+    },
+    {
+      "id": "hermes-cron-nightly-backups-v2-6aeef707",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Hermes Cron Nightly Backups v2",
+      "description": "Inspired by Hermes Cron scheduler trend: Implement a nightly backup scheduler to snapshot ChromaDB and working memory, expanding on operations cron capabilities.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_backups.py",
+        "tests/test_cron_backups.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cron backups scheduler correctly triggers database snapshots.",
+        "Tests mock time and file system to verify backup execution."
+      ]
+    },
+    {
+      "id": "claude-evaluator-critic-agent-a8bc4909",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Claude Evaluator Critic Agent",
+      "description": "Inspired by Claude Agent Teams trend: Implement the Evaluator (Critic) agent in the Triad Architecture to rigorously evaluate generator output.",
+      "allowed_paths": [
+        "magda_agent/agents/critic_evaluator.py",
+        "tests/test_critic_evaluator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Critic evaluator correctly assigns scores and provides feedback on generator outputs.",
+        "Tests mock LLM calls to verify critic decision logic."
       ]
     }
   ]
