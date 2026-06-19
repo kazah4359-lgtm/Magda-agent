@@ -4460,7 +4460,7 @@
     },
     {
       "id": "openclaw-rl-next-state-signals",
-      "status": "todo",
+      "status": "done",
       "area": "core",
       "risk": "high",
       "title": "OpenClaw RL Next-State Signals",
@@ -7859,6 +7859,57 @@
       "acceptance": [
         "Untrusted tool outputs are correctly blocked in isolation mode.",
         "Tests ensure malicious execution is prevented."
+      ]
+    },
+    {
+      "id": "agent-teams-subagent-spawner-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Agent Teams Subagent Spawner v2",
+      "description": "Inspired by Claude Agent Teams trend: Update the subagent spawner to better isolate contexts and leverage Git worktrees more dynamically.",
+      "allowed_paths": [
+        "magda_agent/agents/spawner_v2.py",
+        "tests/test_spawner_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent spawner correctly provisions isolated contexts.",
+        "Tests verify that no state leaks across spawned subagents."
+      ]
+    },
+    {
+      "id": "acs-runtime-tool-validation-v5",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Runtime Tool Validation v5",
+      "description": "Inspired by ACS Guardrails trend: Implement the next iteration of runtime tool validation checks to block potentially destructive actions before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_validation_v5.py",
+        "tests/test_acs_validation_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS validation correctly identifies and blocks destructive tool calls.",
+        "Tests verify successful blocking without false positives."
+      ]
+    },
+    {
+      "id": "openclaw-context-compression-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Compression v3",
+      "description": "Inspired by OpenClaw Context Engine trend: Implement a newer context compression algorithm using selective retrieval to maintain memory limits.",
+      "allowed_paths": [
+        "magda_agent/memory/compression_v3.py",
+        "tests/test_compression_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context compressor correctly reduces context size.",
+        "Tests verify that critical memories are retained during compression."
       ]
     }
   ]
