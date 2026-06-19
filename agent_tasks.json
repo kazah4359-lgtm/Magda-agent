@@ -4477,7 +4477,7 @@
     },
     {
       "id": "claude-subagent-spawning-teams",
-      "status": "todo",
+      "status": "done",
       "area": "core",
       "risk": "high",
       "title": "Claude Subagent Spawning",
@@ -7910,6 +7910,57 @@
       "acceptance": [
         "Context compressor correctly reduces context size.",
         "Tests verify that critical memories are retained during compression."
+      ]
+    },
+    {
+      "id": "webarena-navigation-skills-v2-2aa4a776",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "WebArena Navigation Skill Integration v2",
+      "description": "Inspired by WebArena benchmarks. Implement an advanced proactive navigation skill that allows the agent to visually and semantically parse web pages to execute user commands directly, simulating browser interaction.",
+      "allowed_paths": [
+        "magda_agent/skills/web_navigation_v2.py",
+        "tests/test_web_navigation_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill provides 'click' and 'type' action capabilities on identified elements",
+        "Tests verify skill functions with a mocked HTML structure"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency-v8-a317db1a",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP action tools support with dynamic loading",
+      "description": "Inspired by MCP trend where action tools grew to 65%. Implement a robust interface in MCP compatibility layer to not just export read-only skills, but full state-mutating action tools protected by policy layer.",
+      "allowed_paths": [
+        "magda_agent/mcp/action_tools_v8.py",
+        "tests/test_mcp_action_tools_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Action tools can be registered and invoked via MCP",
+        "Tests verify invocation and policy gating"
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v9-1d630384",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Reinforcement Learning",
+      "description": "Inspired by OpenClaw trend: Implement an online reinforcement learning mechanism using MirrorNeurons PAD shifts from user replies to train agent simply by talking. Extract implicit feedback as next-state signals.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v9.py",
+        "tests/test_openclaw_rl_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent adjusts policies based on conversation PAD shifts.",
+        "Tests verify that positive feedback reinforces recent habits."
       ]
     }
   ]
