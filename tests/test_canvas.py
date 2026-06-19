@@ -89,3 +89,39 @@ def test_canvas_visualizer_error_handling():
     assert state["skills"] == []
     assert state["planner"] == {}
     assert "error" not in state
+
+def test_ui_canvas_visualizer_initialization() -> None:
+    """Test that the canvas visualizer initializes correctly."""
+    from magda_agent.ui.canvas import CanvasVisualizer as UICanvasVisualizer
+    visualizer = UICanvasVisualizer()
+    assert not visualizer._is_initialized
+
+def test_ui_canvas_visualizer_render_text() -> None:
+    """Test that the canvas visualizer renders text correctly."""
+    from magda_agent.ui.canvas import CanvasVisualizer as UICanvasVisualizer
+    visualizer = UICanvasVisualizer()
+    visualizer.initialize()
+    visualizer.render_text("Agent state")
+    assert visualizer.get_history() == [{"type": "text", "content": "Agent state"}]
+
+def test_ui_canvas_visualizer_render_object() -> None:
+    """Test that the canvas visualizer renders objects correctly."""
+    from magda_agent.ui.canvas import CanvasVisualizer as UICanvasVisualizer
+    visualizer = UICanvasVisualizer()
+    visualizer.initialize()
+    visualizer.render_object({"state": "active"})
+    assert visualizer.get_history() == [{"type": "object", "content": {"state": "active"}}]
+
+def test_ui_canvas_visualizer_uninitialized() -> None:
+    """Test that the canvas visualizer raises an error when uninitialized."""
+    from magda_agent.ui.canvas import CanvasVisualizer as UICanvasVisualizer
+    visualizer = UICanvasVisualizer()
+    with pytest.raises(RuntimeError):
+        visualizer.render_text("test")
+
+def test_ui_canvas_visualizer_connect() -> None:
+    """Test that the canvas visualizer connects correctly."""
+    from magda_agent.ui.canvas import CanvasVisualizer as UICanvasVisualizer
+    visualizer = UICanvasVisualizer()
+    visualizer.initialize()
+    assert visualizer.connect() == True

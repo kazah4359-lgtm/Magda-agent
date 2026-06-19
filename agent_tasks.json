@@ -4443,7 +4443,7 @@
     },
     {
       "id": "openclaw-canvas-live-visual",
-      "status": "todo",
+      "status": "done",
       "area": "ui",
       "risk": "medium",
       "title": "OpenClaw Canvas Live Visualization",
@@ -7808,6 +7808,57 @@
       "acceptance": [
         "Critic evaluator correctly assigns scores and provides feedback on generator outputs.",
         "Tests mock LLM calls to verify critic decision logic."
+      ]
+    },
+    {
+      "id": "hermes-persistent-memory-marketplace-v1-28a4370c",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Hermes Persistent Memory Marketplace v1",
+      "description": "Inspired by Hermes trends: Implement persistent memory sharing capabilities across agents using an open marketplace standard.",
+      "allowed_paths": [
+        "magda_agent/memory/marketplace.py",
+        "tests/test_marketplace.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agents can export episodic memories to a standardized format.",
+        "Tests verify marketplace format generation."
+      ]
+    },
+    {
+      "id": "openclaw-a2a-orchestration-streaming-v1-4fa9de5b",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "OpenClaw A2A Orchestration Streaming v1",
+      "description": "Inspired by OpenClaw trends: Create an asynchronous streaming pipeline for A2A orchestration and agent peer-to-peer discovery.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_orchestration.py",
+        "tests/test_a2a_orchestration.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A orchestration streams messages correctly.",
+        "Tests mock stream handlers appropriately."
+      ]
+    },
+    {
+      "id": "mcp-policy-runtime-engine-isolation-v1-b548ccd1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Policy Runtime Engine Isolation v1",
+      "description": "Inspired by MCP trends: Introduce an isolated runtime execution environment for untrusted MCP tools using a taint policy engine.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_isolation.py",
+        "tests/test_mcp_isolation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Untrusted tool outputs are correctly blocked in isolation mode.",
+        "Tests ensure malicious execution is prevented."
       ]
     }
   ]
