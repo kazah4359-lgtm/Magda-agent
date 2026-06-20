@@ -4566,7 +4566,7 @@
     },
     {
       "id": "cross-platform-reach-v2",
-      "status": "todo",
+      "status": "done",
       "area": "channels",
       "risk": "medium",
       "title": "Cross-platform reach channels",
@@ -8118,6 +8118,57 @@
       "acceptance": [
         "Subagents spawn in isolated git worktrees.",
         "Tests verify strict isolation and correct teardown."
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-integration-v1-new-suffix-123",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Hermes Skill Marketplace Integration v1",
+      "description": "Inspired by the Skill marketplace trend (agentskills.io). Implement a module that allows Magda to publish and consume skills from a remote or local skill marketplace repository.",
+      "allowed_paths": [
+        "magda_agent/integration/skill_marketplace.py",
+        "tests/test_skill_marketplace.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can parse external skills format correctly.",
+        "Tests verify fetching and registering a mock skill."
+      ]
+    },
+    {
+      "id": "openclaw-online-rl-user-behavior-v4-new-suffix-456",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw Online RL from User Behavior v4",
+      "description": "Inspired by the OpenClaw Online learning trend. Extend the online reinforcement learning to include implicit signals from user interaction frequency and session duration.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_user_behavior_v4.py",
+        "tests/test_rl_user_behavior_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Learning module extracts frequency and duration signals.",
+        "Tests verify weight adjustments based on session metrics."
+      ]
+    },
+    {
+      "id": "agent-guard-runtime-policy-v5-new-suffix-789",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Runtime Policy v5",
+      "description": "Inspired by the Guardrails policy layer trend. Implement a more robust runtime policy layer that intercepts tool executions based on dynamic context rules rather than static checkpoints.",
+      "allowed_paths": [
+        "magda_agent/safety/guard_runtime_policy_v5.py",
+        "tests/test_guard_runtime_policy_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy layer correctly evaluates dynamic rules and allows/blocks calls.",
+        "Tests verify dynamic policy blocking capability."
       ]
     }
   ]
