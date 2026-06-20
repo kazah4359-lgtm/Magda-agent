@@ -40,6 +40,7 @@ from magda_agent.metacognition.confidence import ConfidenceCalibrator
 from magda_agent.metacognition.tracker import QualityTracker
 from magda_agent.learning.habits import HabitTracker
 from magda_agent.learning.online import OnlineLearner
+from magda_agent.learning.dialogue_v3 import DialogueOnlineLearnerV3
 from magda_agent.learning.online_rl import OnlineRLIntegrator
 from magda_agent.learning.online_rl_v6 import OnlineRLFeedbackLoopV6
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
@@ -91,6 +92,8 @@ online_rl_integrator = OnlineRLIntegrator(
     habit_tracker=habit_tracker,
     mirror_neurons=mirror_neurons
 )
+
+dialogue_online_learner_v3 = DialogueOnlineLearnerV3()
 
 online_rl_v6 = OnlineRLFeedbackLoopV6(
     habit_tracker=habit_tracker,
@@ -152,6 +155,7 @@ consciousness = Consciousness(
     online_learner=online_learner,
     online_rl_integrator=online_rl_integrator,
     online_rl_v6=online_rl_v6,
+    dialogue_online_learner_v3=dialogue_online_learner_v3,
     openclaw_rl=openclaw_rl,
     feedback_loop=feedback_loop,
     guardrail=guardrail,

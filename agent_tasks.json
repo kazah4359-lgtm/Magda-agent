@@ -4583,7 +4583,7 @@
     },
     {
       "id": "online-learning-from-dialogue-v3",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online learning from dialogue v3",
@@ -8169,6 +8169,57 @@
       "acceptance": [
         "Policy layer correctly evaluates dynamic rules and allows/blocks calls.",
         "Tests verify dynamic policy blocking capability."
+      ]
+    },
+    {
+      "id": "context-engine-plugin-v5-48fa1bc2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin v5",
+      "description": "Inspired by Context Engine trend: Implement a newer version of the Context Engine plugin architecture allowing dynamic unregistering of hooks at runtime.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_v5.py",
+        "tests/test_context_engine_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine allows dynamic unregistering of hooks.",
+        "Tests verify runtime addition and removal of context hooks."
+      ]
+    },
+    {
+      "id": "claude-multi-agent-v2-38d01b1a",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude Multi Agent Teams v2",
+      "description": "Inspired by Claude Agent Teams trend: Update the multi-agent task execution planner to handle dependency graphs internally instead of sequentially processing sub-agents.",
+      "allowed_paths": [
+        "magda_agent/agents/multi_agent_v2.py",
+        "tests/test_multi_agent_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner correctly builds and processes a DAG of sub-agent dependencies.",
+        "Tests verify parallel execution of non-dependent tasks."
+      ]
+    },
+    {
+      "id": "mcp-server-prefixed-tools-v3-8d19abf1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Server-Prefixed Tools v3",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement tool namespacing where MCP action tools are prefixed with the server ID automatically.",
+      "allowed_paths": [
+        "magda_agent/mcp/prefixed_tools_v3.py",
+        "tests/test_prefixed_tools_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tools are automatically registered with server-id prefixing.",
+        "Tests verify correct invocation by namespace."
       ]
     }
   ]

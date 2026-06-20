@@ -26,6 +26,7 @@ from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.emotions.style_adapter import StyleAdapter
 from magda_agent.user_model.model import UserModel
 from magda_agent.learning.online import OnlineLearner
+from magda_agent.learning.dialogue_v3 import DialogueOnlineLearnerV3
 from magda_agent.learning.online_rl import OnlineRLIntegrator
 from magda_agent.learning.online_rl_v6 import OnlineRLFeedbackLoopV6
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
@@ -69,6 +70,7 @@ class Consciousness:
         online_learner: Optional[OnlineLearner] = None,
         online_rl_integrator: Optional[OnlineRLIntegrator] = None,
         online_rl_v6: Optional[OnlineRLFeedbackLoopV6] = None,
+        dialogue_online_learner_v3: Optional[DialogueOnlineLearnerV3] = None,
         openclaw_rl: Optional[OpenClawInteractiveLearner] = None,
         feedback_loop: Optional[FeedbackLoop] = None,
         guardrail: Optional[RealtimeGuardrail] = None,
@@ -103,6 +105,7 @@ class Consciousness:
         self.online_learner = online_learner
         self.online_rl_integrator = online_rl_integrator
         self.online_rl_v6 = online_rl_v6
+        self.dialogue_online_learner_v3 = dialogue_online_learner_v3
         self.openclaw_rl = openclaw_rl
         self.feedback_loop = feedback_loop
         self.guardrail = guardrail
@@ -163,6 +166,8 @@ class Consciousness:
             )
         if self.online_rl_v6:
             await self.online_rl_v6.adjust_behavior(user_input, last_context, user_id)
+        if getattr(self, 'dialogue_online_learner_v3', None):
+            self.dialogue_online_learner_v3.process_turn(user_input, None)
 
 
         if self.thalamus and not self.thalamus.filter_input(user_input):
@@ -328,6 +333,11 @@ class Consciousness:
                 style_modifier = self.style_adapter.get_style_prompt(pad_state, um)
                 if style_modifier:
                     system_prompt += f"\n\n{style_modifier}"
+
+            if getattr(self, 'dialogue_online_learner_v3', None):
+                v3_mods = self.dialogue_online_learner_v3.get_context_modifiers()
+                if v3_mods:
+                    system_prompt += f"\n\n{v3_mods}"
 
             if plan_str:
                 system_prompt += f"\n\n{plan_str}\nUse the plan results to generate the final response."
