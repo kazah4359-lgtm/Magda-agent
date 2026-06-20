@@ -85,6 +85,47 @@ class SkillRegistry:
                     )
                 raise
 
+            import inspect
+            if inspect.isawaitable(result):
+                async def async_audit_wrapper(coro):
+                    try:
+                        actual_result = await coro
+                        duration_async = time.time() - start_time
+                        if hasattr(self, 'acs_guard') and self.acs_guard:
+                            workflow_data["output"] = actual_result
+                            passed, reason = self.acs_guard.checkpoint_5_output_sanitization(workflow_data)
+                            if not passed:
+                                self.acs_guard.audit_logger.log_call(
+                                    tool_name=name,
+                                    kwargs=kwargs,
+                                    why=f"Checkpoint 5 Failed: {reason}",
+                                    result="blocked",
+                                    duration=duration_async
+                                )
+                                from magda_agent.safety.acs_guard_v2 import SecurityViolationError
+                                raise SecurityViolationError(f"Action blocked by ACS checkpoint 5: {reason}")
+                            self.acs_guard.audit_logger.log_call(
+                                tool_name=name,
+                                kwargs=kwargs,
+                                why="Execution successful and sanitized.",
+                                result=actual_result,
+                                duration=duration_async
+                            )
+                        return actual_result
+                    except Exception as ea:
+                        duration_async = time.time() - start_time
+                        if hasattr(self, 'acs_guard') and self.acs_guard:
+                            self.acs_guard.audit_logger.log_call(
+                                tool_name=name,
+                                kwargs=kwargs,
+                                why=f"Execution error: {ea}",
+                                result="error",
+                                duration=duration_async
+                            )
+                        logging.error(f"Error executing skill {name}: {ea}")
+                        raise
+                return async_audit_wrapper(result)
+
             # 4. Checkpoint 5 output sanitization
             workflow_data["output"] = result
             if hasattr(self, 'acs_guard') and self.acs_guard:

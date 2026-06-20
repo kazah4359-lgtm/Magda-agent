@@ -27,6 +27,10 @@ class AuditTrail:
         Recursively sanitizes sensitive data from dictionaries and lists.
         Redacts values for keys that match sensitive patterns.
         """
+        import inspect
+        if inspect.isawaitable(data):
+            return "<awaitable>"
+
         if isinstance(data, dict):
             sanitized = {}
             for k, v in data.items():

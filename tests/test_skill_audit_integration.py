@@ -55,3 +55,30 @@ def test_skill_registry_audit_logging_sanitization():
     assert logs[1]["kwargs"]["password"] == "***"
     assert logs[1]["result"]["my_secret"] == "***"
     assert logs[1]["result"]["public"] == "ok"
+
+import asyncio
+
+@pytest.mark.asyncio
+async def test_skill_registry_audit_logging_async():
+    registry = SkillRegistry()
+
+    async def my_async_skill(arg1):
+        await asyncio.sleep(0.01)
+        return f"Async {arg1}"
+
+    registry.register_skill("hello_async", my_async_skill, "Says hello async")
+
+    # execute_skill returns a coroutine because my_async_skill is a coroutine function
+    coro = registry.execute_skill("hello_async", arg1="World")
+    assert inspect.isawaitable(coro)
+
+    result = await coro
+    assert result == "Async World"
+
+    logs = registry.acs_guard.audit_logger.get_all()
+    assert len(logs) == 2
+    assert logs[1]["why"] == "Execution successful and sanitized."
+    assert logs[1]["result"] == "Async World"
+    assert logs[1]["duration"] > 0
+
+import inspect
