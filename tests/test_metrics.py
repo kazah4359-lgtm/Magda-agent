@@ -1,3 +1,4 @@
+from magda_agent.metacognition.metrics import LongitudinalMetrics
 import pytest
 import sys
 import io
@@ -116,3 +117,39 @@ def test_metrics_cli_list_empty(capsys: pytest.CaptureFixture[str]) -> None:
     finally:
         if os.path.exists(db_path):
             os.remove(db_path)
+
+
+
+@pytest.fixture
+def longitudinal_metrics():
+    """Provides a LongitudinalMetrics instance using an ephemeral SQLite database for testing."""
+    return LongitudinalMetrics(db_path=":memory:")
+
+def test_longitudinal_metrics_log_and_get(longitudinal_metrics):
+    """Test logging and retrieving test success rates."""
+    longitudinal_metrics.log_test_success_rate("core_suite", 100, 95)
+    longitudinal_metrics.log_test_success_rate("core_suite", 50, 50)
+
+    rates = longitudinal_metrics.get_success_rates("core_suite")
+    assert len(rates) == 2
+
+    # The rates should have both 100.0 and 95.0
+    success_rates = [r['success_rate'] for r in rates]
+    assert 100.0 in success_rates
+    assert 95.0 in success_rates
+
+def test_longitudinal_metrics_log_zero_total(longitudinal_metrics, caplog):
+    """Test logging test success rate with zero total tests."""
+    longitudinal_metrics.log_test_success_rate("empty_suite", 0, 0)
+
+    rates = longitudinal_metrics.get_success_rates("empty_suite")
+    assert len(rates) == 0
+    assert "Cannot log success rate with total_tests <= 0" in caplog.text
+
+def test_longitudinal_metrics_limit(longitudinal_metrics):
+    """Test that retrieval respects the limit parameter."""
+    for i in range(15):
+        longitudinal_metrics.log_test_success_rate("loop_suite", 10, i % 10)
+
+    rates = longitudinal_metrics.get_success_rates("loop_suite", limit=5)
+    assert len(rates) == 5
