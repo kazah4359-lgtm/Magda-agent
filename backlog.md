@@ -211,3 +211,4 @@
 
 * [x] MODULE: **Agent Teams Worktree Isolation** — `claude-subagent-worktree`.
   Implemented SubAgent isolation using GitWorktreeManager.
+* [x] FEATURE: MCPKernel: Taint Tracking and Sandboxed Execution (mcpkernel-sandboxed-execution)

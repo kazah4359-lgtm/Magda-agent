@@ -50,3 +50,11 @@ print("import os; os.system('id')")
 """
     with pytest.raises(SecurityError, match="Code contains unsafe operations"):
         kernel.execute(code)
+
+def test_mcp_kernel_blocks_tainted_input() -> None:
+    """Test blocking of tainted inputs."""
+    kernel = MCPKernel()
+    from magda_agent.security.mcp_kernel_taint import mark_tainted
+    code = mark_tainted("x = 5")
+    with pytest.raises(SecurityError, match="Code is tainted and unsafe to execute."):
+        kernel.execute(code)
