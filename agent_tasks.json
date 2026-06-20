@@ -4494,19 +4494,23 @@
     },
     {
       "id": "falco-tool-call-interception",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "Prempti Tool Call Interception",
-      "description": "Inspired by trend: Prempti (Falco): tool-call interception + audit trail. Implement audit trailing for tool calls.",
+      "description": "Inspired by trend: Prempti (Falco): tool-call interception + audit trail. Implement consolidated audit trailing for tool calls, including post-execution results and duration.",
       "allowed_paths": [
         "magda_agent/safety/audit_trail.py",
+        "magda_agent/safety/acs_guard_v2.py",
+        "magda_agent/skills/registry.py",
         "tests/test_audit_trail.py",
         "agent_tasks.json"
       ],
       "acceptance": [
-        "All tool calls are recorded in an audit trail.",
-        "Tests pass successfully."
+        "All tool calls (including results and duration) are recorded in a consolidated audit trail.",
+        "ACSGuardV2 uses the new AuditTrail implementation.",
+        "SkillRegistry records post-execution metadata in the audit trail.",
+        "Tests verify sanitization and bounded capacity."
       ]
     },
     {

@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any, Tuple, Optional
 from magda_agent.safety.policy import PolicyLayer
-from magda_agent.security.audit_trail import PremptiAuditLogger
+from magda_agent.safety.audit_trail import AuditTrail
 
 
 class SecurityViolationError(Exception):
@@ -23,7 +23,7 @@ class ACSGuardV2:
         """
         self.logger = logging.getLogger(__name__)
         self.policy_layer = policy_layer
-        self.audit_logger = PremptiAuditLogger()
+        self.audit_logger = AuditTrail()
 
     def checkpoint_1_input_validation(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
         """
