@@ -4600,7 +4600,7 @@
     },
     {
       "id": "assert-policy-driven-evaluator",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "ASSERT Policy-Driven Evaluation",
@@ -8220,6 +8220,57 @@
       "acceptance": [
         "MCP tools are automatically registered with server-id prefixing.",
         "Tests verify correct invocation by namespace."
+      ]
+    },
+    {
+      "id": "mcp-kernel-sandboxed-execution-v5-new-1234",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCPKernel Sandboxed Execution v5",
+      "description": "Inspired by MCPKernel taint tracking trend: Sandbox tool execution in containers to improve security.",
+      "allowed_paths": [
+        "magda_agent/safety/sandbox_v5.py",
+        "tests/test_sandbox_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool execution is properly sandboxed.",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "memgpt-virtual-context-v3-new-5678",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT Virtual Context Management v3",
+      "description": "Inspired by MemGPT/Letta pattern trend: Implement virtual context management for explicit memory paging.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v3.py",
+        "tests/test_virtual_context_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtual context accurately pages short-term memory out/in.",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "swe-bench-verified-evaluation-suite-new-9012",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "SWE-bench Verified Evaluation Suite",
+      "description": "Inspired by SWE-bench Verified trend: Add a testing harness for evaluating the agent using SWE-bench verified tasks.",
+      "allowed_paths": [
+        "magda_agent/evals/swe_bench.py",
+        "tests/test_swe_bench.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluation suite integrates SWE-bench verified tasks.",
+        "Tests pass"
       ]
     }
   ]
