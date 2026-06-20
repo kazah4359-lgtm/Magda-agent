@@ -4549,7 +4549,7 @@
     },
     {
       "id": "scheduled-operations-cron-v2",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "medium",
       "title": "Scheduled operations cron-like tasks",
@@ -8067,6 +8067,57 @@
       "acceptance": [
         "MCP Kernel properly intercepts and enforces taint tracking.",
         "Tests mock the runtime proxy accurately."
+      ]
+    },
+    {
+      "id": "acs-validation-checkpoints-a467f77d",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Validation Checkpoints",
+      "description": "Inspired by ACS trend: Implement 5 validation checkpoints in agentic workflows to enforce runtime safety controls.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_checkpoints.py",
+        "tests/test_acs_checkpoints.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "5 distinct validation checkpoints are implemented and integrated.",
+        "Tests verify that workflows are gated by these checkpoints."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-v4-5d34cc13",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Peer-to-Peer Delegation v4",
+      "description": "Inspired by A2A standard trend: Implement peer-to-peer task delegation using Agent Cards for asynchronous discovery.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation_v4.py",
+        "tests/test_a2a_delegation_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can parse Agent Cards and delegate tasks peer-to-peer.",
+        "Tests mock peer communication and verify delegation."
+      ]
+    },
+    {
+      "id": "claude-subagent-spawning-v4-6ab3f8c6",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude Agent Teams Subagent Spawning v4",
+      "description": "Inspired by Claude Agent Teams trend: Update subagent spawning to provide better git worktree isolation and context context compression.",
+      "allowed_paths": [
+        "magda_agent/agents/spawner_v4.py",
+        "tests/test_spawner_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents spawn in isolated git worktrees.",
+        "Tests verify strict isolation and correct teardown."
       ]
     }
   ]
