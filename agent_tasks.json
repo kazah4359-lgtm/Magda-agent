@@ -4515,7 +4515,7 @@
     },
     {
       "id": "longitudinal-quality-metrics-v3",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Longitudinal quality metrics v3",
@@ -7965,6 +7965,57 @@
       "acceptance": [
         "Agent adjusts policies based on conversation PAD shifts.",
         "Tests verify that positive feedback reinforces recent habits."
+      ]
+    },
+    {
+      "id": "a2a-workflow-chaining-b3c1a29f",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Workflow Chaining",
+      "description": "Inspired by A2A open standard trend: Implement an A2A workflow manager that allows peer-to-peer chaining of agent tasks natively without a central coordinator.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_workflow.py",
+        "tests/test_a2a_workflow.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Workflow manager orchestrates sequential task handoffs correctly.",
+        "Tests verify that context is passed accurately between chained steps."
+      ]
+    },
+    {
+      "id": "context-eviction-policy-v1-987a1f5c",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Eviction Policy v1",
+      "description": "Inspired by Context Engine trends: Implement an explicit, priority-based context eviction policy module to gracefully discard low-priority items from working memory when approaching 1M token limits.",
+      "allowed_paths": [
+        "magda_agent/memory/eviction.py",
+        "tests/test_eviction.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Eviction module correctly filters and removes low-priority context items.",
+        "Tests verify prioritization logic handles edge cases appropriately."
+      ]
+    },
+    {
+      "id": "subagent-heartbeat-monitor-74d1a2f1",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Subagent Heartbeat Monitor",
+      "description": "Inspired by Agent Teams isolation trend: Implement a monitor in SubagentSpawner to track heartbeat signals from Git worktree-isolated subagents to detect deadlocks.",
+      "allowed_paths": [
+        "magda_agent/agents/heartbeat.py",
+        "tests/test_heartbeat.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Monitor triggers an alert when a subagent fails to send a heartbeat within the timeout window.",
+        "Tests mock processes to ensure deadlock detection behaves correctly."
       ]
     }
   ]
