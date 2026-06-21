@@ -213,3 +213,4 @@
   Implemented SubAgent isolation using GitWorktreeManager.
 * [x] FEATURE: MCPKernel: Taint Tracking and Sandboxed Execution (mcpkernel-sandboxed-execution)
 * [x] FEATURE: Cross-platform reach channels v2
+* [x] FEATURE: OpenClaw Local-First Gateway

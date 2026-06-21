@@ -4685,7 +4685,7 @@
     },
     {
       "id": "openclaw-local-first-gateway",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "high",
       "title": "OpenClaw Local-First Gateway",
@@ -8424,6 +8424,57 @@
       "acceptance": [
         "Magda can fetch and parse Agent Cards from an A2A discovery endpoint.",
         "Tests verify Agent Card parsing logic."
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-v5-new-1111",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams Git Worktree Isolation v5",
+      "description": "Inspired by Claude Agent SDK trend: Implement a robust git worktree per agent system to isolate sub-agent execution.",
+      "allowed_paths": [
+        "magda_agent/multi_agent/worktree_v5.py",
+        "tests/test_worktree_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sub-agents execute in isolated git worktrees.",
+        "Tests verify worktree creation and cleanup."
+      ]
+    },
+    {
+      "id": "hermes-cron-daily-reports-new-2222",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Hermes Cron Daily Reports",
+      "description": "Inspired by Hermes agent trend: Add a scheduled daily report that summarizes agent activity and quality metrics.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_reports.py",
+        "tests/test_cron_reports.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A cron task is implemented for daily reports.",
+        "Tests verify the report generation logic."
+      ]
+    },
+    {
+      "id": "acs-guardrails-policy-layer-new-3333",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Guardrails Policy Layer",
+      "description": "Inspired by ACS Specification trend: Implement 5 validation checkpoints for tool execution safety.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guardrails.py",
+        "tests/test_acs_guardrails.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy layer enforces 5 validation checkpoints.",
+        "Tests verify that unsafe tools are blocked."
       ]
     }
   ]
