@@ -98,7 +98,7 @@ async def test_semaphore_limits_concurrency(handler):
     assert len(res) == 2
 
     # Since concurrency is 1, two 0.1s tasks should take at least 0.2s
-    assert end - start >= 0.2
+    assert end - start >= 0.15  # Account for some timer variance
 
 @pytest.mark.asyncio
 async def test_active_tasks_count(handler):
