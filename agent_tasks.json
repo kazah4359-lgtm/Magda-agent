@@ -4719,7 +4719,7 @@
     },
     {
       "id": "context-compression-selective-retrieval-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Compression & Selective Retrieval",
@@ -8526,6 +8526,57 @@
       "acceptance": [
         "Agent can discover and dispatch tasks to A2A compliant peers.",
         "Unit tests verify the A2A delegation payload format."
+      ]
+    },
+    {
+      "id": "agent-guard-acs-checkpoints-v6",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard ACS Checkpoints v6",
+      "description": "Inspired by ACS (Agent Control Specification) trend: Implement 5 validation checkpoints for agentic workflows, expanding the AgentGuard with taint tracking for all tool inputs.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_v6.py",
+        "tests/test_acs_guard_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS check points validate tool executions",
+        "Tests verify intercepts"
+      ]
+    },
+    {
+      "id": "openclaw-rl-metrics-tracker-v4",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Metrics Tracker v4",
+      "description": "Inspired by OpenClaw RL trend: Implement online reinforcement learning from user feedback (next-state signals) and track metrics longitudinally to ensure self-improvement quality.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_metrics_v4.py",
+        "tests/test_rl_metrics_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL Metrics Tracker logs longitudinal improvements",
+        "Tests verify metric aggregation"
+      ]
+    },
+    {
+      "id": "claude-team-git-worktrees-v6",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Claude Team Git Worktrees v6",
+      "description": "Inspired by Claude Agent Teams trend: Update the subagent dispatcher to isolate team processes using git worktrees seamlessly and handle cleanup robustly.",
+      "allowed_paths": [
+        "magda_agent/agents/worktree_dispatcher_v6.py",
+        "tests/test_worktree_dispatcher_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents spawn in isolated worktrees",
+        "Tests mock git and verify isolation"
       ]
     }
   ]
