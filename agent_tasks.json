@@ -4736,7 +4736,7 @@
     },
     {
       "id": "magentic-one-orchestration-v2",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "high",
       "title": "Magentic-One Multi-Agent Orchestration",
@@ -8577,6 +8577,57 @@
       "acceptance": [
         "Subagents spawn in isolated worktrees",
         "Tests mock git and verify isolation"
+      ]
+    },
+    {
+      "id": "openclaw-online-rl-state-v5-1f0a1eb3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "OpenClaw Online RL Next-State Signals v5",
+      "description": "Inspired by OpenClaw RL trend (June 2026): Expand the RL pipeline to handle next-state signals dynamically and update Q-values using the new RLMetricsTracker.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_next_state_v5.py",
+        "tests/test_rl_next_state_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL pipeline consumes next-state signals dynamically.",
+        "Test verifies Q-value updates."
+      ]
+    },
+    {
+      "id": "claude-evaluator-dependency-graph-v3-3910b122",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "Claude Evaluator Dependency Graph v3",
+      "description": "Inspired by Claude Agent Teams trend (June 2026): Update the Evaluator to understand and process task dependency graphs when scoring Planner outputs.",
+      "allowed_paths": [
+        "magda_agent/evaluation/evaluator_dependency_v3.py",
+        "tests/test_evaluator_dependency_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator processes dependency graphs.",
+        "Tests verify graph evaluation metrics."
+      ]
+    },
+    {
+      "id": "hermes-cron-nightly-backups-v2-03b0cbbd",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Hermes Cron Nightly Backups",
+      "description": "Inspired by Hermes agent trend (June 2026): Add a scheduled nightly backup task that persists all episodic and semantic memory to encrypted storage.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_backups.py",
+        "tests/test_cron_backups.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A cron task is implemented for nightly backups.",
+        "Tests verify backup routines and mock the storage layer."
       ]
     }
   ]
