@@ -52,6 +52,13 @@ class LLMClient:
             logging.error(f"LLM API Error: {e}")
             return f"Error: I encountered an issue while thinking. ({e})"
 
+    async def generate(self, prompt: str, temperature: float = 0.7) -> str:
+        """
+        Generates a response from a single prompt.
+        """
+        messages = [{"role": "user", "content": prompt}]
+        return await self.chat_completion(messages, temperature=temperature)
+
     def get_system_prompt(self, context: str, emotions: str) -> str:
         return f"""
 You are Magda, a sophisticated AGI agent.
