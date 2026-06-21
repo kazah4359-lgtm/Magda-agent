@@ -4753,7 +4753,7 @@
     },
     {
       "id": "falco-prempti-interception",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Falco Prempti Tool Interception",
@@ -8628,6 +8628,57 @@
       "acceptance": [
         "A cron task is implemented for nightly backups.",
         "Tests verify backup routines and mock the storage layer."
+      ]
+    },
+    {
+      "id": "mcp-tool-export-skills",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Export Skills to MCP Tool Server",
+      "description": "Inspired by trend: MCP (Model Context Protocol) is the de-facto standard. Update Magda to export skills as MCP server-prefixed tools to support compatibility with OpenAI Agents SDK.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_server.py",
+        "tests/test_mcp_server.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills are successfully exposed via JSON-RPC compatible MCP prefix",
+        "Tests cover MCP execution"
+      ]
+    },
+    {
+      "id": "agent-to-agent-delegation",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "A2A Protocol Discovery and Delegation",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol). Implement agent discovery via Agent Cards and peer-to-peer task delegation mechanism to external LangGraph/CrewAI agents.",
+      "allowed_paths": [
+        "magda_agent/agents/a2a_discovery.py",
+        "tests/test_a2a_discovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Cards can be generated and parsed",
+        "Tasks can be delegated via A2A messaging interface"
+      ]
+    },
+    {
+      "id": "acs-guardrail-persistence",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Control Specification Persistence",
+      "description": "Inspired by trend: ACS (Agent Control Specification) standardization. Persist the 5 validation checkpoints state to SQLite to allow audit trails and runtime policy adjustments.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_persistence.py",
+        "tests/test_acs_persistence.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS validation checkpoints are recorded in SQLite",
+        "Tests ensure correct schema and writes"
       ]
     }
   ]
