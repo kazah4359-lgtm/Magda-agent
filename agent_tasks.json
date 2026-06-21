@@ -4770,7 +4770,7 @@
     },
     {
       "id": "hermes-skill-experience",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Hermes Skill Creation from Experience",
@@ -8679,6 +8679,57 @@
       "acceptance": [
         "ACS validation checkpoints are recorded in SQLite",
         "Tests ensure correct schema and writes"
+      ]
+    },
+    {
+      "id": "openclaw-local-first-gateway-v4",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "OpenClaw Local-First Gateway V4",
+      "description": "Inspired by OpenClaw architecture trend (June 2026): Create a local-first gateway as the control plane that supports routing events from multiple channels (Telegram, Discord, Slack, CLI) via a new unified routing layer.",
+      "allowed_paths": [
+        "magda_agent/architecture/gateway_v4.py",
+        "tests/test_gateway_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A local-first gateway handles routing for at least two channels.",
+        "Integration tests verify message routing."
+      ]
+    },
+    {
+      "id": "claude-evaluator-multi-agent-teams-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Claude SDK Teams Orchestration Evaluator",
+      "description": "Inspired by Claude Agent SDK Agent Teams trend: Update the Evaluator agent to evaluate the execution of subagents operating in isolated git worktrees, providing feedback across the dependency graph of spawned tasks.",
+      "allowed_paths": [
+        "magda_agent/evaluation/team_evaluator_v2.py",
+        "tests/test_team_evaluator_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator processes team-based subagent outputs correctly.",
+        "Tests verify multi-agent evaluation logic."
+      ]
+    },
+    {
+      "id": "hermes-cron-daily-reports-export-v3",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Hermes Cron Daily Reports Export V3",
+      "description": "Inspired by Hermes Agent trend (June 2026): Implement an explicit scheduled cron job that compiles daily reports summarizing memory usage and procedural learnings into an accessible summary document.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_reports_v3.py",
+        "tests/test_cron_reports_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A daily cron task is defined for generating reports.",
+        "Tests verify the output schema of the daily summary."
       ]
     }
   ]
