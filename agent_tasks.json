@@ -4617,7 +4617,7 @@
     },
     {
       "id": "web-arena-evaluation-framework",
-      "status": "todo",
+      "status": "done",
       "area": "testing",
       "risk": "high",
       "title": "WebArena Evaluation Suite",
