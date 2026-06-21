@@ -4668,7 +4668,7 @@
     },
     {
       "id": "mcp-action-tool-concurrency-v2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP server-prefixed tools concurrency v2",
@@ -8373,6 +8373,57 @@
       "acceptance": [
         "Agent discovers and registers new MCP tools dynamically.",
         "Tests verify hot-reloading of mocked tool files."
+      ]
+    },
+    {
+      "id": "mcp-client-auth-v3-unique-1234",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Client Authentication Support v3",
+      "description": "Inspired by MCP standards trend: Add robust authentication support for the MCP Client when connecting to remote MCP servers, including API keys and OAuth tokens.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_client_auth_v3.py",
+        "tests/test_mcp_client_auth_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Client can connect to servers requiring auth.",
+        "Tests verify auth headers are passed correctly."
+      ]
+    },
+    {
+      "id": "agent-guard-audit-trail-v4-unique-5678",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Agent Guard Audit Trail v4",
+      "description": "Inspired by Prempti (Falco) trend: Add an audit trail module that intercepts all tool calls, logs parameters and results securely, and stores them for offline review.",
+      "allowed_paths": [
+        "magda_agent/safety/audit_trail_v4.py",
+        "tests/test_audit_trail_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All tool calls are intercepted and logged.",
+        "Tests verify offline storage format is correct."
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-cards-v3-unique-9012",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Discovery Cards v3",
+      "description": "Inspired by A2A Protocol trend: Implement Agent Discovery through Agent Cards to allow Magda to discover other A2A compatible agents dynamically.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_cards_v3.py",
+        "tests/test_a2a_discovery_cards_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Magda can fetch and parse Agent Cards from an A2A discovery endpoint.",
+        "Tests verify Agent Card parsing logic."
       ]
     }
   ]
