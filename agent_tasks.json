@@ -4634,7 +4634,7 @@
     },
     {
       "id": "hermes-skill-creation-from-exp",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "Skill creation from experience",
@@ -8271,6 +8271,57 @@
       "acceptance": [
         "Evaluation suite integrates SWE-bench verified tasks.",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "hermes-scheduled-nightly-backups",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Hermes Scheduled Nightly Backups",
+      "description": "Inspired by Hermes agent trend: Implement nightly backups using the Cron Scheduler to persistently save agent's SQLite databases to a safe backup directory.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_backups.py",
+        "tests/test_cron_backups.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A cron task is implemented for nightly SQLite backups.",
+        "Tests verify the backup procedure is triggered and isolated."
+      ]
+    },
+    {
+      "id": "openclaw-rl-tool-outputs-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL from Tool Outputs",
+      "description": "Inspired by OpenClaw trend: Enhance the online reinforcement learning processor to track direct feedback signals from tool outputs, dynamically adjusting skill weights without user feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_tool_outputs_v2.py",
+        "tests/test_rl_tool_outputs_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL tracking incorporates automated tool output success/failure.",
+        "Tests mock tool outputs to verify RL model weight adjustments."
+      ]
+    },
+    {
+      "id": "claude-evaluator-context-window-v3",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude Evaluator Context Window Expansion v3",
+      "description": "Inspired by Claude Agent Teams trend: Update the Evaluator Agent to handle large evaluation context windows (e.g., simulating 1M tokens) through chunking and map-reduce evaluation patterns.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator_chunking_v3.py",
+        "tests/test_evaluator_chunking_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator agent chunks large contexts and aggregates evaluation scores.",
+        "Tests verify map-reduce pattern using AsyncMock LLM."
       ]
     }
   ]
