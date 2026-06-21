@@ -87,3 +87,33 @@ async def test_missing_handler():
 
     with pytest.raises(RuntimeError, match="No message handler registered with GatewayRouter"):
         await channel.receive(raw_telegram_msg)
+
+from magda_agent.architecture.gateway import LocalFirstGateway
+
+@pytest.mark.asyncio
+async def test_local_first_gateway_routing_safely():
+    gateway = LocalFirstGateway()
+    agent = MockAgentCore()
+    gateway.set_message_handler(agent.handle_message)
+
+    msg = UnifiedMessage(channel="local", text="Hello Control Plane", user_id="123")
+    response = await gateway.route_message(msg)
+
+    assert response == "Processed: Hello Control Plane"
+    assert len(agent.received_messages) == 1
+    assert agent.received_messages[0].channel == "local"
+    assert agent.received_messages[0].text == "Hello Control Plane"
+
+@pytest.mark.asyncio
+async def test_local_first_gateway_missing_handler():
+    gateway = LocalFirstGateway()
+    msg = UnifiedMessage(channel="local", text="Fail", user_id="123")
+
+    with pytest.raises(RuntimeError, match="No message handler registered with LocalFirstGateway"):
+        await gateway.route_message(msg)
+
+def test_local_first_gateway_channel_registration():
+    gateway = LocalFirstGateway()
+    gateway.register_channel("telegram", "TelegramAdapter")
+    assert gateway.get_channel("telegram") == "TelegramAdapter"
+    assert gateway.get_channel("discord") is None

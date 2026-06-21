@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import JSONResponse
 from magda_agent.visualization.server import CanvasServer
+from magda_agent.architecture.gateway import LocalFirstGateway
 from magda_agent.visualization.canvas_api_v2 import get_canvas_v2_router
 from pydantic import BaseModel
 
@@ -53,6 +54,7 @@ from magda_agent.emotions.insula import Insula
 from magda_agent.rhythms.pineal_gland import PinealGland
 from magda_agent.emotions.mirror_neurons import MirrorNeurons
 from magda_agent.attention.salience import SalienceNetwork
+from magda_agent.gateway.router import GatewayRouter
 from magda_agent.attention.workspace import GlobalWorkspace
 from magda_agent.safety.guardrails import RealtimeGuardrail
 from magda_agent.memory.context_engine import ContextEngine
@@ -203,6 +205,8 @@ canvas_server = CanvasServer(consciousness=consciousness)
 a2a_server = A2AServer(planner=planner)
 rpc_manager = SubAgentRPCManager(llm=llm_client)
 cross_platform_dispatcher = CrossPlatformDispatcher()
+local_first_gateway = LocalFirstGateway()
+local_first_gateway.set_message_handler(consciousness.process_input)
 
 discord_bridge = DiscordBridge(token=os.getenv("DISCORD_BOT_TOKEN", "dummy"), agent_callback=consciousness.process_input)
 cross_platform_dispatcher.register_platform("discord", discord_bridge)
