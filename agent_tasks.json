@@ -4651,7 +4651,7 @@
     },
     {
       "id": "hermes-cron-scheduler-v3",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "low",
       "title": "Hermes Cron Scheduler v3",
@@ -8322,6 +8322,57 @@
       "acceptance": [
         "Evaluator agent chunks large contexts and aggregates evaluation scores.",
         "Tests verify map-reduce pattern using AsyncMock LLM."
+      ]
+    },
+    {
+      "id": "claude-evaluator-multi-modal-v4",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "Claude Evaluator Multi-Modal Context v4",
+      "description": "Inspired by Claude Agent Teams trend: Update the Evaluator Agent to handle multi-modal contexts (images + text) during evaluation of sub-agent outputs.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator_multimodal_v4.py",
+        "tests/test_evaluator_multimodal_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator agent can process multi-modal context during evaluation.",
+        "Tests verify handling of mixed image and text contexts."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-streaming-v2",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas Streaming Enhancements v2",
+      "description": "Inspired by OpenClaw Live Visualization trend: Enhance the CanvasServer to support selective partial state updates to reduce WebSocket bandwidth.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_streaming_v2.py",
+        "tests/test_canvas_streaming_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "CanvasServer supports partial state diff updates.",
+        "Tests verify correct diff generation and streaming."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-discovery-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Discovery v4",
+      "description": "Inspired by MCP trend: Implement an auto-discovery mechanism that scans a configured tools directory and automatically registers new MCP tools without requiring restart.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_discovery_v4.py",
+        "tests/test_mcp_discovery_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent discovers and registers new MCP tools dynamically.",
+        "Tests verify hot-reloading of mocked tool files."
       ]
     }
   ]
