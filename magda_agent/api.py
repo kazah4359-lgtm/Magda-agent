@@ -29,7 +29,7 @@ from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.evaluation.agentbench import daily_agentbench_eval
 from magda_agent.scheduler.cron import CronScheduler
-from magda_agent.operations.cron_v2 import GenericCronSchedulerV2
+from magda_agent.operations.cron_v3 import HermesCronSchedulerV3
 from magda_agent.scheduler.autonomous_tasks import run_health_check, report_quality_metrics
 from magda_agent.autonomy.task_store import TaskStore, TaskStatus
 from magda_agent.autonomy.executor import AutonomousExecutor
@@ -175,7 +175,7 @@ subconsciousness = Subconsciousness(
 )
 
 cron_scheduler = CronScheduler()
-operations_scheduler = GenericCronSchedulerV2()
+operations_scheduler = HermesCronSchedulerV3(db_path="operations.sqlite3")
 
 # Schedule Subconsciousness reflection
 # Default interval was 300 seconds, which is every 5 minutes

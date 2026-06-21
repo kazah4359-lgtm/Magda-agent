@@ -197,7 +197,7 @@
 * [x] FEATURE: MCPKernel Taint Tracking Sandbox
 * [x] FEATURE: ASSERT Policy-Driven Evaluation
 
-* [x] MODULE: **Operations Cron Scheduler** — модуль `magda_agent/operations/cron_v2.py`. (2026-06-09)
+* [x] MODULE: **Hermes Cron Scheduler v3** — модуль `magda_agent/operations/cron_v3.py`. (2026-06-09)
   Отвечает за cron-подобные фоновые задачи без участия пользователя.
   Интеграция: Вызывается в `api.py` при старте.
   Тесты: mock _get_now, проверить логику scheduler._execute_job.
