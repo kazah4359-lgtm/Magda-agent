@@ -4702,7 +4702,7 @@
     },
     {
       "id": "task-system-dependency-graphs",
-      "status": "todo",
+      "status": "done",
       "area": "core",
       "risk": "high",
       "title": "Task System with Dependency Graphs",
@@ -8475,6 +8475,57 @@
       "acceptance": [
         "Policy layer enforces 5 validation checkpoints.",
         "Tests verify that unsafe tools are blocked."
+      ]
+    },
+    {
+      "id": "mcp-export-skills-trend-june-2026",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Export Skills as MCP Tools",
+      "description": "Inspired by MCP trend (June 2026): Magda should be able to export its skills as MCP tools. Implement a generic wrapper to expose SkillRegistry capabilities via the MCP json-rpc server.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_export.py",
+        "tests/test_mcp_export.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported and called via MCP protocol.",
+        "Tests verify that MCP method calls route to the corresponding skill."
+      ]
+    },
+    {
+      "id": "online-learning-interaction-loop-june-2026",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "Online Learning from Dialog Interactions",
+      "description": "Inspired by OpenClaw-RL trend (June 2026): Learn from next-state signals like user replies to dynamically adjust agent behavior, without relying on separate reflection tasks.",
+      "allowed_paths": [
+        "magda_agent/learning/dialogue_v3.py",
+        "tests/test_dialogue_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Online RL pipeline consumes user reply signals.",
+        "Test verifies weight updates or memory writes triggered by the interaction loop."
+      ]
+    },
+    {
+      "id": "a2a-task-delegation-discovery-june-2026",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Task Delegation and Discovery",
+      "description": "Inspired by A2A Protocol trend (June 2026): Implement the ability to delegate subtasks to other agents via Agent Cards discovery.",
+      "allowed_paths": [
+        "magda_agent/agents/a2a_delegation.py",
+        "tests/test_a2a_delegation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover and dispatch tasks to A2A compliant peers.",
+        "Unit tests verify the A2A delegation payload format."
       ]
     }
   ]
