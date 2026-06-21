@@ -1,5 +1,5 @@
 import pytest
-from magda_agent.planning.dependency_graph import DependencyGraph
+from magda_agent.core.task_graph import DependencyGraph
 
 def test_dag_planner_topological_sort_linear():
     plan_steps = [
