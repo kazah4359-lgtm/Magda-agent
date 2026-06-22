@@ -4787,7 +4787,7 @@
     },
     {
       "id": "mcpkernel-taint-tracking-v3",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCPKernel Taint Tracking",
