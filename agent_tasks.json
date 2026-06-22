@@ -4872,7 +4872,7 @@
     },
     {
       "id": "implement-a2a-delegator-0c1de20a",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Implement A2A sub-plan delegator",
@@ -8917,6 +8917,57 @@
       "acceptance": [
         "The ACS checkpoint pattern is implemented cleanly",
         "Integration tests confirm all policies pass or block correctly"
+      ]
+    },
+    {
+      "id": "implement-mcp-tool-export-2b9c3e4d",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Export Skills to MCP Tool Server",
+      "description": "Inspired by trend: MCP (Model Context Protocol). Create a module to export Magda skills as MCP-compatible tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_export.py",
+        "tests/test_mcp_export*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module successfully generates MCP tool schemas for registered skills",
+        "Tests mock JSON-RPC endpoints and verify schema output"
+      ]
+    },
+    {
+      "id": "implement-openclaw-rl-canvas-1d8f5a6b",
+      "status": "todo",
+      "area": "UI",
+      "risk": "low",
+      "title": "OpenClaw RL Canvas Visualization Module",
+      "description": "Inspired by trend: OpenClaw Canvas. Implement a backend module to structure RL learning state for Canvas UI.",
+      "allowed_paths": [
+        "magda_agent/learning/canvas_sync.py",
+        "tests/test_canvas_sync*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module tracks current goal, state, and next-state signals cleanly",
+        "Test suite verifies the JSON output structure"
+      ]
+    },
+    {
+      "id": "implement-acs-guard-refactor-9f3e2a1b",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Guardrail Checkpoint Refactor",
+      "description": "Inspired by trend: Agent Control Specification (ACS). Refactor the existing safety checks into 5 distinct ACS checkpoints.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_v2.py",
+        "tests/test_acs_guard_v2*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "5 validation checkpoints are defined in the pipeline",
+        "Policy-driven tests are verified without hitting real models"
       ]
     }
   ]

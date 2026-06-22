@@ -87,3 +87,37 @@ async def test_planner_agent_plan_delegation(mock_post, a2a_delegator):
 
     plan = await planner_agent.plan("do coding task")
     assert plan[0]["result"] == "Delegated to Agent TestAgent: Success"
+
+
+@pytest.mark.asyncio
+async def test_a2a_delegator_split_plan(a2a_delegator):
+    plan = [
+        {"id": "1", "skill": "delegate_to_agent", "skill_kwargs": {"capability": "coding"}, "description": "code it"},
+        {"id": "2", "skill": "delegate_to_agent", "skill_kwargs": {"capability": "analysis"}, "description": "analyze it"},
+        {"id": "3", "skill": "delegate_to_agent", "skill_kwargs": {"capability": "coding"}, "description": "code again"},
+        {"id": "4", "skill": "some_other_skill", "description": "do something else"}
+    ]
+    split = a2a_delegator.split_plan(plan)
+    assert len(split) == 3
+    assert split[0]["capability"] == "coding"
+    assert split[1]["capability"] == "analysis"
+    assert split[2]["capability"] == "coding"
+
+@pytest.mark.asyncio
+@patch('httpx.AsyncClient.post', new_callable=AsyncMock)
+async def test_a2a_delegator_execute_plan(mock_post, a2a_delegator):
+    plan = [
+        {"id": "1", "skill": "delegate_to_agent", "skill_kwargs": {"capability": "coding"}, "description": "code it"},
+        {"id": "2", "skill": "some_other_skill", "description": "do something else"}
+    ]
+
+    from unittest.mock import MagicMock
+    mock_response = MagicMock()
+    mock_response.json.return_value = {"result": {"status": "Success"}}
+    mock_response.raise_for_status.return_value = None
+    mock_post.return_value = mock_response
+
+    results = await a2a_delegator.execute_plan(plan)
+    assert "1" in results
+    assert "2" not in results
+    assert results["1"] == "Delegated to Agent TestAgent: Success"
