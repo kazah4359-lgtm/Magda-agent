@@ -1,5 +1,7 @@
 """Tests for the ACS Runtime Safety Guard."""
 import pytest
+from typing import Tuple
+from magda_agent.safety.policy import PolicyLayer
 from magda_agent.safety.acs_guard import (
     ACSGuard,
     SecurityViolationError,
@@ -9,6 +11,15 @@ from magda_agent.safety.acs_guard import (
     StateTransitionCheckpoint,
     OutputSanitizationCheckpoint
 )
+
+class MockPolicyLayer(PolicyLayer):
+    """Mock policy layer for testing."""
+    def evaluate(self, tool_name: str, **kwargs) -> Tuple[bool, str]:
+        """Evaluates if a tool is allowed."""
+        if tool_name == "blocked_by_policy":
+            return False, "Action denied: mock policy blocked this tool."
+        return True, "Action allowed."
+
 
 def test_acs_guard_valid_payload():
     guard = ACSGuard()
@@ -103,6 +114,46 @@ def test_tool_policy_checkpoint():
     passed, reason = checkpoint.validate({"tool": "forbidden_tool"})
     assert not passed
     assert reason == "Tool policy failed: tool 'forbidden_tool' is forbidden."
+
+def test_acs_guard_checkpoint_3_policy_layer_block() -> None:
+    """Tests that checkpoint 3 blocks execution if the policy layer denies the action."""
+    policy = MockPolicyLayer()
+    guard = ACSGuard(policy_layer=policy)
+    payload = {"action": "some_action", "tool": "blocked_by_policy", "kwargs": {"code": "some code"}}
+    with pytest.raises(SecurityViolationError, match="Action blocked by ACS checkpoint 3: Tool policy failed: Action denied: mock policy blocked this tool."):
+        guard.intercept_action(payload)
+
+def test_acs_guard_checkpoint_5_regex_leak() -> None:
+    """Tests that checkpoint 5 blocks execution if the output matches a sensitive regex pattern."""
+    guard = ACSGuard()
+    payload = {
+        "action": "some_action",
+        "tool": "some_tool",
+        "current_state": "idle",
+        "next_state": "executing",
+        "output": "here is my API_KEY: 12345"
+    }
+    with pytest.raises(SecurityViolationError, match="Action blocked by ACS checkpoint 5: Output sanitization failed: sensitive pattern .* detected."):
+        guard.intercept_action(payload)
+
+def test_tool_policy_checkpoint_with_policy() -> None:
+    """Tests the ToolPolicyCheckpoint with a mocked policy layer."""
+    policy = MockPolicyLayer()
+    checkpoint = ToolPolicyCheckpoint(policy_layer=policy)
+    passed, reason = checkpoint.validate({"tool": "ls"})
+    assert passed
+    assert reason == "Tool policy passed."
+
+    passed, reason = checkpoint.validate({"tool": "blocked_by_policy"})
+    assert not passed
+    assert reason == "Tool policy failed: Action denied: mock policy blocked this tool."
+
+def test_output_sanitization_checkpoint_regex() -> None:
+    """Tests the OutputSanitizationCheckpoint regex validation."""
+    checkpoint = OutputSanitizationCheckpoint()
+    passed, reason = checkpoint.validate({"output": "This has a PRIVATE_KEY included"})
+    assert not passed
+    assert "Output sanitization failed: sensitive pattern" in reason
 
 def test_state_transition_checkpoint():
     checkpoint = StateTransitionCheckpoint()

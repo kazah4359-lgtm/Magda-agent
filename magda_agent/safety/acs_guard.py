@@ -6,6 +6,8 @@ Implements 5 validation checkpoints for agent workflows to standardize runtime g
 import logging
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Tuple, Optional, List
+import re
+from magda_agent.safety.policy import PolicyLayer
 
 
 class SecurityViolationError(Exception):
@@ -63,10 +65,25 @@ class ToolPolicyCheckpoint(ACSCheckpoint):
     Checks if the tool complies with defined policies.
     """
 
+    def __init__(self, policy_layer: Optional[PolicyLayer] = None) -> None:
+        """
+        Initializes the ToolPolicyCheckpoint.
+
+        Args:
+            policy_layer: An optional policy layer for evaluating tool usage.
+        """
+        self.policy_layer = policy_layer
+
     def validate(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
         tool = workflow_data.get("tool")
         if tool == "forbidden_tool":
             return False, f"Tool policy failed: tool '{tool}' is forbidden."
+
+        if self.policy_layer and tool:
+            kwargs = workflow_data.get("kwargs", {})
+            allow, explanation = self.policy_layer.evaluate(tool, **kwargs)
+            if not allow:
+                return False, f"Tool policy failed: {explanation}"
         return True, "Tool policy passed."
 
 
@@ -84,6 +101,11 @@ class StateTransitionCheckpoint(ACSCheckpoint):
         return True, "State transition passed."
 
 
+_SENSITIVE_PATTERNS = (
+    re.compile(r"api[_-]?key|token|password|private[_-]?key", re.IGNORECASE),
+    re.compile(r"-----BEGIN [A-Z ]+ PRIVATE KEY-----"),
+)
+
 class OutputSanitizationCheckpoint(ACSCheckpoint):
     """
     Checkpoint 5: Output Sanitization.
@@ -92,8 +114,14 @@ class OutputSanitizationCheckpoint(ACSCheckpoint):
 
     def validate(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
         output = workflow_data.get("output", "")
-        if "secret_key" in str(output):
+        output_str = str(output)
+        if "secret_key" in output_str:
             return False, "Output sanitization failed: sensitive data detected in output."
+
+        for pattern in _SENSITIVE_PATTERNS:
+            if pattern.search(output_str):
+                return False, f"Output sanitization failed: sensitive pattern '{pattern.pattern}' detected."
+
         return True, "Output sanitization passed."
 
 
@@ -103,13 +131,14 @@ class ACSGuard:
     and evaluates them through 5 ACS checkpoints before execution.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, policy_layer: Optional[PolicyLayer] = None) -> None:
         """Initializes the ACS Guard."""
         self.logger = logging.getLogger(__name__)
+        self.policy_layer = policy_layer
         self.checkpoints: List[ACSCheckpoint] = [
             InputValidationCheckpoint(),
             IntentAuthorizationCheckpoint(),
-            ToolPolicyCheckpoint(),
+            ToolPolicyCheckpoint(policy_layer=self.policy_layer),
             StateTransitionCheckpoint(),
             OutputSanitizationCheckpoint()
         ]

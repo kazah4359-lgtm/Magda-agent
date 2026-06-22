@@ -4889,7 +4889,7 @@
     },
     {
       "id": "implement-acs-guard-881e0e4c",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Implement ACS Workflow Guard",
@@ -8968,6 +8968,57 @@
       "acceptance": [
         "5 validation checkpoints are defined in the pipeline",
         "Policy-driven tests are verified without hitting real models"
+      ]
+    },
+    {
+      "id": "mcp-action-tools-preflight-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tools Pre-flight Validation",
+      "description": "Inspired by trend: MCP (Model Context Protocol). Create a pre-flight validation mechanism for all MCP action tools before invoking JSON-RPC.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_preflight.py",
+        "tests/test_mcp_preflight.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Pre-flight validator intercepts invalid requests",
+        "Tests mock MCP clients to verify blocking behavior"
+      ]
+    },
+    {
+      "id": "a2a-delegation-circuit-breaker-v5",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Delegation Circuit Breaker",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol). Implement a circuit breaker pattern to prevent continuous task delegation failures to unresponsive peer agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_circuit_breaker.py",
+        "tests/test_a2a_circuit_breaker.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Circuit breaker trips after consecutive failures",
+        "System degrades gracefully to local execution or error state"
+      ]
+    },
+    {
+      "id": "openclaw-rl-trajectory-rollout-v6",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "OpenClaw-RL Multi-turn Trajectory Rollout",
+      "description": "Inspired by trend: OpenClaw-RL. Expand online reinforcement learning to buffer and rollout multi-turn conversational trajectories for delayed reward signals.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_rollout.py",
+        "tests/test_openclaw_rl_rollout.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Trajectory buffers persist across turns",
+        "Delayed reward is properly backpropagated to previous steps"
       ]
     }
   ]
