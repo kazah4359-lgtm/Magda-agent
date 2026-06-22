@@ -4804,7 +4804,7 @@
     },
     {
       "id": "openclaw-rl-online-learning-v2",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Online Reinforcement Learning v2",
@@ -8730,6 +8730,57 @@
       "acceptance": [
         "A daily cron task is defined for generating reports.",
         "Tests verify the output schema of the daily summary."
+      ]
+    },
+    {
+      "id": "openclaw-rl-metrics-v3-unique",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Metrics and Visualization v3",
+      "description": "Inspired by OpenClaw Canvas Live Visualization: Add visual metrics for Q-value updates and rewards from the RL system to track improvement visually.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_metrics.py",
+        "tests/test_openclaw_rl_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL Metrics visually represented in canvas context",
+        "Tests verify metric computations"
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-export-v3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Hermes Skill Marketplace Export V3",
+      "description": "Inspired by Hermes Agent trend (June 2026): Create an explicit module to package procedural skills learned via the RL and Experience loops into the open agentskills.io format for marketplace publishing.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_export.py",
+        "tests/test_marketplace_export.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills export to valid agentskills.io format",
+        "Integration test generates a payload matching schema"
+      ]
+    },
+    {
+      "id": "claude-git-worktree-team-isolation-v4",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Claude Git Worktree Team Isolation v4",
+      "description": "Inspired by Claude Agent SDK Agent Teams trend: Upgrade the worktree manager to run multi-agent subtasks concurrently with total context isolation in separate git worktrees, preventing state bleeding.",
+      "allowed_paths": [
+        "magda_agent/isolation/git_worktree_multi.py",
+        "tests/test_git_worktree_multi.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Multiple git worktrees are spun up concurrently for team agents",
+        "Test checks environment path isolation"
       ]
     }
   ]
