@@ -4855,7 +4855,7 @@
     },
     {
       "id": "implement-memory-context-compression-1aa5e465",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Implement memory context compression",
@@ -8866,6 +8866,57 @@
       "acceptance": [
         "Evaluator parses subagent logs and generates reflection metrics",
         "Tests cover reflection logic on simulated team traces"
+      ]
+    },
+    {
+      "id": "mcp-kernel-taint-tracking-v3-fe34585d",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking Extension V3",
+      "description": "Inspired by trend: MCPKernel taint tracking + sandboxed execution. Extend the taint tracking system to trace data provenance across memory blocks explicitly.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_tracking_v3.py",
+        "tests/test_taint_tracking_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint tracks are maintained when data moves to episodic memory",
+        "Tests verify taint propagation"
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-metrics-d42db27e",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Canvas Visualization Module",
+      "description": "Inspired by trend: OpenClaw Canvas Live Visualization. Create a module to export real-time metrics for Q-value updates to a structured format for UI ingestion.",
+      "allowed_paths": [
+        "magda_agent/learning/canvas_metrics.py",
+        "tests/test_canvas_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Metrics are formatted correctly for Canvas UI consumption",
+        "Tests cover metric transformations"
+      ]
+    },
+    {
+      "id": "acs-guardrail-runtime-governance-621d3b4e",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guardrail Checkpoint Refactor",
+      "description": "Inspired by trend: ACS (Agent Control Specification). Refactor existing guardrails into a formal pipeline of discrete checkpoints (Input, Execution, Output).",
+      "allowed_paths": [
+        "magda_agent/safety/acs_checkpoints.py",
+        "tests/test_acs_checkpoints.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The ACS checkpoint pattern is implemented cleanly",
+        "Integration tests confirm all policies pass or block correctly"
       ]
     }
   ]
