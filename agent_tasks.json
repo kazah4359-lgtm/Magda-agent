@@ -4821,7 +4821,7 @@
     },
     {
       "id": "a2a-agent-discovery-cards-v2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "high",
       "title": "A2A Agent Discovery via Cards v2",
@@ -8781,6 +8781,40 @@
       "acceptance": [
         "Multiple git worktrees are spun up concurrently for team agents",
         "Test checks environment path isolation"
+      ]
+    },
+    {
+      "id": "context-engine-selective-retrieval-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Selective Retrieval v3",
+      "description": "Inspired by trend: Context compression + selective retrieval. Enhance the Context Engine to intelligently prune context windows based on token limits dynamically.",
+      "allowed_paths": [
+        "magda_agent/memory/context_selective_retrieval_v3.py",
+        "tests/test_context_selective_retrieval_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine truncates and prioritizes tokens successfully",
+        "Tests verify limit enforcement"
+      ]
+    },
+    {
+      "id": "agent-guard-taint-tracking-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Taint Tracking v2",
+      "description": "Inspired by trend: MCPKernel taint tracking + sandboxed execution. Implement taint tracking for external data traversing the Agent Guard policy layer.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_tracking_v2.py",
+        "tests/test_taint_tracking_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "External inputs are flagged with taints when entering context",
+        "Tests verify taint propagation"
       ]
     }
   ]
