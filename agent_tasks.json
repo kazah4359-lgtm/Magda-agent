@@ -4838,7 +4838,7 @@
     },
     {
       "id": "context-engine-plugin-interface-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Plugin Interface v2",
@@ -8815,6 +8815,57 @@
       "acceptance": [
         "External inputs are flagged with taints when entering context",
         "Tests verify taint propagation"
+      ]
+    },
+    {
+      "id": "mcp-tool-concurrency-integration-e80b41b0",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "MCP Tool Concurrency Integration v3",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement runtime function tool concurrency for MCP server-prefixed tools to allow parallel execution of multiple independent actions.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_concurrency_v3.py",
+        "tests/test_mcp_concurrency_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tools can run concurrently",
+        "Tests verify thread-safety and parallel execution"
+      ]
+    },
+    {
+      "id": "hermes-whatsapp-gateway-v2-e8512f68",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Hermes WhatsApp Channel Gateway v2",
+      "description": "Inspired by Hermes Agent multi-platform trend: Expand the OpenClaw local-first gateway to support WhatsApp as a unified routing layer channel.",
+      "allowed_paths": [
+        "magda_agent/channels/whatsapp_v2.py",
+        "tests/test_whatsapp_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WhatsApp channel is implemented and registered with Gateway",
+        "Tests mock WhatsApp API and verify message routing"
+      ]
+    },
+    {
+      "id": "claude-evaluator-subagent-reflection-22907b7b",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "Claude Evaluator Subagent Reflection v3",
+      "description": "Inspired by Claude Agent Teams trend: Update the Evaluator to analyze and reflect on the independent execution logs of isolated subagents, providing feedback to the Planner.",
+      "allowed_paths": [
+        "magda_agent/evaluation/evaluator_reflection_v3.py",
+        "tests/test_evaluator_reflection_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator parses subagent logs and generates reflection metrics",
+        "Tests cover reflection logic on simulated team traces"
       ]
     }
   ]
