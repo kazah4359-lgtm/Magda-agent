@@ -1,5 +1,8 @@
 import logging
-from typing import Dict, Any, List
+import os
+import yaml
+import importlib.util
+from typing import Dict, Any, List, Optional
 from magda_agent.skills.registry import SkillRegistry
 
 logger = logging.getLogger(__name__)
@@ -15,10 +18,99 @@ def _create_dynamic_skill(skill_def: Dict[str, Any]):
         return f"Executed remote skill '{skill_def.get('name')}' successfully."
 
     # Optionally attach metadata to the function
-    dynamic_skill.__name__ = skill_def.get("name", "unknown_skill")
+    name = skill_def.get("name", "unknown_skill")
+    dynamic_skill.__name__ = name
     dynamic_skill.__doc__ = skill_def.get("description", "No description provided.")
 
+    # Attach parameters schema if present
+    if "parameters" in skill_def:
+        setattr(dynamic_skill, "__mcp_schema__", skill_def["parameters"])
+
     return dynamic_skill
+
+def load_skill_from_directory(skill_dir: str, registry: SkillRegistry) -> Optional[str]:
+    """
+    Loads a skill from a directory following the agentskills.io specification.
+    The directory must contain a SKILL.md file with YAML frontmatter.
+
+    Args:
+        skill_dir: Path to the skill directory.
+        registry: The SkillRegistry to register the skill in.
+
+    Returns:
+        The name of the registered skill if successful, None otherwise.
+    """
+    skill_md_path = os.path.join(skill_dir, "SKILL.md")
+    if not os.path.exists(skill_md_path):
+        logger.error(f"SKILL.md not found in {skill_dir}")
+        return None
+
+    try:
+        with open(skill_md_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        # Parse YAML frontmatter
+        if content.startswith("---"):
+            parts = content.split("---", 2)
+            if len(parts) >= 3:
+                metadata = yaml.safe_load(parts[1])
+                instructions = parts[2].strip()
+            else:
+                logger.error(f"Invalid SKILL.md format in {skill_dir}")
+                return None
+        else:
+            logger.error(f"No frontmatter found in SKILL.md in {skill_dir}")
+            return None
+
+        name = metadata.get("name")
+        description = metadata.get("description", "")
+        if not name:
+            logger.error(f"Skill name missing in frontmatter in {skill_dir}")
+            return None
+
+        # Look for scripts in scripts/ directory
+        scripts_dir = os.path.join(skill_dir, "scripts")
+        skill_func = None
+        if os.path.isdir(scripts_dir):
+            for filename in os.listdir(scripts_dir):
+                if filename.endswith(".py"):
+                    script_path = os.path.join(scripts_dir, filename)
+                    spec = importlib.util.spec_from_file_location(name, script_path)
+                    if spec and spec.loader:
+                        module = importlib.util.module_from_spec(spec)
+                        spec.loader.exec_module(module)
+                        # Try to find a function matching the skill name
+                        if hasattr(module, name) and callable(getattr(module, name)):
+                            skill_func = getattr(module, name)
+                            break
+                        # Otherwise take the first callable found
+                        for attr_name in dir(module):
+                            attr = getattr(module, attr_name)
+                            if callable(attr) and not attr_name.startswith("__"):
+                                skill_func = attr
+                                break
+                    if skill_func:
+                        break
+
+        if not skill_func:
+            # If no script found, create a placeholder that returns the instructions
+            def placeholder_skill(**kwargs):
+                return f"Skill '{name}' instructions: {instructions}"
+            placeholder_skill.__name__ = name
+            placeholder_skill.__doc__ = description
+            skill_func = placeholder_skill
+
+        # Attach parameters schema if present in metadata
+        if "parameters" in metadata:
+            setattr(skill_func, "__mcp_schema__", metadata["parameters"])
+
+        registry.register_skill(name=name, func=skill_func, description=description)
+        logger.info(f"Loaded skill '{name}' from directory {skill_dir}")
+        return name
+
+    except Exception as e:
+        logger.error(f"Error loading skill from {skill_dir}: {e}")
+        return None
 
 async def fetch_and_register_skills(url: str, registry: SkillRegistry) -> List[str]:
     """
