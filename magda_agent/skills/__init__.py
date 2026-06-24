@@ -5,6 +5,7 @@ from magda_agent.skills.registry import SkillRegistry
 if TYPE_CHECKING:
     from magda_agent.safety.policy import PolicyLayer
 from magda_agent.skills.system_execute_code import execute as code_executor
+from magda_agent.skills.cloud_vm_skill import execute_in_cloud_vm
 from magda_agent.skills.internet_search import search_internet
 from magda_agent.skills.omnichannel import send_message as omnichannel_send
 from magda_agent.skills.names import SkillNames
@@ -29,6 +30,13 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
         name="mcp_kernel_execute",
         func=mcp_kernel_executor,
         description="Executes Python code in a strictly sandboxed MCP kernel environment with taint tracking. Input: 'code' string."
+    )
+
+    # Register Cloud VM Executor Skill
+    registry.register_skill(
+        name=SkillNames.CLOUD_VM_EXECUTE,
+        func=execute_in_cloud_vm,
+        description="Executes Python code in a fully isolated Cloud VM. Use for highly sensitive or destructive tasks. Input: 'code' string."
     )
 
     # Register Search Skill
