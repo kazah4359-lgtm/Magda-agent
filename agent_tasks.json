@@ -4974,7 +4974,7 @@
     },
     {
       "id": "openai-realtime-guardrail-fallback-v2",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "OpenAI Realtime Guardrail Fallback",
@@ -9121,6 +9121,57 @@
       "acceptance": [
         "Context for subagents is compressed based on task relevance",
         "Tests verify that context is reduced while retaining critical constraints"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-preflight",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tools Preflight Checks",
+      "description": "Inspired by trend: MCP tools integration. Add a pre-flight validation mechanism for all MCP action tools before execution.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_preflight.py",
+        "tests/test_mcp_preflight.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Pre-flight validates parameters before execution",
+        "Tests verify valid vs invalid conditions"
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-ui-metrics",
+      "status": "todo",
+      "area": "UI",
+      "risk": "low",
+      "title": "OpenClaw Canvas Visualization Metrics",
+      "description": "Inspired by trend: OpenClaw Canvas Live Visualization. Structure and export real-time metrics for Q-value updates for canvas consumption.",
+      "allowed_paths": [
+        "magda_agent/learning/canvas_metrics.py",
+        "tests/test_canvas_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Exported data matches OpenClaw schema expectations",
+        "Tests verify JSON formats"
+      ]
+    },
+    {
+      "id": "claude-evaluator-subagent-refactor",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude Evaluator Subagent Implementation",
+      "description": "Inspired by trend: Planner, Generator, Evaluator pattern. Refactor the Evaluator to be run via an isolated SubAgent execution context.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator_subagent.py",
+        "tests/test_evaluator_subagent.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator runs through a SubAgent layer",
+        "Evaluator retains core evaluation constraints logic"
       ]
     }
   ]
