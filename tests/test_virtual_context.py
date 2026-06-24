@@ -1,6 +1,6 @@
 from unittest.mock import AsyncMock
 import pytest
-from magda_agent.memory.virtual_context import VirtualContextManager
+from magda_agent.memory.virtual_context import VirtualContextManager, CoreMemory
 from magda_agent.memory.working import WorkingMemory, MemoryEntry
 from magda_agent.memory.episodic import EpisodicMemory
 from magda_agent.emotions.engine import PADState
@@ -86,4 +86,53 @@ async def test_virtual_context_compress_with_llm() -> None:
     assert summary.importance == 0.5
     assert summary.user_id == 1
 
-# Added tests for virtual context management
+@pytest.mark.asyncio
+async def test_core_memory_management():
+    vcm = VirtualContextManager()
+    user_id = 42
+
+    await vcm.update_core_section(user_id, "persona", "I am a helpful assistant.")
+    await vcm.update_core_section(user_id, "human", "The user is an engineer.")
+    await vcm.update_core_section(user_id, "task", "Implement context management.")
+
+    core = vcm.get_core_memory(user_id)
+    assert core.persona == "I am a helpful assistant."
+    assert core.human == "The user is an engineer."
+    assert core.task == "Implement context management."
+
+    assembled = core.assemble()
+    assert "CORE MEMORY (PERSONA):" in assembled
+    assert "I am a helpful assistant." in assembled
+    assert "CORE MEMORY (HUMAN):" in assembled
+    assert "The user is an engineer." in assembled
+    assert "CORE MEMORY (TASK):" in assembled
+    assert "Implement context management." in assembled
+
+@pytest.mark.asyncio
+async def test_core_memory_overflow_truncation():
+    # Set a small limit for testing truncation
+    vcm = VirtualContextManager(section_limit=5)
+    user_id = 123
+
+    long_content = "This is a very long string that will definitely exceed the five word limit."
+    await vcm.update_core_section(user_id, "persona", long_content)
+
+    core = vcm.get_core_memory(user_id)
+    # Heuristic limit is 5 words
+    words = core.persona.split()
+    assert len(words) == 5 # limit (last word includes "...")
+    assert core.persona.endswith("...")
+
+@pytest.mark.asyncio
+async def test_core_memory_overflow_llm_summarization():
+    mock_llm = AsyncMock()
+    mock_llm.chat_completion.return_value = "Summarized Persona"
+    vcm = VirtualContextManager(llm_client=mock_llm, section_limit=5)
+    user_id = 123
+
+    long_content = "This is a very long string that will definitely exceed the five word limit."
+    await vcm.update_core_section(user_id, "persona", long_content)
+
+    core = vcm.get_core_memory(user_id)
+    assert core.persona == "Summarized Persona"
+    mock_llm.chat_completion.assert_called_once()

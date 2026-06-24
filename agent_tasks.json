@@ -4923,7 +4923,7 @@
     },
     {
       "id": "virtual-context-management-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "high",
       "title": "Virtual Context Management",
