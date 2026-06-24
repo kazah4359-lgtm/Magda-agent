@@ -57,11 +57,11 @@ class CronScheduler:
         self.jobs.append(job)
         logger.info(f"Scheduled task '{job_name}' with cron '{cron_expr}', next run: {next_run}")
 
-    def task(self, cron_expr: str, name: str = None):
+    def task(self, cron_expr: str, name: str = None) -> Callable[[Callable[..., Coroutine[Any, Any, Any]]], Callable[..., Coroutine[Any, Any, Any]]]:
         """
         A decorator to schedule a task.
         """
-        def decorator(func: Callable[..., Coroutine[Any, Any, Any]]):
+        def decorator(func: Callable[..., Coroutine[Any, Any, Any]]) -> Callable[..., Coroutine[Any, Any, Any]]:
             self.schedule(cron_expr, func, name=name)
             return func
         return decorator

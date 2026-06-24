@@ -30,6 +30,8 @@ from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.evaluation.agentbench import daily_agentbench_eval
 from magda_agent.scheduler.cron import CronScheduler
+from magda_agent.scheduler.cron_reports import DailyReportScheduler
+
 from magda_agent.operations.cron_v3 import HermesCronSchedulerV3
 from magda_agent.scheduler.autonomous_tasks import run_health_check, report_quality_metrics
 from magda_agent.autonomy.task_store import TaskStore, TaskStatus
@@ -177,6 +179,7 @@ subconsciousness = Subconsciousness(
 )
 
 cron_scheduler = CronScheduler()
+daily_report_scheduler = DailyReportScheduler(scheduler=cron_scheduler)
 operations_scheduler = HermesCronSchedulerV3(db_path="operations.sqlite3")
 
 # Schedule Subconsciousness reflection
@@ -217,6 +220,7 @@ async def lifespan(app: FastAPI):
     # Startup
     await context_engine.bootstrap_all({})
     asyncio.create_task(cron_scheduler.start())
+    asyncio.create_task(daily_report_scheduler.start())
     asyncio.create_task(operations_scheduler.start())
     await autonomous_executor.start()
     asyncio.create_task(canvas_server.start_streaming())
@@ -224,6 +228,7 @@ async def lifespan(app: FastAPI):
     yield
     # Shutdown
     await cron_scheduler.stop()
+    await daily_report_scheduler.stop()
     await operations_scheduler.stop()
     await autonomous_executor.stop()
     await canvas_server.stop_streaming()
