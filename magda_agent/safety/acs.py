@@ -2,6 +2,7 @@ import logging
 import re
 from typing import Dict, Any, Tuple, List, Optional
 from magda_agent.safety.policy import PolicyLayer
+from magda_agent.safety.fallback import RealtimeGuardrailFallback
 
 _SENSITIVE_PATTERNS = (
     re.compile(r"api[_-]?key|token|password|private[_-]?key", re.IGNORECASE),
@@ -27,6 +28,7 @@ class ACSWorkflowGuard:
         """
         self.policy_layer = policy_layer or PolicyLayer()
         self.logger = logging.getLogger(__name__)
+        self.fallback = RealtimeGuardrailFallback(self.policy_layer)
 
     def checkpoint_1_input_validation(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
         """
