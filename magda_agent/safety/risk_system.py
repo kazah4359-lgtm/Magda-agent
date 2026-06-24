@@ -19,6 +19,7 @@ class RiskSystem:
         "requirements.txt",
         "magda_agent/skills/registry.py", # skill registry changes
         "magda_agent/skills/system_execute_code.py", # sandbox changes
+        "magda_agent/skills/cloud_vm_skill.py", # cloud vm changes
         "magda_agent/skills/omnichannel.py", # messaging providers
         "magda_agent/skills/internet_search.py", # network access
     ]

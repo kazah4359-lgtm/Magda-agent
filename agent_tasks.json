@@ -4940,7 +4940,7 @@
     },
     {
       "id": "cloud-vm-sandbox-isolation",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "high",
       "title": "Cloud VM Sandbox Isolation",
@@ -9019,6 +9019,57 @@
       "acceptance": [
         "Trajectory buffers persist across turns",
         "Delayed reward is properly backpropagated to previous steps"
+      ]
+    },
+    {
+      "id": "openclaw-virtual-memory-plugin-4b3bcc28",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Virtual Memory Pattern Integration",
+      "description": "Inspired by trend: Virtual context management (MemGPT/Letta pattern). Implement an explicit swapping mechanism to seamlessly transition large context windows into structured memory layers, preventing token limit exhaustion.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_memory.py",
+        "tests/test_virtual_memory.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A modular swap mechanism is implemented for Context Engine",
+        "Tests cover token exhaustion mitigation limits"
+      ]
+    },
+    {
+      "id": "hermes-signal-channel-gateway-5570589e",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Hermes Signal Channel Gateway",
+      "description": "Inspired by Hermes Agent multi-platform trend: Expand the OpenClaw local-first gateway to support Signal as a unified routing layer channel.",
+      "allowed_paths": [
+        "magda_agent/channels/signal_v2.py",
+        "tests/test_signal_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Signal channel is implemented and registered with Gateway",
+        "Tests mock Signal API and verify message routing"
+      ]
+    },
+    {
+      "id": "mcp-realtime-guardrail-fallback-87b26189",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Realtime Guardrail Fallback mechanism",
+      "description": "Inspired by OpenAI Agents SDK trend: Realtime guardrail fallback. Create a fallback layer for tool invocation that catches violations during execution and triggers dynamic reprompting.",
+      "allowed_paths": [
+        "magda_agent/safety/realtime_guardrail.py",
+        "tests/test_realtime_guardrail.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrail intercepts execution failure and generates fallback prompt",
+        "Tests verify fallback is triggered instead of hard failure"
       ]
     }
   ]
