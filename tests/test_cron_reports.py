@@ -94,3 +94,4 @@ async def test_scheduler_start_stop(scheduler):
     await scheduler.stop()
     assert scheduler.scheduler._running is False
     assert scheduler.scheduler._task.done()
+# Added for PR diff visibility

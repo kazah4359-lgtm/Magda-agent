@@ -4957,7 +4957,7 @@
     },
     {
       "id": "hermes-cron-scheduler-system",
-      "status": "todo",
+      "status": "done",
       "area": "scheduler",
       "risk": "high",
       "title": "Hermes Cron Scheduler System",
@@ -9070,6 +9070,57 @@
       "acceptance": [
         "Guardrail intercepts execution failure and generates fallback prompt",
         "Tests verify fallback is triggered instead of hard failure"
+      ]
+    },
+    {
+      "id": "a2a-mdns-discovery",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A local network mDNS discovery",
+      "description": "Inspired by A2A Protocol trend: Implement mDNS-based discovery to allow Magda to discover other A2A compatible agents locally without a central registry.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_mdns.py",
+        "tests/test_a2a_mdns.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can broadcast and discover peers via mDNS",
+        "Tests verify mDNS logic"
+      ]
+    },
+    {
+      "id": "openclaw-live-canvas-streaming",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Live Canvas Streaming",
+      "description": "Inspired by OpenClaw trend: Add live Canvas streaming backend to provide realtime visualizations of the agent's memory layers and current attention focus.",
+      "allowed_paths": [
+        "magda_agent/visualization/live_canvas.py",
+        "tests/test_live_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Server streams agent state over WebSockets",
+        "Tests mock the WebSocket and verify JSON payload formats"
+      ]
+    },
+    {
+      "id": "claude-subagent-token-compression",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude Subagent Token Compression",
+      "description": "Inspired by Claude Agent SDK: Implement a context compressor that selectively passes only necessary tokens to spawned subagents to save cost and avoid context limits.",
+      "allowed_paths": [
+        "magda_agent/agents/token_compression.py",
+        "tests/test_token_compression.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context for subagents is compressed based on task relevance",
+        "Tests verify that context is reduced while retaining critical constraints"
       ]
     }
   ]

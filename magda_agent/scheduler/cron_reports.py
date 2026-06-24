@@ -58,3 +58,4 @@ class DailyReportScheduler:
         """
         logger.info("Stopping DailyReportScheduler")
         await self.scheduler.stop()
+# Added for PR diff visibility
