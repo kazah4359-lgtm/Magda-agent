@@ -9178,7 +9178,7 @@
     },
     {
       "id": "claude-evaluator-subagent-refactor",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Claude Evaluator Subagent Implementation",
@@ -9432,6 +9432,61 @@
       "acceptance": [
         "Variables returned from tools are marked as tainted",
         "Tests verify taint logic propagates"
+      ]
+    },
+    {
+      "id": "mcp-context-export-tool-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MCP Context Export Tool",
+      "description": "Inspired by trend: MCP tools expansion. Export Context Engine state as an MCP tool for external visualization applications like OpenClaw Canvas.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_context_export.py",
+        "tests/test_mcp_context_export.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Context Export Tool created",
+        "Tool formats context into JSON payload conforming to MCP standard",
+        "Unit tests cover expected formatting behavior using mocks"
+      ]
+    },
+    {
+      "id": "a2a-status-broadcaster-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Status Broadcaster",
+      "description": "Inspired by trend: A2A peer discovery and Multi-Agent Orchestration. Broadcast Magda's current availability and task load using Agent Cards.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_status_broadcaster.py",
+        "tests/test_a2a_status_broadcaster.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Status broadcaster class established",
+        "Broadcaster handles serialization of A2A Agent Cards",
+        "Tests ensure resilient broadcasting via mocked network layers"
+      ]
+    },
+    {
+      "id": "scheduled-diagnostic-report-v2",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Scheduled Diagnostic Report",
+      "description": "Inspired by trend: Scheduled operations. Add a new cron job via HermesCronSchedulerV3 to run diagnostic health checks and log results locally without user interaction.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_diagnostics.py",
+        "magda_agent/api.py",
+        "tests/test_cron_diagnostics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cron task registered for local diagnostic checks",
+        "Task gracefully reports failures to logs without interrupting main loop",
+        "Tests mock datetime and execution loop to confirm trigger conditions"
       ]
     }
   ]
