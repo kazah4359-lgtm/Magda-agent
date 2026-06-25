@@ -58,3 +58,21 @@ def test_mcp_kernel_blocks_tainted_input() -> None:
     code = mark_tainted("x = 5")
     with pytest.raises(SecurityError, match="Code is tainted and unsafe to execute."):
         kernel.execute(code)
+
+def test_mcp_kernel_blocks_tainted_globals_dict() -> None:
+    """Test blocking when globals_dict is tainted."""
+    kernel = MCPKernel()
+    from magda_agent.security.mcp_kernel_taint import mark_tainted
+    code = "x = 5"
+    globals_dict = {"bad": mark_tainted("stuff")}
+    with pytest.raises(SecurityError, match="globals_dict is tainted and unsafe to use in execution."):
+        kernel.execute(code, globals_dict=globals_dict)
+
+def test_mcp_kernel_blocks_tainted_locals_dict() -> None:
+    """Test blocking when locals_dict is tainted."""
+    kernel = MCPKernel()
+    from magda_agent.security.mcp_kernel_taint import mark_tainted
+    code = "x = 5"
+    locals_dict = {"bad": mark_tainted("stuff")}
+    with pytest.raises(SecurityError, match="locals_dict is tainted and unsafe to use in execution."):
+        kernel.execute(code, locals_dict=locals_dict)
