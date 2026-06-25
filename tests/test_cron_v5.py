@@ -105,3 +105,35 @@ async def test_loop_execution():
     assert call_count >= 1
     # Next run should now be 12:02:00
     assert job["next_run"] == datetime(2023, 1, 1, 12, 2, 0)
+
+@pytest.mark.asyncio
+async def test_remove_job(scheduler):
+    async def dummy_task():
+        pass
+
+    scheduler.schedule("0 0 * * *", dummy_task, name="task_1")
+    scheduler.schedule("0 0 * * *", dummy_task, name="task_2")
+
+    assert len(scheduler.jobs) == 2
+
+    # Remove existing
+    removed = scheduler.remove_job("task_1")
+    assert removed is True
+    assert len(scheduler.jobs) == 1
+    assert scheduler.jobs[0]["name"] == "task_2"
+
+    # Remove non-existing
+    removed = scheduler.remove_job("task_3")
+    assert removed is False
+    assert len(scheduler.jobs) == 1
+
+@pytest.mark.asyncio
+async def test_register_daily_report(scheduler):
+    async def report_task():
+        pass
+
+    scheduler.register_daily_report("daily_status", report_task)
+
+    assert len(scheduler.jobs) == 1
+    assert scheduler.jobs[0]["name"] == "daily_status"
+    assert scheduler.jobs[0]["cron_expr"] == "0 9 * * *"

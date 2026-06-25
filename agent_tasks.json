@@ -5265,7 +5265,7 @@
     },
     {
       "id": "hermes-cron-scheduler-expansion-v1",
-      "status": "todo",
+      "status": "done",
       "area": "orchestration",
       "risk": "medium",
       "title": "Hermes-inspired Cron Scheduler Expansion",
@@ -9983,6 +9983,59 @@
       "acceptance": [
         "Git worktree manager can create and clean up isolated worktrees.",
         "Tests verify git commands are correctly formulated."
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-sync-v1-d6be4114",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes-inspired agentskills.io Sync CLI",
+      "description": "Inspired by Hermes open standard: Add a CLI command using the Codex bridge module pattern to manually sync external skills from agentskills.io into the local registry.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_sync_cli.py",
+        "tests/test_marketplace_sync_cli*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "CLI command triggers a fetch from the skill marketplace.",
+        "Fetched skills are validated against policy.",
+        "Pytest tests mock network requests."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-validator-v1-9b382453",
+      "status": "todo",
+      "area": "skills",
+      "risk": "high",
+      "title": "MCP Tool Registry Interceptor",
+      "description": "Inspired by MCP Compatibility trend: Add an interceptor to the MCPRegistry to automatically validate dynamic action tool parameters using jsonschema.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_validator.py",
+        "tests/test_mcp_validator*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tools are intercepted during registration.",
+        "jsonschema is used to validate parameter schemas.",
+        "Invalid schemas raise registration errors."
+      ]
+    },
+    {
+      "id": "anthropic-agent-teams-evaluator-3d382f01",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "Agent Teams Evaluator V2",
+      "description": "Inspired by Claude Agent SDK: Add a new agent node that evaluates the output of a specific generator agent against a dynamic rubric.",
+      "allowed_paths": [
+        "magda_agent/evaluation/agent_evaluator_v2.py",
+        "tests/test_agent_evaluator_v2*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator agent is implemented.",
+        "Tests mock generation and evaluate properly."
       ]
     }
   ]
