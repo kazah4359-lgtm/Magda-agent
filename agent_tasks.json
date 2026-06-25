@@ -5231,7 +5231,7 @@
     },
     {
       "id": "context-engine-plugin-hooks-v5",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine plugin hooks v5",
@@ -9932,6 +9932,59 @@
       "acceptance": [
         "Round robin orchestration works.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "6b808d21-7bfb-414c-882d-df94811e048c",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Tool Exporter for Core Skills",
+      "description": "Inspired by 2026 MCP standard trend: Export existing Magda skills as MCP-compatible JSON-RPC tools for better integration.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter_v2.py",
+        "tests/test_mcp_exporter_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP exporter wrapper created.",
+        "Can register and export at least one skill.",
+        "Pytest tests use mocked JSON-RPC calls."
+      ]
+    },
+    {
+      "id": "56252bf5-77a4-4fc0-98ef-234b46d86f14",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Protocol Discovery Layer",
+      "description": "Inspired by 2026 A2A open standard: Implement Agent discovery via Agent Cards for peer-to-peer task delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery.py",
+        "tests/test_a2a_discovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A discovery module implemented.",
+        "Agent Cards can be parsed and validated.",
+        "Pytest tests cover successful and failed parsing without real network."
+      ]
+    },
+    {
+      "id": "60d3a380-1aba-4cbd-9126-bbe0f15201c3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Working Memory Context Compressor",
+      "description": "Inspired by Claude Agent SDK context compression: Implement a selective compressor for working memory limits.",
+      "allowed_paths": [
+        "magda_agent/memory/compression_v3.py",
+        "tests/test_compression_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ContextCompressor v3 correctly truncates and summarizes context.",
+        "Pytest tests assert limits are respected."
       ]
     }
   ]
