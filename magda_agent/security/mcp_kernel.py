@@ -41,6 +41,10 @@ class MCPKernel:
     def execute(self, code: str, globals_dict: Optional[Dict[str, Any]] = None, locals_dict: Optional[Dict[str, Any]] = None) -> Any:
         if is_tainted(code):
             raise SecurityError("Code is tainted and unsafe to execute.")
+        if globals_dict is not None and is_tainted(globals_dict):
+            raise SecurityError("globals_dict is tainted and unsafe to use in execution.")
+        if locals_dict is not None and is_tainted(locals_dict):
+            raise SecurityError("locals_dict is tainted and unsafe to use in execution.")
         if not self.is_safe(code):
             raise SecurityError("Code contains unsafe operations and was blocked by MCPKernel taint tracking.")
 

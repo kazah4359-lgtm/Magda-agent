@@ -5197,7 +5197,7 @@
     },
     {
       "id": "mcp-kernel-taint-tracking-v3",
-      "status": "todo",
+      "status": "done",
       "area": "security",
       "risk": "high",
       "title": "MCPKernel Taint Tracking v3",
@@ -9830,6 +9830,57 @@
       "acceptance": [
         "Canvas logger implemented for thought processes.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registration-v7-unique-12345",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registration V7",
+      "description": "Inspired by trend: MCP Compatibility. Implement a dynamic registry to register MCP action tools at runtime.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_v7.py",
+        "tests/test_mcp_registry_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP action tools can be registered dynamically",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-discovery-v5-unique-12345",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "A2A Peer Delegation Discovery V5",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol). Implement an asynchronous agent discovery service via Agent Cards.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v5.py",
+        "tests/test_a2a_discovery_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Cards are successfully discovered and parsed asynchronously",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "context-engine-plugin-lifecycle-v6-unique-12345",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin Lifecycle V6",
+      "description": "Inspired by trend: Context Engine plugin architecture. Extend context plugin hooks for custom eviction strategies.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_v6.py",
+        "tests/test_context_engine_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Eviction hooks are exposed in ContextPlugin protocol",
+        "Tests pass"
       ]
     }
   ]
