@@ -5231,7 +5231,7 @@
     },
     {
       "id": "context-engine-plugin-hooks-v5",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine plugin hooks v5",
