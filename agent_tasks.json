@@ -5163,7 +5163,7 @@
     },
     {
       "id": "context-engine-plugin-lifecycle-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine plugin lifecycle hooks",
@@ -9725,6 +9725,60 @@
       "acceptance": [
         "ASSERT-like evaluation module added.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-v4-5d34cc14",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "A2A Peer-to-Peer Delegation v5",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol). Update peer-to-peer delegation mechanism to be async-first and support Agent Cards for auto-discovery.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation_v5.py",
+        "tests/test_a2a_delegation_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A peer delegation is async-first",
+        "Agent Cards are used for discovery during delegation",
+        "Tests mock mDNS/network and pass"
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-sync-v1-new-suffix-789",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Skill Marketplace Integration v4",
+      "description": "Inspired by trend: Hermes Agent (177K+ stars) open standard agentskills.io. Add module to periodically fetch new agent skills from standard marketplace JSON API.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_sync_v4.py",
+        "tests/test_marketplace_sync_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Periodically fetches from marketplace API",
+        "Successfully caches or saves skills to local registry",
+        "Tests mock API response and verify correct behavior"
+      ]
+    },
+    {
+      "id": "openclaw-online-rl-dialogue-v5-new-suffix-123",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "OpenClaw Online RL from Dialogue Interactions",
+      "description": "Inspired by trend: Online learning from interactions (OpenClaw-RL). Integrate learning loop into conversation processor to capture state-action-reward from next-state responses.",
+      "allowed_paths": [
+        "magda_agent/learning/dialogue_online_learner_v4.py",
+        "tests/test_dialogue_online_learner_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Learning loop is integrated into conversation processing",
+        "Reward is properly captured from user feedback",
+        "Tests confirm integration without calling real APIs"
       ]
     }
   ]
