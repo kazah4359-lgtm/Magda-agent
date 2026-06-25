@@ -42,7 +42,7 @@
   "tasks": [
     {
       "id": "rool-transformation",
-      "status": "todo",
+      "status": "done",
       "area": "cognition",
       "risk": "medium",
       "title": "Implement Rool-Likeness Cognitive Update",
@@ -50,7 +50,8 @@
       "allowed_paths": [
         "docs/rool_machine_likeness.md",
         "magda_agent/codex_bridge.py",
-        "agent_tasks.json"
+        "agent_tasks.json",
+        "tests/test_codex_bridge.py"
       ],
       "acceptance": [
         "Jules prioritizes shell/tool verification over guessing",
@@ -9190,6 +9191,60 @@
       "acceptance": [
         "Evaluator runs through a SubAgent layer",
         "Evaluator retains core evaluation constraints logic"
+      ]
+    },
+    {
+      "id": "mcp-server-compatibility",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Add MCP Server Compatibility Layer",
+      "description": "Create a Model Context Protocol (MCP) compatible server interface for Magda's existing tools to allow other agents to discover and use them. See docs/trends.md for MCP details.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_server.py",
+        "tests/test_mcp_server.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A new MCP server module is created at magda_agent/integration/mcp_server.py",
+        "Module includes type hints and docstrings for all functions",
+        "Pytest tests are written using mocks and pass without external APIs"
+      ]
+    },
+    {
+      "id": "a2a-delegation-subagent",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Create A2A Delegation Subagent",
+      "description": "Implement a subagent capable of peer-to-peer task delegation using the A2A (Agent-to-Agent Protocol) standard, discovering peers via Agent Cards.",
+      "allowed_paths": [
+        "magda_agent/agents/a2a_delegator.py",
+        "tests/test_a2a_delegator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Delegator Subagent is implemented in magda_agent/agents/a2a_delegator.py",
+        "Includes agent discovery integration",
+        "Includes mocked tests ensuring safe delegation"
+      ]
+    },
+    {
+      "id": "openclaw-rl-online-learner",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "Implement OpenClaw-RL Online Learner",
+      "description": "Develop an online reinforcement learning module that uses user replies and tool outputs as next-state signals to continuously improve agent behavior, inspired by OpenClaw.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl.py",
+        "tests/test_openclaw_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Online RL Learner module created",
+        "Module extracts rewards from next-state signals",
+        "Comprehensive mock-based tests are provided"
       ]
     }
   ]

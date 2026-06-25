@@ -125,6 +125,7 @@ Read first:
 - AGENTS.md
 - docs/jules_autonomous_loop.md
 - docs/cognitive_architecture.md
+- docs/rool_machine_likeness.md
 - docs/hermes_inspired_feature_plan.md
 - docs/codex_worker_plan.md
 
@@ -143,6 +144,7 @@ Acceptance criteria:
 {acceptance}
 
 Rules:
+- Adopt tool-first reasoning: prioritize shell/tool verification over guessing (Observe-Orient-Decide-Act).
 - Keep the PR scoped to this task id.
 - Do not touch files outside allowed paths unless the task manifest is updated with a clear reason.
 - Update agent_tasks.json when the task is complete.

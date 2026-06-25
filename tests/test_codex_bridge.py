@@ -132,6 +132,8 @@ def test_render_prompt(mock_manifest_data: dict[str, Any]) -> None:
     assert task is not None
     prompt = render_prompt(task)
     assert "Task id: task-1" in prompt
+    assert "docs/rool_machine_likeness.md" in prompt
+    assert "Observe-Orient-Decide-Act" in prompt
     assert "Title: First todo task" in prompt
     assert "Area: testing" in prompt
     assert "Risk: low" in prompt
