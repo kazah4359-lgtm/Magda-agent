@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGDA | ABUZ_AI PROTOCOL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Syncopate:wght@400;700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg: #030303;
+        }
+        body { 
+            background-color: var(--bg); 
+            color: #ffffff; 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .syncopate { font-family: 'Syncopate', sans-serif; }
+        .space-grotesk { font-family: 'Space Grotesk', sans-serif; }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 32px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-grid {
+            background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(circle at center, black, transparent 90%);
+            animation: grid-move 20s linear infinite;
+        }
+        @keyframes grid-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 80px 80px; }
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.15;
+            animation: orb-float 15s ease-in-out infinite;
+        }
+        @keyframes orb-float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, -50px); }
+        }
+
+        .abuz-signature {
+            font-family: 'Syncopate', sans-serif;
+            letter-spacing: 0.8em;
+            text-transform: uppercase;
+            font-size: 0.6rem;
+            opacity: 0.4;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .abuz-signature:hover { opacity: 1; letter-spacing: 1em; color: var(--primary); }
+
+        .svg-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 10s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 4s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .floating-svg {
+            animation: float-svg 6s ease-in-out infinite;
+        }
+        @keyframes float-svg {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+    </style>
+</head>
+<body class="relative">
+    <div class="orb w-96 h-96 bg-cyan-500 top-20 -left-20"></div>
+    <div class="orb w-80 h-80 bg-purple-600 bottom-20 -right-20" style="animation-delay: -5s"></div>
+
+    <div class="fixed inset-0 bg-grid pointer-events-none"></div>
+    <div class="fixed top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent z-[100] shimmer"></div>
+
+    <!-- Navigation -->
+    <nav class="relative z-50 flex items-center justify-between px-8 py-10 max-w-7xl mx-auto">
+        <div class="syncopate font-bold text-xl tracking-tighter">
+            MAGDA<span class="text-gradient">_V2</span>
+        </div>
+        <div class="hidden lg:flex flex-col items-center">
+            <div class="abuz-signature mb-1">PROTOCOLS BY</div>
+            <a href="https://t.me/abuz_ai" target="_blank" class="syncopate text-xs font-bold tracking-[0.3em] hover:text-cyan-400 transition">ABUZ_AI</a>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="https://t.me/abuz_ai" target="_blank" class="glass px-6 py-3 text-[10px] font-black tracking-widest hover:bg-white/5 transition flex items-center border-cyan-500/20">
+                <i class="fa-brands fa-telegram mr-2 text-cyan-400"></i> ПОДПИСАТЬСЯ
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <main class="relative z-10 max-w-7xl mx-auto px-8 pt-20 pb-40">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+            <div class="text-left">
+                <div class="inline-flex items-center px-4 py-2 mb-8 glass">
+                    <span class="w-2 h-2 bg-cyan-400 rounded-full animate-ping mr-3"></span>
+                    <span class="text-[9px] font-bold tracking-[0.4em] text-zinc-500 uppercase">System: AGI_OPERATIONAL</span>
+                </div>
+                <h1 class="syncopate text-5xl md:text-8xl font-bold leading-[0.95] mb-8 tracking-tighter">
+                    НЕЙРО <br> <span class="text-gradient italic">ЛОГИКА.</span>
+                </h1>
+                <p class="text-zinc-400 text-lg md:text-xl max-w-md mb-12 leading-relaxed space-grotesk font-light">
+                    Автономный когнитивный движок, созданный для сложных операций. Память. Действие. Эволюция.
+                </p>
+                <div class="flex flex-wrap gap-5">
+                    <a href="https://github.com/kazah4359-lgtm/Magda-agent" class="bg-white text-black px-10 py-5 rounded-2xl font-black text-xs tracking-widest hover:scale-105 transition shadow-[0_0_50px_rgba(0,242,255,0.2)] uppercase">
+                        Запустить ядро
+                    </a>
+                </div>
+            </div>
+
+            <div class="relative">
+                <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-30" viewBox="0 0 400 400">
+                    <circle cx="200" cy="200" r="150" stroke="url(#grad1)" stroke-width="0.5" fill="none" class="svg-line" />
+                    <circle cx="200" cy="200" r="120" stroke="url(#grad1)" stroke-width="0.5" fill="none" class="svg-line" style="animation-duration: 15s; animation-direction: reverse;" />
+                    <rect x="50" y="50" width="300" height="300" stroke="url(#grad1)" stroke-width="0.2" fill="none" class="floating-svg" />
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:var(--primary);stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:var(--secondary);stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                
+                <div class="w-full aspect-square glass flex items-center justify-center relative border-white/5 group hover:border-cyan-500/20 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-purple-500/5"></div>
+                    <div class="relative z-10 text-center">
+                        <div class="mb-10 relative inline-block">
+                            <div class="absolute inset-0 bg-cyan-400 blur-3xl opacity-20 animate-pulse"></div>
+                            <i class="fa-solid fa-square-rss text-9xl text-gradient transform group-hover:rotate-12 transition duration-700"></i>
+                        </div>
+                        <div class="syncopate font-bold text-4xl tracking-widest mb-3">ABUZ_AI</div>
+                        <div class="text-[10px] text-cyan-400 tracking-[1em] font-bold uppercase opacity-60">Neural Network Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Russian Features -->
+    <section class="relative z-10 max-w-7xl mx-auto px-8 py-40 border-t border-white/5">
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass p-10 hover:bg-white/[0.04] transition group">
+                <div class="text-zinc-600 group-hover:text-cyan-400 transition mb-8 text-2xl"><i class="fa-solid fa-code-merge"></i></div>
+                <h3 class="syncopate font-bold text-xs mb-4 tracking-widest uppercase">OODA ЦИКЛ</h3>
+                <p class="text-zinc-500 text-sm leading-relaxed space-grotesk">Наблюдение, Ориентация, Решение, Действие. Полная автономия в принятии решений.</p>
+            </div>
+            <div class="glass p-10 hover:bg-white/[0.04] transition group">
+                <div class="text-zinc-600 group-hover:text-purple-400 transition mb-8 text-2xl"><i class="fa-solid fa-microchip"></i></div>
+                <h3 class="syncopate font-bold text-xs mb-4 tracking-widest uppercase">ПАМЯТЬ</h3>
+                <p class="text-zinc-500 text-sm leading-relaxed space-grotesk">Эпизодическое хранилище данных с умным сжатием контекста для бесконечной памяти.</p>
+            </div>
+            <div class="glass p-10 hover:bg-white/[0.04] transition group">
+                <div class="text-zinc-600 group-hover:text-cyan-400 transition mb-8 text-2xl"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3 class="syncopate font-bold text-xs mb-4 tracking-widest uppercase">БЕЗОПАСНОСТЬ</h3>
+                <p class="text-zinc-500 text-sm leading-relaxed space-grotesk">Протоколы AgentGuard и ACS гарантируют безопасное выполнение команд в любой среде.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-32 text-center border-t border-white/5 bg-black/50">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="flex flex-col items-center">
+                <div class="syncopate text-[9px] tracking-[2em] mb-16 opacity-30 uppercase">System Initialized By Kazah</div>
+                
+                <div class="flex flex-col md:flex-row items-center gap-12 md:gap-32">
+                    <div class="text-center md:text-left">
+                        <div class="text-[10px] text-zinc-600 font-bold tracking-widest mb-3 uppercase">Developer</div>
+                        <div class="syncopate text-2xl font-bold tracking-tighter">KAZAH</div>
+                    </div>
+                    <a href="https://t.me/abuz_ai" target="_blank" class="group">
+                        <div class="text-[10px] text-zinc-600 font-bold tracking-widest mb-3 uppercase group-hover:text-cyan-400 transition">Design & Community</div>
+                        <div class="syncopate text-2xl font-bold tracking-tighter text-gradient group-hover:scale-110 transition">@ABUZ_AI</div>
+                    </a>
+                </div>
+
+                <div class="mt-24 pt-10 border-t border-white/5 w-full flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="abuz-signature">Rool Machine Intelligence Framework</div>
+                    <div class="text-[10px] text-zinc-700 font-bold tracking-widest uppercase">© 2026 Все права защищены</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
