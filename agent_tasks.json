@@ -5027,7 +5027,7 @@
     },
     {
       "id": "cross-platform-channel-hub",
-      "status": "todo",
+      "status": "done",
       "area": "channels",
       "risk": "medium",
       "title": "Cross-Platform Channel Hub",
@@ -9279,6 +9279,58 @@
       "acceptance": [
         "Context engine visualizer hook broadcasts context updates",
         "Tests verify JSON export format matches OpenClaw schema"
+      ]
+    },
+    {
+      "id": "slack-channel-adapter-v1",
+      "status": "todo",
+      "area": "channels",
+      "risk": "medium",
+      "title": "Slack Channel Adapter",
+      "description": "Inspired by trend: Multi-platform agents (Hermes). Implement an adapter for Slack to integrate seamlessly with the new ChannelHub.",
+      "allowed_paths": [
+        "magda_agent/channels/slack.py",
+        "tests/test_slack_adapter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "SlackAdapter correctly handles incoming events and formats outgoing messages.",
+        "Tests verify adapter logic without external API calls."
+      ]
+    },
+    {
+      "id": "unified-notification-broadcast",
+      "status": "todo",
+      "area": "channels",
+      "risk": "low",
+      "title": "Cross-Platform Unified Notification Broadcast",
+      "description": "Inspired by trend: Proactive notifications. Create a skill that allows broadcasting critical notifications to a user across all their registered platforms via the ChannelHub.",
+      "allowed_paths": [
+        "magda_agent/skills/notification_broadcast.py",
+        "tests/test_notification_broadcast.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Broadcast skill routes messages to all configured ChannelAdapters via the hub.",
+        "Tests mock the ChannelHub and verify broadcast capability."
+      ]
+    },
+    {
+      "id": "channel-hub-rate-limiter",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Channel Hub Rate Limiter",
+      "description": "Inspired by trend: Agent Guard and runtime governance. Add an explicit rate limiting wrapper around ChannelHub.send_to_channel to prevent API flooding on connected platforms.",
+      "allowed_paths": [
+        "magda_agent/channels/rate_limiter.py",
+        "magda_agent/channels/hub.py",
+        "tests/test_channel_rate_limiter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ChannelHub correctly delays or blocks outgoing messages if rate limit is exceeded.",
+        "Tests verify rate limit behavior with mocked time."
       ]
     }
   ]
