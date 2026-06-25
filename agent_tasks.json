@@ -5214,7 +5214,7 @@
     },
     {
       "id": "openclaw-rl-online-learning-v5",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Online Reinforcement Learning Module v5",
@@ -9881,6 +9881,57 @@
       "acceptance": [
         "Eviction hooks are exposed in ContextPlugin protocol",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "letta-virtual-context-management-v2-124e0720",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Letta Virtual Context Management v2",
+      "description": "Inspired by trend: Virtual context management (MemGPT/Letta). Expand virtual context limits.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v2.py",
+        "tests/test_virtual_context_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtual context v2 handles large contexts.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "claude-subagent-spawning-v3-f2cd9e46",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Subagent Context Compression V3",
+      "description": "Inspired by trend: Subagent spawning. Add smart summarization logic.",
+      "allowed_paths": [
+        "magda_agent/agents/context_compression_v3.py",
+        "tests/test_context_compression_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Payload is summarized accurately.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "magentic-one-orchestration-v3-37c4eb76",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Magentic-One Multi-Agent Pattern V3",
+      "description": "Inspired by trend: Magentic-One pattern. Introduce round-robin delegation.",
+      "allowed_paths": [
+        "magda_agent/agents/magentic_one_v3.py",
+        "tests/test_magentic_one_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Round robin orchestration works.",
+        "Tests pass."
       ]
     }
   ]

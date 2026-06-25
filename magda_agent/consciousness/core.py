@@ -28,6 +28,7 @@ from magda_agent.user_model.model import UserModel
 from magda_agent.learning.online import OnlineLearner
 from magda_agent.learning.dialogue_v3 import DialogueOnlineLearnerV3
 from magda_agent.learning.online_rl import OnlineRLIntegrator
+from magda_agent.learning.openclaw_rl_v5 import OnlineRLIntegrator as OpenClawRLV5Integrator
 from magda_agent.learning.online_rl_v6 import OnlineRLFeedbackLoopV6
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
 from magda_agent.learning.feedback_loop import FeedbackLoop
@@ -69,6 +70,7 @@ class Consciousness:
         skill_creator: Optional[SkillCreator] = None,
         online_learner: Optional[OnlineLearner] = None,
         online_rl_integrator: Optional[OnlineRLIntegrator] = None,
+        openclaw_rl_v5: Optional['OpenClawRLV5Integrator'] = None,
         online_rl_v6: Optional[OnlineRLFeedbackLoopV6] = None,
         dialogue_online_learner_v3: Optional[DialogueOnlineLearnerV3] = None,
         openclaw_rl: Optional[OpenClawInteractiveLearner] = None,
@@ -104,6 +106,7 @@ class Consciousness:
         self.skill_creator = skill_creator
         self.online_learner = online_learner
         self.online_rl_integrator = online_rl_integrator
+        self.openclaw_rl_v5 = openclaw_rl_v5
         self.online_rl_v6 = online_rl_v6
         self.dialogue_online_learner_v3 = dialogue_online_learner_v3
         self.openclaw_rl = openclaw_rl
@@ -411,6 +414,9 @@ class Consciousness:
 
         if self.online_rl_integrator:
             await self.online_rl_integrator.process_feedback(user_input, "last_action_context", user_id)
+
+        if self.openclaw_rl_v5:
+            await self.openclaw_rl_v5.process_feedback(user_input, 'last_action_context', user_id, 'chat_skill')
 
         if self.long_term_memory:
             self.long_term_memory.store(text=memory_content, metadata={"type": "conversation"}, user_id=user_id)
