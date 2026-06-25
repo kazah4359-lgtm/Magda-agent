@@ -140,6 +140,8 @@ class ACSWorkflowGuard:
         ]
 
         for i, checkpoint in enumerate(checkpoints, 1):
+            passed: bool
+            reason: str
             passed, reason = checkpoint(workflow_data)
             if not passed:
                 self.logger.warning(f"ACS Checkpoint {i} Failed: {reason}")
@@ -182,6 +184,8 @@ class ACSWorkflowGuard:
         ]
 
         for i, checkpoint in enumerate(checkpoints, 1):
+            passed: bool
+            reason: str
             passed, reason = checkpoint(workflow_data)
             if not passed:
                 self.logger.warning(f"ACS Checkpoint {i} Failed: {reason}")

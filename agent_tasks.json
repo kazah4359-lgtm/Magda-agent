@@ -5318,7 +5318,7 @@
     },
     {
       "id": "acs-workflow-guardrails-v1",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Workflow Guardrails",
@@ -10105,6 +10105,40 @@
       "acceptance": [
         "MCP configurations can be hot-reloaded.",
         "Tests verify that updated configurations are applied immediately."
+      ]
+    },
+    {
+      "id": "ai-agent-trend-e90ceb2b",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams Parallel Git Worktree Subagent Enhancements",
+      "description": "Inspired by Claude Agent SDK Agent Teams trend: Update the subagent worktree spawner to properly isolate memory and context for highly parallel tasks.",
+      "allowed_paths": [
+        "magda_agent/agents/worktree_enhancements.py",
+        "tests/test_worktree_enhancements.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents can be spawned with strictly isolated contexts in git worktrees.",
+        "Tests verify concurrent isolated operations."
+      ]
+    },
+    {
+      "id": "ai-agent-trend-59cb1cef",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "OpenClaw RL Delayed Rewards Support",
+      "description": "Inspired by OpenClaw RL trend: Implement multi-turn trajectory support for delayed next-state signals, tracking the reward back through previous steps in a conversation.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_delayed_rewards.py",
+        "tests/test_openclaw_rl_delayed_rewards.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL module processes multi-turn trajectories to apply delayed rewards.",
+        "Tests mock interactions and confirm backpropagated weight changes."
       ]
     }
   ]

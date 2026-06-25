@@ -217,3 +217,4 @@
 * [x] FEATURE: A2A Agent Discovery via Cards v2 (a2a-agent-discovery-cards-v2)
 
 - [x] a2a-peer-delegation-discovery-v2: A2A Peer Delegation Discovery
+* [x] FEATURE: ACS Workflow Guardrails (acs-workflow-guardrails-v1)
