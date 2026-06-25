@@ -5112,7 +5112,7 @@
     },
     {
       "id": "persistent-memory-layer-v3",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Persistent Memory Layer Expansion",
@@ -9589,6 +9589,57 @@
       "acceptance": [
         "Parallel tasks execute in isolated git worktrees",
         "Tests verify independent workspace provisioning and cleanup"
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-marketplace-sync",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Agent Skills Marketplace Sync",
+      "description": "Inspired by trend: Hermes Agent (177K+ stars) open standard agentskills.io. Add a routine to fetch, parse, and synchronize new skills periodically from an external marketplace.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_sync.py",
+        "tests/test_marketplace_sync.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Routine fetches and parses agentskills.io format",
+        "Tests mock HTTP calls and verify correct parsing and updating behavior"
+      ]
+    },
+    {
+      "id": "openai-agents-runtime-concurrency-manager",
+      "status": "todo",
+      "area": "execution",
+      "risk": "high",
+      "title": "OpenAI Agents SDK Runtime Concurrency",
+      "description": "Inspired by trend: OpenAI Agents SDK runtime function tool concurrency. Create a robust concurrency manager for asynchronous function tool execution, handling rate limits and backpressure.",
+      "allowed_paths": [
+        "magda_agent/execution/concurrency_manager.py",
+        "tests/test_concurrency_manager.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Manager efficiently handles executing multiple tools concurrently",
+        "Tests verify rate limiting, task tracking, and backpressure handling with simulated async calls"
+      ]
+    },
+    {
+      "id": "claude-code-evaluation-subagent-v2",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Claude SDK Evaluator Subagent",
+      "description": "Inspired by trend: Claude Agent SDK Planner/Generator/Evaluator architecture. Add a specific subagent class tasked strictly with evaluating the output of generator agents against specified goals.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator_subagent_v2.py",
+        "tests/test_evaluator_subagent_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator subagent is created following isolation patterns",
+        "Tests simulate generator outputs and confirm evaluator scoring logic works correctly"
       ]
     }
   ]
