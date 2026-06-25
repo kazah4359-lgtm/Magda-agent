@@ -5283,7 +5283,7 @@
     },
     {
       "id": "openclaw-context-engine-compression-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Context Engine Compression",
@@ -10036,6 +10036,40 @@
       "acceptance": [
         "Evaluator agent is implemented.",
         "Tests mock generation and evaluate properly."
+      ]
+    },
+    {
+      "id": "openclaw-online-rl-dialogue-v7-af571aae",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "OpenClaw Online RL Loop v7",
+      "description": "Inspired by trend: OpenClaw-RL. Extend the online RL module to adjust weights dynamically from delayed user actions (e.g. click-throughs).",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl_loop_v7.py",
+        "tests/test_online_rl_loop_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Online RL loop handles delayed rewards.",
+        "Tests confirm weight adjustments from mock delayed feedback."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency-v2-d30c8711",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Tool Concurrency v2",
+      "description": "Inspired by trend: MCP Compatibility and OpenAI Agents SDK. Improve runtime tool execution by executing multiple unrelated MCP actions concurrently.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrent_v2.py",
+        "tests/test_mcp_concurrent_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tool execution supports async concurrency.",
+        "Tests pass with simulated concurrent executions."
       ]
     }
   ]

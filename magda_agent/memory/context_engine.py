@@ -37,8 +37,9 @@ class ContextEngine:
     ContextEngine manages context dynamically using a plugin architecture
     with lifecycle hooks.
     """
-    def __init__(self, plugins: Optional[List[ContextPlugin]] = None) -> None:
+    def __init__(self, plugins: Optional[List[ContextPlugin]] = None, llm: Optional[Any] = None) -> None:
         self._plugins: List[ContextPlugin] = plugins or []
+        self.llm = llm
 
     def register_plugin(self, plugin: ContextPlugin) -> None:
         """Registers a new plugin with the context engine."""
@@ -76,11 +77,49 @@ class ContextEngine:
         return assembled_context
 
     async def compact(self, context_items: List[Any], metadata: Dict[str, Any]) -> List[Any]:
-        """Compact context through all plugins."""
+        """Compact context through all plugins, with a built-in fallback using LLM."""
         current_items = context_items
         for plugin in self._plugins:
             if hasattr(plugin, 'compact'):
                 current_items = await plugin.compact(current_items, metadata)
+
+        limit = metadata.get("limit", 10)
+        if len(current_items) > limit and self.llm is not None:
+            logging.info("Context length exceeds limit after plugins. Using ContextEngine built-in fallback compression.")
+            to_summarize = current_items[:2]
+            remaining = current_items[2:]
+
+            combined_text = "\n".join([f"- {getattr(e, 'content', str(e))}" for e in to_summarize])
+            prompt = f"Please summarize the following short-term memory context into a single concise bullet point:\n{combined_text}"
+
+            try:
+                summary_content = await self.llm.chat_completion([
+                    {"role": "system", "content": "You compress memory context. Return only the summary text."},
+                    {"role": "user", "content": prompt}
+                ], temperature=0.3)
+
+                # Import MemoryEntry to create a valid compressed item, avoiding circular imports at top level
+                from magda_agent.memory.working import MemoryEntry
+
+                first = to_summarize[0] if to_summarize else None
+                avg_importance = sum(getattr(e, 'importance', 0.5) for e in to_summarize) / max(1, len(to_summarize))
+
+                summary_entry = MemoryEntry(
+                    content=summary_content.strip(),
+                    importance=avg_importance,
+                    emotional_state=getattr(first, 'emotional_state', None) if first else None,
+                    tags=getattr(first, 'tags', []) if first else [],
+                    user_id=getattr(first, 'user_id', None) if first else None
+                )
+                current_items = [summary_entry] + remaining
+            except Exception as e:
+                logging.error(f"ContextEngine fallback compaction failed: {e}")
+                # Fallback to dropping oldest item
+                current_items = current_items[1:]
+        elif len(current_items) > limit:
+            logging.warning("No LLM available for fallback compaction, dropping oldest item.")
+            current_items = current_items[1:]
+
         return current_items
 
     def retrieve_context(self, query: str, user_id: int, base_retrieval_func: Callable[[str, int], List[Any]]) -> List[Any]:
