@@ -24,7 +24,7 @@ class MCPRegistry:
             logging.error(f"Failed to load MCP tool: Invalid schema {tool_schema}")
             return False
 
-        name = tool_schema["name"]
+        name: str = tool_schema["name"]
         self.mcp_tools[name] = tool_schema
         logging.info(f"Successfully loaded MCP tool: {name}")
         return True

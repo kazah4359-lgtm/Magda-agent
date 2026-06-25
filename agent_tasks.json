@@ -5300,7 +5300,7 @@
     },
     {
       "id": "mcp-action-tool-concurrency-v1",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Runtime Function Tool Concurrency",
@@ -10070,6 +10070,41 @@
       "acceptance": [
         "MCP tool execution supports async concurrency.",
         "Tests pass with simulated concurrent executions."
+      ]
+    },
+    {
+      "id": "a2a-delegation-retry-v1-33968cf9-506d-412d-b908-b180f27ea1ae",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "A2A Delegation Resiliency",
+      "description": "Inspired by trend: A2A Protocol and enterprise-ready agents. Implement automatic retries for A2A task delegation on transient network failures.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegator.py",
+        "tests/test_a2a_delegator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Delegator retries transient errors.",
+        "Tests pass with simulated network failures."
+      ]
+    },
+    {
+      "id": "mcp-config-reload-v1-5152d2ba-9858-4470-b742-f0071a62b5e7",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "MCP Configuration Hot-Reload",
+      "description": "Inspired by trend: MCP tools proliferation. Allow reloading of MCP tool configurations without restarting the Magda agent.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry.py",
+        "magda_agent/skills/mcp_engine.py",
+        "tests/test_mcp_hot_reload.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP configurations can be hot-reloaded.",
+        "Tests verify that updated configurations are applied immediately."
       ]
     }
   ]

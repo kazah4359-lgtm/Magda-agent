@@ -26,6 +26,14 @@ class ConcurrentSkillExecutor:
             # Using the registry's execute_skill method to pass through all guards
             # The registry's execute_skill method handles execution regardless of
             # whether the underlying skill is async or sync.
-            tasks.append(asyncio.to_thread(self.registry.execute_skill, name, **kwargs))
+
+            async def wrap_execution(n=name, k=kwargs):
+                # Run the synchronous part in a thread to unblock the event loop
+                res = await asyncio.to_thread(self.registry.execute_skill, n, **k)
+                if inspect.isawaitable(res):
+                    return await res
+                return res
+
+            tasks.append(wrap_execution())
 
         return await asyncio.gather(*tasks)
