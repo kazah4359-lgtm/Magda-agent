@@ -5061,7 +5061,7 @@
     },
     {
       "id": "skill-marketplace-importer-v2",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Skill Marketplace Importer v2",
@@ -9382,6 +9382,56 @@
       "acceptance": [
         "Async-first tracing is established for remote agent calls",
         "Tests verify trace correlation IDs match between actions"
+      ]
+    },
+    {
+      "id": "agent-guard-policy-layer-v3",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Policy Layer",
+      "description": "Inspired by trend: Agent Guard runtime governance. Add policy layer between agent and outside world.",
+      "allowed_paths": [
+        "magda_agent/safety/agent_guard.py",
+        "tests/test_agent_guard.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy layer intercepts and evaluates actions",
+        "Tests mock agent outputs and verify policy enforcement"
+      ]
+    },
+    {
+      "id": "post-merge-smoke-tests-loop-v2",
+      "status": "todo",
+      "area": "testing",
+      "risk": "medium",
+      "title": "Post-Merge Smoke Tests Loop",
+      "description": "Inspired by trend: Continuous improvement metrics. Add a post-merge automated smoke testing suite.",
+      "allowed_paths": [
+        "tests/smoke_tests.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Smoke tests run basic agent startup and teardown",
+        "Integration triggers after PR merge"
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking",
+      "description": "Inspired by trend: MCPKernel sandboxed execution. Add taint tracking to data returned from tools.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_tracking.py",
+        "tests/test_taint_tracking.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Variables returned from tools are marked as tainted",
+        "Tests verify taint logic propagates"
       ]
     }
   ]
