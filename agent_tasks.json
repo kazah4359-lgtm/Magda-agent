@@ -5095,7 +5095,7 @@
     },
     {
       "id": "mcp-action-tool-validation-v2",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Action Tool Validation",
@@ -9487,6 +9487,57 @@
         "Cron task registered for local diagnostic checks",
         "Task gracefully reports failures to logs without interrupting main loop",
         "Tests mock datetime and execution loop to confirm trigger conditions"
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visualization-2a20db5e",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Live Visualization",
+      "description": "Inspired by OpenClaw trend: Canvas для live визуализации. Implement a live visualization hook.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas.py",
+        "tests/test_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas visualizer is implemented",
+        "Tests confirm live visualization hook works"
+      ]
+    },
+    {
+      "id": "claude-agent-teams-dependency-graph-a5bf63e6",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Claude Agent Teams Dependency Graph",
+      "description": "Inspired by Claude Agent SDK trend: Task system с dependency graphs. Update planning to utilize dependency graphs.",
+      "allowed_paths": [
+        "magda_agent/planning/dependency_graph.py",
+        "tests/test_dependency_graph.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dependency graph task system implemented",
+        "Tests confirm task graph structure"
+      ]
+    },
+    {
+      "id": "openai-agents-sdk-mcp-server-prefixed-tool-names-04d16c9f",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK MCP Server Prefixed Tool Names",
+      "description": "Inspired by OpenAI Agents SDK trend: MCP server-prefixed tool names. Ensure correct handling of server-prefixed tool names.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_server_names.py",
+        "tests/test_mcp_server_names.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Server prefixes are correctly parsed",
+        "Tests verify prefix extraction"
       ]
     }
   ]
