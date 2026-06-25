@@ -5078,7 +5078,7 @@
     },
     {
       "id": "swe-bench-evaluation-integration",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "SWE-bench Evaluation Integration",
@@ -9538,6 +9538,57 @@
       "acceptance": [
         "Server prefixes are correctly parsed",
         "Tests verify prefix extraction"
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactions-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "Online RL from Interactions (OpenClaw-RL)",
+      "description": "Inspired by OpenClaw trend: Online RL from user feedback. Implement online reinforcement learning from next-state signals (user replies and tool outputs) without separate annotation.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v3.py",
+        "tests/test_openclaw_rl_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The agent learns from conversational next-state signals without separate labeling",
+        "Tests use mocked LLM interactions to verify reward extraction logic"
+      ]
+    },
+    {
+      "id": "selective-context-compression-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Compression + Selective Retrieval",
+      "description": "Inspired by trend: Memory Architecture. Add selective context compression module for virtual context management prior to semantic storage.",
+      "allowed_paths": [
+        "magda_agent/memory/selective_retrieval.py",
+        "tests/test_selective_retrieval.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Old working memory is compressed selectively based on token limits",
+        "Tests simulate token window overflow and confirm proper LLM summarization calls"
+      ]
+    },
+    {
+      "id": "subagent-worktree-isolation-v1",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Agent Teams Git Worktree Isolation",
+      "description": "Inspired by Claude Agent SDK trend: Agent Teams. Enhance SubagentsManager to provision independent Git worktrees for parallel execution tasks.",
+      "allowed_paths": [
+        "magda_agent/agents/worktree_isolation.py",
+        "tests/test_worktree_isolation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Parallel tasks execute in isolated git worktrees",
+        "Tests verify independent workspace provisioning and cleanup"
       ]
     }
   ]
