@@ -5044,7 +5044,7 @@
     },
     {
       "id": "mcp-action-tool-registry",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Action Tool Registry",
@@ -9331,6 +9331,57 @@
       "acceptance": [
         "ChannelHub correctly delays or blocks outgoing messages if rate limit is exceeded.",
         "Tests verify rate limit behavior with mocked time."
+      ]
+    },
+    {
+      "id": "a2a-agent-cards-discovery-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Cards Discovery V4",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol). Implement Agent discovery utilizing Agent Cards as per the standard to locate external agents dynamically.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v4.py",
+        "tests/test_a2a_discovery_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A agent card discovery module is created",
+        "Tests mock external card registries to ensure robust parsing"
+      ]
+    },
+    {
+      "id": "a2a-peer-task-delegation-v4",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "A2A Peer Task Delegation V4",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol). Extend Magda to allow peer-to-peer task delegation to other agents following the A2A spec.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegator_v4.py",
+        "tests/test_a2a_delegator_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A delegation logic supports sending tasks to peers",
+        "Tests correctly simulate peer responses and handle errors"
+      ]
+    },
+    {
+      "id": "a2a-async-tracing-v4",
+      "status": "todo",
+      "area": "monitoring",
+      "risk": "low",
+      "title": "A2A Async-first Tracing V4",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol). Implement async-first tracing and monitoring for cross-agent workflows.",
+      "allowed_paths": [
+        "magda_agent/tracing/a2a_tracer_v4.py",
+        "tests/test_a2a_tracer_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Async-first tracing is established for remote agent calls",
+        "Tests verify trace correlation IDs match between actions"
       ]
     }
   ]
