@@ -124,3 +124,43 @@ def test_context_engine_retrieve_context_hooks() -> None:
     plugin.after_retrieval.assert_called_once_with(["base_context"], "modified_query", 1)
 
     assert result == ["modified_context"]
+
+@pytest.mark.asyncio
+async def test_context_engine_builtin_compaction() -> None:
+    """Tests that the ContextEngine built-in fallback compression correctly summarizes context items using the LLM when no plugins act on it."""
+    llm = AsyncMock()
+    llm.chat_completion.return_value = "engine summary"
+
+    # Engine with no plugins but with an LLM
+    engine = ContextEngine(llm=llm)
+
+    entry1 = MagicMock(spec=MemoryEntry)
+    entry1.content = "content1"
+    entry1.importance = 0.5
+    entry2 = MagicMock(spec=MemoryEntry)
+    entry2.content = "content2"
+    entry2.importance = 0.5
+
+    items = [entry1, entry2]
+    # Limit 1, items 2 -> compact via engine fallback
+    compacted = await engine.compact(items, {"limit": 1})
+
+    assert len(compacted) == 1
+    assert compacted[0].content == "engine summary"
+    assert llm.chat_completion.called
+
+@pytest.mark.asyncio
+async def test_context_engine_builtin_compaction_no_llm() -> None:
+    """Tests that the ContextEngine built-in fallback compression gracefully drops the oldest item when no LLM is provided."""
+    # Engine with no plugins and no LLM
+    engine = ContextEngine()
+
+    entry1 = MagicMock(spec=MemoryEntry)
+    entry2 = MagicMock(spec=MemoryEntry)
+
+    items = [entry1, entry2]
+    # Limit 1, items 2 -> compact by dropping oldest item
+    compacted = await engine.compact(items, {"limit": 1})
+
+    assert len(compacted) == 1
+    assert compacted[0] == entry2
