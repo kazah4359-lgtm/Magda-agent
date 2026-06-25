@@ -45,6 +45,7 @@ from magda_agent.learning.habits import HabitTracker
 from magda_agent.learning.online import OnlineLearner
 from magda_agent.learning.dialogue_v3 import DialogueOnlineLearnerV3
 from magda_agent.learning.online_rl import OnlineRLIntegrator
+from magda_agent.learning.openclaw_rl_v5 import OnlineRLIntegrator as OpenClawRLV5Integrator
 from magda_agent.learning.online_rl_v6 import OnlineRLFeedbackLoopV6
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
 from magda_agent.learning.lessons import TaskRecoveryLessons
@@ -96,6 +97,8 @@ online_rl_integrator = OnlineRLIntegrator(
     habit_tracker=habit_tracker,
     mirror_neurons=mirror_neurons
 )
+
+openclaw_rl_v5 = OpenClawRLV5Integrator()
 
 dialogue_online_learner_v3 = DialogueOnlineLearnerV3()
 
@@ -158,6 +161,7 @@ consciousness = Consciousness(
     skill_creator=skill_creator,
     online_learner=online_learner,
     online_rl_integrator=online_rl_integrator,
+    openclaw_rl_v5=openclaw_rl_v5,
     online_rl_v6=online_rl_v6,
     dialogue_online_learner_v3=dialogue_online_learner_v3,
     openclaw_rl=openclaw_rl,
