@@ -57,6 +57,35 @@ class CronScheduler:
         self.jobs.append(job)
         logger.info(f"Scheduled task '{job_name}' with cron '{cron_expr}', next run: {next_run}")
 
+    def remove_job(self, name: str) -> bool:
+        """
+        Dynamically removes a registered job by its name.
+
+        Args:
+            name: The name of the job to remove.
+
+        Returns:
+            True if the job was found and removed, False otherwise.
+        """
+        initial_length = len(self.jobs)
+        self.jobs = [job for job in self.jobs if job["name"] != name]
+        if len(self.jobs) < initial_length:
+            logger.info(f"Removed job '{name}'")
+            return True
+        return False
+
+    def register_daily_report(self, name: str, report_func: Callable[..., Coroutine[Any, Any, Any]], cron_expr: str = "0 9 * * *") -> None:
+        """
+        Dynamically registers a skeleton daily report job.
+
+        Args:
+            name: The name of the report job.
+            report_func: The async function to execute.
+            cron_expr: The schedule, defaults to 9:00 AM daily.
+        """
+        self.schedule(cron_expr, report_func, name=name)
+        logger.info(f"Registered daily report '{name}' with schedule '{cron_expr}'")
+
     def task(self, cron_expr: str, name: str | None = None) -> Callable[[Callable[..., Coroutine[Any, Any, Any]]], Callable[..., Coroutine[Any, Any, Any]]]:
         """
         A decorator to schedule a task.
