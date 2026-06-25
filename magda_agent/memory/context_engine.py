@@ -88,12 +88,12 @@ class ContextEngine:
         Retrieves context by executing lifecycle hooks before and after
         calling the base retrieval function.
         """
-        current_query = query
+        current_query: str = query
         for plugin in self._plugins:
             if hasattr(plugin, 'before_retrieval'):
                 current_query = plugin.before_retrieval(current_query, user_id)
 
-        context = base_retrieval_func(current_query, user_id)
+        context: List[Any] = base_retrieval_func(current_query, user_id)
 
         for plugin in self._plugins:
             if hasattr(plugin, 'after_retrieval'):
@@ -106,3 +106,5 @@ class ContextEngine:
         for plugin in self._plugins:
             if hasattr(plugin, 'on_context_update'):
                 plugin.on_context_update(new_context, user_id)
+
+# Context Engine lifecycle complete

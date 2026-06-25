@@ -105,3 +105,22 @@ async def test_default_plugin_compact_with_llm():
     assert len(compacted) == 1
     assert compacted[0].content == "summary"
     assert llm.chat_completion.called
+
+def test_context_engine_retrieve_context_hooks() -> None:
+    """Test before_retrieval and after_retrieval hooks explicitly."""
+    plugin = MockPlugin()
+    # Ensure it modifies
+    plugin.before_retrieval = MagicMock(return_value="modified_query")
+    plugin.after_retrieval = MagicMock(return_value=["modified_context"])
+
+    engine = ContextEngine(plugins=[plugin])
+
+    base_retrieval = MagicMock(return_value=["base_context"])
+
+    result = engine.retrieve_context("query", 1, base_retrieval)
+
+    plugin.before_retrieval.assert_called_once_with("query", 1)
+    base_retrieval.assert_called_once_with("modified_query", 1)
+    plugin.after_retrieval.assert_called_once_with(["base_context"], "modified_query", 1)
+
+    assert result == ["modified_context"]
