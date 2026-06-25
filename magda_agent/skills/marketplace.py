@@ -4,6 +4,7 @@ import yaml
 import importlib.util
 from typing import Dict, Any, List, Optional
 from magda_agent.skills.registry import SkillRegistry
+from magda_agent.skills.marketplace_importer import SkillMarketplaceImporter
 
 logger = logging.getLogger(__name__)
 
@@ -151,6 +152,37 @@ async def fetch_and_register_skills(url: str, registry: SkillRegistry) -> List[s
         logger.error(f"Failed to fetch and register skills from {url}: {e}")
 
     return registered_skills
+
+async def load_skill_from_marketplace(skill_name: str, registry: SkillRegistry, importer: Optional[SkillMarketplaceImporter] = None) -> bool:
+    """
+    Loads a single skill from the agentskills.io marketplace using the SkillMarketplaceImporter v2.
+
+    Args:
+        skill_name: The name of the skill to fetch.
+        registry: The SkillRegistry to register the skill in.
+        importer: Optional SkillMarketplaceImporter instance. If None, one is created.
+
+    Returns:
+        True if the skill was successfully fetched and registered, False otherwise.
+    """
+    if importer is None:
+        importer = SkillMarketplaceImporter()
+
+    skill_def = await importer.get_skill(skill_name)
+    if not skill_def:
+        logger.error(f"Could not load skill '{skill_name}' from marketplace.")
+        return False
+
+    name = skill_def.get("name")
+    if not name:
+        logger.error(f"Marketplace skill definition missing 'name' field.")
+        return False
+
+    description = skill_def.get("description", "Dynamic marketplace skill via v2 importer")
+    func = _create_dynamic_skill(skill_def)
+    registry.register_skill(name=name, func=func, description=description)
+    logger.info(f"Successfully registered marketplace skill via importer v2: {name}")
+    return True
 
 async def search_marketplace_skills(url: str, query: str) -> List[Dict[str, Any]]:
     """
