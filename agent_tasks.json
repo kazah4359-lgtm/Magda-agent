@@ -5146,7 +5146,7 @@
     },
     {
       "id": "a2a-peer-delegation-discovery-v2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "high",
       "title": "A2A Peer Delegation Discovery",
@@ -9691,6 +9691,40 @@
       "acceptance": [
         "Canvas logger implemented over Context Engine hooks",
         "Tests verify log generation for each hook event"
+      ]
+    },
+    {
+      "id": "agent-guard-policy-extension-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Agent Guard Policy Extension",
+      "description": "Inspired by trend: Agent Guard runtime governance. Extend PolicyLayer to handle more granular checks.",
+      "allowed_paths": [
+        "magda_agent/safety/policy_layer.py",
+        "tests/test_policy_layer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "PolicyLayer extension implemented.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "assert-evaluation-framework-v1",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "ASSERT Evaluation Framework",
+      "description": "Inspired by trend: ASSERT (Microsoft) policy-driven evaluation framework. Add evaluation checks based on ASSERT concepts.",
+      "allowed_paths": [
+        "magda_agent/evaluation/assert_eval.py",
+        "tests/test_assert_eval.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ASSERT-like evaluation module added.",
+        "Tests pass."
       ]
     }
   ]
