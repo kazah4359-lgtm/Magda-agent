@@ -5,6 +5,7 @@ import subprocess
 import os
 
 from magda_agent.llm_client import LLMClient
+from magda_agent.agents.sub_agent import SubAgent
 
 class EvaluatorAgent:
     """
@@ -13,6 +14,11 @@ class EvaluatorAgent:
     """
     def __init__(self, llm: LLMClient):
         self.llm = llm
+        self.sub_agent = SubAgent(
+            llm=self.llm,
+            system_prompt="You are a strict QA engineer. Provide evaluation as JSON in the specified format.",
+            use_isolation=False
+        )
 
     async def evaluate_output(self, 
                                generator_output: str, 
@@ -58,18 +64,20 @@ class EvaluatorAgent:
         """Asks the LLM to review the output against requirements and checklist."""
         checklist = context.get("acceptance", []) if context else []
         
-        prompt = (
-            "You are the Lead Quality Evaluator. Review the output against the user request and acceptance criteria.\n\n"
-            f"User Request: {request}\n"
-            f"Acceptance Criteria: {json.dumps(checklist, indent=2)}\n"
-            f"--- GENERATED OUTPUT ---\n{output}\n------------------------\n\n"
-            "Provide evaluation as JSON:\n"
-            '{"score": 1-10, "approved": bool, "feedback": "Detailed reasoning", "checklist_status": {"criterion": "pass/fail"}}\n'
+        task = (
+            "Review the output against the user request and acceptance criteria.\n\n"
+            "Provide evaluation ONLY as JSON:\n"
+            '{"score": 1-10, "approved": bool, "feedback": "Detailed reasoning", "checklist_status": {"criterion": "pass/fail"}}'
         )
 
-        messages = [{"role": "system", "content": "You are a strict QA engineer."}, {"role": "user", "content": prompt}]
+        context_str = (
+            f"User Request: {request}\n"
+            f"Acceptance Criteria: {json.dumps(checklist, indent=2)}\n"
+            f"--- GENERATED OUTPUT ---\n{output}\n------------------------\n"
+        )
+
         try:
-            response_text = await self.llm.chat_completion(messages, temperature=0.1)
+            response_text = await self.sub_agent.execute(task=task, context=context_str, temperature=0.1)
             # Simple markdown cleaning
             if "```" in response_text:
                 response_text = response_text.split("```")[1]
