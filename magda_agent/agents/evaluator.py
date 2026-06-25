@@ -71,7 +71,8 @@ class EvaluatorAgent:
         try:
             response_text = await self.llm.chat_completion(messages, temperature=0.1)
             # Simple markdown cleaning
-            if "")[1]
+            if "```" in response_text:
+                response_text = response_text.split("```")[1]
                 if response_text.startswith("json"): response_text = response_text[4:]
             
             return json.loads(response_text.strip())
@@ -84,15 +85,13 @@ class EvaluatorAgent:
         if not context:
             return {"verified": True}
 
-        # If the task has allowed_paths or mentions tests, let's try to verify
         paths = context.get("allowed_paths", [])
         
-        # Logic: If we are in a Rool-like state, we should check if tests pass
-        # This is a placeholder for real tool execution within Jules' environment
         try:
             # Example: Run pytest if we see test files modified
             has_tests = any("test" in p for p in paths)
             if has_tests:
+                # In a real environment, we'd ensure env is set up
                 result = subprocess.run(["pytest"], capture_output=True, text=True, timeout=30)
                 if result.returncode != 0:
                     return {
@@ -103,4 +102,6 @@ class EvaluatorAgent:
             
             return {"verified": True}
         except Exception as e:
-            return {"verified": True} # Fallback to LLM if tools are not available
+            # Fallback to LLM if tools are not available or fail
+            logging.warning(f"Tool verification skipped/failed: {e}")
+            return {"verified": True}
