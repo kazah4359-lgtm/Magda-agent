@@ -5010,7 +5010,7 @@
     },
     {
       "id": "claude-evaluator-subagent",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Claude Evaluator Subagent",
@@ -9245,6 +9245,40 @@
         "Online RL Learner module created",
         "Module extracts rewards from next-state signals",
         "Comprehensive mock-based tests are provided"
+      ]
+    },
+    {
+      "id": "a2a-orchestration-engine",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Orchestration Engine",
+      "description": "Inspired by trend: Agent Teams and Multi-Agent Orchestration. Implement a multi-agent orchestration manager to coordinate sub-agents over A2A.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_orchestrator.py",
+        "tests/test_a2a_orchestrator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Orchestrator can dispatch tasks to multiple A2A sub-agents",
+        "Tests mock A2A responses to verify coordination logic"
+      ]
+    },
+    {
+      "id": "live-context-engine-visualization",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "Live Context Engine Visualization",
+      "description": "Inspired by OpenClaw trend: Extend context engine with live visualization hooks to export its current context state.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_visualizer.py",
+        "tests/test_context_engine_visualizer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine visualizer hook broadcasts context updates",
+        "Tests verify JSON export format matches OpenClaw schema"
       ]
     }
   ]

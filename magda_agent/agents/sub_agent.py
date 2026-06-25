@@ -19,7 +19,7 @@ class SubAgent:
         self.worktree_manager = GitWorktreeManager() if use_isolation else None
         self.context_compressor = SubagentContextCompressor(llm=llm)
 
-    async def execute(self, task: str, context: str) -> str:
+    async def execute(self, task: str, context: str, **kwargs) -> str:
         """
         Executes a task given the context.
         """
@@ -46,7 +46,7 @@ class SubAgent:
         ]
 
         try:
-            result = await self.llm.chat_completion(messages)
+            result = await self.llm.chat_completion(messages, **kwargs)
             logging.info("SubAgent completed task.")
             return result
         except Exception as e:

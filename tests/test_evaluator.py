@@ -129,3 +129,32 @@ async def test_evaluate_response_retry_failure(evaluator, mock_llm_client):
 
     assert result is None
     assert mock_llm_client.chat_completion.call_count == 3
+
+
+@pytest.mark.asyncio
+async def test_evaluator_agent_subagent_integration():
+    from magda_agent.agents.evaluator import EvaluatorAgent
+    from magda_agent.llm_client import LLMClient
+
+    mock_llm = AsyncMock(spec=LLMClient)
+
+    agent = EvaluatorAgent(llm=mock_llm)
+
+    # Mock the sub_agent
+    agent.sub_agent = AsyncMock()
+    agent.sub_agent.execute.return_value = '{"score": 9, "approved": true, "feedback": "Looks good", "checklist_status": {"criteria1": "pass"}}'
+
+    result = await agent.evaluate_output("print('hello')", "Write hello world", {"acceptance": ["Must use print"]})
+
+    assert result["score"] == 9
+    assert result["approved"] is True
+    assert result["feedback"] == "Looks good"
+    agent.sub_agent.execute.assert_called_once()
+
+    # Verify execute arguments
+    args, kwargs = agent.sub_agent.execute.call_args
+    assert "task" in kwargs
+    assert "context" in kwargs
+    assert "Write hello world" in kwargs["context"]
+    assert "Must use print" in kwargs["context"]
+    assert "print('hello')" in kwargs["context"]
