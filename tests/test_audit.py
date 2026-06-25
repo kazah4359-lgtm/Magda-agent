@@ -4,14 +4,17 @@ from magda_agent.safety.audit_trail import AuditTrail
 from magda_agent.safety.audit import ToolInterceptor
 
 @pytest.fixture
-def audit_trail():
+def audit_trail() -> AuditTrail:
+    """Fixture for AuditTrail."""
     return AuditTrail(max_capacity=10)
 
 @pytest.fixture
-def interceptor(audit_trail):
+def interceptor(audit_trail: AuditTrail) -> ToolInterceptor:
+    """Fixture for ToolInterceptor."""
     return ToolInterceptor(audit_trail)
 
-def test_intercept_sync_success(interceptor, audit_trail):
+def test_intercept_sync_success(interceptor: ToolInterceptor, audit_trail: AuditTrail) -> None:
+    """Test successful synchronous interception."""
     @interceptor.intercept(tool_name="sync_tool", why="testing sync success")
     def sync_tool(x: int, y: int = 5) -> int:
         return x + y
@@ -28,7 +31,8 @@ def test_intercept_sync_success(interceptor, audit_trail):
     assert log["result"] == 15
     assert log["duration"] >= 0
 
-def test_intercept_sync_exception(interceptor, audit_trail):
+def test_intercept_sync_exception(interceptor: ToolInterceptor, audit_trail: AuditTrail) -> None:
+    """Test synchronous interception throwing exception."""
     @interceptor.intercept(tool_name="sync_tool_fail", why="testing sync fail")
     def sync_tool_fail(val: str) -> None:
         raise ValueError("Failed intentionally")
@@ -44,7 +48,8 @@ def test_intercept_sync_exception(interceptor, audit_trail):
     assert log["result"] == "Failed intentionally"
 
 @pytest.mark.asyncio
-async def test_intercept_async_success(interceptor, audit_trail):
+async def test_intercept_async_success(interceptor: ToolInterceptor, audit_trail: AuditTrail) -> None:
+    """Test successful async interception."""
     @interceptor.intercept(tool_name="async_tool", why="testing async success")
     async def async_tool(a: str, b: str) -> str:
         await asyncio.sleep(0.01)
@@ -62,7 +67,8 @@ async def test_intercept_async_success(interceptor, audit_trail):
     assert log["duration"] > 0
 
 @pytest.mark.asyncio
-async def test_intercept_async_exception(interceptor, audit_trail):
+async def test_intercept_async_exception(interceptor: ToolInterceptor, audit_trail: AuditTrail) -> None:
+    """Test async interception throwing exception."""
     @interceptor.intercept(tool_name="async_tool_fail", why="testing async fail")
     async def async_tool_fail() -> None:
         raise RuntimeError("Async error")
@@ -76,7 +82,8 @@ async def test_intercept_async_exception(interceptor, audit_trail):
     assert "testing async fail (failed)" in log["why"]
     assert log["result"] == "Async error"
 
-def test_execute_sync_success(interceptor, audit_trail):
+def test_execute_sync_success(interceptor: ToolInterceptor, audit_trail: AuditTrail) -> None:
+    """Test execute_sync method successfully."""
     def raw_tool(x: int) -> int:
         return x * 2
 
@@ -89,7 +96,8 @@ def test_execute_sync_success(interceptor, audit_trail):
     assert logs[0]["result"] == 40
 
 @pytest.mark.asyncio
-async def test_execute_async_success(interceptor, audit_trail):
+async def test_execute_async_success(interceptor: ToolInterceptor, audit_trail: AuditTrail) -> None:
+    """Test execute_async method successfully."""
     async def raw_async_tool(y: int) -> int:
         return y * 3
 

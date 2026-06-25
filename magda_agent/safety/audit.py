@@ -44,7 +44,7 @@ class ToolInterceptor:
                     all_args = self._extract_args(func, args, kwargs)
                     try:
                         result = await func(*args, **kwargs)
-                        duration = time.time() - start_time
+                        duration: float = time.time() - start_time
                         self.audit_trail.log_call(
                             tool_name=name_to_use,
                             kwargs=all_args,
@@ -54,7 +54,7 @@ class ToolInterceptor:
                         )
                         return result
                     except Exception as e:
-                        duration = time.time() - start_time
+                        duration: float = time.time() - start_time
                         self.audit_trail.log_call(
                             tool_name=name_to_use,
                             kwargs=all_args,
@@ -71,7 +71,7 @@ class ToolInterceptor:
                     all_args = self._extract_args(func, args, kwargs)
                     try:
                         result = func(*args, **kwargs)
-                        duration = time.time() - start_time
+                        duration: float = time.time() - start_time
                         self.audit_trail.log_call(
                             tool_name=name_to_use,
                             kwargs=all_args,
@@ -81,7 +81,7 @@ class ToolInterceptor:
                         )
                         return result
                     except Exception as e:
-                        duration = time.time() - start_time
+                        duration: float = time.time() - start_time
                         self.audit_trail.log_call(
                             tool_name=name_to_use,
                             kwargs=all_args,
@@ -133,7 +133,7 @@ class ToolInterceptor:
         all_args = self._extract_args(func, args, kwargs)
         try:
             result = await func(*args, **kwargs)
-            duration = time.time() - start_time
+            duration: float = time.time() - start_time
             self.audit_trail.log_call(
                 tool_name=tool_name,
                 kwargs=all_args,
@@ -143,7 +143,7 @@ class ToolInterceptor:
             )
             return result
         except Exception as e:
-            duration = time.time() - start_time
+            duration: float = time.time() - start_time
             self.audit_trail.log_call(
                 tool_name=tool_name,
                 kwargs=all_args,
@@ -171,7 +171,7 @@ class ToolInterceptor:
         all_args = self._extract_args(func, args, kwargs)
         try:
             result = func(*args, **kwargs)
-            duration = time.time() - start_time
+            duration: float = time.time() - start_time
             self.audit_trail.log_call(
                 tool_name=tool_name,
                 kwargs=all_args,
@@ -181,7 +181,7 @@ class ToolInterceptor:
             )
             return result
         except Exception as e:
-            duration = time.time() - start_time
+            duration: float = time.time() - start_time
             self.audit_trail.log_call(
                 tool_name=tool_name,
                 kwargs=all_args,

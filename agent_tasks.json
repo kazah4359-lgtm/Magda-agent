@@ -5180,7 +5180,7 @@
     },
     {
       "id": "prempti-tool-call-interception-v1",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Prempti Tool Call Interception and Audit Trail",
@@ -9779,6 +9779,57 @@
         "Learning loop is integrated into conversation processing",
         "Reward is properly captured from user feedback",
         "Tests confirm integration without calling real APIs"
+      ]
+    },
+    {
+      "id": "letta-virtual-context-management-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Letta Virtual Context Management",
+      "description": "Inspired by trend: Virtual context management (MemGPT/Letta pattern -> standard). Implement hierarchical memory architecture split into Working, Episodic, Semantic, and Procedural memory.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context.py",
+        "tests/test_virtual_context.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtual context manager properly partitions memory layers.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "magentic-one-orchestration-v1",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Magentic-One Multi-Agent Pattern",
+      "description": "Inspired by trend: Magentic-One pattern (Microsoft). Add Magentic-One orchestration pattern with hierarchical delegation.",
+      "allowed_paths": [
+        "magda_agent/agents/magentic_one.py",
+        "tests/test_magentic_one.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Magentic-One pattern successfully manages sub-agent delegation.",
+        "Tests mock agent responses and verify orchestration."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-visualizer-v3",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Detailed Logging V3",
+      "description": "Inspired by trend: Canvas для live визуализации. Expand OpenClaw Canvas to provide real-time agent thought process visualization.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_logger_v3.py",
+        "tests/test_canvas_logger_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas logger implemented for thought processes.",
+        "Tests pass."
       ]
     }
   ]
