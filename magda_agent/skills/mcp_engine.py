@@ -42,10 +42,10 @@ class MCPEngine:
         import concurrent.futures
 
         # 2. Create the wrapper skill that delegates to MCPClient
-        def mcp_wrapper_skill(**kwargs: Any) -> Any:
+        async def mcp_wrapper_skill(**kwargs: Any) -> Any:
             """
             Dynamically executes the imported MCP tool via the MCPClient.
-            Runs synchronously to safely integrate with Magda's executor.
+            Runs asynchronously to support concurrent execution of tools.
 
             Args:
                 kwargs: Arguments to pass to the MCP tool.
@@ -53,13 +53,7 @@ class MCPEngine:
             Returns:
                 Any: Result of the MCP tool execution.
             """
-            coro = self.mcp_client.execute_tool(tool_name, **kwargs)
-            try:
-                loop = asyncio.get_running_loop()
-                with concurrent.futures.ThreadPoolExecutor() as pool:
-                    return pool.submit(asyncio.run, coro).result()
-            except RuntimeError:
-                return asyncio.run(coro)
+            return await self.mcp_client.execute_tool(tool_name, **kwargs)
 
         # Add the schema attribute so MagdaMCPAdapter natively picks it up if needed.
         setattr(mcp_wrapper_skill, "__mcp_schema__", input_schema)

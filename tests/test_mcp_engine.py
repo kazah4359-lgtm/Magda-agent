@@ -53,7 +53,7 @@ async def test_mcp_engine_wrapper_execution() -> None:
 
     engine.import_mcp_tool(tool_def, connection_info)
 
-    result = registry.execute_skill("external_weather", location="Paris")
+    result = await registry.execute_skill("external_weather", location="Paris")
 
     assert result == "Sunny, 25C"
     mcp_client.execute_tool.assert_awaited_once_with("external_weather", location="Paris")
