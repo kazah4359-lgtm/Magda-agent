@@ -5129,7 +5129,7 @@
     },
     {
       "id": "mcp-export-error-translation-v1",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Exporter error translation",
@@ -9640,6 +9640,57 @@
       "acceptance": [
         "Evaluator subagent is created following isolation patterns",
         "Tests simulate generator outputs and confirm evaluator scoring logic works correctly"
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking-db-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking Enhancements",
+      "description": "Inspired by trend: MCPKernel sandboxed execution. Add persistent storage for tainted tool execution logs.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_tracking_db.py",
+        "tests/test_taint_tracking_db.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted data logs persist to SQLite",
+        "Tests verify that taint logging handles concurrent tool executions correctly"
+      ]
+    },
+    {
+      "id": "claude-subagent-spawning-v2",
+      "status": "todo",
+      "area": "agents",
+      "risk": "high",
+      "title": "Subagent Context Compression",
+      "description": "Inspired by trend: Subagent spawning, context compression. Implement auto-compression for context when delegating subtasks to spawned agents.",
+      "allowed_paths": [
+        "magda_agent/agents/context_compression.py",
+        "tests/test_context_compression.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent payload is compressed before RPC dispatch",
+        "Tests ensure no critical goal constraints are lost during compression"
+      ]
+    },
+    {
+      "id": "openclaw-canvas-visualizer-v2",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Detailed Logging",
+      "description": "Inspired by trend: Canvas для live визуализации. Expand OpenClaw Canvas to intercept specific Context Engine lifecycle hooks (before_retrieval, after_retrieval).",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_logger.py",
+        "tests/test_canvas_logger.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas logger implemented over Context Engine hooks",
+        "Tests verify log generation for each hook event"
       ]
     }
   ]

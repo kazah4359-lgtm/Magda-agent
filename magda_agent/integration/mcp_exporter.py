@@ -56,12 +56,16 @@ class MCPExporter:
 
         adapter_result = await self.adapter.call_tool_async(method, params)
 
-        if adapter_result.get("isError"):
-            error_msg = adapter_result.get("content", [{"text": "Unknown error"}])[0].get("text")
+        # Check if the adapter explicitly reported an error, or if it returned a string
+        # that starts with 'Error' (which happens when registry.execute_skill returns an error string).
+        is_error = adapter_result.get("isError", False)
+        error_msg = adapter_result.get("content", [{"text": ""}])[0].get("text", "")
+
+        if is_error or str(error_msg).startswith("Error"):
             return {
                 "jsonrpc": "2.0",
                 "id": req_id,
-                "error": {"code": -32000, "message": error_msg}
+                "error": {"code": -32000, "message": error_msg or "Unknown error"}
             }
 
         return {

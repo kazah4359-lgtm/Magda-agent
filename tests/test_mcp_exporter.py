@@ -85,6 +85,7 @@ async def test_handle_rpc_request_error_in_tool(exporter: MCPExporter) -> None:
         "id": 4
     }
     res = await exporter.handle_rpc_request(req)
-    # The registry catches exceptions and returns "Error executing skill..." which adapter wraps as normal string result.
-    assert "result" in res
-    assert res["result"]["content"][0]["text"].startswith("Error executing skill")
+    # The adapter wraps it, but the exporter now properly returns a JSON-RPC error.
+    assert "error" in res
+    assert res["error"]["code"] == -32000
+    assert res["error"]["message"].startswith("Error executing skill")
