@@ -3,119 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magda Agent | The AGI Framework</title>
+    <title>MAGDA | ABUZ_AI PROTOCOL</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { background-color: #0a0a0b; color: #e4e4e7; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .hero-gradient { background: radial-gradient(circle at center, #1e293b 0%, #0a0a0b 100%); }
-        .feature-card { background: #18181b; border: 1px solid #27272a; transition: all 0.3s ease; }
-        .feature-card:hover { border-color: #3b82f6; transform: translateY(-5px); }
-        .accent-text { color: #3b82f6; }
-        .glow { box-shadow: 0 0 30px rgba(59, 130, 246, 0.2); }
-        .code-window { background: #09090b; border: 1px solid #27272a; }
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg: #050505;
+        }
+        body { 
+            background-color: var(--bg); 
+            color: #ffffff; 
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+        .syncopate { font-family: 'Syncopate', sans-serif; }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-grid {
+            background-image: linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(circle at center, black, transparent 90%);
+        }
+
+        .abuz-signature {
+            font-family: 'Syncopate', sans-serif;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            opacity: 0.5;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .abuz-signature:hover { opacity: 1; color: var(--primary); transform: letter-spacing: 0.8em; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(2deg); }
+        }
+        .float { animation: float 8s ease-in-out infinite; }
+        
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
     </style>
 </head>
-<body class="hero-gradient">
-    <nav class="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-        <div class="text-2xl font-black tracking-tighter">MAGDA<span class="accent-text">AGENT</span></div>
-        <div class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest text-zinc-500">
-            <a href="#features" class="hover:text-white transition">Features</a>
-            <a href="#architecture" class="hover:text-white transition">Architecture</a>
-            <a href="https://github.com/kazah4359-lgtm/Magda-agent" class="hover:text-white transition text-zinc-300">GitHub</a>
+<body class="relative">
+    <div class="fixed inset-0 bg-grid pointer-events-none"></div>
+    <div class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 z-[100] shimmer"></div>
+
+    <!-- Navigation -->
+    <nav class="relative z-50 flex items-center justify-between px-10 py-10 max-w-7xl mx-auto">
+        <div class="syncopate font-bold text-2xl tracking-tighter">
+            MAGDA<span class="text-gradient">_V2</span>
+        </div>
+        <div class="hidden lg:flex flex-col items-center">
+            <div class="abuz-signature mb-1">PROTOCOLS BY</div>
+            <div class="syncopate text-xs font-bold tracking-[0.2em]">ABUZ_AI</div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="https://github.com/kazah4359-lgtm/Magda-agent" class="glass px-6 py-3 text-[10px] font-black tracking-widest hover:bg-white/5 transition flex items-center">
+                <i class="fa-brands fa-github mr-2"></i> REPOSITORY
+            </a>
         </div>
     </nav>
 
-    <header class="max-w-7xl mx-auto px-8 py-24 text-center">
-        <div class="inline-block px-4 py-1 mb-8 text-[10px] font-black tracking-[0.2em] text-blue-400 uppercase bg-blue-900/20 border border-blue-500/30 rounded-full">
-            Autonomous Machine Intelligence
-        </div>
-        <h1 class="text-7xl md:text-9xl font-black mb-8 tracking-tighter leading-none">
-            ACTION IS <br><span class="accent-text italic">THOUGHT.</span>
-        </h1>
-        <p class="text-zinc-500 text-xl max-w-2xl mx-auto mb-12 font-medium">
-            A cognitive architecture for agents that don't just chat, but <span class="text-white">execute</span>. 
-            Built for persistence, memory, and real-world tools.
-        </p>
-        <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6">
-            <a href="https://github.com/kazah4359-lgtm/Magda-agent" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-xl font-black transition glow uppercase tracking-widest text-sm">
-                Deploy Agent
-            </a>
-            <a href="#architecture" class="w-full md:w-auto bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-white px-10 py-5 rounded-xl font-black transition uppercase tracking-widest text-sm">
-                Documentation
-            </a>
-        </div>
-    </header>
+    <!-- Hero -->
+    <main class="relative z-10 max-w-7xl mx-auto px-10 pt-24 pb-48">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div class="text-left">
+                <div class="inline-flex items-center px-4 py-2 mb-10 glass">
+                    <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse mr-3"></span>
+                    <span class="text-[10px] font-bold tracking-[0.4em] text-zinc-400 uppercase">System Active: Magda-Core</span>
+                </div>
+                <h1 class="syncopate text-6xl md:text-[5.5rem] font-bold leading-[0.9] mb-10 tracking-tighter">
+                    NEURAL <br> <span class="text-gradient">LOGIC.</span>
+                </h1>
+                <p class="text-zinc-500 text-lg md:text-xl max-w-md mb-14 leading-relaxed font-light">
+                    Autonomous cognitive engine designed for mission-critical operations. Persistent memory. Deterministic actions.
+                </p>
+                <div class="flex flex-wrap gap-6">
+                    <a href="#" class="bg-white text-black px-12 py-6 rounded-2xl font-black text-xs tracking-widest hover:scale-105 transition shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+                        INITIALIZE_CORE
+                    </a>
+                </div>
+            </div>
 
-    <section id="features" class="max-w-7xl mx-auto px-8 py-32 border-t border-zinc-900">
-        <div class="grid md:grid-cols-3 gap-12">
-            <div class="feature-card p-10 rounded-3xl">
-                <div class="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center mb-8 border border-blue-500/20">
-                    <i class="fa-solid fa-microchip accent-text text-xl"></i>
+            <div class="relative group">
+                <div class="float w-full aspect-square glass flex items-center justify-center overflow-hidden border border-white/10">
+                    <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10"></div>
+                    <div class="relative z-10 text-center">
+                        <div class="mb-8 relative inline-block">
+                            <i class="fa-solid fa-atom text-9xl text-gradient animate-spin-slow" style="animation-duration: 15s"></i>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i class="fa-solid fa-microchip text-3xl text-white opacity-50"></i>
+                            </div>
+                        </div>
+                        <div class="syncopate font-bold text-3xl tracking-widest mb-2">JULES_OS</div>
+                        <div class="text-[9px] text-cyan-400 tracking-[0.8em] font-bold uppercase opacity-70">Cognitive Layer Active</div>
+                    </div>
                 </div>
-                <h3 class="text-2xl font-bold mb-4">Neural Memory</h3>
-                <p class="text-zinc-500 leading-relaxed">Episodic and semantic storage with dynamic context compression for infinite task awareness.</p>
+                <!-- Ambient Glow -->
+                <div class="absolute -top-20 -right-20 w-80 h-80 bg-cyan-500/10 blur-[120px] rounded-full"></div>
+                <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-purple-500/10 blur-[120px] rounded-full"></div>
             </div>
-            <div class="feature-card p-10 rounded-3xl">
-                <div class="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center mb-8 border border-blue-500/20">
-                    <i class="fa-solid fa-terminal accent-text text-xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-4">Tool-First</h3>
-                <p class="text-zinc-500 leading-relaxed">Integrated shell, git, and python execution. Safety-first execution with AgentGuard layers.</p>
+        </div>
+    </main>
+
+    <!-- Architecture Grid -->
+    <section class="relative z-10 max-w-7xl mx-auto px-10 py-48 border-t border-white/5">
+        <div class="mb-24">
+            <h2 class="syncopate text-3xl font-bold tracking-tighter mb-4">SPECIFICATIONS</h2>
+            <div class="w-20 h-1 bg-gradient-to-r from-cyan-500 to-transparent"></div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass p-12 hover:bg-white/[0.05] transition group border-white/5 hover:border-cyan-500/30">
+                <div class="text-zinc-600 group-hover:text-cyan-400 transition mb-10 text-3xl"><i class="fa-solid fa-code-branch"></i></div>
+                <h3 class="syncopate font-bold text-xs mb-6 tracking-widest">OODA ARCHITECTURE</h3>
+                <p class="text-zinc-500 text-sm leading-relaxed font-light">Advanced Observe-Orient-Decide-Act loop implementation for continuous environmental adaptation.</p>
             </div>
-            <div class="feature-card p-10 rounded-3xl">
-                <div class="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center mb-8 border border-blue-500/20">
-                    <i class="fa-solid fa-infinity accent-text text-xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-4">OODA Loop</h3>
-                <p class="text-zinc-500 leading-relaxed">Autonomous decision making using the Observe-Orient-Decide-Act pattern for continuous evolution.</p>
+            <div class="glass p-12 hover:bg-white/[0.05] transition group border-white/5 hover:border-purple-500/30">
+                <div class="text-zinc-600 group-hover:text-purple-400 transition mb-10 text-3xl"><i class="fa-solid fa-brain"></i></div>
+                <h3 class="syncopate font-bold text-xs mb-6 tracking-widest">SYNAPTIC MEMORY</h3>
+                <p class="text-zinc-500 text-sm leading-relaxed font-light">Vector-based episodic storage with high-fidelity context retrieval and automated compression.</p>
+            </div>
+            <div class="glass p-12 hover:bg-white/[0.05] transition group border-white/5 hover:border-cyan-500/30">
+                <div class="text-zinc-600 group-hover:text-cyan-400 transition mb-10 text-3xl"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3 class="syncopate font-bold text-xs mb-6 tracking-widest">GUARDRAIL_OS</h3>
+                <p class="text-zinc-500 text-sm leading-relaxed font-light">Real-time safety policy enforcement with AgentGuard and ACS-Protocol integration.</p>
             </div>
         </div>
     </section>
 
-    <section id="architecture" class="max-w-7xl mx-auto px-8 py-32">
-        <div class="bg-zinc-900/30 border border-zinc-800 rounded-[3rem] p-12 md:p-24 overflow-hidden relative">
-            <div class="relative z-10 grid md:grid-cols-2 gap-20 items-center">
-                <div>
-                    <h2 class="text-5xl font-black mb-8 leading-tight">THE <br>COGNITIVE <br>BLUEPRINT.</h2>
-                    <p class="text-zinc-500 text-lg mb-10 leading-relaxed">
-                        Magda uses a multi-agent orchestration system inspired by the Claude Agent SDK, 
-                        enhanced with the Rool Machine's philosophy of action.
-                    </p>
-                    <div class="space-y-4 text-sm font-bold uppercase tracking-widest">
-                        <div class="flex items-center text-blue-500"><i class="fa-solid fa-check-circle mr-3"></i> Planner-Generator-Evaluator</div>
-                        <div class="flex items-center text-zinc-400"><i class="fa-solid fa-check-circle mr-3"></i> SAT/SMT Conflict Resolution</div>
-                        <div class="flex items-center text-zinc-400"><i class="fa-solid fa-check-circle mr-3"></i> Multi-Stage Evaluation</div>
+    <!-- Footer Signature -->
+    <footer class="relative z-10 py-32 text-center border-t border-white/5 bg-black/40">
+        <div class="max-w-7xl mx-auto px-10">
+            <div class="flex flex-col items-center">
+                <div class="syncopate text-[10px] tracking-[1.5em] mb-12 opacity-30">MAGDA_PROTOCOL_INITIATED</div>
+                
+                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-20">
+                    <div class="text-left">
+                        <div class="text-[10px] text-zinc-600 font-bold tracking-widest mb-2 uppercase">Core Developer</div>
+                        <div class="syncopate text-xl font-bold tracking-tighter">KAZAH</div>
+                    </div>
+                    <div class="w-px h-12 bg-white/10 hidden md:block"></div>
+                    <div class="text-left">
+                        <div class="text-[10px] text-zinc-600 font-bold tracking-widest mb-2 uppercase">Design Architecture</div>
+                        <div class="syncopate text-xl font-bold tracking-tighter text-gradient">ABUZ_AI</div>
                     </div>
                 </div>
-                <div class="code-window rounded-2xl p-6 shadow-2xl font-mono text-xs">
-                    <div class="text-zinc-600 mb-4 font-bold border-b border-zinc-800 pb-2 flex justify-between">
-                        <span>magda_agent/core/loop.py</span>
-                        <span class="text-blue-500">ACTIVE</span>
-                    </div>
-                    <div class="space-y-1">
-                        <p><span class="text-purple-400">async def</span> <span class="text-yellow-400">cognitive_loop</span>():</p>
-                        <p class="pl-4 text-zinc-500"># Initializing Persistent Memory...</p>
-                        <p class="pl-4"><span class="text-blue-400">await</span> memory.load_episodic()</p>
-                        <p class="pl-4 text-zinc-500"># Start OODA Cycle</p>
-                        <p class="pl-4"><span class="text-purple-400">while</span> <span class="text-blue-400">True</span>:</p>
-                        <p class="pl-8">state = <span class="text-blue-400">await</span> observe()</p>
-                        <p class="pl-8">plan = <span class="text-blue-400">await</span> orient(state)</p>
-                        <p class="pl-8">action = <span class="text-blue-400">await</span> decide(plan)</p>
-                        <p class="pl-8"><span class="text-blue-400">await</span> act(action)</p>
-                        <p class="pl-8"><span class="text-green-400"># Verification Success: 100%</span></p>
-                    </div>
+
+                <div class="mt-24 pt-10 border-t border-white/5 w-full flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="abuz-signature">Verified by Rool Machine Philosophy</div>
+                    <div class="text-[9px] text-zinc-700 font-bold tracking-widest">ALL RIGHTS RESERVED © 2026</div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <footer class="px-8 py-20 text-center border-t border-zinc-900">
-        <div class="text-2xl font-black mb-4 tracking-tighter">MAGDA</div>
-        <p class="text-zinc-600 text-xs font-bold uppercase tracking-[0.3em] mb-8">Architected for the Machine Age</p>
-        <div class="text-zinc-500 text-[10px] font-medium tracking-widest uppercase">
-            © 2026 Developed by <span class="text-zinc-300">Kazah</span> & <span class="text-blue-500">Rool Machine</span>
         </div>
     </footer>
 </body>
