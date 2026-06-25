@@ -41,6 +41,24 @@
   },
   "tasks": [
     {
+      "id": "rool-transformation",
+      "status": "todo",
+      "area": "cognition",
+      "risk": "medium",
+      "title": "Implement Rool-Likeness Cognitive Update",
+      "description": "Align Jules' operational logic with the Rool Machine blueprint. Adopt tool-first reasoning, action-oriented loops, and strict workspace management as defined in docs/rool_machine_likeness.md.",
+      "allowed_paths": [
+        "docs/rool_machine_likeness.md",
+        "magda_agent/codex_bridge.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Jules prioritizes shell/tool verification over guessing",
+        "Core operational loop references docs/rool_machine_likeness.md",
+        "Task execution follows the Observe-Orient-Decide-Act pattern"
+      ]
+    },
+    {
       "id": "cognitive-biases-illusions",
       "status": "done",
       "area": "cognition",
