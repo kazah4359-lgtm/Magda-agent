@@ -5352,7 +5352,7 @@
     },
     {
       "id": "mcp-agentskills-marketplace-integration",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP AgentSkills Marketplace Integration",
@@ -10139,6 +10139,60 @@
       "acceptance": [
         "RL module processes multi-turn trajectories to apply delayed rewards.",
         "Tests mock interactions and confirm backpropagated weight changes."
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-publish-cli-2488a5db",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes-inspired agentskills.io Publish CLI",
+      "description": "Inspired by Hermes open standard: Add a CLI command using the Codex bridge module pattern to manually publish and sync local Magda skills to agentskills.io format and push them.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_publish_cli.py",
+        "tests/test_marketplace_publish_cli.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "CLI command triggers a format conversion of skills.",
+        "Exported schema respects agentskills.io standard.",
+        "Pytest tests mock network requests."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-virtual-context-ce0c6f0b",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Virtual Context",
+      "description": "Inspired by OpenClaw: Implement a Virtual Context component inside Context Engine to handle long conversational memory pagination by splitting it into pages of working memory and episodic memory.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_pagination.py",
+        "tests/test_virtual_context_pagination.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtual context automatically paginates memory.",
+        "Context Plugin Hooks handle before_retrieval pagination checks.",
+        "Tests confirm contexts are sized within token limits."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-runtime-permission-scoping-70e7d016",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Tool Runtime Permission Scoping",
+      "description": "Inspired by MCP Security trend: Implement a runtime permission scope mapping that ties specific MCP tools to PolicyLayer checkpoints, ensuring sensitive tools demand explicit confirmation via RealtimeGuardrail before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_permission_scoping.py",
+        "tests/test_mcp_permission_scoping.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Tools are annotated with permission scopes.",
+        "PolicyLayer blocks high-permission MCP tool execution if confirmation fails.",
+        "Tests pass confirming scopes are enforced."
       ]
     }
   ]

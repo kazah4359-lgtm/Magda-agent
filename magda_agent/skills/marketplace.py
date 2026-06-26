@@ -26,6 +26,8 @@ def _create_dynamic_skill(skill_def: Dict[str, Any]):
     # Attach parameters schema if present
     if "parameters" in skill_def:
         setattr(dynamic_skill, "__mcp_schema__", skill_def["parameters"])
+    elif "inputSchema" in skill_def:
+        setattr(dynamic_skill, "__mcp_schema__", skill_def["inputSchema"])
 
     return dynamic_skill
 
