@@ -86,3 +86,49 @@ async def test_server_extracts_trace():
 
     assert A2ATracer.get_current_trace_id() == "incoming_trace_id"
     planner.generate_plan.assert_called_once()
+
+def test_a2a_tracing_recording():
+    """Test A2ATracer event recording and retrieval."""
+    A2ATracer.clear_registry()
+    trace_id = "test_trace_123"
+    A2ATracer.set_trace_id(trace_id)
+
+    A2ATracer.record_event("start_test", {"meta": "data"})
+    A2ATracer.record_event("mid_test")
+
+    history = A2ATracer.get_trace(trace_id)
+    assert len(history) == 2
+    assert history[0]["event"] == "start_test"
+    assert history[0]["details"] == {"meta": "data"}
+    assert history[1]["event"] == "mid_test"
+    assert history[1]["details"] == {}
+
+def test_a2a_tracing_auto_record():
+    """Test that inject_headers auto-records an event."""
+    A2ATracer.clear_registry()
+    trace_id = "auto_record_trace"
+    A2ATracer.set_trace_id(trace_id)
+
+    headers = {}
+    A2ATracer.inject_headers(headers)
+
+    history = A2ATracer.get_trace(trace_id)
+    assert len(history) == 1
+    assert history[0]["event"] == "delegation_sent"
+    assert history[0]["details"]["headers"][TRACE_HEADER] == trace_id
+
+def test_a2a_tracing_eviction():
+    """Test FIFO eviction of traces when capacity is reached."""
+    A2ATracer.clear_registry()
+    # Mock limits for faster test
+    with patch.object(A2ATracer, "MAX_TRACES", 2):
+        A2ATracer.set_trace_id("t1")
+        A2ATracer.record_event("e1")
+        A2ATracer.set_trace_id("t2")
+        A2ATracer.record_event("e2")
+        A2ATracer.set_trace_id("t3")
+        A2ATracer.record_event("e3")
+
+        assert len(A2ATracer.get_trace("t1")) == 0
+        assert len(A2ATracer.get_trace("t2")) == 1
+        assert len(A2ATracer.get_trace("t3")) == 1
