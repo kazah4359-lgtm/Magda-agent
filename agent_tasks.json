@@ -5335,7 +5335,7 @@
     },
     {
       "id": "a2a-tracing-module-v1",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Protocol Tracing Module",
