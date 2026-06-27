@@ -5439,7 +5439,7 @@
     },
     {
       "id": "openclaw-context-engine-compression-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Context Engine Compression v2",
@@ -10335,6 +10335,40 @@
     },
     {
       "id": "a2a-delegation-circuit-breaker-v6-unique-62a89989",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Delegation Circuit Breaker V6",
+      "description": "Inspired by A2A Protocol and enterprise-ready agents trend: Implement a circuit breaker pattern to prevent continuous task delegation failures to unresponsive peer agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_circuit_breaker_v6.py",
+        "tests/test_a2a_circuit_breaker_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Circuit breaker trips after consecutive failures.",
+        "Tests verify fallback and trip limits."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-preflight-v5",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Tool Pre-flight Validation V5",
+      "description": "Inspired by MCP Security trend: Implement a pre-flight validation mechanism for all MCP action tools before JSON-RPC execution to verify inputs against a static blocklist.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_preflight_v5.py",
+        "tests/test_mcp_preflight_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Pre-flight validator intercepts invalid requests.",
+        "Tests mock MCP clients to verify blocking behavior."
+      ]
+    },
+    {
+      "id": "a2a-delegation-circuit-breaker-v6",
       "status": "todo",
       "area": "integration",
       "risk": "medium",

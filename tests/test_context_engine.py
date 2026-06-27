@@ -164,3 +164,32 @@ async def test_context_engine_builtin_compaction_no_llm() -> None:
 
     assert len(compacted) == 1
     assert compacted[0] == entry2
+
+@pytest.mark.asyncio
+async def test_context_engine_advanced_compaction_tags() -> None:
+    """Tests that the ContextEngine fallback compression merges tags from multiple entries."""
+    llm = AsyncMock()
+    llm.chat_completion.return_value = "advanced summary"
+    engine = ContextEngine(llm=llm)
+
+    entry1 = MagicMock(spec=MemoryEntry)
+    entry1.content = "content1"
+    entry1.importance = 0.5
+    entry1.tags = ["tag1", "tag2"]
+
+    entry2 = MagicMock(spec=MemoryEntry)
+    entry2.content = "content2"
+    entry2.importance = 0.5
+    entry2.tags = ["tag2", "tag3"]
+
+    items = [entry1, entry2]
+    compacted = await engine.compact(items, {"limit": 1})
+
+    assert len(compacted) == 1
+    assert compacted[0].content == "advanced summary"
+    assert set(compacted[0].tags) == {"tag1", "tag2", "tag3"}
+
+    # Also verify prompt contains new instructions
+    call_args = llm.chat_completion.call_args[0][0]
+    user_prompt = call_args[1]["content"]
+    assert "maintaining key facts and semantic links" in user_prompt
