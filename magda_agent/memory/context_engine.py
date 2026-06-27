@@ -1,5 +1,6 @@
 import logging
 from typing import List, Protocol, Any, Callable, Dict, Optional
+from magda_agent.architecture.context_hooks import HookRegistry
 
 class ContextPlugin(Protocol):
     """Protocol defining the lifecycle hooks for a Context Engine plugin."""
@@ -38,12 +39,25 @@ class ContextEngine:
     with lifecycle hooks.
     """
     def __init__(self, plugins: Optional[List[ContextPlugin]] = None, llm: Optional[Any] = None) -> None:
-        self._plugins: List[ContextPlugin] = plugins or []
+        self._plugins: List[ContextPlugin] = []
         self.llm = llm
+        self.hook_registry = HookRegistry()
+
+        if plugins:
+            for plugin in plugins:
+                self.register_plugin(plugin)
 
     def register_plugin(self, plugin: ContextPlugin) -> None:
         """Registers a new plugin with the context engine."""
         self._plugins.append(plugin)
+
+        if hasattr(plugin, 'before_retrieval'):
+            self.hook_registry.register_hook('before_retrieval', plugin.before_retrieval)
+        if hasattr(plugin, 'after_retrieval'):
+            self.hook_registry.register_hook('after_retrieval', plugin.after_retrieval)
+        if hasattr(plugin, 'on_context_update'):
+            self.hook_registry.register_hook('on_context_update', plugin.on_context_update)
+
         logging.debug(f"Registered plugin: {plugin.__class__.__name__}")
 
     def add_plugin(self, plugin: ContextPlugin) -> None:
@@ -52,9 +66,11 @@ class ContextEngine:
 
     async def bootstrap_all(self, config: Dict[str, Any]) -> None:
         """Initialize all plugins."""
+        config_with_hooks = dict(config)
+        config_with_hooks["hook_registry"] = self.hook_registry
         for plugin in self._plugins:
             if hasattr(plugin, 'bootstrap'):
-                await plugin.bootstrap(config)
+                await plugin.bootstrap(config_with_hooks)
 
     async def ingest(self, content: str, metadata: Dict[str, Any]) -> str:
         """Run content through ingest hook of all plugins."""
@@ -127,23 +143,20 @@ class ContextEngine:
         Retrieves context by executing lifecycle hooks before and after
         calling the base retrieval function.
         """
-        current_query: str = query
-        for plugin in self._plugins:
-            if hasattr(plugin, 'before_retrieval'):
-                current_query = plugin.before_retrieval(current_query, user_id)
+        current_query: str = self.hook_registry.trigger_hook('before_retrieval', query, user_id)
+        if current_query is None:
+            current_query = query
 
         context: List[Any] = base_retrieval_func(current_query, user_id)
 
-        for plugin in self._plugins:
-            if hasattr(plugin, 'after_retrieval'):
-                context = plugin.after_retrieval(context, current_query, user_id)
+        updated_context = self.hook_registry.trigger_hook('after_retrieval', context, current_query, user_id)
+        if updated_context is None:
+            updated_context = context
 
-        return context
+        return updated_context
 
     def update_context(self, new_context: Any, user_id: int) -> None:
         """Triggers the on_context_update hook for all registered plugins."""
-        for plugin in self._plugins:
-            if hasattr(plugin, 'on_context_update'):
-                plugin.on_context_update(new_context, user_id)
+        self.hook_registry.trigger_hook('on_context_update', new_context, user_id)
 
 # Context Engine lifecycle complete
