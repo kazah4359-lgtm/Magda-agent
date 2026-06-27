@@ -39,9 +39,11 @@ class WorkingMemory:
                 # Use ContextEngine compact lifecycle hook
                 user_entries = await self.context_engine.compact(user_entries, {"limit": self.limit, "user_id": u_id})
             elif getattr(self, 'virtual_context_manager', None) and getattr(self, 'episodic_memory', None):
-
+                # We enforce token limits explicitly, but also we MUST page out to reduce entry count.
+                # So we call page_out(1) to satisfy the len > limit condition.
+                # Additionally, we can call maintain_working_memory_limits to enforce token bounds.
                 await self.virtual_context_manager.page_out(self, self.episodic_memory, u_id, 1)
-
+                await self.virtual_context_manager.maintain_working_memory_limits(self, self.episodic_memory, u_id)
                 user_entries = self._entries_by_user.get(u_id, [])
 
             elif summarizer:
