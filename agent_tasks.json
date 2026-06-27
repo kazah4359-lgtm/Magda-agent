@@ -5525,7 +5525,7 @@
     },
     {
       "id": "mcp-action-tool-taint-tracking-v3",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Tool Taint Tracking Sandbox v3",
@@ -10539,6 +10539,40 @@
         "The 5 distinct ACS validation checkpoints are invoked around state changes.",
         "Workflow aborts or degrades gracefully upon validation failure.",
         "Tests cover each checkpoint with both valid and invalid states."
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-creation-d35b0b7e",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes-inspired dynamic skills creation from text",
+      "description": "Inspired by Hermes Agent trend. Automatically parse the user's conversational requests and extract repeatable steps to create a new, reusable skill in the procedural memory.",
+      "allowed_paths": [
+        "magda_agent/skills/dynamic_creator.py",
+        "tests/test_dynamic_creator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can parse conversational requests to create a new skill code.",
+        "Tests mock the LLM conversion process and verify procedural memory addition."
+      ]
+    },
+    {
+      "id": "openclaw-live-canvas-streaming-ee940fcb",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas streaming for working memory",
+      "description": "Inspired by OpenClaw trend. Expose a WebSocket endpoint that streams changes to the agent's working memory in real-time to external visualizer clients.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_streamer.py",
+        "tests/test_canvas_streamer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A WebSocket endpoint is created that emits memory diffs.",
+        "Tests mock the WebSocket and verify JSON payloads."
       ]
     }
   ]
