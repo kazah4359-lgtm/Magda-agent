@@ -5594,7 +5594,7 @@
     },
     {
       "id": "openclaw-rl-interactive-learning-v6",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Learning v6",
@@ -10729,6 +10729,58 @@
       "acceptance": [
         "Interceptor logs action tools preemptively without blocking allowed paths.",
         "Tests verify that audit logs match tool inputs perfectly."
+      ]
+    },
+    {
+      "id": "hermes-multi-platform-routing-a20c6a3e-06c3-471c-8a96-a9b52d552c4f",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Hermes Multi-Platform Request Routing",
+      "description": "Inspired by Hermes Agent trend. Implement a multi-platform routing layer that allows the agent to handle requests from Telegram, Discord, and CLI through a unified normalized event interface.",
+      "allowed_paths": [
+        "magda_agent/integration/routing.py",
+        "tests/test_routing.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Router can normalize incoming messages from different platforms into a standard format.",
+        "Tests verify correct routing for simulated Telegram and Discord payloads."
+      ]
+    },
+    {
+      "id": "claude-sdk-dependency-graph-349b69ad-bc6f-42a8-a788-2e6327348fef",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude SDK Task Dependency Graph",
+      "description": "Inspired by Claude Agent SDK trend. Add a dependency graph manager to the task system to ensure tasks with dependencies (e.g. 'implement X before Y') are executed in the correct topological order.",
+      "allowed_paths": [
+        "magda_agent/architecture/dependency_graph.py",
+        "tests/test_dependency_graph.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Graph manager builds a valid execution order from task definitions.",
+        "Cycles are detected and execution is aborted.",
+        "Tests cover DAG sorting and cycle detection."
+      ]
+    },
+    {
+      "id": "openai-mcp-tool-concurrency-3ce889ad-9455-4502-9a20-88ba0f70038f",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK MCP Tool Concurrency",
+      "description": "Inspired by OpenAI Agents SDK trend. Enhance the ConcurrentSkillExecutor to natively support concurrent execution of MCP server-prefixed tools using Python's asyncio.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency.py",
+        "tests/test_mcp_concurrency.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Executor can run multiple MCP tools concurrently.",
+        "Performance tests demonstrate time savings vs sequential execution."
       ]
     }
   ]
