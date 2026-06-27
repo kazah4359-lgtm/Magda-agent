@@ -5577,7 +5577,7 @@
     },
     {
       "id": "openclaw-context-hooks-telemetry",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Context Hooks Telemetry plugin",
@@ -10678,6 +10678,57 @@
         "Factory can spawn sub-agents with isolated contexts.",
         "Sub-agents can run their workflows asynchronously without sharing memory state directly.",
         "Tests verify context isolation between spawned sub-agents."
+      ]
+    },
+    {
+      "id": "9e919a81-f62d-429c-a775-97c065058d4b",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "A2A Workflow Handshake Verification",
+      "description": "Inspired by Agent-to-Agent (A2A) trends. Implement a cryptographically signed handshake protocol between interacting sub-agents to verify their identities before delegating sub-tasks, minimizing risks of context injection spoofing.",
+      "allowed_paths": [
+        "magda_agent/architecture/a2a_handshake.py",
+        "tests/test_a2a_handshake.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A handshake protocol generates and verifies signatures.",
+        "Tests verify successful handshake and rejection of spoofed contexts."
+      ]
+    },
+    {
+      "id": "f6d81948-9139-4c7e-931b-be57b6b56f28",
+      "status": "todo",
+      "area": "learning",
+      "risk": "low",
+      "title": "Skill Execution Experience Extraction",
+      "description": "Inspired by Hermes Agent trend. Add an extractor that reviews recent successful external skill executions and synthesizes reusable 'hints' to speed up subsequent invocations of those same tools.",
+      "allowed_paths": [
+        "magda_agent/learning/skill_hints.py",
+        "tests/test_skill_hints.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module extracts actionable hints from past successes.",
+        "Tests mock tool execution logs and verify the synthesized hints format."
+      ]
+    },
+    {
+      "id": "bf7d6847-f966-4be8-9ee7-403a96e0542c",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Preemptive Tool Call Interception Audit",
+      "description": "Inspired by Falco Prempti trend. Introduce an interception layer that intercepts every action tool execution right before it hits the operating system, writing the exact parameters and timestamps into an immutable local audit log.",
+      "allowed_paths": [
+        "magda_agent/safety/audit_interceptor.py",
+        "tests/test_audit_interceptor.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Interceptor logs action tools preemptively without blocking allowed paths.",
+        "Tests verify that audit logs match tool inputs perfectly."
       ]
     }
   ]
