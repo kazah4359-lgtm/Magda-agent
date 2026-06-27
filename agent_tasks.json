@@ -5473,7 +5473,7 @@
     },
     {
       "id": "mcp-action-tool-taint-tracking-v2",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Tool Taint Tracking Sandbox v2",
@@ -10418,6 +10418,41 @@
         "Manager can create and tear down git worktrees.",
         "Sub-agents can execute operations scoped to a worktree.",
         "Tests verify worktree lifecycle and isolation properties."
+      ]
+    },
+    {
+      "id": "81ec7dcc-f29c-40a8-a0a5-5f2d62453080",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Tool Registry Interceptor",
+      "description": "Inspired by MCP Compatibility trend: Add an interceptor to the MCPRegistry to automatically validate dynamic action tool parameters using jsonschema.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_validator.py",
+        "tests/test_mcp_validator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tools are intercepted during registration.",
+        "jsonschema is used to validate parameter schemas.",
+        "Invalid schemas raise registration errors."
+      ]
+    },
+    {
+      "id": "7d1d9385-5d1a-4a13-be2e-72be09d35b43",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Workflow Chaining",
+      "description": "Inspired by A2A open standard trend: Implement an A2A workflow manager that allows peer-to-peer chaining of agent tasks natively without a central coordinator.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_workflow.py",
+        "tests/test_a2a_workflow.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Workflow manager orchestrates sequential task handoffs correctly.",
+        "Tests verify that context is passed accurately between chained steps."
       ]
     }
   ]
