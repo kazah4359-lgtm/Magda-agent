@@ -5456,7 +5456,7 @@
     },
     {
       "id": "a2a-peer-delegation-protocol-v2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Peer Delegation Protocol v2",
@@ -10382,6 +10382,42 @@
       "acceptance": [
         "Circuit breaker trips after consecutive failures.",
         "Tests verify fallback and trip limits."
+      ]
+    },
+    {
+      "id": "hermes-self-improving-skills-loop-9c22cc29",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Hermes Self-Improving Skills Loop",
+      "description": "Inspired by Hermes Agent trend: Implement a self-improving loop that tracks skill usage success/failure and iteratively updates a local skill metadata registry to improve context and performance.",
+      "allowed_paths": [
+        "magda_agent/learning/hermes_skills_loop.py",
+        "tests/test_hermes_skills_loop.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills loop component records skill outcomes.",
+        "Registry metadata is updated incrementally after successful/failed executions.",
+        "Tests verify learning loop update mechanisms."
+      ]
+    },
+    {
+      "id": "claude-git-worktree-isolation-43b47a54",
+      "status": "todo",
+      "area": "isolation",
+      "risk": "high",
+      "title": "Claude Git Worktree Isolation for Sub-Agents",
+      "description": "Inspired by Claude Agent SDK trend: Create a git worktree manager that allows sub-agents (like Evaluators) to run securely in separate git worktrees without impacting the main branch state.",
+      "allowed_paths": [
+        "magda_agent/isolation/git_worktree_manager.py",
+        "tests/test_git_worktree_manager.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Manager can create and tear down git worktrees.",
+        "Sub-agents can execute operations scoped to a worktree.",
+        "Tests verify worktree lifecycle and isolation properties."
       ]
     }
   ]
