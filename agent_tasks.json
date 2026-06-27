@@ -5543,7 +5543,7 @@
     },
     {
       "id": "openclaw-rl-interactive-learning-v5",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Learning v5",
@@ -10573,6 +10573,57 @@
       "acceptance": [
         "A WebSocket endpoint is created that emits memory diffs.",
         "Tests mock the WebSocket and verify JSON payloads."
+      ]
+    },
+    {
+      "id": "51f91ae6-38f6-46c9-8710-6a8bda48741a",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw Dynamic Skill Weight Decay",
+      "description": "Inspired by OpenClaw trend: Implement a time-based decay mechanism for learned skill weights so that infrequently used skills gradually return to their baseline values.",
+      "allowed_paths": [
+        "magda_agent/learning/decay.py",
+        "tests/test_decay.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill weights decay over time towards 1.0.",
+        "Tests verify the decay formula."
+      ]
+    },
+    {
+      "id": "96950c3b-415c-4de7-b5af-3c6d656c1277",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "OpenAI Agents SDK Hand-off Protocol",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a robust hand-off protocol allowing one sub-agent to securely transfer execution context and partial results to another sub-agent.",
+      "allowed_paths": [
+        "magda_agent/agents/handoff.py",
+        "tests/test_handoff.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context is preserved during hand-off.",
+        "Tests verify that the receiving agent correctly resumes execution."
+      ]
+    },
+    {
+      "id": "f8acf4d1-72cb-44bf-bb54-97f8b5f7f6cf",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Claude Code Sandbox Isolation Enhancements",
+      "description": "Inspired by Claude Code trend: Enhance the MCP kernel sandbox to restrict file system access only to explicitly allowed directories during tool execution.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_kernel_fs.py",
+        "tests/test_mcp_kernel_fs.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sandbox blocks unauthorized file access.",
+        "Tests verify access controls for allowed and disallowed paths."
       ]
     }
   ]

@@ -29,7 +29,7 @@ class InteractiveLearner:
         Returns:
             float: A reward score, positive for positive sentiment, negative for negative sentiment.
         """
-        reply_lower = reply_text.lower()
+        reply_lower: str = reply_text.lower()
         if "good" in reply_lower or "great" in reply_lower or "yes" in reply_lower or "thanks" in reply_lower:
             return 1.0
         elif "bad" in reply_lower or "wrong" in reply_lower or "no" in reply_lower or "terrible" in reply_lower:
@@ -53,12 +53,12 @@ class InteractiveLearner:
         if not user_reply:
             return
 
-        reward = self.analyze_signal(user_reply)
+        reward: float = self.analyze_signal(user_reply)
 
         if skill_name not in self.learning_state:
             self.learning_state[skill_name] = 1.0
 
-        adjustment_rate = 0.2
+        adjustment_rate: float = 0.2
         self.learning_state[skill_name] += reward * adjustment_rate
 
         # Clamp between 0.1 and 10.0
