@@ -121,3 +121,53 @@ async def test_a2a_delegator_execute_plan(mock_post, a2a_delegator):
     assert "1" in results
     assert "2" not in results
     assert results["1"] == "Delegated to Agent TestAgent: Success"
+
+
+@pytest.mark.asyncio
+@patch('httpx.AsyncClient.post', new_callable=AsyncMock)
+async def test_a2a_delegator_delegate_to_peer(mock_post, a2a_delegator, mock_agent_card):
+    from unittest.mock import MagicMock
+    mock_response = MagicMock()
+    mock_response.json.return_value = {"result": {"status": "Success"}}
+    mock_response.raise_for_status.return_value = None
+    mock_post.return_value = mock_response
+
+    # Need to clear tracer registry to test recording
+    from magda_agent.integration.a2a_tracing import A2ATracer
+    A2ATracer.clear_registry()
+    trace_id = "test_peer_delegation_trace"
+    A2ATracer.set_trace_id(trace_id)
+
+    result = await a2a_delegator.delegate_to_peer(mock_agent_card, {"task": "Direct delegation"})
+    assert result == "Delegated to Peer Agent TestAgent: Success"
+
+    mock_post.assert_called_once()
+    _, kwargs = mock_post.call_args
+    assert "X-A2A-Trace-ID" in kwargs["headers"]
+
+    history = A2ATracer.get_trace(trace_id)
+    # Events should be "delegation_sent" from inject_headers and "peer_delegation"
+    events = [e["event"] for e in history]
+    assert "peer_delegation" in events
+
+    # Check details of peer_delegation
+    peer_event = next(e for e in history if e["event"] == "peer_delegation")
+    assert peer_event["details"]["target_agent_id"] == mock_agent_card.agent_id
+
+@pytest.mark.asyncio
+@patch('httpx.AsyncClient.post', new_callable=AsyncMock)
+async def test_a2a_delegator_delegate_to_peer_no_endpoint(mock_post, a2a_delegator):
+    from magda_agent.integration.a2a_discovery import AgentCard
+    no_endpoint_card = AgentCard("no-endpoint-id", "NoEndpointAgent", "Desc", ["coding"], {})
+
+    result = await a2a_delegator.delegate_to_peer(no_endpoint_card, {"task": "Direct delegation"})
+    assert result == "Agent NoEndpointAgent missing MCP endpoint"
+    mock_post.assert_not_called()
+
+@pytest.mark.asyncio
+@patch('httpx.AsyncClient.post', new_callable=AsyncMock)
+async def test_a2a_delegator_delegate_to_peer_failure(mock_post, a2a_delegator, mock_agent_card):
+    mock_post.side_effect = Exception("Network error")
+
+    result = await a2a_delegator.delegate_to_peer(mock_agent_card, {"task": "Direct delegation"})
+    assert result == "Delegation to peer TestAgent failed: Network error"

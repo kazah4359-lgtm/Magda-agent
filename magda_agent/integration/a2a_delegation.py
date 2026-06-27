@@ -55,6 +55,53 @@ class A2ADelegator:
 
         return sub_plans
 
+    async def delegate_to_peer(self, target_agent: 'AgentCard', plan_context: Dict[str, Any]) -> str:
+        """
+        Delegates a subplan directly to a specific peer agent using its AgentCard.
+
+        Args:
+            target_agent: The target AgentCard representing the peer.
+            plan_context: The task context or sub-plan to delegate.
+
+        Returns:
+            A result string describing the outcome.
+        """
+        logging.info(f"Delegating directly to Peer Agent: {target_agent.name} (ID: {target_agent.agent_id})")
+
+        endpoint = target_agent.endpoints.get("mcp")
+        if not endpoint:
+            return f"Agent {target_agent.name} missing MCP endpoint"
+
+        payload = {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "execute_subplan",
+            "params": {"context": plan_context}
+        }
+
+        headers = {}
+        # Inject distributed tracing header
+        A2ATracer.inject_headers(headers)
+
+        # Record explicit peer-to-peer delegation trace
+        A2ATracer.record_event("peer_delegation", {"target_agent_id": target_agent.agent_id})
+
+        if self.security_context:
+            token = self.security_context.generate_token()
+            headers["Authorization"] = f"Bearer {token}"
+            self.security_context.trace_action("delegate_to_peer", {"target_agent": target_agent.name})
+
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(endpoint, json=payload, headers=headers, timeout=10.0)
+                response.raise_for_status()
+                data = response.json()
+                result = data.get("result", {})
+                return f"Delegated to Peer Agent {target_agent.name}: {result.get('status', 'Success')}"
+        except Exception as e:
+            logging.error(f"Failed to delegate to peer {target_agent.name} at {endpoint}: {e}")
+            return f"Delegation to peer {target_agent.name} failed: {e}"
+
     async def execute_plan(self, plan: list[Dict[str, Any]]) -> Dict[str, str]:
         """
         Extracts sub-plans chronologically and delegates them sequentially.
