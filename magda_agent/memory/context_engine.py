@@ -90,7 +90,7 @@ class ContextEngine:
             remaining = current_items[2:]
 
             combined_text = "\n".join([f"- {getattr(e, 'content', str(e))}" for e in to_summarize])
-            prompt = f"Please summarize the following short-term memory context into a single concise bullet point:\n{combined_text}"
+            prompt = f"Please summarize the following short-term memory context into a concise summary while maintaining key facts and semantic links:\n{combined_text}"
 
             try:
                 summary_content = await self.llm.chat_completion([
@@ -108,7 +108,7 @@ class ContextEngine:
                     content=summary_content.strip(),
                     importance=avg_importance,
                     emotional_state=getattr(first, 'emotional_state', None) if first else None,
-                    tags=getattr(first, 'tags', []) if first else [],
+                    tags=list(set(t for e in to_summarize if isinstance(getattr(e, 'tags', []), list) for t in getattr(e, 'tags', []))),
                     user_id=getattr(first, 'user_id', None) if first else None
                 )
                 current_items = [summary_entry] + remaining
