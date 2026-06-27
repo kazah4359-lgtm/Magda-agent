@@ -5491,7 +5491,7 @@
     },
     {
       "id": "openclaw-rl-interactive-learning-v4",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Learning v4",
@@ -10453,6 +10453,57 @@
       "acceptance": [
         "A2A Workflow manager orchestrates sequential task handoffs correctly.",
         "Tests verify that context is passed accurately between chained steps."
+      ]
+    },
+    {
+      "id": "claude-agent-dependency-graph-planner-4e97937f-c458-4ee5-9063-0cf7d76f8d48",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Claude Agent SDK Dependency Graph Planner",
+      "description": "Inspired by Claude Agent SDK trend: Implement a task planner that builds a dependency graph of sub-tasks instead of a flat list, allowing for parallel sub-agent execution.",
+      "allowed_paths": [
+        "magda_agent/planning/dependency_graph.py",
+        "tests/test_dependency_graph.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner creates a DAG of tasks.",
+        "Tests verify correct topological sorting and parallel execution boundaries."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visualization-aa07c2aa-60af-4590-bcf0-64d22a9ac775",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Visualization",
+      "description": "Inspired by OpenClaw trend: Create a Canvas module that visualizes the agent's internal state and memory changes in real-time as a markdown or HTML artifact.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas.py",
+        "tests/test_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas module renders current memory and emotion state.",
+        "Tests verify output format."
+      ]
+    },
+    {
+      "id": "mcp-server-tool-concurrency-5ec68904-3f7f-4a2e-81c2-14dc184faf34",
+      "status": "todo",
+      "area": "execution",
+      "risk": "medium",
+      "title": "MCP Server-Prefixed Tool Concurrency",
+      "description": "Inspired by OpenAI Agents SDK trend: Build a concurrency module specifically for running multiple MCP action tools in parallel without event loop blocking.",
+      "allowed_paths": [
+        "magda_agent/execution/mcp_concurrent.py",
+        "tests/test_mcp_concurrent.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Multiple MCP tools can run concurrently.",
+        "Tests use mocks to verify parallel execution times."
       ]
     }
   ]
