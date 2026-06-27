@@ -27,6 +27,11 @@ def test_analyze_signal_neutral(learner):
     assert learner.analyze_signal("What time is it?") == 0.0
 
 
+def test_analyze_signal_empty(learner):
+    """Test empty string reward extraction."""
+    assert learner.analyze_signal("") == 0.0
+
+
 @pytest.mark.asyncio
 async def test_process_interaction_positive(learner):
     """Test state update with positive reply."""
