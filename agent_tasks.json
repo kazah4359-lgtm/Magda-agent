@@ -5421,7 +5421,7 @@
     },
     {
       "id": "virtual-context-manager-letta",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "MemGPT/Letta Virtual Context Management",
@@ -10297,6 +10297,57 @@
         "The 5 distinct ACS validation checkpoints are invoked around state changes.",
         "Workflow aborts or degrades gracefully upon validation failure.",
         "Tests cover each checkpoint with both valid and invalid states."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-metrics-v4-unique-d77f4f61",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw-RL Canvas Metrics V4",
+      "description": "Inspired by OpenClaw Live Visualization trend: Create a visual metric stream for Q-value updates inside the online RL learning loop, updating the Canvas.",
+      "allowed_paths": [
+        "magda_agent/visualization/rl_metrics_canvas_v4.py",
+        "tests/test_rl_metrics_canvas_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL Metrics visually represented in Canvas.",
+        "Tests verify format generation."
+      ]
+    },
+    {
+      "id": "mcp-preflight-validation-v5-unique-695ce70f",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Tool Pre-flight Validation V5",
+      "description": "Inspired by MCP Security trend: Implement a pre-flight validation mechanism for all MCP action tools before JSON-RPC execution to verify inputs against a static blocklist.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_preflight_v5.py",
+        "tests/test_mcp_preflight_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Pre-flight validator intercepts invalid requests.",
+        "Tests mock MCP clients to verify blocking behavior."
+      ]
+    },
+    {
+      "id": "a2a-delegation-circuit-breaker-v6-unique-62a89989",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Delegation Circuit Breaker V6",
+      "description": "Inspired by A2A Protocol and enterprise-ready agents trend: Implement a circuit breaker pattern to prevent continuous task delegation failures to unresponsive peer agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_circuit_breaker_v6.py",
+        "tests/test_a2a_circuit_breaker_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Circuit breaker trips after consecutive failures.",
+        "Tests verify fallback and trip limits."
       ]
     }
   ]

@@ -103,6 +103,40 @@ class VirtualContextManager:
                 # Fallback: simple truncation
                 setattr(core, section, " ".join(words[:self.section_limit]) + "...")
 
+
+    def get_token_length(self, entries: List['MemoryEntry']) -> int:
+        """
+        Calculates a heuristic token length for the given memory entries.
+        """
+        total_words = sum(len(e.content.split()) for e in entries)
+        # Using a simple heuristic of 1.3 tokens per word
+        return int(total_words * 1.3)
+
+    async def maintain_working_memory_limits(self, working_memory: 'WorkingMemory', episodic_memory: 'EpisodicMemory', user_id: int, max_tokens: int = 4000) -> None:
+        """
+        Calculates token length of current working context and pages out older memories if the limit is exceeded.
+        """
+        u_id = user_id if user_id is not None else -1
+        entries = working_memory.get_entries(user_id=u_id)
+        if not entries:
+            return
+
+        current_tokens = self.get_token_length(entries)
+        if current_tokens <= max_tokens:
+            return
+
+        logging.info(f"Working memory context length ({current_tokens} tokens) exceeds limit ({max_tokens} tokens). Paging out...")
+
+        # We need to page out oldest entries until we're under the limit
+        # In this simple implementation, we'll page out the oldest entry and then check again.
+        # However, page_out compresses all provided entries into a summary.
+        # It's better to page out one by one or in small batches.
+
+        # Let's just page out the oldest half to quickly reduce size
+        count_to_remove = max(1, len(entries) // 2)
+        await self.page_out(working_memory, episodic_memory, user_id, count=count_to_remove)
+
+
     async def compress_context(self, entries: List['MemoryEntry']) -> 'MemoryEntry':
         """
         Compresses multiple memory entries into a single summary entry.

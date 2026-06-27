@@ -136,3 +136,58 @@ async def test_core_memory_overflow_llm_summarization():
     core = vcm.get_core_memory(user_id)
     assert core.persona == "Summarized Persona"
     mock_llm.chat_completion.assert_called_once()
+
+@pytest.mark.asyncio
+async def test_maintain_working_memory_limits_pages_out():
+    wm = WorkingMemory(limit=10) # limit by entries is high
+    em = EpisodicMemory(persist_directory=":memory:")
+    vcm = VirtualContextManager()
+
+    wm.virtual_context_manager = vcm
+    wm.episodic_memory = em
+
+    state = PADState(0, 0, 0)
+
+    # Each entry has 4 words -> ~5 tokens. 3 entries = ~15 tokens
+    e1 = MemoryEntry("word1 word2 word3 word4", 0.5, state, user_id=1)
+    e2 = MemoryEntry("word5 word6 word7 word8", 0.6, state, user_id=1)
+    e3 = MemoryEntry("word9 word10 word11 word12", 0.7, state, user_id=1)
+
+    await wm.add(e1)
+    await wm.add(e2)
+    await wm.add(e3)
+
+    assert len(wm.get_entries(user_id=1)) == 3
+    assert vcm.get_token_length(wm.get_entries(user_id=1)) == int(12 * 1.3)
+
+    # Maintain with max_tokens = 10. Current is ~15, so it should page out entries.
+    await vcm.maintain_working_memory_limits(wm, em, user_id=1, max_tokens=10)
+
+    # It pages out max(1, len(entries)//2) = max(1, 1) = 1 entry.
+    entries = wm.get_entries(user_id=1)
+    assert len(entries) == 2
+    assert entries[0].content == "word5 word6 word7 word8"
+    assert entries[1].content == "word9 word10 word11 word12"
+
+@pytest.mark.asyncio
+async def test_maintain_working_memory_limits_no_page_out():
+    wm = WorkingMemory(limit=10)
+    em = EpisodicMemory(persist_directory=":memory:")
+    vcm = VirtualContextManager()
+
+    wm.virtual_context_manager = vcm
+    wm.episodic_memory = em
+
+    state = PADState(0, 0, 0)
+
+    # 4 words -> ~5 tokens
+    e1 = MemoryEntry("word1 word2 word3 word4", 0.5, state, user_id=1)
+    await wm.add(e1)
+
+    assert len(wm.get_entries(user_id=1)) == 1
+
+    # Limit is 10, current is 5 -> no page out
+    await vcm.maintain_working_memory_limits(wm, em, user_id=1, max_tokens=10)
+
+    entries = wm.get_entries(user_id=1)
+    assert len(entries) == 1
