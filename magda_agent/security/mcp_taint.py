@@ -8,21 +8,24 @@ class TaintSandboxError(PolicyViolationError):
     """Raised when tainted data violates policy during MCP tool execution."""
     pass
 
-def mcp_action_taint_sandbox(critical_params: Optional[List[str]] = None) -> Callable:
+def mcp_action_taint_sandbox(critical_params: Optional[List[str]] = None) -> Callable[..., Any]:
     """
     Decorator for MCP action tools to track taint and block unsafe calls.
 
     Args:
         critical_params: List of parameter names that must not receive tainted data.
+
+    Returns:
+        A decorator for taint tracking.
     """
     if critical_params is None:
         critical_params = []
 
-    def decorator(func: Callable) -> Callable:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             # Map args and kwargs to parameter names
-            sig = inspect.signature(func)
+            sig: inspect.Signature = inspect.signature(func)
             bound_args = sig.bind(*args, **kwargs)
             bound_args.apply_defaults()
 
