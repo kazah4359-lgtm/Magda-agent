@@ -175,6 +175,7 @@
 * [ ] IMPROVEMENT: In `PinealGland._get_current_time`, consider allowing the timezone to be configured via the user profile rather than relying on system local time.
 
 * [ ] BUG: `Brainstem` integration in `Consciousness.process_input` does not halt long-running skills gracefully upon a 'stop' command. Need to implement a cancellation token or mechanism for active background tasks when a stop reflex is triggered. (2026-06-04)
+* [x] FEATURE: Claude Task System with Dependency Graphs v3 (claude-dependency-graph-planner-v3)
 ## 🛠️ Запланированные Skills
 * [x] FEATURE: OpenClaw Canvas Live Visualization
 * [x] FEATURE: OpenClaw RL Next-State Signals

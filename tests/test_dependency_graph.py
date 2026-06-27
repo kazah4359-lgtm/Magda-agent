@@ -1,6 +1,12 @@
 import pytest
 from magda_agent.planning.dependency_graph import DependencyGraph
 
+def test_topological_sort_empty():
+    """Test that topological sort works on an empty list of tasks."""
+    plan_steps = []
+    sorted_steps = DependencyGraph.topological_sort(plan_steps)
+    assert sorted_steps == []
+
 def test_get_executable_steps():
     plan_steps = [
         {"id": "step1", "dependencies": []},
