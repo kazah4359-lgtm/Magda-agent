@@ -75,3 +75,35 @@ async def test_process_interaction_empty_reply(learner):
     await learner.process_interaction("", "empty_skill")
     state = learner.get_state()
     assert "empty_skill" not in state
+
+def test_analyze_signal_positive_new_keywords(learner):
+    """Test positive reward extraction with new keywords."""
+    assert learner.analyze_signal("This is awesome!") == 1.0
+    assert learner.analyze_signal("excellent job.") == 1.0
+
+
+def test_analyze_signal_negative_new_keywords(learner):
+    """Test negative reward extraction with new keywords."""
+    assert learner.analyze_signal("This is awful.") == -1.0
+    assert learner.analyze_signal("horrible idea.") == -1.0
+
+
+@pytest.mark.asyncio
+async def test_process_batch_interactions(learner):
+    """Test process_batch_interactions method."""
+    interactions = [
+        ("This is great!", "skill_a"),
+        ("This is terrible.", "skill_b"),
+        ("Okay.", "skill_c"),
+    ]
+    await learner.process_batch_interactions(interactions)
+    state = learner.get_state()
+
+    assert "skill_a" in state
+    assert state["skill_a"] == 1.2
+
+    assert "skill_b" in state
+    assert state["skill_b"] == 0.8
+
+    assert "skill_c" in state
+    assert state["skill_c"] == 1.0

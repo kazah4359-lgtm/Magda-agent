@@ -30,9 +30,9 @@ class InteractiveLearner:
             float: A reward score, positive for positive sentiment, negative for negative sentiment.
         """
         reply_lower: str = reply_text.lower()
-        if "good" in reply_lower or "great" in reply_lower or "yes" in reply_lower or "thanks" in reply_lower:
+        if any(word in reply_lower for word in ["good", "great", "yes", "thanks", "awesome", "excellent"]):
             return 1.0
-        elif "bad" in reply_lower or "wrong" in reply_lower or "no" in reply_lower or "terrible" in reply_lower:
+        elif any(word in reply_lower for word in ["bad", "wrong", "no", "terrible", "awful", "horrible"]):
             return -1.0
         return 0.0
 
@@ -65,6 +65,21 @@ class InteractiveLearner:
         self.learning_state[skill_name] = max(0.1, min(10.0, self.learning_state[skill_name]))
 
         logging.info(f"Updated interactive learning state for skill '{skill_name}' to {self.learning_state[skill_name]:.2f} based on reward {reward}")
+
+    async def process_batch_interactions(
+        self,
+        interactions: list[tuple[str, str]],
+        user_id: Optional[int] = None
+    ) -> None:
+        """
+        Processes a batch of interactions concurrently or sequentially to update learning state.
+
+        Args:
+            interactions (list[tuple[str, str]]): A list of tuples containing (user_reply, skill_name).
+            user_id (Optional[int]): The ID of the user.
+        """
+        for user_reply, skill_name in interactions:
+            await self.process_interaction(user_reply, skill_name, user_id)
 
     def get_state(self) -> Dict[str, float]:
         """
