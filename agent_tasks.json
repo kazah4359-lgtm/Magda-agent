@@ -5560,7 +5560,7 @@
     },
     {
       "id": "openclaw-context-hooks-v2",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "OpenClaw Context Engine Hooks V2 Integration",
@@ -10624,6 +10624,60 @@
       "acceptance": [
         "Sandbox blocks unauthorized file access.",
         "Tests verify access controls for allowed and disallowed paths."
+      ]
+    },
+    {
+      "id": "hermes-agent-quality-metrics-cd63f5e3-81ff-4e12-a5eb-c54f1b5c8326",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "Hermes-inspired Longitudinal Quality Metrics",
+      "description": "Inspired by Hermes Agent trend: Implement a metrics tracking module that persists skill success/failure rates over multiple interactions to enable long-term evaluation and skill improvement.",
+      "allowed_paths": [
+        "magda_agent/evaluation/longitudinal_metrics.py",
+        "tests/test_longitudinal_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module records success/failure events into an sqlite database.",
+        "Can aggregate and retrieve historical success rates per skill.",
+        "Tests use an in-memory database to verify metrics collection."
+      ]
+    },
+    {
+      "id": "openclaw-rl-learning-2532fea2-ee21-45aa-b438-c0599d239720",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "OpenClaw-RL Online Reinforcement Learning Module",
+      "description": "Inspired by OpenClaw trend: Create a learning module that processes positive/negative next-state signals (user replies) to dynamically adjust sub-agent weights or response generation preferences.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl.py",
+        "tests/test_openclaw_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module can ingest user feedback signals (e.g. positive/negative sentiment).",
+        "Updates a local policy weight file.",
+        "Tests mock the learning loop and verify weight adjustments."
+      ]
+    },
+    {
+      "id": "claude-subagent-spawning-cc8646b1-345e-4f9b-8283-4d9b7ac86e43",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude SDK Sub-agent Spawning",
+      "description": "Inspired by Claude Agent SDK trend: Create a factory class that dynamically spawns isolated sub-agents (e.g., Planner, Evaluator) with their own dedicated virtual context and runtime boundaries.",
+      "allowed_paths": [
+        "magda_agent/agents/subagent_factory.py",
+        "tests/test_subagent_factory.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Factory can spawn sub-agents with isolated contexts.",
+        "Sub-agents can run their workflows asynchronously without sharing memory state directly.",
+        "Tests verify context isolation between spawned sub-agents."
       ]
     }
   ]

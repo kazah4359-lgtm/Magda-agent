@@ -13,7 +13,8 @@ class HookRegistry:
         if hook_type not in self._hooks:
             self._hooks[hook_type] = []
         self._hooks[hook_type].append(callback)
-        logging.debug(f"Registered hook '{hook_type}': {callback.__name__}")
+        callback_name = getattr(callback, '__name__', str(callback))
+        logging.debug(f"Registered hook '{hook_type}': {callback_name}")
 
     def trigger_hook(self, hook_type: str, *args: Any, **kwargs: Any) -> Any:
         """Triggers all callbacks registered for the hook type."""

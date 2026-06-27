@@ -43,8 +43,10 @@ async def test_context_engine_lifecycle():
     engine = ContextEngine(plugins=[mock_plugin])
 
     # Test Bootstrap
-    await engine.bootstrap_all({"key": "value"})
+    config = {"key": "value"}
+    await engine.bootstrap_all(config)
     assert mock_plugin.bootstrap_called
+    # Config should remain unchanged at caller level, but inner config had hook_registry
 
     # Test Ingest
     ingested = await engine.ingest("raw", {"user_id": 1})
@@ -124,6 +126,19 @@ def test_context_engine_retrieve_context_hooks() -> None:
     plugin.after_retrieval.assert_called_once_with(["base_context"], "modified_query", 1)
 
     assert result == ["modified_context"]
+
+def test_context_engine_hook_registry_integration() -> None:
+    """Test that HookRegistry is initialized and plugins can register hooks via it."""
+    engine = ContextEngine()
+
+    assert hasattr(engine, "hook_registry")
+
+    mock_hook = MagicMock(return_value="hooked")
+    engine.hook_registry.register_hook("custom_hook", mock_hook)
+
+    result = engine.hook_registry.trigger_hook("custom_hook", "arg1")
+    assert result == "hooked"
+    mock_hook.assert_called_once_with("arg1")
 
 @pytest.mark.asyncio
 async def test_context_engine_builtin_compaction() -> None:
