@@ -5386,7 +5386,7 @@
     },
     {
       "id": "claude-context-compression-subagent",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "high",
       "title": "Claude-style Context Compression Subagent",
@@ -10193,6 +10193,57 @@
         "MCP Tools are annotated with permission scopes.",
         "PolicyLayer blocks high-permission MCP tool execution if confirmation fails.",
         "Tests pass confirming scopes are enforced."
+      ]
+    },
+    {
+      "id": "mcp-tool-exporter-34ceaf62-d284-49ab-821e-44827c99a556",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Tool Exporter Plugin",
+      "description": "Inspired by the MCP standard: Implement an MCPExporter class that bridges Magda's internal skills into MCP-compatible JSON-RPC tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter.py",
+        "tests/test_mcp_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCPExporter class maps Magda skills to MCP JSON-RPC format.",
+        "Tests verify format conversions using mocks."
+      ]
+    },
+    {
+      "id": "a2a-discovery-enhancement-1195dd93-bfaf-469e-a684-dbda3648a34c",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Discovery Extensions",
+      "description": "Inspired by A2A Protocol trends: Extend A2ADiscoveryV2 to support capability matching and advanced Agent Card querying for cross-agent delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v2.py",
+        "tests/test_a2a_discovery_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2ADiscoveryV2 can filter Agent Cards by capability lists.",
+        "Tests mock a network discovery response and verify parsing."
+      ]
+    },
+    {
+      "id": "online-rl-feedback-loop-e2767014-e0af-4dd5-8dfe-2883b576fbe4",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL User Feedback Loop",
+      "description": "Inspired by OpenClaw-RL: Implement a component that captures user feedback signals (e.g. positive/negative replies) and maps them to Q-value updates for skills.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v3.py",
+        "tests/test_openclaw_rl_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Component parses simple user replies into reward scores.",
+        "Tests mock user messages and verify reward mapping."
       ]
     }
   ]
