@@ -5403,7 +5403,7 @@
     },
     {
       "id": "magentic-one-orchestrator-pattern",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "Magentic-One Multi-Agent Orchestrator",
@@ -10244,6 +10244,59 @@
       "acceptance": [
         "Component parses simple user replies into reward scores.",
         "Tests mock user messages and verify reward mapping."
+      ]
+    },
+    {
+      "id": "mcp-tool-concurrency-pattern-92ab35d2",
+      "status": "todo",
+      "area": "execution",
+      "risk": "high",
+      "title": "MCP Server-Prefixed Tool Concurrency Engine",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a specialized concurrency manager specifically for running multiple MCP server-prefixed tools asynchronously and safely merging results.",
+      "allowed_paths": [
+        "magda_agent/execution/mcp_concurrency.py",
+        "tests/test_mcp_concurrency.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Concurrency manager handles MCP server-prefixed tasks safely in parallel.",
+        "Tests mock multiple concurrent MCP executions and verify timing and results."
+      ]
+    },
+    {
+      "id": "letta-virtual-context-eviction-v2-a82b4b8e",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Letta Virtual Context Eviction Manager",
+      "description": "Inspired by MemGPT/Letta standard: Implement a nuanced semantic eviction policy where working memory is automatically summarized and paged into long-term episodic blocks when nearing context limits.",
+      "allowed_paths": [
+        "magda_agent/memory/eviction_manager.py",
+        "tests/test_eviction_manager.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Eviction manager selectively summarizes old context items.",
+        "Summarized blocks are paged to episodic memory seamlessly.",
+        "Tests verify eviction policy under simulated context overflow."
+      ]
+    },
+    {
+      "id": "acs-guardrail-runtime-evaluation-v2-14b639a6",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guardrail Runtime Evaluation Checkpoints",
+      "description": "Inspired by Agent Control Specification (ACS): Embed 5 distinct runtime validation checkpoints throughout the Agentic Workflow to validate state changes and external tool outputs before committing them.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_workflow.py",
+        "tests/test_acs_workflow.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The 5 distinct ACS validation checkpoints are invoked around state changes.",
+        "Workflow aborts or degrades gracefully upon validation failure.",
+        "Tests cover each checkpoint with both valid and invalid states."
       ]
     }
   ]
