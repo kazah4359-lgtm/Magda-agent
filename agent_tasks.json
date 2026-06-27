@@ -5508,7 +5508,7 @@
     },
     {
       "id": "claude-dependency-graph-planner-v3",
-      "status": "todo",
+      "status": "done",
       "area": "planning",
       "risk": "medium",
       "title": "Claude Task System with Dependency Graphs v3",
@@ -10504,6 +10504,41 @@
       "acceptance": [
         "Multiple MCP tools can run concurrently.",
         "Tests use mocks to verify parallel execution times."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visualization-4e890426-555c-45ea-8f38-09fb6aff9bc3",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Visualization",
+      "description": "Inspired by OpenClaw trend: Create a Canvas module that visualizes the agent's internal state and memory changes in real-time as a markdown or HTML artifact.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas.py",
+        "tests/test_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas module renders current memory and emotion state.",
+        "Tests verify output format."
+      ]
+    },
+    {
+      "id": "acs-guardrail-runtime-evaluation-v3-b6c8af52-0358-4545-9a51-b030a7bcb549",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guardrail Runtime Evaluation Checkpoints",
+      "description": "Inspired by Agent Control Specification (ACS): Embed 5 distinct runtime validation checkpoints throughout the Agentic Workflow to validate state changes and external tool outputs before committing them.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_workflow.py",
+        "tests/test_acs_workflow.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The 5 distinct ACS validation checkpoints are invoked around state changes.",
+        "Workflow aborts or degrades gracefully upon validation failure.",
+        "Tests cover each checkpoint with both valid and invalid states."
       ]
     }
   ]

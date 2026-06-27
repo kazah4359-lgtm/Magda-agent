@@ -1,5 +1,5 @@
 import logging
-from typing import List, Dict, Any, Set
+from typing import List, Dict, Any, Set, Optional
 
 class DependencyGraph:
     """
@@ -19,15 +19,16 @@ class DependencyGraph:
         Returns:
             List[Dict[str, Any]]: A list of steps ready for execution.
         """
-        executable_steps = []
+        executable_steps: List[Dict[str, Any]] = []
         for step in plan_steps:
-            step_id = step.get("id")
+            step_id: Optional[str] = step.get("id")
             if not step_id or step_id in completed_step_ids:
                 continue
 
-            dependencies = step.get("dependencies", [])
+            dependencies: List[str] = step.get("dependencies", [])
             # A step is executable if all its dependencies are in completed_step_ids
-            if all(dep in completed_step_ids for dep in dependencies):
+            all_met: bool = all(dep in completed_step_ids for dep in dependencies)
+            if all_met:
                 executable_steps.append(step)
 
         return executable_steps
@@ -48,13 +49,14 @@ class DependencyGraph:
         adj: Dict[str, List[str]] = {step.get("id", ""): [] for step in plan_steps if step.get("id")}
         in_degree: Dict[str, int] = {step.get("id", ""): 0 for step in plan_steps if step.get("id")}
 
-        step_map = {step.get("id"): step for step in plan_steps if step.get("id")}
+        step_map: Dict[str, Dict[str, Any]] = {step.get("id", ""): step for step in plan_steps if step.get("id")}
 
         for step in plan_steps:
-            step_id = step.get("id")
+            step_id: Optional[str] = step.get("id")
             if not step_id:
                 continue
-            for dep in step.get("dependencies", []):
+            dependencies: List[str] = step.get("dependencies", [])
+            for dep in dependencies:
                 if dep in adj:
                     adj[dep].append(step_id)
                     in_degree[step_id] += 1
@@ -62,13 +64,14 @@ class DependencyGraph:
                     logging.warning(f"Dependency {dep} for step {step_id} not found in plan steps.")
 
         # Kahn's algorithm
-        queue = [node for node, deg in in_degree.items() if deg == 0]
-        sorted_ids = []
+        queue: List[str] = [node for node, deg in in_degree.items() if deg == 0]
+        sorted_ids: List[str] = []
 
         while queue:
-            node = queue.pop(0)
+            node: str = queue.pop(0)
             sorted_ids.append(node)
-            for neighbor in adj.get(node, []):
+            neighbors: List[str] = adj.get(node, [])
+            for neighbor in neighbors:
                 in_degree[neighbor] -= 1
                 if in_degree[neighbor] == 0:
                     queue.append(neighbor)
