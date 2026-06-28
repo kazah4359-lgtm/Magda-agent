@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 327
+    "max_todo_tasks": 330
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -5938,7 +5938,7 @@
     },
     {
       "id": "openclaw-context-compressor-hook",
-      "status": "todo",
+      "status": "done",
       "title": "OpenClaw Context Compressor Hook",
       "area": "memory",
       "risk": "medium",
@@ -11556,6 +11556,60 @@
         "Plugin hooks into the ContextEngine correctly using lifecycle hooks.",
         "Token usage and latency are logged accurately.",
         "Tests verify the plugin logic."
+      ]
+    },
+    {
+      "id": "0ce21fd5-94ec-46a8-bc1d-877ef8af8c35",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "A2A Workflow Subagent Spawning",
+      "description": "Inspired by A2A standard trend: Enhance the SubagentSpawner to allow delegating specialized steps directly to discovered local peers via their Agent Cards over A2A.",
+      "allowed_paths": [
+        "magda_agent/architecture/a2a_spawner.py",
+        "tests/test_a2a_spawner.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Spawner successfully maps peer Agent Cards to task requirements.",
+        "Delegates task steps effectively to remote peers instead of local processes.",
+        "Tests verify peer selection and delegation."
+      ]
+    },
+    {
+      "id": "72e980b7-1b86-45f7-8f4a-a98cf82d1289",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Prempti Tool-Call Interception Audit",
+      "description": "Inspired by Prempti/Falco trend: Introduce an AuditTrail hook specifically designed to intercept and trace all tool calls globally, logging tainted boundaries.",
+      "allowed_paths": [
+        "magda_agent/safety/prempti_interceptor.py",
+        "tests/test_prempti_interceptor.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Interceptor successfully captures tool calls and arguments.",
+        "Logs tainted boundary crossovers into the AuditTrail.",
+        "Tests verify interception without breaking tool execution."
+      ]
+    },
+    {
+      "id": "bacb2725-19cd-40af-8e0c-83948922331e",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Tool Registry Bridge",
+      "description": "Inspired by MCP standard trend: Create a bridge that allows the MCPExporter to seamlessly register local dynamically generated skills as MCP-compatible tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_bridge.py",
+        "tests/test_mcp_registry_bridge.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dynamically created skills are formatted as JSON-RPC 2.0 tools.",
+        "MCPExporter successfully hosts the bridged tools.",
+        "Tests mock tool execution via the bridge."
       ]
     }
   ]
