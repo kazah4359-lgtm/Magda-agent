@@ -35,7 +35,8 @@ def user_model(temp_user_model_dir):
     return model
 
 @pytest.mark.asyncio
-async def test_openclaw_rl_positive_signal(mock_habit_tracker, mock_mirror_neurons, user_model):
+async def test_openclaw_rl_positive_signal(mock_habit_tracker: MagicMock, mock_mirror_neurons: MagicMock, user_model: UserModel) -> None:
+    """Tests that a positive next-state signal reinforces habits and updates preferences."""
     learner = OpenClawInteractiveLearner(mock_habit_tracker, mock_mirror_neurons, user_model)
 
     # Mock positive empathize
@@ -58,7 +59,8 @@ async def test_openclaw_rl_positive_signal(mock_habit_tracker, mock_mirror_neuro
     assert "(friendly)" in model_data["communication_style"]
 
 @pytest.mark.asyncio
-async def test_openclaw_rl_negative_signal(mock_habit_tracker, mock_mirror_neurons, user_model, mock_recovery_lessons):
+async def test_openclaw_rl_negative_signal(mock_habit_tracker: MagicMock, mock_mirror_neurons: MagicMock, user_model: UserModel, mock_recovery_lessons: MagicMock) -> None:
+    """Tests that a negative next-state signal generates recovery lessons and updates preferences."""
     learner = OpenClawInteractiveLearner(
         mock_habit_tracker, mock_mirror_neurons, user_model, recovery_lessons=mock_recovery_lessons
     )
