@@ -5628,7 +5628,7 @@
     },
     {
       "id": "openclaw-context-hooks-telemetry-v2",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Context Hooks Telemetry plugin v2",
@@ -10819,6 +10819,59 @@
         "Sub-agents can check out code into isolated worktrees",
         "Main process and sub-agents operate safely concurrently",
         "Tests mock git calls and verify isolation"
+      ]
+    },
+    {
+      "id": "ada7b54a-a81c-4956-99d3-3cc6bb40bea4",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Hermes-inspired Configurable Cron Scheduler",
+      "description": "Inspired by Hermes Agent trend. Extend the current CronScheduler to parse and load dynamic cron jobs from an external YAML or JSON configuration file, enabling daily reports and nightly backups without hardcoded schedules.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_v5.py",
+        "tests/test_cron_scheduler.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler can read dynamic jobs from a config file.",
+        "Jobs execute successfully at their scheduled intervals.",
+        "Tests verify configuration loading and job triggering."
+      ]
+    },
+    {
+      "id": "bff9cf49-f2ca-4402-b1f4-7acd9ecd4699",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Service Discovery using Agent Cards",
+      "description": "Inspired by the A2A protocol trend. Implement a service discovery layer that broadcasts and retrieves AgentCard metadata across peer agents to automate task delegation routing.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery.py",
+        "tests/test_a2a_discovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Discovery service registers local agent cards and retrieves remote ones.",
+        "Tests mock the network layer and verify successful broadcast and retrieval."
+      ]
+    },
+    {
+      "id": "045ac595-8f37-4aaf-b438-cd44a66ffb0c",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ASSERT Policy Evaluation Framework Integration",
+      "description": "Inspired by Microsoft's ASSERT framework. Integrate a policy-driven evaluation module that intercepts final agent actions and runs them against a predefined set of safety assertions before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/assert_framework.py",
+        "tests/test_assert_framework.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent actions are evaluated against predefined policies.",
+        "Violations block execution and return an error context.",
+        "Tests simulate safe and unsafe actions and verify policy enforcement."
       ]
     }
   ]
