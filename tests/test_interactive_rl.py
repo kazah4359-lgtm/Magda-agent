@@ -107,3 +107,11 @@ async def test_process_batch_interactions(learner):
 
     assert "skill_c" in state
     assert state["skill_c"] == 1.0
+
+def test_analyze_signal_positive_amazing(learner: InteractiveLearner) -> None:
+    """Test positive reward extraction for new keyword."""
+    assert learner.analyze_signal("This is amazing!") == 1.0
+
+def test_analyze_signal_negative_stop(learner: InteractiveLearner) -> None:
+    """Test negative reward extraction for new keyword."""
+    assert learner.analyze_signal("Stop doing that.") == -1.0
