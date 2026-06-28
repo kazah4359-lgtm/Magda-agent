@@ -30,9 +30,9 @@ class InteractiveLearner:
             float: A reward score, positive for positive sentiment, negative for negative sentiment.
         """
         reply_lower: str = reply_text.lower()
-        if any(word in reply_lower for word in ["good", "great", "yes", "thanks", "awesome", "excellent"]):
+        if any(word in reply_lower for word in ["good", "great", "yes", "thanks", "awesome", "excellent", "amazing"]):
             return 1.0
-        elif any(word in reply_lower for word in ["bad", "wrong", "no", "terrible", "awful", "horrible"]):
+        elif any(word in reply_lower for word in ["bad", "wrong", "no", "terrible", "awful", "horrible", "stop", "halt", "cancel"]):
             return -1.0
         return 0.0
 
@@ -62,7 +62,8 @@ class InteractiveLearner:
         self.learning_state[skill_name] += reward * adjustment_rate
 
         # Clamp between 0.1 and 10.0
-        self.learning_state[skill_name] = max(0.1, min(10.0, self.learning_state[skill_name]))
+        current_weight: float = self.learning_state[skill_name]
+        self.learning_state[skill_name] = max(0.1, min(10.0, current_weight))
 
         logging.info(f"Updated interactive learning state for skill '{skill_name}' to {self.learning_state[skill_name]:.2f} based on reward {reward}")
 

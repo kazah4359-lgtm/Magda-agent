@@ -5680,7 +5680,7 @@
     },
     {
       "id": "openclaw-rl-interactive-learning-v7",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Learning v7",
@@ -10924,6 +10924,58 @@
       "acceptance": [
         "RL Metrics System adapter correctly pushes next-state signals to a time-series store format.",
         "Tests mock the time-series store and verify data format."
+      ]
+    },
+    {
+      "id": "agent-teams-subagent-isolation-v8-71e81f8b",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams Subagent Isolation v8",
+      "description": "Inspired by Claude Agent SDK Agent Teams trend: Update the subagent worktree spawner to properly isolate memory and context for highly parallel tasks.",
+      "allowed_paths": [
+        "magda_agent/agents/worktree_isolation_v8.py",
+        "tests/test_worktree_isolation_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents can be spawned with strictly isolated contexts in git worktrees.",
+        "Tests verify concurrent isolated operations."
+      ]
+    },
+    {
+      "id": "a2a-discovery-enhancements-v4-b68bc3d3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Discovery Enhancements v4",
+      "description": "Inspired by A2A Protocol trends: Extend A2ADiscovery to support capability matching and advanced Agent Card querying for cross-agent delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v4_ext.py",
+        "tests/test_a2a_discovery_v4_ext.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Discovery can filter Agent Cards by capability lists.",
+        "Tests mock a network discovery response and verify parsing."
+      ]
+    },
+    {
+      "id": "mcp-tools-integration-dynamic-v2-c96eac36",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Tools Dynamic Integration v2",
+      "description": "Inspired by MCP standardization trend: Build a dynamic module to seamlessly import and execute external MCP tools at runtime.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_dynamic_integration_v2.py",
+        "tests/test_mcp_dynamic_integration_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module can dynamically read MCP standard tool definitions.",
+        "Module wraps MCP tools dynamically into skill registry.",
+        "Tests mock external MCP tool execution."
       ]
     }
   ]
