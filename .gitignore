@@ -24,3 +24,4 @@ procedural_memory_db/
 semantic_memory_db/
 metrics_db/
 metrics_db.sqlite3
+audit_trail.db

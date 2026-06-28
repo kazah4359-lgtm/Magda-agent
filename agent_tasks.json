@@ -5903,7 +5903,7 @@
     },
     {
       "id": "falco-prempti-audit-trail-v1",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Falco Prempti Tool Audit Trail v1",
@@ -11520,6 +11520,42 @@
       "acceptance": [
         "Weights shift dynamically in response to mid-session emotion changes",
         "Tests verify immediate updates against simulated PAD shifts"
+      ]
+    },
+    {
+      "id": "613e37a3-5963-4d76-9acf-0454455f7e33",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Hermes-inspired Cron Background Tasks",
+      "description": "Inspired by Hermes Agent trend: Implement a Cron-like scheduler to allow the agent to run periodic background tasks like log cleanup, daily summaries, or status reports.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_tasks.py",
+        "tests/test_cron_tasks.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A background task scheduler can register and run periodic tasks.",
+        "Tasks run correctly at specified intervals.",
+        "Tests verify scheduling without invoking real delays."
+      ]
+    },
+    {
+      "id": "35b9f554-366b-4ea8-be3c-b2d2e32bda20",
+      "status": "todo",
+      "area": "memory",
+      "risk": "high",
+      "title": "OpenClaw Context Engine Metric Plugin",
+      "description": "Inspired by OpenClaw trend: Create a plugin for the ContextEngine that measures token usage and latency of memory retrievals, outputting to the new AuditTrail.",
+      "allowed_paths": [
+        "magda_agent/memory/metric_plugin.py",
+        "tests/test_metric_plugin.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin hooks into the ContextEngine correctly using lifecycle hooks.",
+        "Token usage and latency are logged accurately.",
+        "Tests verify the plugin logic."
       ]
     }
   ]

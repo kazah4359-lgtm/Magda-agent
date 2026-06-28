@@ -1,5 +1,7 @@
 import time
 import copy
+import json
+import sqlite3
 from collections import deque
 from typing import Any, Deque, Dict, List, Optional
 
@@ -12,15 +14,44 @@ class AuditTrail:
     Inspired by Prempti (Falco).
     """
 
-    def __init__(self, max_capacity: int = 1000) -> None:
+    def __init__(self, max_capacity: int = 1000, db_path: Optional[str] = "audit_trail.db") -> None:
         """
-        Initializes the AuditTrail with a fixed capacity.
+        Initializes the AuditTrail with a fixed capacity and an SQLite database for persistence.
 
         Args:
-            max_capacity: Maximum number of entries to keep in the trail.
+            max_capacity: Maximum number of entries to keep in the in-memory trail.
+            db_path: Path to the SQLite database file. If None, only in-memory logging is used.
         """
         self.max_capacity = max_capacity
         self.trail: Deque[Dict[str, Any]] = deque(maxlen=max_capacity)
+        self.db_path = db_path
+        self._init_db()
+
+    def _init_db(self) -> None:
+        """Initializes the SQLite database schema if a path is provided."""
+        if not self.db_path:
+            return
+
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    '''
+                    CREATE TABLE IF NOT EXISTS audit_logs (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        timestamp REAL NOT NULL,
+                        tool_name TEXT NOT NULL,
+                        kwargs TEXT NOT NULL,
+                        why TEXT NOT NULL,
+                        result TEXT NOT NULL,
+                        duration REAL NOT NULL
+                    )
+                    '''
+                )
+                conn.commit()
+        except sqlite3.Error as e:
+            import logging
+            logging.error(f"Failed to initialize SQLite audit database at {self.db_path}: {e}")
 
     def _sanitize(self, data: Any) -> Any:
         """
@@ -59,7 +90,7 @@ class AuditTrail:
 
     def log_call(self, tool_name: str, kwargs: Dict[str, Any], why: str, result: Any, duration: float = 0.0) -> None:
         """
-        Logs a tool call with metadata and sanitization.
+        Logs a tool call with metadata and sanitization, both in memory and to SQLite.
 
         Args:
             tool_name: Name of the tool or action.
@@ -68,19 +99,46 @@ class AuditTrail:
             result: Outcome of the execution or "allowed"/"blocked".
             duration: Time taken in seconds.
         """
+        timestamp = time.time()
+        sanitized_kwargs = self._sanitize(kwargs)
+        sanitized_result = self._sanitize(result)
+
         entry = {
-            "timestamp": time.time(),
+            "timestamp": timestamp,
             "tool_name": tool_name,
-            "kwargs": self._sanitize(kwargs),
+            "kwargs": sanitized_kwargs,
             "why": why,
-            "result": self._sanitize(result),
+            "result": sanitized_result,
             "duration": duration
         }
         self.trail.append(entry)
 
+        if self.db_path:
+            try:
+                with sqlite3.connect(self.db_path) as conn:
+                    cursor = conn.cursor()
+                    cursor.execute(
+                        '''
+                        INSERT INTO audit_logs (timestamp, tool_name, kwargs, why, result, duration)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                        ''',
+                        (
+                            timestamp,
+                            tool_name,
+                            json.dumps(sanitized_kwargs),
+                            why,
+                            json.dumps(sanitized_result) if not isinstance(sanitized_result, str) else sanitized_result,
+                            duration
+                        )
+                    )
+                    conn.commit()
+            except sqlite3.Error as e:
+                import logging
+                logging.error(f"Failed to log to SQLite audit database at {self.db_path}: {e}")
+
     def query(self, tool_name: Optional[str] = None, start_time: Optional[float] = None, end_time: Optional[float] = None) -> List[Dict[str, Any]]:
         """
-        Queries the audit trail with optional filters.
+        Queries the audit trail with optional filters from the in-memory trail.
         """
         results = list(self.trail)
         if tool_name:
@@ -91,10 +149,72 @@ class AuditTrail:
             results = [e for e in results if e["timestamp"] <= end_time]
         return results
 
+    def query_db(self, tool_name: Optional[str] = None, start_time: Optional[float] = None, end_time: Optional[float] = None) -> List[Dict[str, Any]]:
+        """
+        Queries the audit trail from the SQLite database.
+        """
+        if not self.db_path:
+            return []
+
+        results = []
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                query = "SELECT timestamp, tool_name, kwargs, why, result, duration FROM audit_logs WHERE 1=1"
+                params = []
+
+                if tool_name:
+                    query += " AND tool_name = ?"
+                    params.append(tool_name)
+                if start_time is not None:
+                    query += " AND timestamp >= ?"
+                    params.append(start_time)
+                if end_time is not None:
+                    query += " AND timestamp <= ?"
+                    params.append(end_time)
+
+                cursor.execute(query, tuple(params))
+                rows = cursor.fetchall()
+
+                for row in rows:
+                    try:
+                        kwargs_dict = json.loads(row[2])
+                    except json.JSONDecodeError:
+                        kwargs_dict = row[2]
+
+                    try:
+                        result_obj = json.loads(row[4])
+                    except (json.JSONDecodeError, TypeError):
+                        result_obj = row[4]
+
+                    results.append({
+                        "timestamp": row[0],
+                        "tool_name": row[1],
+                        "kwargs": kwargs_dict,
+                        "why": row[3],
+                        "result": result_obj,
+                        "duration": row[5]
+                    })
+        except sqlite3.Error as e:
+            import logging
+            logging.error(f"Failed to query SQLite audit database at {self.db_path}: {e}")
+
+        return results
+
     def get_all(self) -> List[Dict[str, Any]]:
         """Returns all entries in the audit trail."""
         return list(self.trail)
 
     def clear(self) -> None:
-        """Clears all entries from the audit trail."""
+        """Clears all entries from the in-memory audit trail and the SQLite database."""
         self.trail.clear()
+
+        if self.db_path:
+            try:
+                with sqlite3.connect(self.db_path) as conn:
+                    cursor = conn.cursor()
+                    cursor.execute("DELETE FROM audit_logs")
+                    conn.commit()
+            except sqlite3.Error as e:
+                import logging
+                logging.error(f"Failed to clear SQLite audit database at {self.db_path}: {e}")
