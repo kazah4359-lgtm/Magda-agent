@@ -144,21 +144,24 @@ class VirtualContextManager:
         if not entries:
             raise ValueError("No entries to compress")
 
-        combined_text = "\n".join(e.content for e in entries)
+        combined_text: str = "\n".join(e.content for e in entries)
+        summary: str = ""
 
         if self.llm_client:
-            prompt = [{"role": "system", "content": "Summarize these memory entries concisely."},
-                      {"role": "user", "content": combined_text}]
+            prompt: List[Dict[str, str]] = [
+                {"role": "system", "content": "Summarize these memory entries concisely."},
+                {"role": "user", "content": combined_text}
+            ]
             summary = await self.llm_client.chat_completion(prompt)
         else:
             summary = f"Summary of {len(entries)} items: {combined_text[:50]}..."
 
-        user_id = entries[0].user_id
-        avg_importance = sum(e.importance for e in entries) / len(entries)
-        avg_p = sum(e.emotional_state.pleasure for e in entries) / len(entries)
-        avg_a = sum(e.emotional_state.arousal for e in entries) / len(entries)
-        avg_d = sum(e.emotional_state.dominance for e in entries) / len(entries)
-        state = PADState(avg_p, avg_a, avg_d)
+        user_id: Optional[int] = entries[0].user_id
+        avg_importance: float = sum(e.importance for e in entries) / len(entries)
+        avg_p: float = sum(e.emotional_state.pleasure for e in entries) / len(entries)
+        avg_a: float = sum(e.emotional_state.arousal for e in entries) / len(entries)
+        avg_d: float = sum(e.emotional_state.dominance for e in entries) / len(entries)
+        state: PADState = PADState(avg_p, avg_a, avg_d)
 
         return MemoryEntry(content=summary, importance=avg_importance, emotional_state=state, user_id=user_id)
 
@@ -167,25 +170,25 @@ class VirtualContextManager:
         """
         Move the oldest `count` entries from WorkingMemory to EpisodicMemory.
         """
-        u_id = user_id if user_id is not None else -1
-        entries = working_memory.get_entries(user_id=u_id)
+        u_id: int = user_id if user_id is not None else -1
+        entries: List['MemoryEntry'] = working_memory.get_entries(user_id=u_id)
         if not entries:
             return
 
-        to_remove = entries[:count]
+        to_remove: List['MemoryEntry'] = entries[:count]
         if len(to_remove) > 1:
             try:
                 # Attempt to compress context before paging out
-                compressed_entry = await self.compress_context(to_remove)
+                compressed_entry: 'MemoryEntry' = await self.compress_context(to_remove)
                 to_remove = [compressed_entry]
             except Exception as e:
                 logging.error(f"Context compression failed during page_out: {e}")
 
         # Keep track of IDs to remove from working memory
-        original_ids = [e.id for e in entries[:count]]
+        original_ids: List[str] = [e.id for e in entries[:count]]
 
         for entry in to_remove:
-            metadata = {
+            metadata: Dict[str, Any] = {
                 "paged_out": True,
                 "importance": entry.importance,
                 "pad_p": entry.emotional_state.pleasure,

@@ -5868,7 +5868,7 @@
     },
     {
       "id": "memgpt-virtual-context-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "MemGPT Virtual Context Management v1",
@@ -11432,6 +11432,42 @@
         "Tracker stores PR outcomes and test failure counts in a bounded metrics store.",
         "Metrics are available via an internal summary method.",
         "Tests mock CI events and verify the tracker accumulates correctly."
+      ]
+    },
+    {
+      "id": "b5a81083-a558-4e29-a095-ab07fb616d1c",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes-inspired Skill Telemetry Export",
+      "description": "Inspired by the June 2026 Hermes Agent trend: Implement a telemetry exporter for skills that tracks usage metrics and exports them in the agentskills.io format for marketplace analysis.",
+      "allowed_paths": [
+        "magda_agent/skills/telemetry_export.py",
+        "tests/test_telemetry_export.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill telemetry is recorded and aggregated over time.",
+        "Exporter generates a JSON payload compatible with agentskills.io format.",
+        "Tests verify the exported data format and metric aggregation."
+      ]
+    },
+    {
+      "id": "0cbbda33-a878-4732-a158-0e5a515d0a89",
+      "status": "todo",
+      "area": "memory",
+      "risk": "high",
+      "title": "OpenClaw-RL Virtual Context Feedback Paging",
+      "description": "Inspired by the OpenClaw-RL online reinforcement learning trend: Integrate virtual context paging with user feedback signals so that context chunks heavily penalized by negative user feedback are aggressively evicted from Working Memory.",
+      "allowed_paths": [
+        "magda_agent/memory/rl_feedback_pager.py",
+        "tests/test_rl_feedback_pager.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Paging algorithm factors in recent user feedback scores when selecting entries to evict.",
+        "Entries with low feedback scores are evicted before older but highly rated entries.",
+        "Tests verify eviction prioritization logic using mocked feedback signals."
       ]
     }
   ]

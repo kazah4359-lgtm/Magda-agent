@@ -58,6 +58,13 @@ async def test_virtual_context_page_in():
     assert "Historical facts about Python" in entries[0].content
 
 @pytest.mark.asyncio
+async def test_virtual_context_empty_entries() -> None:
+    """Test that compressing empty entries raises ValueError."""
+    vcm = VirtualContextManager()
+    with pytest.raises(ValueError):
+        await vcm.compress_context([])
+
+@pytest.mark.asyncio
 async def test_virtual_context_compress_without_llm() -> None:
     """Test that context compression works with fallback summary when LLM is absent."""
     vcm = VirtualContextManager()
