@@ -28,6 +28,14 @@ class ContextPlugin(Protocol):
         """Called after context is retrieved. Can modify the retrieved context."""
         ...
 
+    def before_write(self, context: Any, user_id: int) -> Any:
+        """Called before context is written. Can modify the context."""
+        ...
+
+    def after_write(self, context: Any, user_id: int) -> None:
+        """Called after context is written."""
+        ...
+
     def on_context_update(self, new_context: Any, user_id: int) -> None:
         """Called when the overall context is updated."""
         ...
@@ -57,6 +65,10 @@ class ContextEngine:
             self.hook_registry.register_hook('after_retrieval', plugin.after_retrieval)
         if hasattr(plugin, 'on_context_update'):
             self.hook_registry.register_hook('on_context_update', plugin.on_context_update)
+        if hasattr(plugin, 'before_write'):
+            self.hook_registry.register_hook('before_write', plugin.before_write)
+        if hasattr(plugin, 'after_write'):
+            self.hook_registry.register_hook('after_write', plugin.after_write)
 
         logging.debug(f"Registered plugin: {plugin.__class__.__name__}")
 
@@ -66,8 +78,9 @@ class ContextEngine:
 
     async def bootstrap_all(self, config: Dict[str, Any]) -> None:
         """Initialize all plugins."""
-        config_with_hooks = dict(config)
+        config_with_hooks: Dict[str, Any] = dict(config)
         config_with_hooks["hook_registry"] = self.hook_registry
+        plugin: ContextPlugin
         for plugin in self._plugins:
             if hasattr(plugin, 'bootstrap'):
                 await plugin.bootstrap(config_with_hooks)
@@ -158,5 +171,16 @@ class ContextEngine:
     def update_context(self, new_context: Any, user_id: int) -> None:
         """Triggers the on_context_update hook for all registered plugins."""
         self.hook_registry.trigger_hook('on_context_update', new_context, user_id)
+
+
+    def write_context(self, context: Any, user_id: int) -> None:
+        """Writes context by executing lifecycle hooks before and after."""
+        current_context: Any = self.hook_registry.trigger_hook('before_write', context, user_id)
+        if current_context is None:
+            current_context = context
+
+        self.update_context(current_context, user_id)
+
+        self.hook_registry.trigger_hook('after_write', current_context, user_id)
 
 # Context Engine lifecycle complete
