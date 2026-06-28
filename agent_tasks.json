@@ -5799,7 +5799,7 @@
     },
     {
       "id": "openai-mcp-function-concurrency-v1",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "OpenAI Agents SDK MCP Function Concurrency",
@@ -11222,6 +11222,59 @@
       "acceptance": [
         "Executor batches concurrent MCP tool calls heading to the same server.",
         "Tests mock MCP clients and verify batching logic."
+      ]
+    },
+    {
+      "id": "1f3e194c-cddb-4c65-9782-1ba9b98fdc8e",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Workflow Orchestrator v2",
+      "description": "Inspired by A2A Protocol open standard: Implement a multi-agent orchestration manager that can dynamically assign tasks via Agent Cards to a network of specialized external sub-agents natively.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_orchestrator_v2.py",
+        "tests/test_a2a_orchestrator_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Orchestrator correctly routes tasks to the appropriate remote agent based on capability.",
+        "Tests use mock mDNS and HTTP calls to verify task delegation."
+      ]
+    },
+    {
+      "id": "6561db15-0289-4c6a-9a85-b1b43d7f28ca",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Realtime Guardrail Action Interceptor",
+      "description": "Inspired by OpenAI Agents SDK realtime guardrail fallback: Implement a dynamic interceptor that triggers a safe fallback state when external API tool calls detect policy violations mid-execution.",
+      "allowed_paths": [
+        "magda_agent/safety/realtime_interceptor.py",
+        "tests/test_realtime_interceptor.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Interceptor properly captures policy exceptions during tool calls.",
+        "Fallback action is triggered without crashing the main loop.",
+        "Tests mock API responses to trigger violation events."
+      ]
+    },
+    {
+      "id": "bf4a6eb8-c623-4337-b2d3-87885c4044e8",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Live Re-ranker",
+      "description": "Inspired by Context Engine lifecycle hooks: Implement a live re-ranking plugin that dynamically re-orders Working Memory entries based on instantaneous task urgency and emotional arousal context before Planner generation.",
+      "allowed_paths": [
+        "magda_agent/memory/context_reranker.py",
+        "tests/test_context_reranker.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context Engine correctly loads the re-ranker plugin.",
+        "Working Memory entries are sorted by an urgency score.",
+        "Tests verify correct ordering of mocked memory entries."
       ]
     }
   ]

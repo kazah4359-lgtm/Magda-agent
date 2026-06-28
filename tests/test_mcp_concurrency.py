@@ -80,3 +80,93 @@ async def test_handle_request_empty_batch(handler):
     res_str = await handler.handle_request("[]")
     res = json.loads(res_str)
     assert res["error"]["code"] == -32600
+
+# --- Tests for MCPConcurrentSkillExecutor ---
+from unittest.mock import MagicMock
+from magda_agent.skills.mcp_concurrency import MCPConcurrentSkillExecutor
+
+@pytest.mark.asyncio
+async def test_execute_mcp_tools_concurrently_batch():
+    """
+    Test that execute_mcp_tools_concurrently correctly batches tools by server.
+    """
+    class MockClient:
+        async def execute_batch(self, server, calls):
+            # simulate different delay per server
+            if server == "server1":
+                await asyncio.sleep(0.1)
+                return [f"{c['name']}_res1" for c in calls]
+            elif server == "server2":
+                await asyncio.sleep(0.1)
+                return [f"{c['name']}_res2" for c in calls]
+            return ["unknown"] * len(calls)
+
+    mock_client = MockClient()
+    executor = MCPConcurrentSkillExecutor(mock_client)
+
+    tool_calls = [
+        {"name": "server1-tool_a", "kwargs": {}},
+        {"name": "server2-tool_b", "kwargs": {}},
+        {"name": "server1-tool_c", "kwargs": {}}
+    ]
+
+    import time
+    start_time = time.time()
+    results = await executor.execute_mcp_tools_concurrently(tool_calls)
+    end_time = time.time()
+
+    # Should take roughly 0.1s total because server batches run concurrently
+    assert end_time - start_time < 0.15
+
+    assert results[0] == "server1-tool_a_res1"
+    assert results[1] == "server2-tool_b_res2"
+    assert results[2] == "server1-tool_c_res1"
+
+@pytest.mark.asyncio
+async def test_execute_mcp_tools_concurrently_fallback():
+    """
+    Test fallback to individual execute if execute_batch is not present.
+    """
+    class MockClient:
+        async def execute(self, name, kwargs):
+            await asyncio.sleep(0.1)
+            return f"{name}_res"
+
+    mock_client = MockClient()
+    executor = MCPConcurrentSkillExecutor(mock_client)
+
+    tool_calls = [
+        {"name": "server1-tool_a", "kwargs": {}},
+        {"name": "server2-tool_b", "kwargs": {}}
+    ]
+
+    results = await executor.execute_mcp_tools_concurrently(tool_calls)
+    assert results[0] == "server1-tool_a_res"
+    assert results[1] == "server2-tool_b_res"
+
+@pytest.mark.asyncio
+async def test_execute_mcp_tools_duplicate_calls():
+    """
+    Test when there are duplicate tool calls, results are correctly mapped back,
+    and None return values are handled correctly.
+    """
+    class MockClient:
+        async def execute(self, name, kwargs):
+            if kwargs.get("id") == "none":
+                return None
+            return f"{name}_{kwargs.get('id', '')}"
+
+    mock_client = MockClient()
+    executor = MCPConcurrentSkillExecutor(mock_client)
+
+    # Duplicate tool names with different kwargs
+    tool_calls = [
+        {"name": "server1-tool_a", "kwargs": {"id": "1"}},
+        {"name": "server1-tool_a", "kwargs": {"id": "none"}},
+        {"name": "server1-tool_a", "kwargs": {"id": "1"}} # exactly duplicate
+    ]
+
+    results = await executor.execute_mcp_tools_concurrently(tool_calls)
+    assert results[0] == "server1-tool_a_1"
+    assert results[1] is None
+    assert results[2] == "server1-tool_a_1"
