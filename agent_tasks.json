@@ -5886,7 +5886,7 @@
     },
     {
       "id": "acs-checkpoints-framework-v3",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Agent Control Specification Checkpoints v3",
@@ -11468,6 +11468,58 @@
         "Paging algorithm factors in recent user feedback scores when selecting entries to evict.",
         "Entries with low feedback scores are evicted before older but highly rated entries.",
         "Tests verify eviction prioritization logic using mocked feedback signals."
+      ]
+    },
+    {
+      "id": "5b6d9420-5611-4563-9045-ad5bc4feb9dc",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "A2A Workflow Orchestration via mDNS",
+      "description": "Inspired by the A2A open standard trend: Implement an orchestration component that discovers peers over local mDNS and dynamically distributes isolated task steps to them.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_orchestrator_mdns.py",
+        "tests/test_a2a_orchestrator_mdns.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A orchestrator can find local peers via mDNS",
+        "Delegates task steps effectively to discovered peers",
+        "Tests mock mDNS and verify distribution logic"
+      ]
+    },
+    {
+      "id": "eb6a35a2-308e-43d6-bb87-10532e32fadb",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Live Semantic Re-ranker",
+      "description": "Inspired by Context Engine lifecycle hooks: Implement a live semantic re-ranking plugin that dynamically prioritizes Episodic Memory entries using localized embeddings before Planner retrieval.",
+      "allowed_paths": [
+        "magda_agent/memory/semantic_reranker.py",
+        "tests/test_semantic_reranker.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Re-ranker plugin accurately prioritizes context entries based on semantic relevance",
+        "Tests mock embedding distances to verify proper sorting"
+      ]
+    },
+    {
+      "id": "a1027164-23de-483e-b86a-070a82924066",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "OpenClaw-RL Real-time Policy Gradient Updater",
+      "description": "Inspired by OpenClaw-RL trend: Create a real-time policy gradient module that modifies action weights dynamically mid-session based on cumulative PAD emotion shifts without full consolidation.",
+      "allowed_paths": [
+        "magda_agent/learning/policy_gradient.py",
+        "tests/test_policy_gradient.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Weights shift dynamically in response to mid-session emotion changes",
+        "Tests verify immediate updates against simulated PAD shifts"
       ]
     }
   ]
