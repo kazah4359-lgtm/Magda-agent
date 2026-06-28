@@ -5851,7 +5851,7 @@
     },
     {
       "id": "mcp-action-tool-exporter-v8",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Action Tool Exporter v8",
@@ -11378,6 +11378,60 @@
       "acceptance": [
         "Swarm orchestrator can spawn a tree of subagents.",
         "Tests verify inter-agent communication and task distribution."
+      ]
+    },
+    {
+      "id": "fd499b40-cef2-46d1-b426-54ba08138ecc",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard runtime governance layer integration",
+      "description": "Inspired by the Agent Guard trend: Implement a runtime governance layer that intercepts all agent actions and applies strict policy rules before allowing external tool execution.",
+      "allowed_paths": [
+        "magda_agent/safety/governance_layer.py",
+        "tests/test_governance_layer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The governance layer correctly intercepts tool calls.",
+        "Policy rules can block or allow actions based on mocked context.",
+        "Tests verify that unauthorized actions raise exceptions."
+      ]
+    },
+    {
+      "id": "ce9ee3b8-8915-4b7c-9d2f-b87fa445f365",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Virtual context management for working memory",
+      "description": "Inspired by MemGPT/Letta pattern trend: Update working memory to track token usage dynamically and automatically compress or evict older events into episodic memory to prevent context overflow.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v2.py",
+        "tests/test_virtual_context_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Working memory accurately tracks approximate token counts.",
+        "Events are evicted and stored in episodic memory when thresholds are reached.",
+        "Tests simulate large contexts and verify eviction logic."
+      ]
+    },
+    {
+      "id": "b074131c-9004-48dc-9d88-feb29e8ba1c2",
+      "status": "todo",
+      "area": "metacognition",
+      "risk": "low",
+      "title": "Agent-generated code longitudinal tracker",
+      "description": "Inspired by SWE-bench / Evaluation trends: Implement a background metric collector that analyzes the success rate and test failures of the agent's PRs over time to identify brittle generated code.",
+      "allowed_paths": [
+        "magda_agent/metacognition/longitudinal_tracker.py",
+        "tests/test_longitudinal_tracker.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tracker stores PR outcomes and test failure counts in a bounded metrics store.",
+        "Metrics are available via an internal summary method.",
+        "Tests mock CI events and verify the tracker accumulates correctly."
       ]
     }
   ]
