@@ -46,7 +46,6 @@ class MockPlugin(ContextPlugin):
 @pytest.mark.asyncio
 async def test_context_engine_lifecycle():
     mock_plugin = MockPlugin()
-    engine = ContextEngine(plugins=[mock_plugin])
 
     # Test Bootstrap
     config = {"key": "value"}
@@ -59,6 +58,8 @@ async def test_context_engine_lifecycle():
         mock_plugin.bootstrap_called = True
 
     mock_plugin.bootstrap = capture_bootstrap
+
+    engine = ContextEngine(plugins=[mock_plugin])
 
     await engine.bootstrap_all(config)
     assert mock_plugin.bootstrap_called
