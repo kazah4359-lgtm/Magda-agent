@@ -5662,7 +5662,7 @@
     },
     {
       "id": "mcp-action-tool-taint-tracking-v4",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Tool Taint Tracking Sandbox v4",
@@ -10872,6 +10872,58 @@
         "Agent actions are evaluated against predefined policies.",
         "Violations block execution and return an error context.",
         "Tests simulate safe and unsafe actions and verify policy enforcement."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-taint-tracking-v5-6c2393a2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Tool Taint Tracking Sandbox v5",
+      "description": "Inspired by MCPKernel trend: Expand taint tracking to include nested dictionaries in tool inputs to prevent deeper data leakage.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_taint.py",
+        "tests/test_mcp_taint.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted nested dictionary inputs are tracked.",
+        "Security sandbox blocks tainted string usage inside nested dicts in critical endpoints.",
+        "Tests verify nested taint propagation."
+      ]
+    },
+    {
+      "id": "a2a-delegation-streaming-v3-0bc3fb7c",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Task Delegation Streaming Interface v3",
+      "description": "Inspired by A2A open standard trend: Implement a robust WebSocket-based streaming interface for A2A peer-to-peer task delegation to support real-time sub-task tracking.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_streaming.py",
+        "tests/test_a2a_streaming.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A streaming interface supports WebSocket connections.",
+        "Tests verify WebSocket stream handling."
+      ]
+    },
+    {
+      "id": "openclaw-rl-metrics-v5-f60b1d89",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Metrics System v5",
+      "description": "Inspired by OpenClaw trend: Implement a time-series database adapter for the online reinforcement learning metrics system to capture longitudinal quality updates more efficiently.",
+      "allowed_paths": [
+        "magda_agent/learning/metrics_v5.py",
+        "tests/test_rl_metrics_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL Metrics System adapter correctly pushes next-state signals to a time-series store format.",
+        "Tests mock the time-series store and verify data format."
       ]
     }
   ]

@@ -47,3 +47,13 @@ def test_mcp_action_taint_sandbox_allows_taint_on_non_critical_param() -> None:
     result = search_web(clean_query, extra_info=tainted_extra)
     assert is_tainted(result) is True
     assert result == {"results": [f"Result for {clean_query} with {tainted_extra}"]}
+
+def test_mcp_action_taint_sandbox_v4_param_type_hints() -> None:
+    """Tests that the v4 sandbox handles type hints correctly."""
+    @mcp_action_taint_sandbox(critical_params=["count"])
+    def process_data(count: int, msg: str = "ok") -> str:
+        return f"{msg} {count}"
+
+    result = process_data(10)
+    assert is_tainted(result) is True
+    assert result == "ok 10"

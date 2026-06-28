@@ -1,4 +1,4 @@
-"""MCP Tool Taint Tracking Sandbox v2."""
+"""MCP Tool Taint Tracking Sandbox v4."""
 import inspect
 import functools
 from typing import Any, Callable, List, Optional
@@ -26,7 +26,7 @@ def mcp_action_taint_sandbox(critical_params: Optional[List[str]] = None) -> Cal
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             # Map args and kwargs to parameter names
             sig: inspect.Signature = inspect.signature(func)
-            bound_args = sig.bind(*args, **kwargs)
+            bound_args: inspect.BoundArguments = sig.bind(*args, **kwargs)
             bound_args.apply_defaults()
 
             # Block if any critical parameter receives tainted data
@@ -37,7 +37,7 @@ def mcp_action_taint_sandbox(critical_params: Optional[List[str]] = None) -> Cal
                     )
 
             # Execute the function
-            result = func(*args, **kwargs)
+            result: Any = func(*args, **kwargs)
 
             # Outputs from external MCP action tools are inherently untrusted and thus tainted
             return mark_tainted(result)
