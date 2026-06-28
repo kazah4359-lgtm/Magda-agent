@@ -59,6 +59,7 @@ class ContextEngine:
         """Registers a new plugin with the context engine."""
         self._plugins.append(plugin)
 
+        # Sync hooks
         if hasattr(plugin, 'before_retrieval'):
             self.hook_registry.register_hook('before_retrieval', plugin.before_retrieval)
         if hasattr(plugin, 'after_retrieval'):
@@ -70,6 +71,16 @@ class ContextEngine:
         if hasattr(plugin, 'after_write'):
             self.hook_registry.register_hook('after_write', plugin.after_write)
 
+        # Async and common lifecycle hooks
+        if hasattr(plugin, 'bootstrap'):
+            self.hook_registry.register_hook('bootstrap', plugin.bootstrap)
+        if hasattr(plugin, 'ingest'):
+            self.hook_registry.register_hook('ingest', plugin.ingest)
+        if hasattr(plugin, 'assemble'):
+            self.hook_registry.register_hook('assemble', plugin.assemble)
+        if hasattr(plugin, 'compact'):
+            self.hook_registry.register_hook('compact', plugin.compact)
+
         logging.debug(f"Registered plugin: {plugin.__class__.__name__}")
 
     def add_plugin(self, plugin: ContextPlugin) -> None:
@@ -77,40 +88,26 @@ class ContextEngine:
         self.register_plugin(plugin)
 
     async def bootstrap_all(self, config: Dict[str, Any]) -> None:
-        """Initialize all plugins."""
+        """Initialize all plugins using the hook registry."""
         config_with_hooks: Dict[str, Any] = dict(config)
         config_with_hooks["hook_registry"] = self.hook_registry
-        plugin: ContextPlugin
-        for plugin in self._plugins:
-            if hasattr(plugin, 'bootstrap'):
-                await plugin.bootstrap(config_with_hooks)
+        await self.hook_registry.trigger_broadcast_async('bootstrap', config_with_hooks)
 
     async def ingest(self, content: str, metadata: Dict[str, Any]) -> str:
-        """Run content through ingest hook of all plugins."""
-        current_content = content
-        for plugin in self._plugins:
-            if hasattr(plugin, 'ingest'):
-                current_content = await plugin.ingest(current_content, metadata)
-        return current_content
+        """Run content through ingest hook of all plugins using the hook registry."""
+        return await self.hook_registry.trigger_hook_async('ingest', content, metadata)
 
     async def assemble(self, context_items: List[Any], metadata: Dict[str, Any]) -> str:
-        """Assemble context using all plugins."""
-        assembled_context = ""
-        # If no plugins, default behavior
-        if not self._plugins:
+        """Assemble context using all plugins via the hook registry."""
+        # If no plugins are registered for assemble, provide default behavior
+        if 'assemble' not in self.hook_registry._hooks or not self.hook_registry._hooks['assemble']:
             return "\n".join([str(item) for item in context_items])
 
-        for plugin in self._plugins:
-            if hasattr(plugin, 'assemble'):
-                assembled_context = await plugin.assemble(context_items, metadata)
-        return assembled_context
+        return await self.hook_registry.trigger_broadcast_async('assemble', context_items, metadata)
 
     async def compact(self, context_items: List[Any], metadata: Dict[str, Any]) -> List[Any]:
-        """Compact context through all plugins, with a built-in fallback using LLM."""
-        current_items = context_items
-        for plugin in self._plugins:
-            if hasattr(plugin, 'compact'):
-                current_items = await plugin.compact(current_items, metadata)
+        """Compact context through all plugins using the hook registry, with a built-in fallback using LLM."""
+        current_items = await self.hook_registry.trigger_hook_async('compact', context_items, metadata)
 
         limit = metadata.get("limit", 10)
         if len(current_items) > limit and self.llm is not None:
