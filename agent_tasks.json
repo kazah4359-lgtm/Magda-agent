@@ -5731,7 +5731,7 @@
     },
     {
       "id": "agent-teams-git-worktree-isolation-v2",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Agent Teams via Git Worktree Isolation v2",
@@ -11030,6 +11030,60 @@
         "MCP concurrency logic implemented with async gather.",
         "Unit tests verify concurrent execution.",
         "Python script validate_agent_tasks.py passes."
+      ]
+    },
+    {
+      "id": "abb3d461-bf63-45f7-ba68-c630b0efa5be",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Virtual Context Management Engine",
+      "description": "Inspired by MemGPT/Letta pattern. Implement a virtual context manager to handle working vs episodic memory paging seamlessly.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v2.py",
+        "tests/test_virtual_context_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtual Context Manager implemented.",
+        "Pages out old memory tokens to episodic memory correctly.",
+        "Tested with LLM mock."
+      ]
+    },
+    {
+      "id": "4d844c40-ef63-44bb-83a4-ee71b0640a17",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Runtime Policy Layer",
+      "description": "Implement an Agent Guard runtime governance layer to intercept external tool calls.",
+      "allowed_paths": [
+        "magda_agent/safety/agent_guard_v2.py",
+        "tests/test_agent_guard_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Guard intercepts function calls.",
+        "Policy enforcement tested with mocked actions.",
+        "High risk operations block automatically."
+      ]
+    },
+    {
+      "id": "fa66d394-fc4a-46df-8f1d-4e7eb952a52a",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Magentic-One Pattern Subagent Orchestrator",
+      "description": "Implement a Magentic-One pattern multi-agent orchestrator for dynamic subagent scaling based on task heuristics.",
+      "allowed_paths": [
+        "magda_agent/architecture/magentic_one_v2.py",
+        "tests/test_magentic_one_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Orchestrator spawns and kills subagents based on difficulty score.",
+        "Integration tested using isolated mock environments.",
+        "Code meets style guidelines."
       ]
     }
   ]
