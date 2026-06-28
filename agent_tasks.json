@@ -5782,7 +5782,7 @@
     },
     {
       "id": "claude-subagent-spawning-v1-fix2",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "high",
       "title": "Claude-style Subagent Spawning and Context Compression",
@@ -11171,6 +11171,57 @@
       "acceptance": [
         "Module processes user feedback signals and updates skill weights.",
         "Tests verify weight adjustments based on mock signals."
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-generation-92cad598",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes-inspired Dynamic Skill Generation",
+      "description": "Inspired by Hermes Agent trend: Implement a skill generation module that creates new Python skills dynamically based on observed successful multi-step executions.",
+      "allowed_paths": [
+        "magda_agent/skills/dynamic_generation.py",
+        "tests/test_dynamic_generation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module parses multi-step success logs to generate valid skill code.",
+        "Tests use mocks to verify generation and validity checking."
+      ]
+    },
+    {
+      "id": "openclaw-live-canvas-telemetry-927071b0",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw Live Canvas Telemetry Streaming",
+      "description": "Inspired by OpenClaw trend: Implement a websocket telemetry streamer that broadcasts agent memory state and planner steps in real-time to an external Canvas client.",
+      "allowed_paths": [
+        "magda_agent/telemetry/canvas_stream.py",
+        "tests/test_canvas_stream.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Streamer correctly broadcasts memory states via websocket events.",
+        "Tests mock the websocket connection and verify broadcast formats."
+      ]
+    },
+    {
+      "id": "openai-mcp-tool-concurrency-a3c384a2",
+      "status": "todo",
+      "area": "execution",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK MCP Tool Concurrency v2",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a concurrent executor specifically tailored for MCP tools that batches requests to the same server.",
+      "allowed_paths": [
+        "magda_agent/execution/mcp_batching.py",
+        "tests/test_mcp_batching.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Executor batches concurrent MCP tool calls heading to the same server.",
+        "Tests mock MCP clients and verify batching logic."
       ]
     }
   ]
