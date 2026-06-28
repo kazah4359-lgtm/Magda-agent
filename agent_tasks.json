@@ -5748,7 +5748,7 @@
     },
     {
       "id": "mcp-tools-integration-v4",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Tools Integration Engine v4",
@@ -11084,6 +11084,42 @@
         "Orchestrator spawns and kills subagents based on difficulty score.",
         "Integration tested using isolated mock environments.",
         "Code meets style guidelines."
+      ]
+    },
+    {
+      "id": "2d398426-c5f0-4f31-a671-5fadeb4c4d80",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Continuous Context Summarization V2",
+      "description": "Inspired by Context Compression Subagent trends. Enhance the continuous summarization loop to operate on a background cron schedule, periodically checking the size of EpisodicMemory and summarizing uncompressed segments natively.",
+      "allowed_paths": [
+        "magda_agent/agents/compression_cron_v2.py",
+        "tests/test_compression_cron_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A cron-based background task continuously monitors memory size.",
+        "Triggers LLM summarization without blocking the main event loop.",
+        "Tests mock LLM interactions and verify periodic execution."
+      ]
+    },
+    {
+      "id": "48b4da15-5d63-4af2-83a0-f0ed55cfeda4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "A2A Message Taint Sandbox Integration",
+      "description": "Inspired by both A2A and MCPKernel trends. Apply the MCP taint tracking mechanisms to incoming A2A delegate messages to ensure remote peer subagents cannot inject tainted code or prompt injections into the local executor.",
+      "allowed_paths": [
+        "magda_agent/security/a2a_taint.py",
+        "tests/test_a2a_taint.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A messages are passed through the taint tracker.",
+        "Injections are identified and blocked by the sandbox.",
+        "Tests simulate malicious remote agent messages."
       ]
     }
   ]
