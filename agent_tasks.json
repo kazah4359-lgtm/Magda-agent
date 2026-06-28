@@ -5697,7 +5697,7 @@
     },
     {
       "id": "openclaw-rl-interactive-learning-v8",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Learning v8",
@@ -10976,6 +10976,60 @@
         "Module can dynamically read MCP standard tool definitions.",
         "Module wraps MCP tools dynamically into skill registry.",
         "Tests mock external MCP tool execution."
+      ]
+    },
+    {
+      "id": "hermes-skill-discovery-v2-5b1cfe84",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Skill Discovery v2",
+      "description": "Inspired by Hermes Agent trend: Implement dynamic skill discovery from agentskills.io marketplace, allowing the agent to fetch and load missing skills on demand.",
+      "allowed_paths": [
+        "magda_agent/skills/discovery.py",
+        "tests/test_skill_discovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill discovery module implemented and unit tested with LLM mocks.",
+        "Tasks updated.",
+        "Python script validate_agent_tasks.py passes."
+      ]
+    },
+    {
+      "id": "claude-planner-evaluation-v2-aaff5526",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Claude Planner Evaluation v2",
+      "description": "Inspired by Claude Agent SDK trend: Add a third 'Evaluator' sub-agent step to the planning loop that critiques generated plans before execution starts.",
+      "allowed_paths": [
+        "magda_agent/planning/evaluator.py",
+        "tests/test_planner_evaluator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator module implemented and integrated into the planner loop.",
+        "Unit tests implemented with LLM mocks.",
+        "Python script validate_agent_tasks.py passes."
+      ]
+    },
+    {
+      "id": "openai-mcp-tool-concurrency-v3-8d054c4c",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI MCP Tool Concurrency v3",
+      "description": "Inspired by OpenAI Agents SDK trend: Enable true runtime concurrency for multiple MCP tool executions using asyncio.gather without blocking the event loop.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency.py",
+        "tests/test_mcp_concurrency.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP concurrency logic implemented with async gather.",
+        "Unit tests verify concurrent execution.",
+        "Python script validate_agent_tasks.py passes."
       ]
     }
   ]

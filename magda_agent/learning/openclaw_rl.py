@@ -18,6 +18,15 @@ class OpenClawInteractiveLearner:
         user_model: UserModel,
         recovery_lessons: Optional[TaskRecoveryLessons] = None
     ) -> None:
+        """
+        Initializes the OpenClawInteractiveLearner.
+
+        Args:
+            habit_tracker (HabitTracker): The tracker for agent habits.
+            mirror_neurons (MirrorNeurons): The mirror neurons module for empathizing.
+            user_model (UserModel): The persistent user model.
+            recovery_lessons (Optional[TaskRecoveryLessons], optional): The recovery lessons generator. Defaults to None.
+        """
         self.habit_tracker = habit_tracker
         self.mirror_neurons = mirror_neurons
         self.user_model = user_model
@@ -43,16 +52,19 @@ class OpenClawInteractiveLearner:
         if not user_reply or not action_context:
             return
 
-        signal_text = user_reply
+        signal_text: str = user_reply
         if tool_output:
             signal_text += f" [Tool Output: {tool_output}]"
 
+        p_shift: float
+        a_shift: float
+        d_shift: float
         p_shift, a_shift, d_shift = self.mirror_neurons.empathize(signal_text)
-        model_data = self.user_model.get_model(user_id)
+        model_data: dict = self.user_model.get_model(user_id)
 
         if p_shift > 0.0:
             # Positive signal, reinforce the habits explicitly
-            skills = skills_used or ["rl_skill"]
+            skills: List[str] = skills_used or ["rl_skill"]
             for skill in skills:
                 self.habit_tracker.record_usage(input_text=action_context, skill_used=skill, evaluation_score=10.0, user_id=user_id)
             logging.info(f"OpenClaw-RL: Positive signal received (p_shift={p_shift:.2f}). Reinforced habits: {skills}")
