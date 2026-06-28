@@ -5833,7 +5833,7 @@
     },
     {
       "id": "openclaw-context-hooks-v5",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "OpenClaw Context Engine Hooks V5",
@@ -5841,7 +5841,8 @@
       "allowed_paths": [
         "magda_agent/architecture/context_hooks_v5.py",
         "magda_agent/memory/context_engine.py",
-        "agent_tasks.json"
+        "agent_tasks.json",
+        "tests/test_context_hooks_v5.py"
       ],
       "acceptance": [
         "HookRegistry is used by ContextEngine",
@@ -11326,6 +11327,57 @@
       "acceptance": [
         "Subagents execute within an isolated workspace directory context.",
         "Tests verify that file modifications in one subagent do not leak into another."
+      ]
+    },
+    {
+      "id": "bd4738c5-9cbd-4df5-88e6-4647c995241f",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "OpenClaw Virtual Context Engine Extensions",
+      "description": "Inspired by OpenClaw trends: Implement extensions to the Context Engine to support virtualization of contexts across multiple subagents seamlessly.",
+      "allowed_paths": [
+        "magda_agent/architecture/virtual_context_extensions.py",
+        "tests/test_virtual_context_extensions.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "VirtualContext engine correctly sandboxes memory spaces.",
+        "Tests verify isolation."
+      ]
+    },
+    {
+      "id": "d660ef26-e11f-4710-a298-033255ee0556",
+      "status": "todo",
+      "area": "execution",
+      "risk": "high",
+      "title": "Hermes Parallel Step Planner",
+      "description": "Inspired by Hermes trends: Update the agent planner to produce parallel task execution plans and orchestrate their concurrent execution via asyncio.",
+      "allowed_paths": [
+        "magda_agent/execution/parallel_planner.py",
+        "tests/test_parallel_planner.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner parses parallel intent into asyncio gathered execution trees.",
+        "Tests execute mock functions concurrently."
+      ]
+    },
+    {
+      "id": "cb56bcba-eb6c-4e8c-a7f1-04070df46c7a",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "OpenClaw Hierarchical Swarm Orchestration",
+      "description": "Inspired by OpenAI Agents SDK swarm trend: Allow subagents to recursively spawn their own specialized task-force subagents for hierarchical delegation.",
+      "allowed_paths": [
+        "magda_agent/architecture/swarm_orchestrator.py",
+        "tests/test_swarm_orchestrator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Swarm orchestrator can spawn a tree of subagents.",
+        "Tests verify inter-agent communication and task distribution."
       ]
     }
   ]

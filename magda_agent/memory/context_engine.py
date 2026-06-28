@@ -1,6 +1,6 @@
 import logging
 from typing import List, Protocol, Any, Callable, Dict, Optional
-from magda_agent.architecture.context_hooks import HookRegistry
+from magda_agent.architecture.context_hooks_v5 import HookRegistry
 
 class ContextPlugin(Protocol):
     """Protocol defining the lifecycle hooks for a Context Engine plugin."""
