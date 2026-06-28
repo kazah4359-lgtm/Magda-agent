@@ -5765,7 +5765,7 @@
     },
     {
       "id": "hermes-skill-experience-creation-v1",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Hermes-style Skill Creation from Experience",
@@ -11120,6 +11120,57 @@
         "A2A messages are passed through the taint tracker.",
         "Injections are identified and blocked by the sandbox.",
         "Tests simulate malicious remote agent messages."
+      ]
+    },
+    {
+      "id": "mcp-skill-export-tool-v2-73417b33",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Skill Export Tool v2",
+      "description": "Inspired by MCP trend: Implement an MCP exporter that converts Magda skills into standard MCP tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_export_v2.py",
+        "tests/test_mcp_export_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Magda skills can be exported as MCP JSON-RPC definitions.",
+        "Tests verify the export format."
+      ]
+    },
+    {
+      "id": "a2a-task-delegation-v7-ec457ae2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "A2A Peer Task Delegation v7",
+      "description": "Inspired by A2A Protocol trend: Implement a peer-to-peer task delegation mechanism to assign sub-tasks to other discovered agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation_v7.py",
+        "tests/test_a2a_delegation_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tasks can be delegated via A2A protocol.",
+        "Tests mock peer responses and verify delegation flow."
+      ]
+    },
+    {
+      "id": "openclaw-online-learning-v8-ff098179",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw Online Learning Module v8",
+      "description": "Inspired by OpenClaw trend: Implement continuous online reinforcement learning from user feedback during dialogue interactions.",
+      "allowed_paths": [
+        "magda_agent/learning/online_learning_v8.py",
+        "tests/test_online_learning_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module processes user feedback signals and updates skill weights.",
+        "Tests verify weight adjustments based on mock signals."
       ]
     }
   ]
