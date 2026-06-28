@@ -5611,7 +5611,7 @@
     },
     {
       "id": "openclaw-context-hooks-v3",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "OpenClaw Context Engine Hooks V3 Integration",
@@ -10781,6 +10781,44 @@
       "acceptance": [
         "Executor can run multiple MCP tools concurrently.",
         "Performance tests demonstrate time savings vs sequential execution."
+      ]
+    },
+    {
+      "id": "0d6271ab-f941-4745-923a-6267fdd76dff",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw-RL Implicit Feedback Mechanism",
+      "description": "Inspired by OpenClaw trends: Implement an online reinforcement learning mechanism that adjusts tool selection weights simply by analyzing user replies using PAD shifts from MirrorNeurons.",
+      "allowed_paths": [
+        "magda_agent/learning/online.py",
+        "magda_agent/action/selector.py",
+        "tests/test_online_learning*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User replies act as next-state reinforcement signals",
+        "Tool selection weights in Basal Ganglia update based on positive/negative shifts",
+        "Tests mock feedback PAD to verify weight changes"
+      ]
+    },
+    {
+      "id": "1dabe95a-2797-435d-9e42-5edaad6df0ad",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams with Git Worktree Isolation",
+      "description": "Inspired by Claude Agent SDK. Enable spawning independent sub-agents that operate in their own git worktrees, preventing cross-contamination during complex multi-agent coding workflows.",
+      "allowed_paths": [
+        "magda_agent/teams/git_worktree.py",
+        "magda_agent/teams/manager.py",
+        "tests/test_git_worktree*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sub-agents can check out code into isolated worktrees",
+        "Main process and sub-agents operate safely concurrently",
+        "Tests mock git calls and verify isolation"
       ]
     }
   ]

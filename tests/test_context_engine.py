@@ -34,6 +34,12 @@ class MockPlugin(ContextPlugin):
     def after_retrieval(self, context: list, query: str, user_id: int) -> list:
         return context
 
+    def before_write(self, context: Any, user_id: int) -> Any:
+        return context
+
+    def after_write(self, context: Any, user_id: int) -> None:
+        pass
+
     def on_context_update(self, new_context: Any, user_id: int) -> None:
         pass
 
@@ -44,9 +50,24 @@ async def test_context_engine_lifecycle():
 
     # Test Bootstrap
     config = {"key": "value"}
+    # Capture the config passed to the plugin's bootstrap method
+    bootstrap_config = None
+
+    async def capture_bootstrap(cfg):
+        nonlocal bootstrap_config
+        bootstrap_config = cfg
+        mock_plugin.bootstrap_called = True
+
+    mock_plugin.bootstrap = capture_bootstrap
+
     await engine.bootstrap_all(config)
     assert mock_plugin.bootstrap_called
     # Config should remain unchanged at caller level, but inner config had hook_registry
+    assert "key" in config
+    assert "hook_registry" not in config
+    assert bootstrap_config is not None
+    assert "hook_registry" in bootstrap_config
+    assert bootstrap_config["hook_registry"] == engine.hook_registry
 
     # Test Ingest
     ingested = await engine.ingest("raw", {"user_id": 1})
@@ -208,3 +229,18 @@ async def test_context_engine_advanced_compaction_tags() -> None:
     call_args = llm.chat_completion.call_args[0][0]
     user_prompt = call_args[1]["content"]
     assert "maintaining key facts and semantic links" in user_prompt
+
+def test_context_engine_write_context_hooks() -> None:
+    """Test before_write and after_write hooks explicitly."""
+    plugin = MockPlugin()
+    plugin.before_write = MagicMock(return_value="modified_context")
+    plugin.after_write = MagicMock()
+    plugin.on_context_update = MagicMock()
+
+    engine = ContextEngine(plugins=[plugin])
+
+    engine.write_context("base_context", 1)
+
+    plugin.before_write.assert_called_once_with("base_context", 1)
+    plugin.on_context_update.assert_called_once_with("modified_context", 1)
+    plugin.after_write.assert_called_once_with("modified_context", 1)
