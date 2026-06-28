@@ -22,6 +22,7 @@ class A2ADelegator:
         """
         Extracts sub-plans while preserving chronological order.
         Groups contiguous delegation steps for the same capability into sub-plans.
+        Enhancements for v8 include strict fallback handling if capability is missing.
 
         Args:
             plan: The full execution plan.
@@ -29,13 +30,14 @@ class A2ADelegator:
         Returns:
             A list of sub-plans (where each sub-plan is a dict containing capability and steps).
         """
-        sub_plans = []
-        current_capability = None
-        current_steps = []
+        sub_plans: list[Dict[str, Any]] = []
+        current_capability: str | None = None
+        current_steps: list[Dict[str, Any]] = []
 
         for step in plan:
             if step.get("skill") == "delegate_to_agent":
-                capability = step.get("skill_kwargs", {}).get("capability")
+                kwargs: Dict[str, Any] = step.get("skill_kwargs") or {}
+                capability: str | None = kwargs.get("capability")
                 if capability:
                     if capability == current_capability:
                         current_steps.append(step)
@@ -44,6 +46,12 @@ class A2ADelegator:
                             sub_plans.append({"capability": current_capability, "steps": current_steps})
                         current_capability = capability
                         current_steps = [step]
+                else:
+                    logging.warning(f"Delegation step {step.get('id', 'unknown')} is missing 'capability'. Ignoring for sub-plan.")
+                    if current_capability is not None:
+                        sub_plans.append({"capability": current_capability, "steps": current_steps})
+                        current_capability = None
+                        current_steps = []
             else:
                 if current_capability is not None:
                     sub_plans.append({"capability": current_capability, "steps": current_steps})

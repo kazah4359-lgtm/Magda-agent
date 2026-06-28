@@ -104,6 +104,20 @@ async def test_a2a_delegator_split_plan(a2a_delegator):
     assert split[2]["capability"] == "coding"
 
 @pytest.mark.asyncio
+async def test_a2a_delegator_split_plan_missing_capability(a2a_delegator):
+    plan = [
+        {"id": "1", "skill": "delegate_to_agent", "skill_kwargs": {"capability": "coding"}, "description": "code it"},
+        {"id": "2", "skill": "delegate_to_agent", "skill_kwargs": {}, "description": "missing capability"},
+        {"id": "3", "skill": "delegate_to_agent", "skill_kwargs": {"capability": "analysis"}, "description": "analyze it"}
+    ]
+    split = a2a_delegator.split_plan(plan)
+    assert len(split) == 2
+    assert split[0]["capability"] == "coding"
+    assert split[0]["steps"][0]["id"] == "1"
+    assert split[1]["capability"] == "analysis"
+    assert split[1]["steps"][0]["id"] == "3"
+
+@pytest.mark.asyncio
 @patch('httpx.AsyncClient.post', new_callable=AsyncMock)
 async def test_a2a_delegator_execute_plan(mock_post, a2a_delegator):
     plan = [

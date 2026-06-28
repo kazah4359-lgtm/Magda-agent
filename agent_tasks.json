@@ -5816,7 +5816,7 @@
     },
     {
       "id": "a2a-delegation-v8",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "A2A Delegation Protocol v8",
@@ -11275,6 +11275,57 @@
         "Context Engine correctly loads the re-ranker plugin.",
         "Working Memory entries are sorted by an urgency score.",
         "Tests verify correct ordering of mocked memory entries."
+      ]
+    },
+    {
+      "id": "dc1dd575-17d0-4d5c-b5f0-f40342a33ac6",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Hermes-inspired Procedural Memory Generator",
+      "description": "Inspired by the Hermes Agent trend: Implement a procedural memory generator that converts multi-step success logs into reusable skill templates.",
+      "allowed_paths": [
+        "magda_agent/skills/procedural_generator.py",
+        "tests/test_procedural_generator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Generator parses success logs to build a skill template.",
+        "Tests verify the created template correctly captures the steps using mocks."
+      ]
+    },
+    {
+      "id": "0d904de7-29ce-4f8d-8baf-d7d3c6300df1",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Event Emitter",
+      "description": "Inspired by the OpenClaw live canvas telemetry trend: Implement a unified event emitter that aggregates agent state changes (planner, memory, execution) and streams them via WebSocket.",
+      "allowed_paths": [
+        "magda_agent/telemetry/live_event_emitter.py",
+        "tests/test_live_event_emitter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Event emitter broadcasts structured state changes via WebSocket.",
+        "Tests mock the WebSocket and verify JSON payload formats."
+      ]
+    },
+    {
+      "id": "bf068055-80e1-41b2-aa4a-52fe9ea89b41",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude-inspired Agent Teams Isolation",
+      "description": "Inspired by the Claude Agent Teams trend: Enhance the Subagent spawner to provision an isolated virtual workspace environment (mocking git worktree capabilities) for parallel agent executions.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_isolation.py",
+        "tests/test_agent_teams_isolation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents execute within an isolated workspace directory context.",
+        "Tests verify that file modifications in one subagent do not leak into another."
       ]
     }
   ]
