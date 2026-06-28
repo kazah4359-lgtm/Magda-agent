@@ -31,7 +31,7 @@ class MCPExporter:
         """
         req_id = request.get("id", str(uuid.uuid4()))
         method = request.get("method")
-        params = request.get("params", {})
+        params: Dict[str, Any] = request.get("params", {})
 
         if request.get("jsonrpc") != "2.0":
             return {
@@ -58,8 +58,8 @@ class MCPExporter:
 
         # Check if the adapter explicitly reported an error, or if it returned a string
         # that starts with 'Error' (which happens when registry.execute_skill returns an error string).
-        is_error = adapter_result.get("isError", False)
-        error_msg = adapter_result.get("content", [{"text": ""}])[0].get("text", "")
+        is_error: bool = adapter_result.get("isError", False)
+        error_msg: str = adapter_result.get("content", [{"text": ""}])[0].get("text", "")
 
         if is_error or str(error_msg).startswith("Error"):
             return {

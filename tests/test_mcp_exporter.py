@@ -1,4 +1,5 @@
 import pytest
+from typing import Dict, Any, List
 from unittest.mock import MagicMock, AsyncMock
 from magda_agent.integration.mcp_exporter import MCPExporter
 from magda_agent.skills.registry import SkillRegistry
@@ -27,9 +28,9 @@ def exporter(registry: SkillRegistry) -> MCPExporter:
 
 def test_export_tools(exporter: MCPExporter) -> None:
     """Tests if tools are correctly exported via the adapter."""
-    tools = exporter.export_tools()
+    tools: List[Dict[str, Any]] = exporter.export_tools()
     assert len(tools) == 2
-    names = [t["name"] for t in tools]
+    names: List[str] = [t["name"] for t in tools]
     assert "dummy_skill" in names
     assert "dummy_sync_skill" in names
 
@@ -42,7 +43,7 @@ async def test_handle_rpc_request_success(exporter: MCPExporter) -> None:
         "params": {"param1": "test"},
         "id": 1
     }
-    res = await exporter.handle_rpc_request(req)
+    res: Dict[str, Any] = await exporter.handle_rpc_request(req)
     assert res["jsonrpc"] == "2.0"
     assert res["id"] == 1
     assert "result" in res
@@ -58,7 +59,7 @@ async def test_handle_rpc_request_invalid_method(exporter: MCPExporter) -> None:
         "params": {},
         "id": 2
     }
-    res = await exporter.handle_rpc_request(req)
+    res: Dict[str, Any] = await exporter.handle_rpc_request(req)
     assert "error" in res
     assert res["error"]["code"] == -32601
 
@@ -70,7 +71,7 @@ async def test_handle_rpc_request_invalid_jsonrpc(exporter: MCPExporter) -> None
         "params": {"param1": "test"},
         "id": 3
     }
-    res = await exporter.handle_rpc_request(req)
+    res: Dict[str, Any] = await exporter.handle_rpc_request(req)
     assert "error" in res
     assert res["error"]["code"] == -32600
 
@@ -84,7 +85,7 @@ async def test_handle_rpc_request_error_in_tool(exporter: MCPExporter) -> None:
         "params": {}, # Missing required param
         "id": 4
     }
-    res = await exporter.handle_rpc_request(req)
+    res: Dict[str, Any] = await exporter.handle_rpc_request(req)
     # The adapter wraps it, but the exporter now properly returns a JSON-RPC error.
     assert "error" in res
     assert res["error"]["code"] == -32000
