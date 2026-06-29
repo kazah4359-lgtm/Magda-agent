@@ -5955,7 +5955,7 @@
     },
     {
       "id": "a2a-delegation-tracing-v4",
-      "status": "todo",
+      "status": "done",
       "title": "A2A Delegation Tracing v4",
       "area": "integration",
       "risk": "medium",
@@ -11610,6 +11610,40 @@
         "Dynamically created skills are formatted as JSON-RPC 2.0 tools.",
         "MCPExporter successfully hosts the bridged tools.",
         "Tests mock tool execution via the bridge."
+      ]
+    },
+    {
+      "id": "openclaw-rl-next-state-feedback-v9-9794c077",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Next-State Feedback Processing V9",
+      "description": "Inspired by OpenClaw-RL trend (June 2026): Create a dedicated pipeline module to parse next-state interaction signals directly from user text for real-time model tuning.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_pipeline_v9.py",
+        "tests/test_openclaw_rl_pipeline_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Feedback pipeline handles raw text inputs and maps to reward signals.",
+        "Tests verify accurate reward translation from mocked user text."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-memory-telemetry-v5-0ccbcf81",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Memory Telemetry V5",
+      "description": "Inspired by OpenClaw Canvas Live Visualization trend: Create an export module to broadcast episodic memory consolidation events dynamically to a live dashboard.",
+      "allowed_paths": [
+        "magda_agent/telemetry/canvas_memory_v5.py",
+        "tests/test_canvas_memory_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory telemetry broadcaster implemented and broadcasts consolidation events.",
+        "Tests verify event payloads format matches Canvas UI."
       ]
     }
   ]
