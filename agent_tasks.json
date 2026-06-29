@@ -5921,7 +5921,7 @@
     },
     {
       "id": "claude-evaluator-subagent-85b14c3e",
-      "status": "todo",
+      "status": "done",
       "title": "Claude Evaluator Subagent",
       "area": "agents",
       "risk": "medium",

@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 
 from magda_agent.llm_client import LLMClient
 from magda_agent.memory.storage import MemorySystem
@@ -29,32 +29,39 @@ class EvaluatorSubagent:
             use_isolation=True
         )
 
-    async def evaluate_response(self, user_input: str, agent_response: str) -> Optional[Dict[str, Any]]:
+    async def evaluate_response(self, user_input: str, agent_response: str, policies: Optional[List[str]] = None) -> Optional[Dict[str, Any]]:
         """
         Evaluates the generated response using the LLM via SubAgent execute and stores the result in memory.
 
         Args:
             user_input: The user's original input message.
             agent_response: The agent's generated response to evaluate.
+            policies: Optional list of policies to evaluate against.
 
         Returns:
             The evaluation dictionary or None if evaluation fails.
         """
+        policy_str = ""
+        if policies:
+            policy_str = "\nEvaluate against these specific policies:\n" + "\n".join([f"- {p}" for p in policies])
+
         task = (
             "Evaluate the response given by an AI to a user's input.\n"
             "Score the response from 1 to 10 on the following criteria:\n"
             "- usefulness\n"
             "- accuracy\n"
             "- completeness\n"
-            "- emotional_adequacy\n\n"
+            "- emotional_adequacy\n"
+            f"{policy_str}\n\n"
             "Respond ONLY with a JSON object in this format:\n"
             "{\n"
             '  "usefulness": 8,\n'
             '  "accuracy": 9,\n'
             '  "completeness": 7,\n'
             '  "emotional_adequacy": 8,\n'
+            '  "policy_evaluations": {"policy_name": {"score": 8, "feedback": "reasoning"}},\n'
             '  "average_score": 8.0,\n'
-            '  "feedback": "A short sentence explaining the score"\n'
+            '  "feedback": "A short sentence explaining the overall score"\n'
             "}"
         )
 

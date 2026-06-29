@@ -135,3 +135,26 @@ async def test_evaluate_response_retry_failure(evaluator_subagent):
 
     assert result is None
     assert evaluator_subagent.sub_agent.execute.call_count == 3
+
+@pytest.mark.asyncio
+async def test_evaluate_response_with_policies(evaluator_subagent):
+    evaluator_subagent.sub_agent.execute = AsyncMock()
+    mock_json_response = '''{
+      "usefulness": 8,
+      "accuracy": 8,
+      "completeness": 8,
+      "emotional_adequacy": 8,
+      "average_score": 8.0,
+      "feedback": "Policy check passed"
+    }'''
+    evaluator_subagent.sub_agent.execute.return_value = mock_json_response
+
+    policies = ["Be polite", "Be concise"]
+    await evaluator_subagent.evaluate_response("Hello", "Hi!", policies=policies)
+
+    # Verify that the task sent to sub_agent includes the policies
+    call_kwargs = evaluator_subagent.sub_agent.execute.call_args.kwargs
+    task_str = call_kwargs["task"]
+    assert "Evaluate against these specific policies:" in task_str
+    assert "- Be polite" in task_str
+    assert "- Be concise" in task_str
