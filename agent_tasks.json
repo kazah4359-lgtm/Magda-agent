@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 333
+    "max_todo_tasks": 999
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -5989,7 +5989,7 @@
     },
     {
       "id": "mcp-kernel-taint-tracking-v2-fixed",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCPKernel Taint Tracking v2",
@@ -11698,6 +11698,57 @@
         "Blocked actions trigger the fallback retry logic.",
         "The safer alternative is attempted and logged.",
         "Tests mock policy denial and verify alternative execution."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v6-73736d2f",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Interactive Learning v6",
+      "description": "Inspired by OpenClaw RL trend: Implement online reinforcement learning from user replies (next-state signals) by integrating with HabitTracker.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl_v6.py",
+        "tests/test_interactive_rl_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL Loop correctly parses user replies for next-state signals.",
+        "Tests verify habit weights shift based on mock signals."
+      ]
+    },
+    {
+      "id": "acs-runtime-safety-controls-v5-d4a3888b",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Runtime Safety Controls v5",
+      "description": "Inspired by ACS standard: Implement 5 validation checkpoints for agent workflows to standardize runtime safety controls before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_controls_v5.py",
+        "tests/test_acs_controls_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrails implement the 5 ACS checkpoints natively.",
+        "Tests mock policy violations and verify blocking behavior."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-discovery-v6-c2e3661c",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Peer Delegation Discovery v6",
+      "description": "Inspired by A2A Protocol trend: Enhance agent discovery via Agent Cards to dynamically delegate subtasks peer-to-peer asynchronously.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v6.py",
+        "tests/test_a2a_discovery_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can broadcast and fetch Agent Cards.",
+        "Tests mock network broadcasts to verify discovery."
       ]
     }
   ]
