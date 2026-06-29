@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 330
+    "max_todo_tasks": 333
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -5972,7 +5972,7 @@
     },
     {
       "id": "agent-guard-runtime-governance-v1",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard Runtime Governance v1",
@@ -11644,6 +11644,60 @@
       "acceptance": [
         "Memory telemetry broadcaster implemented and broadcasts consolidation events.",
         "Tests verify event payloads format matches Canvas UI."
+      ]
+    },
+    {
+      "id": "195b31e6-7dda-4884-a76d-a9dd8413e6e7",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes-inspired Procedural Skill Consolidation",
+      "description": "Inspired by Hermes Agent trend: Create a background worker that analyzes multiple successful tool execution traces from the AuditTrail and consolidates them into reusable procedural macros for future tasks.",
+      "allowed_paths": [
+        "magda_agent/learning/skill_consolidation.py",
+        "tests/test_skill_consolidation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Worker can identify successful sequences of tool calls.",
+        "Consolidated macros are added to the skill registry.",
+        "Tests mock trace retrieval and verify macro generation."
+      ]
+    },
+    {
+      "id": "3d8247a3-5763-457d-a5d1-64320a49d5af",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Claude-inspired Generator/Evaluator Subagent Spawning",
+      "description": "Inspired by the Claude Agent SDK three-agent architecture trend: Refactor SubagentSpawner to explicitly instantiate paired Generator and Evaluator sub-agents for complex code synthesis tasks.",
+      "allowed_paths": [
+        "magda_agent/architecture/generator_evaluator.py",
+        "tests/test_generator_evaluator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Spawner correctly initializes paired sub-agents.",
+        "Generator agent proposes changes while Evaluator agent checks them.",
+        "Tests verify the interaction loop between the paired agents."
+      ]
+    },
+    {
+      "id": "c55a6f25-ac1c-42cc-b68d-e55a6baad66d",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "OpenAI-inspired Realtime Guardrail Fallback",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a fallback mechanism where if a tool execution is blocked by the RealtimeGuardrail, the agent attempts to transparently retry using a safer, predefined alternative action before failing.",
+      "allowed_paths": [
+        "magda_agent/safety/guardrail_fallback.py",
+        "tests/test_guardrail_fallback.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Blocked actions trigger the fallback retry logic.",
+        "The safer alternative is attempted and logged.",
+        "Tests mock policy denial and verify alternative execution."
       ]
     }
   ]
