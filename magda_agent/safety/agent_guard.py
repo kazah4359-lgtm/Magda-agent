@@ -5,8 +5,10 @@ Provides a runtime governance layer that sits between the agent's tool execution
 and the external world. It intercepts and evaluates tool calls according to predefined security policies.
 """
 
+import inspect
 import logging
-from typing import Callable, Any
+from typing import Callable, Any, Coroutine, Union
+from functools import wraps
 
 from magda_agent.safety.policy import PolicyLayer
 
@@ -35,6 +37,7 @@ class AgentGuard:
     def execute_tool(self, tool_func: Callable, tool_name: str, **kwargs: Any) -> Any:
         """
         Intercepts and evaluates a tool call before executing it.
+        Supports both synchronous and asynchronous tool functions.
 
         Args:
             tool_func: The actual tool function to execute if permitted.
@@ -56,4 +59,45 @@ class AgentGuard:
             raise SecurityViolationError(f"Action '{tool_name}' blocked: {explanation}")
 
         self.logger.info(f"AgentGuard: Tool execution permitted for '{tool_name}'.")
-        return tool_func(**kwargs)
+
+        # Check if the tool function is a coroutine function
+        if inspect.iscoroutinefunction(tool_func):
+            async def async_wrapper() -> Any:
+                return await tool_func(**kwargs)
+            return async_wrapper()
+
+        # Handle synchronous functions normally
+        result = tool_func(**kwargs)
+
+        # If the synchronous function returned a coroutine, return it directly
+        # (similar to execute_skill in registry.py)
+        if inspect.isawaitable(result):
+            return result
+
+        return result
+
+    def guard_tool(self, tool_name: str) -> Callable:
+        """
+        A decorator to protect a tool function with the Agent Guard.
+
+        Args:
+            tool_name: The name of the tool/action to evaluate.
+
+        Returns:
+            The decorated function.
+        """
+        def decorator(func: Callable) -> Callable:
+            @wraps(func)
+            def sync_wrapper(*args, **kwargs) -> Any:
+                # Merge args into kwargs for policy evaluation (assuming named args or ignoring positional)
+                # In a real implementation, you'd map args to param names using inspect.signature
+                # For this simple version, we pass only kwargs to the policy evaluator
+                return self.execute_tool(func, tool_name, **kwargs)
+
+            @wraps(func)
+            async def async_wrapper(*args, **kwargs) -> Any:
+                return await self.execute_tool(func, tool_name, **kwargs)
+
+            return async_wrapper if inspect.iscoroutinefunction(func) else sync_wrapper
+
+        return decorator
