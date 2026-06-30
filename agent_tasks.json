@@ -6126,7 +6126,7 @@
     },
     {
       "id": "openclaw-canvas-integration-f03dd8e2",
-      "status": "todo",
+      "status": "done",
       "area": "multi_agent",
       "risk": "medium",
       "title": "OpenClaw Canvas Integration",
@@ -12225,6 +12225,60 @@
         "Recovery handler intercepts errors and extracts contextual features.",
         "Reinforcement signal is sent to reduce the weight of the failed path.",
         "Tests mock execution failures and verify weight adjustments."
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-e20c8193",
+      "status": "todo",
+      "area": "autonomy",
+      "risk": "medium",
+      "title": "Hermes-inspired Cron Scheduler",
+      "description": "Inspired by Hermes Agent trend: Implement a cron scheduler for periodic tasks like daily reports and nightly backups using APScheduler.",
+      "allowed_paths": [
+        "magda_agent/autonomy/cron_scheduler.py",
+        "tests/test_cron_scheduler.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cron scheduler initializes and can register scheduled jobs.",
+        "Jobs execute on time (or can be triggered in tests).",
+        "Tests verify scheduling logic with mocks."
+      ]
+    },
+    {
+      "id": "openai-realtime-guardrails-d9a1b222",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "OpenAI-inspired Realtime Guardrail Fallback",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a realtime guardrail that intercepts LLM outputs and triggers a safe fallback if policy violations are detected during tool execution.",
+      "allowed_paths": [
+        "magda_agent/safety/realtime_guardrail.py",
+        "tests/test_realtime_guardrail.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Realtime guardrail can evaluate tool inputs/outputs.",
+        "Triggers fallback response when violations are found.",
+        "Tests verify interception and fallback mechanics."
+      ]
+    },
+    {
+      "id": "claude-planner-generator-evaluator-5f7d70a8",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude-inspired Triad Architecture Orchestrator",
+      "description": "Inspired by Claude Agent SDK: Implement a TriadCoordinator to manage communication between Planner, Generator, and Evaluator sub-agents.",
+      "allowed_paths": [
+        "magda_agent/architecture/triad_coordinator.py",
+        "tests/test_triad_coordinator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "TriadCoordinator routes tasks from Planner to Generator and results to Evaluator.",
+        "Supports feedback loops for revisions.",
+        "Tests verify the routing and communication logic."
       ]
     }
   ]
