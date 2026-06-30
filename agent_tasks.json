@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 1009
+    "max_todo_tasks": 1012
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -6040,7 +6040,7 @@
     },
     {
       "id": "claude-task-system-dependency-graphs",
-      "status": "todo",
+      "status": "done",
       "title": "Claude Task System Dependency Graphs",
       "area": "multi-agent",
       "risk": "medium",
@@ -11801,6 +11801,60 @@
       "acceptance": [
         "MetricPluginV2 implements ContextPlugin and logs metrics to SQLite.",
         "Tests verify the metrics are accurately captured during a mock Context Engine assemble cycle."
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-loop-v2",
+      "status": "todo",
+      "area": "core",
+      "risk": "medium",
+      "title": "Hermes Cron Scheduler Loop v2",
+      "description": "Inspired by Hermes Agent trend: Implement a background loop for scheduled operations (cron-like tasks).",
+      "allowed_paths": [
+        "magda_agent/core/cron_scheduler_v2.py",
+        "tests/test_cron_scheduler_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler loop runs in the background.",
+        "Executes scheduled tasks correctly.",
+        "Tests verify scheduling logic with mocks."
+      ]
+    },
+    {
+      "id": "claude-selective-context-retrieval",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Claude Selective Context Retrieval",
+      "description": "Inspired by Claude Agent SDK context compression trend: Implement selective episodic memory retrieval based on current task relevance.",
+      "allowed_paths": [
+        "magda_agent/memory/selective_retrieval.py",
+        "tests/test_selective_retrieval.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Retrieves memory selectively based on keywords.",
+        "Integrates with existing Context Engine.",
+        "Tests verify selection logic."
+      ]
+    },
+    {
+      "id": "longitudinal-quality-metrics-tracker",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "Longitudinal Quality Metrics Tracker",
+      "description": "Inspired by Quality metrics trend: Implement longitudinal quality metrics tracking in SQLite for continuous improvement.",
+      "allowed_paths": [
+        "magda_agent/telemetry/quality_metrics.py",
+        "tests/test_quality_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Records metrics over time.",
+        "Saves to SQLite database securely.",
+        "Tests verify database writes."
       ]
     }
   ]
