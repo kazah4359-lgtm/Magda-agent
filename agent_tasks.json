@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 1012
+    "max_todo_tasks": 2000
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -42,7 +42,7 @@
   "tasks": [
     {
       "id": "mcp-concurrency-wrapper-v3",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Concurrency Wrapper v3",
@@ -11907,6 +11907,57 @@
         "Records metrics over time.",
         "Saves to SQLite database securely.",
         "Tests verify database writes."
+      ]
+    },
+    {
+      "id": "a2a-protocol-sync-a359bd7d",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Protocol Synchronization",
+      "description": "Inspired by A2A Protocol trend: Implement a synchronization mechanism over A2A for distributed state sharing among peers.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_sync.py",
+        "tests/test_a2a_sync.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sync mechanism allows sharing state over A2A.",
+        "Tests verify sync mechanism handles mocked A2A networks."
+      ]
+    },
+    {
+      "id": "acs-safety-logging-93ef0f22",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Safety Action Logging",
+      "description": "Inspired by ACS standard: Implement structured logging for the 5 validation checkpoints for agent workflows to export to centralized audit.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_logging.py",
+        "tests/test_acs_logging.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Checkpoint logic exports structured logs.",
+        "Tests verify log structure using mocked guardrail execution."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-memory-viz-420fb23a",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Memory Visualization",
+      "description": "Inspired by OpenClaw Canvas: Create a visualization handler that maps episodic memory to OpenClaw Canvas nodes in real time.",
+      "allowed_paths": [
+        "magda_agent/memory/canvas_viz.py",
+        "tests/test_canvas_viz.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Visualization handler converts episodic memory to node data.",
+        "Tests mock memory objects and verify output node formats."
       ]
     }
   ]
