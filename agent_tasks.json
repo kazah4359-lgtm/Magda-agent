@@ -41,6 +41,58 @@
   },
   "tasks": [
     {
+      "id": "mcp-concurrency-wrapper-v3",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Concurrency Wrapper v3",
+      "description": "Inspired by MCP runtime concurrency trend: Update ConcurrentSkillExecutor to natively handle asynchronous execution wrappers dynamically using the metadata provided by MCPDynamicRegistrarV2.",
+      "allowed_paths": [
+        "magda_agent/skills/concurrency_v3.py",
+        "tests/test_concurrency_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ConcurrentSkillExecutor correctly wraps async tools.",
+        "Tests verify synchronous and asynchronous MCP execution."
+      ]
+    },
+    {
+      "id": "a2a-distributed-telemetry-v7",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "A2A Distributed Telemetry v7",
+      "description": "Inspired by A2A standard trend: Create a module that collects sub-agent telemetry events and broadcasts them over the A2A network for distributed tracking.",
+      "allowed_paths": [
+        "magda_agent/telemetry/a2a_distributed_v7.py",
+        "tests/test_a2a_distributed_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry module tracks distributed events.",
+        "Tests mock A2A broadcasting and verify payload generation."
+      ]
+    },
+    {
+      "id": "virtual-context-manager-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Virtual Context Manager V2",
+      "description": "Inspired by MemGPT/Letta context management trend: Implement a context management unit that maintains fixed Working Memory bounds by transparently paging oldest items to Episodic Memory.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v2.py",
+        "tests/test_virtual_context_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Working memory limits are enforced.",
+        "Oldest items are paged out properly.",
+        "Tests verify paging behavior upon token limit breach."
+      ]
+    },
+    {
       "id": "rool-transformation",
       "status": "done",
       "area": "cognition",
@@ -6057,7 +6109,7 @@
     },
     {
       "id": "mcp-dynamic-tool-registration-v2",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Dynamic Tool Registration v2",
