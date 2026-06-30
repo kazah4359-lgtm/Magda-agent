@@ -6006,7 +6006,7 @@
     },
     {
       "id": "openclaw-context-compressor-v2",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "OpenClaw Context Compressor",
