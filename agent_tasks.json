@@ -59,7 +59,7 @@
     },
     {
       "id": "a2a-distributed-telemetry-v7",
-      "status": "todo",
+      "status": "done",
       "area": "telemetry",
       "risk": "low",
       "title": "A2A Distributed Telemetry v7",
@@ -11958,6 +11958,57 @@
       "acceptance": [
         "Visualization handler converts episodic memory to node data.",
         "Tests mock memory objects and verify output node formats."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-policy-enforcer-v7",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tool Policy Enforcer v7",
+      "description": "Inspired by MCP standard trend (action tools grown to 65%): Implement an enforcer component that strictly validates inputs and blocks execution of high-risk MCP action tools unless explicitly approved via the policy layer.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_enforcer_v7.py",
+        "tests/test_mcp_enforcer_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Enforcer intercepts high-risk MCP action calls.",
+        "Tests mock the policy check to verify blocking behavior."
+      ]
+    },
+    {
+      "id": "claude-subagent-token-optimizer-v4",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude Subagent Token Optimizer v4",
+      "description": "Inspired by Claude Agent SDK context compression trend: Add a token optimizer that aggressively summarises working memory before delegating context to newly spawned subagents, preventing token limit exhaustion in parallel runs.",
+      "allowed_paths": [
+        "magda_agent/agents/token_optimizer_v4.py",
+        "tests/test_token_optimizer_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Optimizer compresses subagent payload intelligently.",
+        "Tests verify constraints are maintained during summarization."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-dashboard-v8",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw RL Canvas Dashboard v8",
+      "description": "Inspired by OpenClaw Canvas Live Visualization: Develop a streaming telemetry hook specifically for exporting online RL metric shifts (PAD changes) to an external dashboard via WebSockets.",
+      "allowed_paths": [
+        "magda_agent/visualization/rl_dashboard_v8.py",
+        "tests/test_rl_dashboard_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dashboard hook streams RL metric changes properly.",
+        "Tests mock the WebSocket and verify JSON emission format."
       ]
     }
   ]
