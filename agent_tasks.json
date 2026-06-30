@@ -6143,7 +6143,7 @@
     },
     {
       "id": "claude-team-isolation-e8e2a610",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "high",
       "title": "Claude SDK Git Worktree Isolation",
@@ -12279,6 +12279,57 @@
         "TriadCoordinator routes tasks from Planner to Generator and results to Evaluator.",
         "Supports feedback loops for revisions.",
         "Tests verify the routing and communication logic."
+      ]
+    },
+    {
+      "id": "claude-subagent-spawning-compression-001",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude SDK Subagent Context Compression",
+      "description": "Inspired by Claude Agent SDK Subagent spawning and context compression trend. Implement a context compression wrapper before delegating subtasks to minimize tokens.",
+      "allowed_paths": [
+        "magda_agent/agents/context_compression.py",
+        "tests/test_context_compression_wrapper.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context wrapper intercepts subagent payload and shrinks it according to token limits.",
+        "Tests verify correct context reduction."
+      ]
+    },
+    {
+      "id": "mcp-agent-tools-action-concurrency-002",
+      "status": "todo",
+      "area": "execution",
+      "risk": "high",
+      "title": "OpenAI Agents SDK Action Tools Concurrency",
+      "description": "Inspired by OpenAI Agents SDK Runtime function tool concurrency and MCP Server Prefixes. Implement safe concurrent execution dispatcher for external action tools.",
+      "allowed_paths": [
+        "magda_agent/execution/concurrent_dispatcher.py",
+        "tests/test_concurrent_dispatcher.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Concurrent execution safely wraps and isolates multiple MCP action tools.",
+        "Tests verify reduced execution time via mocked asyncio gather."
+      ]
+    },
+    {
+      "id": "hermes-agent-quality-metric-sync-003",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Agent Longitudinal Tracking Synchronization",
+      "description": "Inspired by Hermes Agent and SWE-Bench Longitudinal metrics. Implement a sync service that flushes quality tracking SQLite metrics to an external endpoint via the Channel Hub periodically.",
+      "allowed_paths": [
+        "magda_agent/operations/metrics_sync.py",
+        "tests/test_metrics_sync.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sync service reads and securely formats quality metrics.",
+        "Tests verify correct formatting and mocked endpoint delivery."
       ]
     }
   ]
