@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 2000
+    "max_todo_tasks": 2500
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -76,7 +76,7 @@
     },
     {
       "id": "virtual-context-manager-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Virtual Context Manager V2",
@@ -12009,6 +12009,222 @@
       "acceptance": [
         "Dashboard hook streams RL metric changes properly.",
         "Tests mock the WebSocket and verify JSON emission format."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registry-sync",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registry Synchronization",
+      "description": "Inspired by MCP Standard trend: Implement a background loop that periodically polls a configured MCP server URL and dynamically registers or unregisters tools in the local MCPRegistry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_sync.py",
+        "tests/test_mcp_registry_sync.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Background loop successfully polls and parses MCP tool schema endpoints.",
+        "Local MCPRegistry reflects the state of the remote MCP server.",
+        "Tests verify the polling mechanism using a mocked client."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-tracing-middleware",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "low",
+      "title": "A2A Enterprise Tracing Middleware",
+      "description": "Inspired by A2A Protocol enterprise-ready trend: Create a middleware component for A2A communication that injects and extracts OpenTelemetry trace IDs for cross-agent debugging.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing_middleware.py",
+        "tests/test_a2a_tracing_middleware.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Middleware successfully injects trace IDs into outgoing A2A messages.",
+        "Middleware extracts and context-propagates trace IDs from incoming messages.",
+        "Tests verify ID handling with mock messages."
+      ]
+    },
+    {
+      "id": "openclaw-rl-fallback-recovery",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Fallback Recovery",
+      "description": "Inspired by OpenClaw-RL trend: Implement a recovery handler that triggers negative habit weight reinforcement when an agent execution encounters an exception, utilizing the online learning loop.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_fallback_recovery.py",
+        "tests/test_rl_fallback_recovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Recovery handler intercepts errors and extracts contextual features.",
+        "Reinforcement signal is sent to reduce the weight of the failed path.",
+        "Tests mock execution failures and verify weight adjustments."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registry-sync-6bbf0c2e",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registry Synchronization",
+      "description": "Inspired by MCP Standard trend: Implement a background loop that periodically polls a configured MCP server URL and dynamically registers or unregisters tools in the local MCPRegistry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_sync.py",
+        "tests/test_mcp_registry_sync.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Background loop successfully polls and parses MCP tool schema endpoints.",
+        "Local MCPRegistry reflects the state of the remote MCP server.",
+        "Tests verify the polling mechanism using a mocked client."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-tracing-middleware-1f032401",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "low",
+      "title": "A2A Enterprise Tracing Middleware",
+      "description": "Inspired by A2A Protocol enterprise-ready trend: Create a middleware component for A2A communication that injects and extracts OpenTelemetry trace IDs for cross-agent debugging.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing_middleware.py",
+        "tests/test_a2a_tracing_middleware.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Middleware successfully injects trace IDs into outgoing A2A messages.",
+        "Middleware extracts and context-propagates trace IDs from incoming messages.",
+        "Tests verify ID handling with mock messages."
+      ]
+    },
+    {
+      "id": "openclaw-rl-fallback-recovery-374bb328",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Fallback Recovery",
+      "description": "Inspired by OpenClaw-RL trend: Implement a recovery handler that triggers negative habit weight reinforcement when an agent execution encounters an exception, utilizing the online learning loop.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_fallback_recovery.py",
+        "tests/test_rl_fallback_recovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Recovery handler intercepts errors and extracts contextual features.",
+        "Reinforcement signal is sent to reduce the weight of the failed path.",
+        "Tests mock execution failures and verify weight adjustments."
+      ]
+    },
+    {
+      "id": "mcp-background-registry-poller-7aac0296",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Background Registry Poller",
+      "description": "Inspired by MCP Standard trend: Implement a background loop that periodically polls a configured MCP server URL and dynamically registers or unregisters tools in the local MCPRegistry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_poller.py",
+        "tests/test_mcp_registry_poller.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Background loop successfully polls and parses MCP tool schema endpoints.",
+        "Local MCPRegistry reflects the state of the remote MCP server.",
+        "Tests verify the polling mechanism using a mocked client."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-tracing-middleware-b4e5ac80",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "low",
+      "title": "A2A Enterprise Tracing Middleware",
+      "description": "Inspired by A2A Protocol enterprise-ready trend: Create a middleware component for A2A communication that injects and extracts OpenTelemetry trace IDs for cross-agent debugging.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing_middleware.py",
+        "tests/test_a2a_tracing_middleware.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Middleware successfully injects trace IDs into outgoing A2A messages.",
+        "Middleware extracts and context-propagates trace IDs from incoming messages.",
+        "Tests verify ID handling with mock messages."
+      ]
+    },
+    {
+      "id": "openclaw-rl-fallback-recovery-18095eba",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Fallback Recovery",
+      "description": "Inspired by OpenClaw-RL trend: Implement a recovery handler that triggers negative habit weight reinforcement when an agent execution encounters an exception, utilizing the online learning loop.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_fallback_recovery.py",
+        "tests/test_rl_fallback_recovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Recovery handler intercepts errors and extracts contextual features.",
+        "Reinforcement signal is sent to reduce the weight of the failed path.",
+        "Tests mock execution failures and verify weight adjustments."
+      ]
+    },
+    {
+      "id": "mcp-background-registry-poller-ff1b7331",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Background Registry Poller",
+      "description": "Inspired by MCP Standard trend: Implement a background loop that periodically polls a configured MCP server URL and dynamically registers or unregisters tools in the local MCPRegistry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_poller.py",
+        "tests/test_mcp_registry_poller.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Background loop successfully polls and parses MCP tool schema endpoints.",
+        "Local MCPRegistry reflects the state of the remote MCP server.",
+        "Tests verify the polling mechanism using a mocked client."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-tracing-middleware-510f0278",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "low",
+      "title": "A2A Enterprise Tracing Middleware",
+      "description": "Inspired by A2A Protocol enterprise-ready trend: Create a middleware component for A2A communication that injects and extracts OpenTelemetry trace IDs for cross-agent debugging.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing_middleware.py",
+        "tests/test_a2a_tracing_middleware.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Middleware successfully injects trace IDs into outgoing A2A messages.",
+        "Middleware extracts and context-propagates trace IDs from incoming messages.",
+        "Tests verify ID handling with mock messages."
+      ]
+    },
+    {
+      "id": "openclaw-rl-fallback-recovery-5ee251da",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Fallback Recovery",
+      "description": "Inspired by OpenClaw-RL trend: Implement a recovery handler that triggers negative habit weight reinforcement when an agent execution encounters an exception, utilizing the online learning loop.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_fallback_recovery.py",
+        "tests/test_rl_fallback_recovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Recovery handler intercepts errors and extracts contextual features.",
+        "Reinforcement signal is sent to reduce the weight of the failed path.",
+        "Tests mock execution failures and verify weight adjustments."
       ]
     }
   ]
