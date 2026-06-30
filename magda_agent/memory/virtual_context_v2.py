@@ -129,3 +129,40 @@ class VirtualContextManagerV2:
             )
             await working_memory.add(entry)
             logging.debug(f"Paged in explicit memory entry for user {user_id}: {event_text[:30]}...")
+
+    def get_token_length(self, entries: List['MemoryEntry']) -> int:
+        """
+        Calculates a heuristic token length for the given memory entries.
+
+        Args:
+            entries: A list of MemoryEntry objects.
+
+        Returns:
+            The estimated token count.
+        """
+        total_words = sum(len(e.content.split()) for e in entries)
+        return int(total_words * 1.3)
+
+    async def maintain_working_memory_limits(self, working_memory: 'WorkingMemory', episodic_memory: 'EpisodicMemory', user_id: int, max_tokens: int = 4000) -> None:
+        """
+        Calculates token length of current working context and transparently pages out
+        older memories explicitly if the limit is exceeded.
+
+        Args:
+            working_memory: The WorkingMemory instance to manage.
+            episodic_memory: The EpisodicMemory instance to page into.
+            user_id: The ID of the user.
+            max_tokens: The maximum token length allowed before paging out.
+        """
+        entries = working_memory.get_entries(user_id=user_id)
+        if not entries:
+            return
+
+        current_tokens = self.get_token_length(entries)
+        if current_tokens <= max_tokens:
+            return
+
+        logging.info(f"Working memory context length ({current_tokens} tokens) exceeds limit ({max_tokens} tokens). Paging out...")
+
+        count_to_remove = max(1, len(entries) // 2)
+        await self.page_out_explicit(working_memory, episodic_memory, user_id, count=count_to_remove)

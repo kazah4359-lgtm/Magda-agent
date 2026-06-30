@@ -83,3 +83,54 @@ async def test_virtual_context_v2_compress_with_llm() -> None:
     assert summary.content == "Mocked Summary V2"
     assert summary.importance == 0.5
     assert summary.user_id == 1
+
+@pytest.mark.asyncio
+async def test_virtual_context_v2_maintain_limits_pages_out() -> None:
+    wm = WorkingMemory(limit=10)
+    em = EpisodicMemory(persist_directory=":memory:")
+    em.collection_name = "test_episodic_memory_v2_maintain_out"
+    em.collection = em.client.get_or_create_collection(name=em.collection_name)
+    vcm = VirtualContextManagerV2()
+
+    state = PADState(0, 0, 0)
+
+    # 4 words -> ~5 tokens. 3 entries = ~15 tokens.
+    e1 = MemoryEntry("word1 word2 word3 word4", 0.5, state, user_id=1)
+    e2 = MemoryEntry("word5 word6 word7 word8", 0.6, state, user_id=1)
+    e3 = MemoryEntry("word9 word10 word11 word12", 0.7, state, user_id=1)
+
+    await wm.add(e1)
+    await wm.add(e2)
+    await wm.add(e3)
+
+    assert len(wm.get_entries(user_id=1)) == 3
+    assert vcm.get_token_length(wm.get_entries(user_id=1)) == int(12 * 1.3)
+
+    # Maintain with max_tokens = 10. Current is ~15.
+    await vcm.maintain_working_memory_limits(wm, em, user_id=1, max_tokens=10)
+
+    entries = wm.get_entries(user_id=1)
+    assert len(entries) == 2
+    assert entries[0].content == "word5 word6 word7 word8"
+    assert entries[1].content == "word9 word10 word11 word12"
+
+@pytest.mark.asyncio
+async def test_virtual_context_v2_maintain_limits_no_page_out() -> None:
+    wm = WorkingMemory(limit=10)
+    em = EpisodicMemory(persist_directory=":memory:")
+    em.collection_name = "test_episodic_memory_v2_maintain_no_out"
+    em.collection = em.client.get_or_create_collection(name=em.collection_name)
+    vcm = VirtualContextManagerV2()
+
+    state = PADState(0, 0, 0)
+
+    # 4 words -> ~5 tokens
+    e1 = MemoryEntry("word1 word2 word3 word4", 0.5, state, user_id=1)
+    await wm.add(e1)
+
+    assert len(wm.get_entries(user_id=1)) == 1
+
+    await vcm.maintain_working_memory_limits(wm, em, user_id=1, max_tokens=10)
+
+    entries = wm.get_entries(user_id=1)
+    assert len(entries) == 1
