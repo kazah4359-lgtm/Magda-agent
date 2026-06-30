@@ -1,6 +1,6 @@
 import pytest
 import asyncio
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, MagicMock
 from magda_agent.skills.concurrency import ConcurrentSkillExecutor
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.skills.mcp_engine import MCPEngine
@@ -12,7 +12,7 @@ async def test_mcp_wrapper_concurrency() -> None:
     registry = SkillRegistry()
     mcp_client = AsyncMock(spec=MCPClient)
     mcp_client.execute_tool.return_value = "mcp tool success"
-    mcp_client.register_remote_tool = AsyncMock()
+    mcp_client.register_remote_tool = MagicMock()
 
     engine = MCPEngine(registry, mcp_client)
     tool_def = {"name": "test_mcp_tool", "description": "test", "inputSchema": {}}
