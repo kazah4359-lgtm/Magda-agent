@@ -6160,7 +6160,7 @@
     },
     {
       "id": "agentskills-mcp-converter-7a0a55ff",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "AgentSkills to MCP Converter",
@@ -12330,6 +12330,58 @@
       "acceptance": [
         "Sync service reads and securely formats quality metrics.",
         "Tests verify correct formatting and mocked endpoint delivery."
+      ]
+    },
+    {
+      "id": "hermes-multi-agent-orchestrator-7c1bc17a",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Hermes Multi-Agent Orchestrator",
+      "description": "Inspired by Hermes Agent trend. Implement a multi-agent orchestrator that supports multiple sub-agents dynamically scaling up for parallel processing.",
+      "allowed_paths": [
+        "magda_agent/agents/orchestrator.py",
+        "tests/test_orchestrator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Orchestrator manages the lifecycle of dynamically scaled sub-agents.",
+        "Tests verify that sub-agents can run parallel tasks efficiently using asyncio.",
+        "Included a timeout safety mechanism."
+      ]
+    },
+    {
+      "id": "claude-sdk-agent-teams-isolation-v3-7cc94aca",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Claude SDK Agent Teams Worktree v3",
+      "description": "Inspired by Claude Agent SDK Agent Teams. Add a new isolated workspace provisioner for sub-agents to avoid overlapping git state changes.",
+      "allowed_paths": [
+        "magda_agent/isolation/workspace_provisioner.py",
+        "tests/test_workspace_provisioner.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Workspace provisioner clones and sets up isolated repositories for sub-agents.",
+        "Tests verify isolated operations without cross-contamination."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learner-v7-37436a23",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learner v7",
+      "description": "Inspired by OpenClaw online reinforcement learning trend. Add an interactive reinforcement learning agent that processes delayed implicit feedback over conversation traces.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_learner_v7.py",
+        "tests/test_interactive_learner_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Learner correctly processes multi-turn conversation traces and identifies PAD shifts.",
+        "Tests mock interactions and verify weight updates based on the trace history."
       ]
     }
   ]
