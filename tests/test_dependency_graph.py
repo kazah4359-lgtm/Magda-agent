@@ -1,5 +1,5 @@
 import pytest
-from magda_agent.planning.dependency_graph import DependencyGraph
+from magda_agent.architecture.dependency_graph import DependencyGraph
 
 def test_topological_sort_empty():
     """Test that topological sort works on an empty list of tasks."""
