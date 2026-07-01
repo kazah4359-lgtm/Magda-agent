@@ -9302,7 +9302,7 @@
     },
     {
       "id": "a2a-orchestration-engine",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Orchestration Engine",
@@ -12433,6 +12433,57 @@
       "acceptance": [
         "Memory telemetry broadcaster implemented and broadcasts consolidation events.",
         "Tests verify event payloads format matches Canvas UI."
+      ]
+    },
+    {
+      "id": "a2a-orchestration-telemetry-v1-1a9aa424",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "A2A Orchestration Telemetry Integration",
+      "description": "Inspired by trend: A2A Protocol and enterprise-ready agents. Integrate A2ADistributedTelemetryV7 with the A2AOrchestrator to broadcast metrics on concurrent delegation overhead.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_orchestrator.py",
+        "tests/test_a2a_orchestrator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2AOrchestrator emits telemetry events before and after dispatch_concurrently.",
+        "Tests verify telemetry emission."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-orchestrator-integration-v1-a3a8b9a7",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Action Tool Orchestrator Integration",
+      "description": "Inspired by trend: MCP tools proliferation. Enhance A2AOrchestrator so that it can also directly orchestrate execution of remote MCP action tools exposed by peers without going through the full delegation layer.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_orchestrator.py",
+        "tests/test_a2a_orchestrator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2AOrchestrator can process steps meant for direct MCP execution.",
+        "Tests verify concurrent execution of direct MCP actions."
+      ]
+    },
+    {
+      "id": "a2a-orchestrator-fallback-v1-8b09e06f",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Orchestrator Fallback Handling",
+      "description": "Inspired by trend: Agent Teams and Multi-Agent Orchestration. Add a fallback execution path in A2AOrchestrator that falls back to sequential execution if concurrent delegation throws an unexpected network error.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_orchestrator.py",
+        "tests/test_a2a_orchestrator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2AOrchestrator correctly falls back to sequential dispatch upon concurrent failure.",
+        "Tests verify that fallback is triggered and logged."
       ]
     }
   ]
