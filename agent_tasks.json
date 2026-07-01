@@ -6228,7 +6228,7 @@
     },
     {
       "id": "openclaw-canvas-integration-v3",
-      "status": "todo",
+      "status": "done",
       "area": "multi_agent",
       "risk": "medium",
       "title": "OpenClaw Canvas Integration v3",
@@ -12382,6 +12382,57 @@
       "acceptance": [
         "Learner correctly processes multi-turn conversation traces and identifies PAD shifts.",
         "Tests mock interactions and verify weight updates based on the trace history."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-preflight-validation-v6-131f0c68",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Tool Pre-flight Validation V6",
+      "description": "Inspired by MCP Security trend: Implement a pre-flight validation mechanism for all MCP action tools before JSON-RPC execution to verify inputs against a static schema.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_preflight_v6.py",
+        "tests/test_mcp_preflight_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Pre-flight validator intercepts invalid requests.",
+        "Tests mock MCP clients to verify blocking behavior."
+      ]
+    },
+    {
+      "id": "a2a-delegation-circuit-breaker-v7-720d9240",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Delegation Circuit Breaker V7",
+      "description": "Inspired by A2A Protocol and enterprise-ready agents trend: Implement a circuit breaker pattern to prevent continuous task delegation failures to unresponsive peer agents via A2A.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_circuit_breaker_v7.py",
+        "tests/test_a2a_circuit_breaker_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Circuit breaker trips after consecutive failures.",
+        "Tests verify fallback and trip limits."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-memory-telemetry-v6-0587cf1e",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Memory Telemetry V6",
+      "description": "Inspired by OpenClaw Canvas Live Visualization trend: Create an export module to broadcast episodic memory consolidation events dynamically to a live dashboard using WebSockets.",
+      "allowed_paths": [
+        "magda_agent/telemetry/canvas_memory_v6.py",
+        "tests/test_canvas_memory_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory telemetry broadcaster implemented and broadcasts consolidation events.",
+        "Tests verify event payloads format matches Canvas UI."
       ]
     }
   ]

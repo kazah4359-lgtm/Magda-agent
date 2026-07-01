@@ -11,8 +11,8 @@ class CanvasServer:
     WebSocket server for streaming live visualization of Magda's internal cognitive state.
     """
     def __init__(self, consciousness: Consciousness, interval: float = 1.0):
-        from magda_agent.visualization.canvas import CanvasVisualizer
-        self.visualizer = CanvasVisualizer(consciousness)
+        from magda_agent.visualization.canvas_v3 import CanvasVisualizerV3
+        self.visualizer = CanvasVisualizerV3(consciousness)
         self.active_connections: List[WebSocket] = []
         self.consciousness = consciousness
         self.interval = interval
