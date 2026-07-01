@@ -6296,7 +6296,7 @@
     },
     {
       "id": "mcp-action-tool-exporter-v9-49248ff3",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Action Tool Exporter v9",
@@ -12640,6 +12640,58 @@
         "MCP preflight validation intercepts incoming JSON-RPC calls.",
         "Strict JSON schema typing is enforced before policy evaluation.",
         "Tests mock tool execution with invalid schemas and verify blocking."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-registry-sync-v9-fe20c694",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Tool Registry Sync v9",
+      "description": "Inspired by MCP Standard trend: Implement a background loop that periodically polls a configured MCP server URL and dynamically registers or unregisters tools in the local MCPRegistry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_sync_v9.py",
+        "tests/test_mcp_registry_sync_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Background loop successfully polls and parses MCP tool schema endpoints.",
+        "Local MCPRegistry reflects the state of the remote MCP server.",
+        "Tests verify the polling mechanism using a mocked client."
+      ]
+    },
+    {
+      "id": "openclaw-live-canvas-telemetry-v9-5946331c",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw Live Canvas Telemetry v9",
+      "description": "Inspired by OpenClaw trend: Implement a websocket telemetry streamer that broadcasts agent memory state and planner steps in real-time to an external Canvas client.",
+      "allowed_paths": [
+        "magda_agent/telemetry/canvas_stream_v9.py",
+        "tests/test_canvas_stream_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Streamer correctly broadcasts memory states via websocket events.",
+        "Tests mock the websocket connection and verify broadcast formats."
+      ]
+    },
+    {
+      "id": "claude-sdk-dependency-graph-planner-v9-f356f47e",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Claude SDK Dependency Graph Planner v9",
+      "description": "Inspired by Claude Agent SDK trend: Implement a task planner that builds a dependency graph of sub-tasks instead of a flat list, allowing for parallel sub-agent execution.",
+      "allowed_paths": [
+        "magda_agent/planning/dependency_graph_v9.py",
+        "tests/test_dependency_graph_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Planner creates a DAG of tasks.",
+        "Tests verify correct topological sorting and parallel execution boundaries."
       ]
     }
   ]
