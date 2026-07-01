@@ -6245,7 +6245,7 @@
     },
     {
       "id": "hermes-skill-discovery-v2",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Hermes Skill Discovery v2",
@@ -12484,6 +12484,57 @@
       "acceptance": [
         "A2AOrchestrator correctly falls back to sequential dispatch upon concurrent failure.",
         "Tests verify that fallback is triggered and logged."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tools-registration-86f72b11",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tools Registration Pipeline",
+      "description": "Inspired by MCP standardization: allow Magda to dynamically fetch remote MCP server schemas and register them as native skills during runtime.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_dynamic_registration.py",
+        "tests/test_mcp_dynamic_registration.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Creates a pipeline that maps remote MCP server tools to native functions.",
+        "Tests mock HTTP responses for MCP schemas."
+      ]
+    },
+    {
+      "id": "agent-teams-isolation-v4-46f1088c",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Agent Teams Isolation enhancements V4",
+      "description": "Inspired by Claude Agent SDK Agent Teams. Enhance git worktree isolation with aggressive cleanup mechanisms and isolated environment variables for sub-agent runs.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v4.py",
+        "tests/test_agent_teams_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Worktree cleanup safely destroys isolated directories after execution.",
+        "Tests mock filesystem and subprocess calls."
+      ]
+    },
+    {
+      "id": "canvas-telemetry-skills-d25e2200",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "Canvas Telemetry for Skills execution",
+      "description": "Inspired by OpenClaw Canvas. Broadcast skill execution lifecycle events (start, success, fail) to the UI via Canvas WebSockets.",
+      "allowed_paths": [
+        "magda_agent/telemetry/canvas_skills_telemetry.py",
+        "tests/test_canvas_skills_telemetry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Hooks into SkillRegistry to emit events on skill execution.",
+        "Tests verify event payload matching canvas schema."
       ]
     }
   ]
