@@ -223,3 +223,5 @@
 * [x] FEATURE: MCP Action Tool Exporter v8 (mcp-action-tool-exporter-v8)
 
 - [x] openclaw-rl-interactive-learning-v9-a80ac612: OpenClaw-RL Interactive Learning v9
+
+* [x] mcp-dynamic-tool-registry-v4: MCP Dynamic Tool Registry
