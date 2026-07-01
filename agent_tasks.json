@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 3008
+    "max_todo_tasks": 5000
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -6364,7 +6364,7 @@
     },
     {
       "id": "mcp-dynamic-tool-registry-v4",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Dynamic Tool Registry",
@@ -12828,6 +12828,57 @@
       "acceptance": [
         "Experience creator generates skill logic from conversation context.",
         "Tests mock LLM interactions and verify skill generation."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-visualization-c51db8b9",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Live Visualization",
+      "description": "Canvas for live visualization from OpenClaw trend: stream complex agent state.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_v4.py",
+        "tests/test_canvas_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "CanvasVisualizerV4 correctly streams data",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "a2a-distributed-telemetry-786a28d2",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "medium",
+      "title": "A2A Distributed Telemetry tracking",
+      "description": "Collect and broadcast sub-agent telemetry events over the A2A network for distributed tracking.",
+      "allowed_paths": [
+        "magda_agent/telemetry/a2a_distributed_v8.py",
+        "tests/test_a2a_distributed_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry events broadcasted",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "mcp-exporter-schema-validation-05ed7592",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Exporter advanced schema validation",
+      "description": "MCP Exporter advanced internal schema validation for incoming request arguments.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter_v10.py",
+        "tests/test_mcp_exporter_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Incoming request arguments validated",
+        "Tests pass"
       ]
     }
   ]
