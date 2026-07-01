@@ -6347,7 +6347,7 @@
     },
     {
       "id": "agent-teams-parallel-subagents-v4",
-      "status": "todo",
+      "status": "done",
       "area": "multi_agent",
       "risk": "medium",
       "title": "Agent Teams Parallel Subagents",
@@ -12794,6 +12794,40 @@
       "acceptance": [
         "Orchestrator routes correctly among multiple active sub-agents.",
         "Tests mock routing logic comprehensively."
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-tasks-9dc313ca",
+      "status": "todo",
+      "area": "scheduling",
+      "risk": "low",
+      "title": "Hermes Cron Scheduler Tasks",
+      "description": "Inspired by Hermes agent built-in cron scheduler trend (daily reports, nightly backups, scheduled tasks): Implement a periodic cron scheduler to run background maintenance.",
+      "allowed_paths": [
+        "magda_agent/scheduler/cron_scheduler_v2.py",
+        "tests/test_cron_scheduler_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A cron scheduler runs periodic tasks.",
+        "Tests verify tasks are executed according to the schedule."
+      ]
+    },
+    {
+      "id": "hermes-skill-creation-experience-bf67873c",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Skill Creation from Experience",
+      "description": "Inspired by Hermes self-improvement loops (Skill creation from experience): Implement a module that can derive skills from conversational experience.",
+      "allowed_paths": [
+        "magda_agent/skills/experience_creator_v2.py",
+        "tests/test_experience_creator_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Experience creator generates skill logic from conversation context.",
+        "Tests mock LLM interactions and verify skill generation."
       ]
     }
   ]
