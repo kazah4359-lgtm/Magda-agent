@@ -6262,7 +6262,7 @@
     },
     {
       "id": "hermes-persistent-memory-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Hermes Persistent Memory Update",
@@ -12535,6 +12535,57 @@
       "acceptance": [
         "Hooks into SkillRegistry to emit events on skill execution.",
         "Tests verify event payload matching canvas schema."
+      ]
+    },
+    {
+      "id": "hermes-skill-creation-from-experience-6421ae7f",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Skill Creation from Experience",
+      "description": "Inspired by Hermes Agent: Create a module that analyzes user interactions and automatically drafts new skills based on repeated patterns. Output should follow the agentskills.io standard.",
+      "allowed_paths": [
+        "magda_agent/skills/hermes_skill_creation.py",
+        "tests/test_hermes_skill_creation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Analyzes interactions and outputs valid agentskills.io skill drafts.",
+        "Tests verify JSON generation with mocked LLM."
+      ]
+    },
+    {
+      "id": "longitudinal-quality-metrics-tracker-61a4aab4",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "Longitudinal Quality Metrics Tracker",
+      "description": "Inspired by the trend of Longitudinal tracking: Implement a metrics tracker that tracks quality over time (e.g. test pass rates, error frequency) and exposes them to the context engine.",
+      "allowed_paths": [
+        "magda_agent/telemetry/longitudinal_metrics.py",
+        "tests/test_longitudinal_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tracker aggregates and stores metrics over time.",
+        "Tests verify data accumulation and aggregation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-implicit-feedback-d363c703",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Implicit Feedback Learning",
+      "description": "Inspired by OpenClaw online learning: Add functionality to update procedural memory automatically based on implicit user feedback (e.g., user correcting the agent).",
+      "allowed_paths": [
+        "magda_agent/learning/implicit_feedback.py",
+        "tests/test_implicit_feedback.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Updates procedural memory based on feedback signals.",
+        "Tests verify memory update with mocked interactions."
       ]
     }
   ]
