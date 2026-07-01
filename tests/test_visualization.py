@@ -12,6 +12,8 @@ def mock_consciousness():
     mock.memory = None
     mock.skills = None
     mock.planner = None
+    mock.hypothalamus = None
+    mock.global_workspace = None
     return mock
 
 @pytest.fixture
