@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 2500
+    "max_todo_tasks": 3000
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -6313,7 +6313,7 @@
     },
     {
       "id": "openclaw-rl-interactive-learning-v9-a80ac612",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Learning v9",
@@ -12692,6 +12692,57 @@
       "acceptance": [
         "Planner creates a DAG of tasks.",
         "Tests verify correct topological sorting and parallel execution boundaries."
+      ]
+    },
+    {
+      "id": "memory-virtual-context-compression-hook-af6fd63b",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Memory Virtual Context Compression Hook",
+      "description": "Inspired by MemGPT/Letta trend (Context compression + selective retrieval): Implement a hook to automatically compress virtual context before retrieval.",
+      "allowed_paths": [
+        "magda_agent/memory/compression_hook_v2.py",
+        "tests/test_compression_hook_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Compression hook compresses virtual context appropriately.",
+        "Tests verify token reduction logic."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-registry-preflight-validation-v10-b488d9c8",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tool Registry Preflight Validation v10",
+      "description": "Inspired by MCP standard trend (Action tools grown to 65% and intercepting tools): Add a pre-flight validation layer specific to MCP JSON-RPC action tools to strictly type-check arguments before they reach the Policy layer.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_preflight_validation_v10.py",
+        "tests/test_mcp_preflight_validation_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Preflight validation intercepts incoming JSON-RPC calls.",
+        "Tests verify validation behavior."
+      ]
+    },
+    {
+      "id": "a2a-peer-discovery-mesh-agent-cards-v10-572fea3f",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Peer Discovery Mesh Agent Cards v10",
+      "description": "Inspired by A2A standard from Google/Linux foundation: Implement mesh agent cards discovery.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_peer_discovery_v10.py",
+        "tests/test_a2a_peer_discovery_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Peer discovery service registers external Agent Cards.",
+        "Tests verify discovery logic."
       ]
     }
   ]
