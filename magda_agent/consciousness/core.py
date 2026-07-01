@@ -31,6 +31,7 @@ from magda_agent.learning.online_rl import OnlineRLIntegrator
 from magda_agent.learning.openclaw_rl_v5 import OnlineRLIntegrator as OpenClawRLV5Integrator
 from magda_agent.learning.online_rl_v6 import OnlineRLFeedbackLoopV6
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
+from magda_agent.learning.online_feedback_rl import OnlineFeedbackRL
 from magda_agent.learning.feedback_loop import FeedbackLoop
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
@@ -110,6 +111,7 @@ class Consciousness:
         self.online_rl_v6 = online_rl_v6
         self.dialogue_online_learner_v3 = dialogue_online_learner_v3
         self.openclaw_rl = openclaw_rl
+        self.online_feedback_rl = OnlineFeedbackRL(habit_tracker, mirror_neurons) if habit_tracker and mirror_neurons else None
         self.feedback_loop = feedback_loop
         self.guardrail = guardrail
         self.tracer = tracer
@@ -166,6 +168,13 @@ class Consciousness:
                 last_context,
                 user_id,
                 skills_used=skills_used
+            )
+        if self.online_feedback_rl:
+            await self.online_feedback_rl.process_feedback(
+                user_input,
+                last_context,
+                skills_used=skills_used,
+                user_id=user_id
             )
         if self.online_rl_v6:
             await self.online_rl_v6.adjust_behavior(user_input, last_context, user_id)
