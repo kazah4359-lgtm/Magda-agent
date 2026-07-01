@@ -6279,7 +6279,7 @@
     },
     {
       "id": "openclaw-rl-next-state-signals-v2",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Next State Signals",
@@ -12586,6 +12586,60 @@
       "acceptance": [
         "Updates procedural memory based on feedback signals.",
         "Tests verify memory update with mocked interactions."
+      ]
+    },
+    {
+      "id": "context-engine-selective-retrieval-b8bfa454",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Selective Retrieval Hook",
+      "description": "Inspired by Memory Architecture trend: Context compression + selective retrieval. Implement a context engine plugin that selectively retrieves episodic memories based on the planner's current subgoal to minimize working memory bloat.",
+      "allowed_paths": [
+        "magda_agent/memory/selective_retrieval_hook.py",
+        "tests/test_selective_retrieval_hook.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Selective retrieval hook extracts contextually relevant episodes.",
+        "Plugin integrates into the existing Context Engine lifecycle hooks.",
+        "Tests mock retrieval and verify token reduction."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-discovery-94f536ca",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Peer Task Delegation Discovery",
+      "description": "Inspired by A2A Protocol trend: Agent discovery via Agent Cards and peer-to-peer task delegation. Allow the orchestrator to automatically discover and map specialized tasks to external A2A agents natively.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_peer_discovery.py",
+        "tests/test_a2a_peer_discovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Peer discovery service registers and ranks external Agent Cards.",
+        "Orchestrator can map task constraints to discovered peers.",
+        "Tests mock peer discovery via simulated mDNS/API."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-preflight-validation-cc9ee9dd",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tool Preflight Validation",
+      "description": "Inspired by MCP standard trend (action tools grown to 65%): Add a pre-flight validation layer specific to MCP JSON-RPC action tools to strictly type-check arguments before they reach the Policy layer.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_preflight_validation.py",
+        "tests/test_mcp_preflight_validation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP preflight validation intercepts incoming JSON-RPC calls.",
+        "Strict JSON schema typing is enforced before policy evaluation.",
+        "Tests mock tool execution with invalid schemas and verify blocking."
       ]
     }
   ]
