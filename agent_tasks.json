@@ -6177,7 +6177,7 @@
     },
     {
       "id": "mcp-action-tool-exporter-v1-af26a87c",
-      "status": "todo",
+      "status": "done",
       "title": "MCP Action Tool Exporter",
       "area": "integration",
       "risk": "medium",
@@ -6194,7 +6194,7 @@
     },
     {
       "id": "online-rl-user-feedback-v1-cf2a4ca2",
-      "status": "todo",
+      "status": "done",
       "title": "Online RL from User Feedback",
       "area": "learning",
       "risk": "high",

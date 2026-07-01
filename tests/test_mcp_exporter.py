@@ -19,6 +19,13 @@ def registry() -> SkillRegistry:
 
     reg.register_skill("dummy_skill", dummy_skill, "A dummy async skill")
     reg.register_skill("dummy_sync_skill", dummy_sync_skill, "A dummy sync skill")
+
+    def complex_skill(a: int, b: float, c: bool, d: list, e: dict, f: str = "default"):
+        """A skill with complex types."""
+        return "complex"
+
+    reg.register_skill("complex_skill", complex_skill, "A skill with complex types")
+
     return reg
 
 @pytest.fixture
@@ -29,10 +36,26 @@ def exporter(registry: SkillRegistry) -> MCPExporter:
 def test_export_tools(exporter: MCPExporter) -> None:
     """Tests if tools are correctly exported via the adapter."""
     tools: List[Dict[str, Any]] = exporter.export_tools()
-    assert len(tools) == 2
+    assert len(tools) == 3
     names: List[str] = [t["name"] for t in tools]
     assert "dummy_skill" in names
     assert "dummy_sync_skill" in names
+    assert "complex_skill" in names
+
+    # Verify complex_skill schema
+    complex_tool = next(t for t in tools if t["name"] == "complex_skill")
+    schema = complex_tool["inputSchema"]
+    assert schema["type"] == "object"
+    props = schema["properties"]
+    assert props["a"]["type"] == "integer"
+    assert props["b"]["type"] == "number"
+    assert props["c"]["type"] == "boolean"
+    assert props["d"]["type"] == "array"
+    assert props["e"]["type"] == "object"
+    assert props["f"]["type"] == "string"
+
+    assert "a" in schema["required"]
+    assert "f" not in schema["required"]
 
 @pytest.mark.asyncio
 async def test_handle_rpc_request_success(exporter: MCPExporter) -> None:
