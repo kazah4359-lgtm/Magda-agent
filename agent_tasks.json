@@ -29,7 +29,7 @@
       "medium"
     ],
     "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
-    "max_todo_tasks": 3000
+    "max_todo_tasks": 3008
   },
   "autonomous_loop_policy": {
     "operating_model": "docs/jules_autonomous_loop.md",
@@ -6330,7 +6330,7 @@
     },
     {
       "id": "agent-teams-git-worktree-isolation-v3-a95945d3",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Agent Teams via Git Worktree Isolation v3",
@@ -12743,6 +12743,57 @@
       "acceptance": [
         "Peer discovery service registers external Agent Cards.",
         "Tests verify discovery logic."
+      ]
+    },
+    {
+      "id": "a2a-protocol-discovery-mesh-v11-0f46c26a",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Protocol Discovery Mesh v11",
+      "description": "Implement peer discovery via Agent Cards based on A2A Protocol trend.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_mesh_v11.py",
+        "tests/test_a2a_discovery_mesh_v11.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Peer discovery uses Agent Cards correctly.",
+        "Tests confirm mesh functionality with simulated peers."
+      ]
+    },
+    {
+      "id": "acs-validation-checkpoints-v4-e9b24585",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Validation Checkpoints v4",
+      "description": "Implement standard 5 runtime checkpoints in agentic workflows based on ACS trend.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_checkpoints_v4.py",
+        "tests/test_acs_checkpoints_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Implements 5 checkpoints seamlessly.",
+        "Tests verify that workflows adhere to safety policies."
+      ]
+    },
+    {
+      "id": "magentic-one-orchestration-router-v2-944692d0",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Magentic-One Orchestration Router v2",
+      "description": "Implement a hierarchical orchestration router based on Microsoft's Magentic-One pattern.",
+      "allowed_paths": [
+        "magda_agent/architecture/magentic_one_router_v2.py",
+        "tests/test_magentic_one_router_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Orchestrator routes correctly among multiple active sub-agents.",
+        "Tests mock routing logic comprehensively."
       ]
     }
   ]
