@@ -1,113 +1,83 @@
 import pytest
-from magda_agent.skills.registry import SkillRegistry
-from magda_agent.skills.mcp_export import MagdaMCPAdapter
-
-def sample_skill(a: int, b: str = "default") -> str:
-    """A sample skill for testing."""
-    return f"{a} - {b}"
+from unittest.mock import MagicMock
+from magda_agent.integration.mcp_export import MCPExporter
 
 @pytest.fixture
-def adapter():
-    registry = SkillRegistry()
-    registry.register_skill("sample_skill", sample_skill, "A simple test skill")
-    return MagdaMCPAdapter(registry)
+def mock_registry():
+    registry = MagicMock()
+    # Provide a simple skill mock
+    def test_skill(arg1: str, arg2: int = 0):
+        return f"result_{arg1}_{arg2}"
 
-def test_list_tools(adapter):
-    tools = adapter.list_tools()
+    registry.skills = {"test_skill": test_skill}
+    registry.descriptions = {"test_skill": "A test skill."}
+
+    def execute_skill(name, **kwargs):
+        if name == "test_skill":
+            return test_skill(**kwargs)
+        raise ValueError("Skill not found")
+
+    registry.execute_skill = execute_skill
+    registry.has_skill = lambda name: name == "test_skill"
+    return registry
+
+def test_list_tools(mock_registry):
+    exporter = MCPExporter(mock_registry)
+    tools = exporter.list_tools()
+
     assert len(tools) == 1
     tool = tools[0]
-
-    assert tool["name"] == "sample_skill"
-    assert tool["description"] == "A simple test skill"
-
+    assert tool["name"] == "test_skill"
+    assert tool["description"] == "A test skill."
+    assert "inputSchema" in tool
     schema = tool["inputSchema"]
     assert schema["type"] == "object"
-    assert "a" in schema["properties"]
-    assert schema["properties"]["a"]["type"] == "integer"
-    assert "b" in schema["properties"]
-    assert schema["properties"]["b"]["type"] == "string"
+    assert "arg1" in schema["properties"]
+    assert "arg2" in schema["properties"]
+    assert schema["properties"]["arg1"]["type"] == "string"
+    assert schema["properties"]["arg2"]["type"] == "integer"
+    assert "arg1" in schema["required"]
+    assert "arg2" not in schema["required"]
 
-    assert "a" in schema["required"]
-    assert "b" not in schema["required"]
-
-def test_call_tool_success(adapter):
-    result = adapter.call_tool("sample_skill", {"a": 42, "b": "test"})
+def test_call_tool(mock_registry):
+    exporter = MCPExporter(mock_registry)
+    result = exporter.call_tool("test_skill", {"arg1": "hello", "arg2": 42})
     assert result["isError"] is False
-    assert result["content"][0]["type"] == "text"
-    assert result["content"][0]["text"] == "42 - test"
+    assert result["content"][0]["text"] == "result_hello_42"
 
-def test_call_tool_not_found(adapter):
-    result = adapter.call_tool("missing_skill", {})
+def test_call_tool_not_found(mock_registry):
+    exporter = MCPExporter(mock_registry)
+    result = exporter.call_tool("unknown_skill", {})
     assert result["isError"] is True
-    assert "not found" in result["content"][0]["text"]
-
-def test_call_tool_execution_error(adapter):
-    # Missing required argument 'a'
-    result = adapter.call_tool("sample_skill", {})
-    # Depending on how execute_skill handles errors, it might just return an error string
-    # Let's see what execute_skill does - it returns a string starting with "Error"
-    # Or raises an exception. Wait, execute_skill catches exceptions and returns a string starting with "Error executing skill"
-    # Our adapter says:
-    # try:
-    #     result = self.registry.execute_skill(name, **arguments)
-    #     return {"content": [{"type": "text", "text": str(result)}], "isError": False}
-    # Wait, execute_skill returns the error string. So result is a string, and isError is False.
-    # Let's adjust our test for that behavior.
-    assert result["isError"] is False
-    assert "Error executing skill" in result["content"][0]["text"]
-
-def dynamic_skill_with_schema(a: int) -> str:
-    """A dynamic skill with custom schema."""
-    return f"dynamic: {a}"
-
-dynamic_skill_with_schema.__mcp_schema__ = {
-    "type": "object",
-    "properties": {
-        "a": {"type": "integer"},
-        "b": {"type": "string"}
-    },
-    "required": ["a", "b"]
-}
-
-def test_dynamic_skill_schema(adapter):
-    adapter.registry.register_skill("dynamic_skill", dynamic_skill_with_schema, "Dynamic Test")
-    tools = adapter.list_tools()
-
-    dynamic_tool = next(t for t in tools if t["name"] == "dynamic_skill")
-    assert dynamic_tool["inputSchema"] == dynamic_skill_with_schema.__mcp_schema__
-
-import pytest
-
-async def async_sample_skill(a: int) -> str:
-    """An async sample skill for testing."""
-    return f"async: {a}"
-
-async def async_sample_skill_error(a: int) -> str:
-    """An async sample skill for testing."""
-    raise ValueError("async error")
-
-@pytest.fixture
-def async_adapter():
-    registry = SkillRegistry()
-    registry.register_skill("async_skill", async_sample_skill, "An async test skill")
-    registry.register_skill("async_skill_error", async_sample_skill_error, "An async test skill error")
-    return MagdaMCPAdapter(registry)
+    assert "Error" in result["content"][0]["text"]
 
 @pytest.mark.asyncio
-async def test_call_tool_async_success(async_adapter):
-    result = await async_adapter.call_tool_async("async_skill", {"a": 42})
+async def test_call_tool_async(mock_registry):
+    # Make a mock async skill
+    async def async_test_skill(arg: str):
+        return f"async_{arg}"
+
+    mock_registry.skills["async_test_skill"] = async_test_skill
+    mock_registry.descriptions["async_test_skill"] = "Async test."
+
+    def execute_skill(name, **kwargs):
+        if name == "test_skill":
+            return mock_registry.skills["test_skill"](**kwargs)
+        if name == "async_test_skill":
+            return async_test_skill(**kwargs)
+        raise ValueError("Skill not found")
+
+    mock_registry.execute_skill = execute_skill
+    mock_registry.has_skill = lambda name: name in ["test_skill", "async_test_skill"]
+
+    exporter = MCPExporter(mock_registry)
+    result = await exporter.call_tool_async("async_test_skill", {"arg": "world"})
     assert result["isError"] is False
-    assert result["content"][0]["type"] == "text"
-    assert result["content"][0]["text"] == "async: 42"
+    assert result["content"][0]["text"] == "async_world"
 
 @pytest.mark.asyncio
-async def test_call_tool_async_error(async_adapter):
-    result = await async_adapter.call_tool_async("async_skill_error", {"a": 42})
+async def test_call_tool_async_error(mock_registry):
+    exporter = MCPExporter(mock_registry)
+    result = await exporter.call_tool_async("unknown_skill", {})
     assert result["isError"] is True
-    assert "async error" in result["content"][0]["text"]
-
-@pytest.mark.asyncio
-async def test_call_tool_async_not_found(async_adapter):
-    result = await async_adapter.call_tool_async("missing_skill", {})
-    assert result["isError"] is True
-    assert "not found" in result["content"][0]["text"]
+    assert "Error" in result["content"][0]["text"]

@@ -6398,7 +6398,7 @@
     },
     {
       "id": "mcp-compatible-skills-export-v2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Compatible Skills Export",
@@ -12879,6 +12879,58 @@
       "acceptance": [
         "Incoming request arguments validated",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "agent-teams-v2-18b36ebc",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams Subagent Spawning with Worktree Isolation v2",
+      "description": "Inspired by Claude Agent SDK: Implement a spawning mechanism that spins up subagents in isolated Git worktrees to prevent concurrency conflicts.",
+      "allowed_paths": [
+        "magda_agent/architecture/subagent_spawning.py",
+        "tests/test_subagent_spawning.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents execute in isolated git worktrees.",
+        "Main agent merges results.",
+        "Tests mock execution."
+      ]
+    },
+    {
+      "id": "context-engine-plugin-lifecycle-v7-0ed894ee",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin Architecture v7",
+      "description": "Inspired by Context Engine trend: Implement a plugin architecture with lifecycle hooks for pre/post processing and context compression.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine.py",
+        "tests/test_context_engine.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugins can hook into lifecycle events.",
+        "Tests verify hooks are invoked."
+      ]
+    },
+    {
+      "id": "openclaw-online-rl-feedback-v9-2ae04072",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Feedback Learning v9",
+      "description": "Inspired by OpenClaw-RL trend: Adjust agent habit weights based on next-state implicit feedback signals (user replies).",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl_v9.py",
+        "tests/test_interactive_rl_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Habit weights shift based on feedback signals.",
+        "Tests mock interactions and verify shifts."
       ]
     }
   ]
