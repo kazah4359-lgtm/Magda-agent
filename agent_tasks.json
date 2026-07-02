@@ -6432,7 +6432,7 @@
     },
     {
       "id": "online-rl-from-feedback-v2-v3",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL from Interaction Feedback",
@@ -12982,6 +12982,40 @@
       "acceptance": [
         "Memory manager routes information to correct store.",
         "Tests verify separate retrieval behaviors."
+      ]
+    },
+    {
+      "id": "mcp-skill-export-v2-7760ecd1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Export of Internal Skills v2",
+      "description": "Inspired by MCP Trend: Implement an MCP exporter that exposes Magda skills as MCP-compatible JSON-RPC 2.0 tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_export_v2.py",
+        "tests/test_mcp_export_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported in MCP schema format.",
+        "Tests mock export conversion logic."
+      ]
+    },
+    {
+      "id": "a2a-task-delegation-v2-c87192e5",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Task Delegation Protocol v2",
+      "description": "Inspired by A2A Protocol Trend: Implement a basic peer-to-peer task delegation mechanism for discovering and assigning tasks to other agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation_v2.py",
+        "tests/test_a2a_delegation_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Delegator correctly discovers peers and formats task payload.",
+        "Tests mock API requests."
       ]
     }
   ]
