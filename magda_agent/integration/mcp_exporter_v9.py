@@ -1,7 +1,7 @@
 from typing import Dict, Any, List, Optional
 import uuid
 from magda_agent.skills.registry import SkillRegistry
-from magda_agent.skills.mcp_export import MagdaMCPAdapter
+from magda_agent.integration.mcp_export import MCPExporter as MCPAdapter
 
 class MCPExporterV9:
     """
@@ -11,7 +11,7 @@ class MCPExporterV9:
     def __init__(self, registry: SkillRegistry) -> None:
         """Initialize the MCPExporterV9 with a SkillRegistry."""
         self.registry = registry
-        self.adapter = MagdaMCPAdapter(registry)
+        self.adapter = MCPAdapter(registry)
 
     def export_tools(self) -> List[Dict[str, Any]]:
         """

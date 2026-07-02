@@ -2,15 +2,17 @@ import inspect
 from typing import Dict, Any, List
 from magda_agent.skills.registry import SkillRegistry
 
-class MagdaMCPAdapter:
+class MCPExporter:
     """
     MCP Server adapter for Magda's SkillRegistry.
     Exposes Magda skills as MCP-compatible tools.
     """
-    def __init__(self, registry: SkillRegistry):
+    def __init__(self, registry: SkillRegistry) -> None:
         self.registry = registry
 
-    def _get_json_schema(self, func) -> Dict[str, Any]:
+    from typing import Callable
+
+    def _get_json_schema(self, func: Callable) -> Dict[str, Any]:
         """
         Extracts JSON schema parameters from the function signature.
         """
