@@ -225,3 +225,4 @@
 - [x] openclaw-rl-interactive-learning-v9-a80ac612: OpenClaw-RL Interactive Learning v9
 
 * [x] mcp-dynamic-tool-registry-v4: MCP Dynamic Tool Registry
+* [x] FEATURE: A2A Task Delegation Protocol (a2a-task-delegation-v2)

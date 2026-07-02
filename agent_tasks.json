@@ -6415,7 +6415,7 @@
     },
     {
       "id": "a2a-task-delegation-v2",
-      "status": "todo",
+      "status": "done",
       "area": "multi_agent",
       "risk": "high",
       "title": "A2A Task Delegation Protocol",
@@ -12931,6 +12931,57 @@
       "acceptance": [
         "Habit weights shift based on feedback signals.",
         "Tests mock interactions and verify shifts."
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking-v3-80dc74fc",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking v3",
+      "description": "Inspired by MCPKernel trend: Implement taint tracking to propagate data origins across lists, dicts, and tool executions to prevent prompt injection.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_tracking_v3.py",
+        "tests/test_taint_tracking_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "TaintTrackingV3 class correctly tracks and propagates taints.",
+        "Tests verify taint propagation through nested data structures."
+      ]
+    },
+    {
+      "id": "assert-policy-evaluation-framework-99612579",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ASSERT Policy Evaluation Framework",
+      "description": "Inspired by Microsoft's ASSERT trend: Implement a policy-driven evaluation framework to validate tool calls against explicit safety policies.",
+      "allowed_paths": [
+        "magda_agent/safety/assert_evaluation.py",
+        "tests/test_assert_evaluation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "AssertEvaluator validates inputs against defined policies.",
+        "Tests mock policy configurations and verify outcomes."
+      ]
+    },
+    {
+      "id": "memory-episodic-semantic-separation-c4ade337",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Episodic and Semantic Memory Separation",
+      "description": "Inspired by Memory Architecture trend: Implement strict separation between Episodic (event-based) and Semantic (knowledge-based) memory stores.",
+      "allowed_paths": [
+        "magda_agent/memory/episodic_semantic_v2.py",
+        "tests/test_episodic_semantic_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory manager routes information to correct store.",
+        "Tests verify separate retrieval behaviors."
       ]
     }
   ]
