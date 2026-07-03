@@ -6466,7 +6466,7 @@
     },
     {
       "id": "acs-taint-tracking-v2-6d90c285",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "ACS Output Taint Tracking Checkpoint v2",
@@ -13016,6 +13016,40 @@
       "acceptance": [
         "Delegator correctly discovers peers and formats task payload.",
         "Tests mock API requests."
+      ]
+    },
+    {
+      "id": "multi-agent-workflows-51100812",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Multi-agent workflows support",
+      "description": "Inspired by the exact trend: 'Multi-agent workflows' under 'OpenAI Agents SDK' in docs/trends.md.",
+      "allowed_paths": [
+        "magda_agent/architecture/parallel_subagents.py",
+        "tests/test_parallel_subagents.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "System supports multi-agent workflows.",
+        "Tests verify parallel execution."
+      ]
+    },
+    {
+      "id": "runtime-function-tool-concurrency-ddac9df1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Runtime function tool concurrency",
+      "description": "Inspired by the exact trend: 'Runtime function tool concurrency' under 'OpenAI Agents SDK' in docs/trends.md.",
+      "allowed_paths": [
+        "magda_agent/skills/concurrency_v3.py",
+        "tests/test_concurrency_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools execute concurrently at runtime.",
+        "Tests verify concurrency limits and behavior."
       ]
     }
   ]
