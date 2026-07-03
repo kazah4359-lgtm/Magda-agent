@@ -1,8 +1,9 @@
 from typing import Dict, List, Optional
 import json
 import logging
+import httpx
 from dataclasses import dataclass, asdict
-from typing import Optional
+from typing import Optional, Dict, List, Any
 from magda_agent.integration.a2a_security import A2ASecurityContext
 
 
@@ -17,6 +18,7 @@ class AgentCard:
     description: str
     capabilities: List[str]
     endpoints: Dict[str, str]
+    protocol_version: str = "2.0"
 
     def to_json(self) -> str:
         """
@@ -77,6 +79,54 @@ class A2ADiscovery:
                 self._register_agent(card)
             except Exception as e:
                 logging.error(f"Failed to parse Agent Card: {e}")
+
+    async def register_with_registry(self, registry_url: str, auth_token: Optional[str] = None) -> bool:
+        """
+        Registers the local Agent Card with a central discovery registry.
+        """
+        headers = {}
+        if auth_token:
+            headers["Authorization"] = f"Bearer {auth_token}"
+
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    f"{registry_url}/register",
+                    json=asdict(self.local_card),
+                    headers=headers
+                )
+                response.raise_for_status()
+                logging.info(f"Successfully registered with {registry_url}")
+                return True
+        except Exception as e:
+            logging.error(f"Failed to register with registry {registry_url}: {e}")
+            return False
+
+    async def discover_from_registry(self, registry_url: str, auth_token: Optional[str] = None) -> List[AgentCard]:
+        """
+        Fetches all available Agent Cards from a central discovery registry.
+        """
+        headers = {}
+        if auth_token:
+            headers["Authorization"] = f"Bearer {auth_token}"
+
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.get(f"{registry_url}/cards", headers=headers)
+                response.raise_for_status()
+                cards_data = response.json()
+
+                discovered = []
+                for card_data in cards_data:
+                    card = AgentCard(**card_data)
+                    self._register_agent(card)
+                    discovered.append(card)
+
+                logging.info(f"Discovered {len(discovered)} agents from {registry_url}")
+                return discovered
+        except Exception as e:
+            logging.error(f"Failed to discover from registry {registry_url}: {e}")
+            return []
 
     def _register_agent(self, card: AgentCard) -> None:
         """

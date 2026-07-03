@@ -4,6 +4,7 @@ pydantic-settings==2.7.0
 duckduckgo-search
 openai
 pytest-asyncio
+respx
 fastapi
 uvicorn
 httpx

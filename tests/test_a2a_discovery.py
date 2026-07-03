@@ -1,5 +1,8 @@
 import pytest
 import json
+import respx
+import httpx
+from dataclasses import asdict
 from magda_agent.integration.a2a_discovery import AgentCard, A2ADiscovery
 
 @pytest.fixture
@@ -86,3 +89,53 @@ async def test_fetch_invalid_card_json(local_card):
 
     # No agents should be discovered
     assert len(discovery._discovered_agents) == 0
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_register_with_registry(local_card):
+    discovery = A2ADiscovery(local_card=local_card)
+    registry_url = "http://discovery-registry.local"
+
+    # Mock the registration endpoint
+    route = respx.post(f"{registry_url}/register").mock(return_value=httpx.Response(201))
+
+    success = await discovery.register_with_registry(registry_url, auth_token="test-token")
+
+    assert success is True
+    assert route.called
+    assert route.calls.last.request.headers["Authorization"] == "Bearer test-token"
+
+    # Verify the payload
+    sent_data = json.loads(route.calls.last.request.content)
+    assert sent_data["agent_id"] == local_card.agent_id
+    assert sent_data["protocol_version"] == "2.0"
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_discover_from_registry(local_card, remote_card_1, remote_card_2):
+    discovery = A2ADiscovery(local_card=local_card)
+    registry_url = "http://discovery-registry.local"
+
+    # Mock the discovery endpoint
+    cards_data = [asdict(remote_card_1), asdict(remote_card_2)]
+    route = respx.get(f"{registry_url}/cards").mock(return_value=httpx.Response(200, json=cards_data))
+
+    discovered = await discovery.discover_from_registry(registry_url)
+
+    assert len(discovered) == 2
+    assert route.called
+    assert discovery.get_agent_by_id(remote_card_1.agent_id).name == remote_card_1.name
+    assert discovery.get_agent_by_id(remote_card_2.agent_id).name == remote_card_2.name
+    assert remote_card_1.name in [c.name for c in discovery.find_agents_by_capability("chat")]
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_register_with_registry_failure(local_card):
+    discovery = A2ADiscovery(local_card=local_card)
+    registry_url = "http://discovery-registry.local"
+
+    # Mock a failure
+    respx.post(f"{registry_url}/register").mock(return_value=httpx.Response(500))
+
+    success = await discovery.register_with_registry(registry_url)
+    assert success is False
