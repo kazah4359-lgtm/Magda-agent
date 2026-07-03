@@ -6483,7 +6483,7 @@
     },
     {
       "id": "openclaw-context-engine-plugin-v4-abc123",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Context Engine Plugin Architecture v4",
@@ -13050,6 +13050,41 @@
       "acceptance": [
         "Tools execute concurrently at runtime.",
         "Tests verify concurrency limits and behavior."
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-isolation-ecc2d6cf",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude Agent SDK Trend: Agent Teams with Git Worktree Isolation",
+      "description": "Implement Claude Agent SDK pattern for Agent Teams: multi-agent with git worktree isolation to allow subagents to work concurrently without clashing.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v4.py",
+        "tests/test_agent_teams_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent teams manager can spawn subagents.",
+        "Subagents execute in isolated git worktrees.",
+        "Tests verify isolation and parallel execution."
+      ]
+    },
+    {
+      "id": "openclaw-rl-next-state-signals-v1-c9a5b60a",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL: Online Reinforcement Learning from Next-State Signals",
+      "description": "Implement online reinforcement learning from next-state signals (user replies, tool outputs) as inspired by OpenClaw-RL. The agent learns from talking without explicit labeling.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v6.py",
+        "tests/test_openclaw_rl_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can process next-state signals like user replies to update RL weights.",
+        "Tests verify learning loop integration without explicit labeling."
       ]
     }
   ]
