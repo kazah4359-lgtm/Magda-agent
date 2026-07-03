@@ -6500,7 +6500,7 @@
     },
     {
       "id": "hermes-cron-scheduler-nightly-v2-def456",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "medium",
       "title": "Hermes Cron Scheduler Nightly Backups v2",
@@ -13085,6 +13085,57 @@
       "acceptance": [
         "Agent can process next-state signals like user replies to update RL weights.",
         "Tests verify learning loop integration without explicit labeling."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-plugin-v8-a1b2c3d4",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Plugin v8",
+      "description": "Implement a context engine plugin architecture v8 inspired by OpenClaw.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_v8.py",
+        "tests/test_context_engine_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin hooks execute properly.",
+        "Tests pass mock execution."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-registry-v5-e5f6g7h8",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Registry v5",
+      "description": "Implement an MCP-compatible Action Tool Registry v5.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_v5.py",
+        "tests/test_mcp_registry_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Registry can dynamically load and validate MCP tools.",
+        "Tests pass validation checks."
+      ]
+    },
+    {
+      "id": "a2a-discovery-agent-cards-v3-i9j0k1l2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Discovery Agent Cards v3",
+      "description": "Implement A2A Agent Cards v3 for distributed discovery over A2A protocol.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_cards_v3.py",
+        "tests/test_a2a_cards_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cards are correctly formulated and exchanged.",
+        "Tests mock A2A network and pass."
       ]
     }
   ]
