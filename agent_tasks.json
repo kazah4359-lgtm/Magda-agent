@@ -10023,7 +10023,7 @@
     },
     {
       "id": "claude-agent-teams-isolation-v2-0c02564e",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "high",
       "title": "Claude Agent Teams Git Worktree Isolation v2",
@@ -13136,6 +13136,57 @@
       "acceptance": [
         "Cards are correctly formulated and exchanged.",
         "Tests mock A2A network and pass."
+      ]
+    },
+    {
+      "id": "openclaw-rl-live-telemetry-v3-3a5f2175",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw-RL Live Telemetry Streaming V3",
+      "description": "Inspired by OpenClaw trends: Implement live RL telemetry streaming via WebSockets, mapping PAD shifts in real-time.",
+      "allowed_paths": [
+        "magda_agent/telemetry/live_rl_v3.py",
+        "tests/test_live_rl_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module correctly formats telemetry events to JSON",
+        "Tests verify WebSocket emission"
+      ]
+    },
+    {
+      "id": "claude-subagent-token-context-optimizer-v2-ec3a412d",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Claude Subagent Token Context Optimizer V2",
+      "description": "Inspired by Claude Agent SDK context compression trend: Implement a token compression stage directly prior to subagent spawning.",
+      "allowed_paths": [
+        "magda_agent/memory/token_optimizer_v2.py",
+        "tests/test_token_optimizer_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Optimizer compresses context length properly",
+        "Tests mock token counts"
+      ]
+    },
+    {
+      "id": "mcp-dynamic-skill-marketplace-poller-1d28f431",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Skill Marketplace Poller",
+      "description": "Inspired by agentskills.io standard: Implement a background cron job that periodically syncs with the agentskills.io marketplace.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_marketplace_poller.py",
+        "tests/test_mcp_marketplace_poller.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Poller accurately parses agentskills.io JSON formats",
+        "Tests mock network calls"
       ]
     }
   ]
