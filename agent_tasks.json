@@ -6449,7 +6449,7 @@
     },
     {
       "id": "a2a-service-discovery-v2-2a05c8f7",
-      "status": "todo",
+      "status": "done",
       "area": "multi_agent",
       "risk": "high",
       "title": "A2A Service Discovery using Agent Cards v2",
