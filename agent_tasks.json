@@ -6517,7 +6517,7 @@
     },
     {
       "id": "mcp-skill-exporter-v1",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP-compatible Skill Exporter",
