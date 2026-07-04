@@ -19,7 +19,7 @@ class MCPEngine:
         self.registry = registry
         self.mcp_client = mcp_client
 
-    def import_mcp_tool(self, tool_def: Dict[str, Any], connection_info: Dict[str, Any]) -> None:
+    def import_mcp_tool(self, tool_def: Dict[str, Any], connection_info: Dict[str, Any], server_name: str = None) -> None:
         """
         Reads MCP standard tool definitions and wraps them into Magda's SkillRegistry.
 
@@ -27,6 +27,7 @@ class MCPEngine:
             tool_def (Dict[str, Any]): Definition containing at least "name" and "description".
                                        Optionally contains "inputSchema".
             connection_info (Dict[str, Any]): Information needed to execute the remote tool.
+            server_name (str, optional): An optional server name to prefix the tool name to avoid conflicts.
         """
         tool_name = tool_def.get("name")
         if not tool_name:
@@ -35,10 +36,13 @@ class MCPEngine:
         description = tool_def.get("description", "Imported MCP tool.")
         input_schema = tool_def.get("inputSchema", {})
 
-        # 1. Register the remote tool routing with the MCPClient
-        # 1. Register the remote tool routing with the MCPClient
-        # 1. Register the remote tool routing with the MCPClient
-        self.mcp_client.register_remote_tool(tool_name, connection_info)
+        if server_name:
+            # 1a. Register the remote server routing with the MCPClient
+            tool_name = f"{server_name}__{tool_name}"
+            self.mcp_client.register_mcp_server(server_name, connection_info)
+        else:
+            # 1b. Register the remote tool routing directly with the MCPClient
+            self.mcp_client.register_remote_tool(tool_name, connection_info)
 
         import asyncio
         import concurrent.futures
