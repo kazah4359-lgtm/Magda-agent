@@ -6114,7 +6114,7 @@
     },
     {
       "id": "openai-mcp-server-prefixed-tools-v2",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Server-Prefixed Tools",
@@ -12205,6 +12205,57 @@
       "acceptance": [
         "Memory can be paged out selectively based on context size limits.",
         "Tests mock memory stores to verify compression logic."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-v4-5e8a3dfa",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Live WebSockets V4",
+      "description": "Inspired by OpenClaw trends: Stream agent states for live OpenClaw Canvas visualization.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_live_v4.py",
+        "tests/test_canvas_live_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent states are correctly streamed.",
+        "Tests mock websocket emission and verify state."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v10-753a6b60",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Export Engine V10",
+      "description": "Inspired by MCP trends: Implement an export engine mapping Magda skills to MCP tools.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_exporter_v10.py",
+        "tests/test_mcp_exporter_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Export engine maps Magda skills.",
+        "Tests verify mapping."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-auth-traversal-v4-f164629c",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Enterprise Auth Traversal V4",
+      "description": "Inspired by A2A trends: Auth logic for the A2A network mesh traversal.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_auth_v4.py",
+        "tests/test_a2a_auth_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Auth logic supports network mesh traversal.",
+        "Tests mock networking layer."
       ]
     }
   ]
