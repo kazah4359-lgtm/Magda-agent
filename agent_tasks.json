@@ -6080,7 +6080,7 @@
     },
     {
       "id": "a2a-peer-delegation-discovery-v3",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "high",
       "title": "A2A Peer Delegation Discovery v3",
@@ -12119,6 +12119,41 @@
       "acceptance": [
         "Agent can broadcast Agent Cards in a peer-to-peer mesh.",
         "Tests mock network layer and verify broadcast logic."
+      ]
+    },
+    {
+      "id": "mcp-kernel-taint-isolation-v4",
+      "status": "todo",
+      "area": "security",
+      "risk": "high",
+      "title": "MCP Kernel Taint Tracking Isolation V4",
+      "description": "Inspired by MCP trends: implement an MCP Kernel Taint Tracking Isolation V4 for executing sandboxed plugins.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_kernel_v4.py",
+        "tests/test_mcp_kernel_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP kernel isolates tainted inputs",
+        "Tests mock tainted and clean plugins and pass"
+      ]
+    },
+    {
+      "id": "assert-policy-evaluator-v3",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "ASSERT Policy-Driven Evaluator V3",
+      "description": "Inspired by ASSERT Evaluator trend: implement a policy-driven evaluator V3 to evaluate agent outputs.",
+      "allowed_paths": [
+        "magda_agent/evaluation/assert_evaluator_v3.py",
+        "tests/test_assert_evaluator_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator parses policy rules",
+        "Evaluates outputs according to policy",
+        "Tests pass"
       ]
     }
   ]

@@ -218,6 +218,7 @@
 * [x] FEATURE: A2A Agent Discovery via Cards v2 (a2a-agent-discovery-cards-v2)
 
 - [x] a2a-peer-delegation-discovery-v2: A2A Peer Delegation Discovery
+- [x] a2a-peer-delegation-discovery-v3: A2A Peer Delegation Discovery v3
 * [x] FEATURE: ACS Workflow Guardrails (acs-workflow-guardrails-v1)
 - [x] openclaw-rl-interactive-learning-v5: OpenClaw-RL Interactive Learning v5
 * [x] FEATURE: MCP Action Tool Exporter v8 (mcp-action-tool-exporter-v8)
