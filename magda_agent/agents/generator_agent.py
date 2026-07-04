@@ -73,6 +73,8 @@ class GeneratorAgent:
                     steps_executed += 1
 
                     if not skill_name:
+                        # For tasks without skills (e.g. noop max step tests)
+                        # Immediately mark as completed so we don't batch it
                         self.planner.mark_step_id_completed(step_id, "No skill executed for this step.", user_id=user_id)
                         continue
 
@@ -162,10 +164,12 @@ class GeneratorAgent:
                 plan_str_res += f"- Step {i+1}: {step.get('description')} (Skill: {step.get('skill')})\n"
                 plan_str_res += f"  Result: {step.get('result')}\n"
 
-            if plan_stopped_early:
+            if steps_executed >= MAX_STEPS:
+                plan_str_res += "\nPlan execution stopped due to MAX_STEPS limit.\n"
+            elif plan_stopped_early:
                 plan_str_res += "\nNote: Plan execution was stopped early due to limits.\n"
 
-            plan_str = plan_str_res + plan_str
+            plan_str = plan_str_res
 
         return plan_str
 
