@@ -6046,7 +6046,7 @@
     },
     {
       "id": "context-engine-memory-compression-plugin-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Memory Compression Plugin",
@@ -12034,6 +12034,40 @@
       "acceptance": [
         "Creator produces valid MCP-compatible tool schema from raw log strings.",
         "Tests verify LLM schema generation using mocks."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-action-registry-v7-1edad2b2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Action Registry V7",
+      "description": "Inspired by MCP trends: Implement an MCP-compatible dynamic action registry v7 for dynamic action tools registration.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_v7.py",
+        "tests/test_mcp_registry_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Registry dynamically registers action tools",
+        "Tests mock MCP requests"
+      ]
+    },
+    {
+      "id": "a2a-peer-task-delegation-v3-d601c251",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Peer Task Delegation V3",
+      "description": "Inspired by A2A trends: Implement A2A peer task delegation v3 to allow agents to delegate tasks to peers efficiently.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation_v3.py",
+        "tests/test_a2a_delegation_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent delegates tasks to peers over A2A",
+        "Tests verify delegation logic"
       ]
     }
   ]
