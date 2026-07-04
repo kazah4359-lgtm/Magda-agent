@@ -6097,7 +6097,7 @@
     },
     {
       "id": "agent-teams-parallel-subagents-v5",
-      "status": "todo",
+      "status": "done",
       "area": "multi_agent",
       "risk": "medium",
       "title": "Agent Teams Parallel Subagents v5",
@@ -12154,6 +12154,57 @@
         "Evaluator parses policy rules",
         "Evaluates outputs according to policy",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "openclaw-gateway-canvas-live-v3",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Gateway Canvas Live V3",
+      "description": "Inspired by OpenClaw trends: Implement a CanvasLiveVisualizerV3 in magda_agent/gateway to stream execution state via websockets.",
+      "allowed_paths": [
+        "magda_agent/gateway/canvas_live_v3.py",
+        "tests/test_canvas_live_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas live visualizer correctly formats state",
+        "Tests mock websocket emission"
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-cards-v3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Agent Discovery via Cards V3",
+      "description": "Inspired by A2A trends: Update A2ADiscovery to broadcast agent capabilities using Agent Cards over A2A mesh network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v3.py",
+        "tests/test_a2a_discovery_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can broadcast its capabilities using an Agent Card via A2A",
+        "Tests verify broadcast transmission"
+      ]
+    },
+    {
+      "id": "claude-context-selective-compression-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Claude Context Selective Compression V3",
+      "description": "Inspired by Claude and MemGPT trends: Implement a Virtual Context Manager V3 that pages out old memory selectively from the Context Engine.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v4.py",
+        "tests/test_virtual_context_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory can be paged out selectively based on context size limits.",
+        "Tests mock memory stores to verify compression logic."
       ]
     }
   ]
