@@ -6534,7 +6534,7 @@
     },
     {
       "id": "a2a-secure-delegation-v1",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Secure Auth Delegation",
@@ -13187,6 +13187,40 @@
       "acceptance": [
         "Poller accurately parses agentskills.io JSON formats",
         "Tests mock network calls"
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-metrics-v5-unique-4b6157db",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw-RL Live Telemetry Streaming V5",
+      "description": "Implement RL telemetry mapping PAD shifts in real-time to the OpenClaw canvas.",
+      "allowed_paths": [
+        "magda_agent/telemetry/a2a_distributed_v7.py",
+        "tests/test_a2a_distributed_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module correctly formats telemetry events to JSON",
+        "Tests verify WebSocket emission"
+      ]
+    },
+    {
+      "id": "acs-validation-checkpoints-v5-unique-bc81b2a5",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Validation Checkpoints V5",
+      "description": "Implement 5 validation checkpoints in agentic workflows inspired by ACS.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_checkpoints_v3.py",
+        "tests/test_acs_checkpoints_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS module enforces checkpoints on tool execution",
+        "Tests verify guardrail blocking logic"
       ]
     }
   ]
