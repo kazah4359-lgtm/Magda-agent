@@ -6148,7 +6148,7 @@
     },
     {
       "id": "openclaw-memory-compaction-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Memory Compaction Background Routine",
@@ -12307,6 +12307,74 @@
       "acceptance": [
         "Gateway provides unified channel adapters.",
         "Tests mock each channel to verify format routing."
+      ]
+    },
+    {
+      "id": "openclaw-online-learning-interactions-v10",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw Online Learning Interactions V10",
+      "description": "Inspired by OpenClaw: Implement an online learning loop that adjusts agent responses based on continuous user interaction feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_v10.py",
+        "tests/test_interactive_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Online learning loop updates user model based on interactions.",
+        "Tests mock memory systems and verify learning."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-governance-v5",
+      "status": "todo",
+      "area": "security",
+      "risk": "high",
+      "title": "MCP Action Tool Governance V5",
+      "description": "Inspired by MCP/ACS: Implement an Action Tool Governance layer that intercepts and logs external tool calls to ensure sandboxed execution.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_governance_v5.py",
+        "tests/test_mcp_governance_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Action tools are intercepted and logged.",
+        "Tests mock tool execution to verify interception."
+      ]
+    },
+    {
+      "id": "mcp-kernel-taint-tracking-v6",
+      "status": "todo",
+      "area": "security",
+      "risk": "high",
+      "title": "MCP Kernel Taint Tracking v6",
+      "description": "Inspired by MCPKernel: taint tracking + sandboxed execution. Implement a v6 isolated taint tracking environment.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_taint_v6.py",
+        "tests/test_mcp_taint_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Kernel tracks tainted variables across tool executions.",
+        "Tests verify tainted inputs are correctly flagged."
+      ]
+    },
+    {
+      "id": "agent-teams-parallel-subagents-v7",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams Parallel Subagents V7",
+      "description": "Inspired by Agent Teams trend. Implement parallel subagents orchestration v7 for multi-tasking.",
+      "allowed_paths": [
+        "magda_agent/architecture/parallel_subagents_v7.py",
+        "tests/test_parallel_subagents_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Teams correctly spawns and orchestrates subagents in parallel.",
+        "Tests verify parallel execution and state merging."
       ]
     }
   ]
