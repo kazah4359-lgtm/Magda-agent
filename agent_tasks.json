@@ -6063,7 +6063,7 @@
     },
     {
       "id": "mcp-dynamic-tool-registration-v3",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Dynamic Tool Registration v3",
@@ -12068,6 +12068,57 @@
       "acceptance": [
         "Agent delegates tasks to peers over A2A",
         "Tests verify delegation logic"
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-tool-tracing-0ce2e402",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Tool Execution Tracing",
+      "description": "Inspired by trend: OpenClaw canvas live visualization. Stream live execution traces of MCP tools over websockets for canvas visualization.",
+      "allowed_paths": [
+        "magda_agent/telemetry/a2a_distributed_v7.py",
+        "tests/test_a2a_distributed_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool execution traces are correctly formatted and streamed.",
+        "Tests mock websocket emission and verify trace payloads."
+      ]
+    },
+    {
+      "id": "claude-context-compression-3b4e61af",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Claude SDK Inspired Selective Context Compression",
+      "description": "Inspired by trend: Context compression + selective retrieval. Implement a context compressor that selectively prunes older episodic memories based on Letta/MemGPT virtual context patterns.",
+      "allowed_paths": [
+        "magda_agent/skills/compression_v2.py",
+        "tests/test_compression_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context compressor selectively prunes older memories.",
+        "Tests verify compression logic with mocked memory systems."
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-mesh-44587abb",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Protocol Discovery Mesh",
+      "description": "Inspired by trend: Agent discovery через Agent Cards. Implement a peer-to-peer discovery mesh to actively broadcast Agent Cards to neighboring nodes over A2A.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_cards.py",
+        "tests/test_a2a_cards.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can broadcast Agent Cards in a peer-to-peer mesh.",
+        "Tests mock network layer and verify broadcast logic."
       ]
     }
   ]
