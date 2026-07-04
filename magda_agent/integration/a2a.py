@@ -2,6 +2,7 @@ from typing import Dict, Any, List, Optional, Union
 import logging
 from magda_agent.integration.a2a_discovery import AgentCard, A2ADiscovery
 from magda_agent.integration.a2a_discovery_v2 import AgentCardV2, A2ADiscoveryV2
+from magda_agent.integration.a2a_cards import AgentCardV3, A2ADiscoveryV3
 from magda_agent.integration.a2a_delegation import A2ADelegator
 
 class A2AManager:
@@ -10,14 +11,16 @@ class A2AManager:
     of sub-plans/tasks to capable peers in a peer-to-peer network.
     Inspired by A2A Protocol trends.
     """
-    def __init__(self, local_card: Union[AgentCard, AgentCardV2]) -> None:
+    def __init__(self, local_card: Union[AgentCard, AgentCardV2, AgentCardV3]) -> None:
         """
         Initializes the manager with the local agent's identity and capabilities.
 
         Args:
-            local_card: The AgentCard or AgentCardV2 representing this agent.
+            local_card: The AgentCard, AgentCardV2, or AgentCardV3 representing this agent.
         """
-        if isinstance(local_card, AgentCardV2):
+        if isinstance(local_card, AgentCardV3):
+            self.discovery = A2ADiscoveryV3(local_card=local_card) # type: ignore
+        elif isinstance(local_card, AgentCardV2):
             self.discovery = A2ADiscoveryV2(local_card=local_card) # type: ignore
         else:
             self.discovery = A2ADiscovery(local_card=local_card) # type: ignore
@@ -42,12 +45,12 @@ class A2AManager:
             mock_network_cards: Optional list of JSON strings representing mocked Agent Cards.
         """
         logging.info("A2AManager discovering peers...")
-        if isinstance(self.discovery, A2ADiscoveryV2):
+        if isinstance(self.discovery, (A2ADiscoveryV2, A2ADiscoveryV3)):
             await self.discovery.fetch_cards(network_envelopes=mock_network_cards)
         else:
             await self.discovery.fetch_cards(mock_network_cards=mock_network_cards)
 
-    def get_known_peers(self) -> Union[List[AgentCard], List[AgentCardV2]]:
+    def get_known_peers(self) -> Union[List[AgentCard], List[AgentCardV2], List[AgentCardV3]]:
         """
         Retrieves all currently known peers discovered in the network.
 
