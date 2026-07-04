@@ -6568,7 +6568,7 @@
     },
     {
       "id": "hermes-agent-skills-creation-loop-v3",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Hermes Agent Skills Creation Loop v3",
@@ -13272,6 +13272,57 @@
       "acceptance": [
         "RL telemetry events are correctly formatted and streamed.",
         "Tests mock websocket emission and verify event payloads."
+      ]
+    },
+    {
+      "id": "openclaw-context-hooks-v5-75ccc0a9",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Implement OpenClaw Context Engine lifecycle hooks",
+      "description": "Implement OpenClaw-inspired Context Engine plugin interface with lifecycle hooks for better dynamic context management.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_lifecycle.py",
+        "tests/test_context_engine_lifecycle.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine supports lifecycle hooks",
+        "Tests mock plugin attachments and hook triggers"
+      ]
+    },
+    {
+      "id": "acs-guardrails-integration-v1-6335a739",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Implement ACS Guardrails for Agent Safety",
+      "description": "Implement ACS standard guardrails using a policy layer. All tool calls must pass through this validation.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_v3.py",
+        "tests/test_acs_guard_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool calls pass through policy layer validation",
+        "Tests mock invalid and valid actions"
+      ]
+    },
+    {
+      "id": "claude-agent-teams-isolation-v2-c3dca071",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Add Agent Teams Git Worktree Isolation",
+      "description": "Implement Claude Agent SDK inspired multi-agent worktree isolation so sub-agents can work safely on parallel tasks.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v3.py",
+        "tests/test_agent_teams_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sub-agents spawn in isolated worktrees",
+        "Tests verify worktree creation and cleanup"
       ]
     }
   ]
