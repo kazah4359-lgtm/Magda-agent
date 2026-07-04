@@ -57,15 +57,36 @@ class MCPConcurrentSkillExecutor:
                 The result of the execution.
             """
             try:
+                func_to_call = None
+                call_args = ()
+                call_kwargs = {}
+
                 if hasattr(self.mcp_client, "execute_tool"):
-                    result = self.mcp_client.execute_tool(n, kw)
+                    func_to_call = self.mcp_client.execute_tool
+                    call_args = (n, kw)
                 elif hasattr(self.mcp_client, "execute"):
-                    result = self.mcp_client.execute(n, kw)
+                    func_to_call = self.mcp_client.execute
+                    call_args = (n, kw)
                 elif hasattr(self.mcp_client, "skills") and n in self.mcp_client.skills:
-                    skill_func = self.mcp_client.skills[n]
-                    result = skill_func(**kw)
+                    func_to_call = self.mcp_client.skills[n]
+                    call_kwargs = kw
                 else:
                     return f"Error: MCP Tool '{n}' not found or client missing execute method."
+
+                is_async = False
+                if inspect.iscoroutinefunction(func_to_call):
+                    is_async = True
+                elif hasattr(func_to_call, "__is_async__") and getattr(func_to_call, "__is_async__"):
+                    is_async = True
+                elif hasattr(func_to_call, "__call__") and inspect.iscoroutinefunction(func_to_call.__call__):
+                    is_async = True
+
+                if is_async:
+                    result = func_to_call(*call_args, **call_kwargs)
+                else:
+                    def sync_wrapper():
+                        return func_to_call(*call_args, **call_kwargs)
+                    result = await asyncio.to_thread(sync_wrapper)
 
                 if inspect.isawaitable(result):
                     return await result

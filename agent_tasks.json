@@ -6585,7 +6585,7 @@
     },
     {
       "id": "mcp-action-tool-concurrency-v5",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Action Tool Concurrency v5",
@@ -13323,6 +13323,48 @@
       "acceptance": [
         "Sub-agents spawn in isolated worktrees",
         "Tests verify worktree creation and cleanup"
+      ]
+    },
+    {
+      "id": "openclaw-rl-signals-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Signals Processor",
+      "description": "Train agent using online reinforcement learning from next-state signals (user replies, tool outputs) based on OpenClaw trend.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_signals.py"
+      ],
+      "acceptance": [
+        "RL processor created and tested"
+      ]
+    },
+    {
+      "id": "claude-agent-teams-isolation-v4",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams Worktree Isolation",
+      "description": "Implement git worktree isolation for sub-agents to enable parallel multi-agent task execution without cross-contamination based on Claude Agent Teams trend.",
+      "allowed_paths": [
+        "magda_agent/architecture/worktree_isolation.py"
+      ],
+      "acceptance": [
+        "Subagents run in isolated worktrees"
+      ]
+    },
+    {
+      "id": "acs-runtime-guardrails-v5",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Validation Checkpoints",
+      "description": "Implement Agent Control Specification (ACS) 5 validation checkpoints for agentic workflows to ensure policy-driven execution based on Microsoft ACS trend.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_v3.py"
+      ],
+      "acceptance": [
+        "5 checkpoints validated during tool calls"
       ]
     }
   ]
