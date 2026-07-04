@@ -6602,7 +6602,7 @@
     },
     {
       "id": "acs-guard-runtime-governance-v5",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Guard Runtime Governance v5",
@@ -13365,6 +13365,40 @@
       ],
       "acceptance": [
         "5 checkpoints validated during tool calls"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-registry-v6-1a2b3c4d",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Registry v6",
+      "description": "Implement an MCP-compatible Action Tool Registry v6 based on MCP trends.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_v6.py",
+        "tests/test_mcp_registry_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Registry dynamically loads tools",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "openclaw-rl-signals-processor-v8-5e6f7g8h",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Signals Processor v8",
+      "description": "Implement RL signals processor mapping to the OpenClaw trends for online RL from user feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v8.py",
+        "tests/test_openclaw_rl_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Processor maps next-state signals",
+        "Tests pass"
       ]
     }
   ]
