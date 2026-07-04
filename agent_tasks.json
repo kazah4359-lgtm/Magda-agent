@@ -1869,25 +1869,6 @@
       ]
     },
     {
-      "id": "online-rl-feedback",
-      "status": "blocked",
-      "area": "learning",
-      "risk": "medium",
-      "title": "Online RL from User Feedback",
-      "description": "Implement online reinforcement learning (OpenClaw-RL pattern) where explicit positive/negative user replies (e.g., 'thanks', 'bad response') are used as next-state signals to adjust tool selection weights in the Basal Ganglia. [blocked: duplicate of done task 'online-learning-from-feedback']",
-      "allowed_paths": [
-        "magda_agent/learning/online_rl.py",
-        "magda_agent/action/selector.py",
-        "tests/test_online_rl.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "User feedback modifies action weights",
-        "Weights are persisted across sessions",
-        "Tests mock feedback and verify weight changes"
-      ]
-    },
-    {
       "id": "agent-guard-policy",
       "status": "blocked",
       "area": "safety",
@@ -2385,24 +2366,6 @@
       ]
     },
     {
-      "id": "a2a-agent-cards-discovery-v2",
-      "status": "done",
-      "area": "integration",
-      "risk": "low",
-      "title": "A2A Agent Cards Discovery",
-      "description": "Inspired by Google/Linux Foundation A2A Standard: Implement Agent Card discovery logic to dynamically discover capabilities of other network agents.",
-      "allowed_paths": [
-        "magda_agent/integration/**",
-        "tests/test_a2a_discovery*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent can broadcast and fetch Agent Cards.",
-        "Discovered agents are indexed by capability.",
-        "Tests mock network and verify discovery."
-      ]
-    },
-    {
       "id": "multi-channel-skills-sync",
       "status": "done",
       "area": "skills",
@@ -2488,24 +2451,6 @@
       ]
     },
     {
-      "id": "openclaw-rl-interactive-learning-v3",
-      "status": "done",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Interactive Learning",
-      "description": "Inspired by OpenClaw trends: Implement online reinforcement learning from next-state signals like user replies to dynamically adjust agent's style, preferences, and weights.",
-      "allowed_paths": [
-        "magda_agent/learning/**",
-        "tests/test_openclaw_rl*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "User interactions affect agent weights",
-        "RL loop processes next-state signals",
-        "Tests verify adjustments from feedback"
-      ]
-    },
-    {
       "id": "agent-teams-claude-sdk",
       "status": "done",
       "area": "multi-agent",
@@ -2577,24 +2522,6 @@
       ]
     },
     {
-      "id": "online-rl-feedback-loop",
-      "status": "done",
-      "area": "learning",
-      "risk": "medium",
-      "title": "Online RL from User Feedback",
-      "description": "Inspired by OpenClaw-RL trend: Implement a feedback extraction module that adjusts the agent's style padding and prompt weights based on implicit and explicit user feedback in continuous dialogue.",
-      "allowed_paths": [
-        "magda_agent/learning/feedback_loop.py",
-        "tests/test_feedback_loop*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Feedback loop captures implicit corrections and positive affirmations.",
-        "StyleAdapter weights update based on the reinforcement signal.",
-        "Tests verify weight updates based on simulated dialogue."
-      ]
-    },
-    {
       "id": "agent-team-delegation-protocol",
       "status": "done",
       "area": "multi-agent",
@@ -2610,25 +2537,6 @@
         "Planner can flag steps for delegation.",
         "Delegation module routes tasks to sub-agents and awaits results.",
         "Tests mock sub-agent execution and verify state merge."
-      ]
-    },
-    {
-      "id": "agent-guard-runtime-governance-v2",
-      "status": "done",
-      "area": "safety",
-      "risk": "high",
-      "title": "Agent Guard: Runtime Governance Layer",
-      "description": "Inspired by the Agent Guard trend (June 2026), implement a runtime governance layer that sits between the agent's tool execution and the external world. It intercepts and evaluates tool calls according to predefined security policies.",
-      "allowed_paths": [
-        "magda_agent/safety/agent_guard.py",
-        "tests/test_agent_guard*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent Guard successfully intercepts tool calls",
-        "Tool calls are evaluated against policies before execution",
-        "Violating tool calls are blocked with appropriate logging",
-        "Tests mock tool executions to verify interception and policy enforcement"
       ]
     },
     {
@@ -2666,23 +2574,6 @@
         "Subagents can execute their assigned tasks in isolated contexts",
         "Orchestrator aggregates results from subagents successfully",
         "Tests mock subagent executions and verify parallelization"
-      ]
-    },
-    {
-      "id": "context-engine-plugin-architecture-v3",
-      "status": "done",
-      "area": "memory",
-      "risk": "medium",
-      "title": "Context Engine Plugin Architecture",
-      "description": "Inspired by trend #4 in docs/trends.md: Implement a plugin architecture for the Context Engine to manage context dynamically using lifecycle hooks.",
-      "allowed_paths": [
-        "magda_agent/memory/context_engine.py",
-        "tests/test_context_engine_plugins*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Context engine supports plugin registration and lifecycle hooks",
-        "Tests verify plugin execution during context retrieval"
       ]
     },
     {
@@ -2734,23 +2625,6 @@
       "acceptance": [
         "Agent can discover and retrieve Agent Cards of peers",
         "Tests verify mock discovery and card parsing"
-      ]
-    },
-    {
-      "id": "mcpkernel-taint-tracking-db0c895d",
-      "status": "done",
-      "area": "safety",
-      "risk": "medium",
-      "title": "MCPKernel Taint Tracking",
-      "description": "Inspired by MCPKernel trend: Implement taint tracking and sandboxed execution for external tool interactions.",
-      "allowed_paths": [
-        "magda_agent/safety/**",
-        "tests/test_mcpkernel*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Taint tracking module intercepts tool inputs",
-        "Tests verify tainted inputs are blocked"
       ]
     },
     {
@@ -2842,24 +2716,6 @@
       ]
     },
     {
-      "id": "agent-teams-git-worktree-v2",
-      "status": "done",
-      "area": "multi-agent",
-      "risk": "high",
-      "title": "Agent Teams with Git Worktree Isolation",
-      "description": "Inspired by Agent Teams trend: Spawn sub-agents for parallel tasks using git worktree isolation.",
-      "allowed_paths": [
-        "magda_agent/agents/teams.py",
-        "tests/test_teams*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Team manager can spawn sub-agents",
-        "Sub-agents operate in isolated git worktrees",
-        "Tests mock sub-agent parallel execution"
-      ]
-    },
-    {
       "id": "mcp-action-tool-exporter-v4",
       "status": "done",
       "area": "integration",
@@ -2945,23 +2801,6 @@
       "acceptance": [
         "Module records performance metrics over time",
         "Tests verify metric aggregation and trend reporting"
-      ]
-    },
-    {
-      "id": "online-rl-user-feedback-v2",
-      "status": "done",
-      "area": "learning",
-      "risk": "medium",
-      "title": "Online RL from user feedback",
-      "description": "Inspired by trend: Online RL from user feedback. Implement an online reinforcement learning loop to update agent behavior based on explicit user feedback and tool success signals.",
-      "allowed_paths": [
-        "magda_agent/learning/online_rl.py",
-        "tests/test_online_rl_feedback*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Feedback signals adjust habit weights dynamically",
-        "Tests verify weight shifts based on simulated feedback"
       ]
     },
     {
@@ -3174,23 +3013,6 @@
       ]
     },
     {
-      "id": "realtime-guardrail-fallback-v2",
-      "status": "done",
-      "area": "safety",
-      "risk": "medium",
-      "title": "Realtime guardrail fallback",
-      "description": "Inspired by OpenAI Agents SDK trend: Implement realtime guardrail fallback mechanisms when tools or actions fail policy checks.",
-      "allowed_paths": [
-        "magda_agent/safety/guardrails.py",
-        "tests/test_guardrails*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "System gracefully falls back when guardrails trigger",
-        "Tests verify fallback behavior"
-      ]
-    },
-    {
       "id": "openclaw-live-canvas-visualizer",
       "status": "done",
       "area": "gateway",
@@ -3288,23 +3110,6 @@
       "acceptance": [
         "Agent can update its model dynamically based on feedback",
         "Tests verify RL logic"
-      ]
-    },
-    {
-      "id": "assert-policy-framework",
-      "status": "done",
-      "area": "evaluation",
-      "risk": "medium",
-      "title": "ASSERT Policy-Driven Evaluation",
-      "description": "Inspired by trend: ASSERT (Microsoft): policy-driven evaluation framework. Introduce a policy-driven evaluation framework for the agent.",
-      "allowed_paths": [
-        "magda_agent/evaluation/assert_eval.py",
-        "tests/test_assert_eval.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Policy framework correctly evaluates agent responses",
-        "Tests verify evaluation correctness"
       ]
     },
     {
@@ -3571,24 +3376,6 @@
       ]
     },
     {
-      "id": "openclaw-rl-reinforcement-learning-v2",
-      "status": "blocked",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Online Reinforcement Learning",
-      "description": "Inspired by trend: OpenClaw-RL: online reinforcement learning из next-state signals (user replies, tool outputs). Implement an online learning loop that updates behavior based on user replies.",
-      "allowed_paths": [
-        "magda_agent/learning/openclaw_rl.py",
-        "tests/test_openclaw_rl*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "RL model dynamically updates from next-state signals",
-        "Model improvements are verified in tests",
-        "Tests pass"
-      ]
-    },
-    {
       "id": "hermes-cron-daily-reports-v2",
       "status": "done",
       "area": "scheduler",
@@ -3654,23 +3441,6 @@
       "acceptance": [
         "Agent can broadcast messages across multiple platforms.",
         "Tests verify multi-platform message dispatch."
-      ]
-    },
-    {
-      "id": "skill-marketplace-agentskills-v1",
-      "status": "done",
-      "area": "skills",
-      "risk": "medium",
-      "title": "Skill marketplace compatibility",
-      "description": "Inspired by trend: Skill marketplace — совместимость с agentskills.io. Implement compatibility to import and export skills from agentskills.io marketplace.",
-      "allowed_paths": [
-        "magda_agent/skills/agentskills_marketplace.py",
-        "tests/test_agentskills_marketplace.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent can import skills from the marketplace.",
-        "Tests mock the marketplace and verify import mechanics."
       ]
     },
     {
@@ -4055,42 +3825,6 @@
       ]
     },
     {
-      "id": "openclaw-rl-online-learning-v1",
-      "status": "done",
-      "area": "learning",
-      "risk": "high",
-      "title": "Online RL from user feedback",
-      "description": "Inspired by trend: OpenClaw-RL Interactive Learning. Implement online learning from user replies and next-state signals.",
-      "allowed_paths": [
-        "magda_agent/learning/online_rl.py",
-        "tests/test_online_rl*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "OnlineRLLearner captures next-state signals.",
-        "Updates weights based on tool outputs.",
-        "Tests cover learning feedback loop."
-      ]
-    },
-    {
-      "id": "multi-agent-orchestration-teams-v1",
-      "status": "done",
-      "area": "architecture",
-      "risk": "medium",
-      "title": "Agent Teams Subagent Spawning",
-      "description": "Inspired by trend: Multi-Agent Orchestration (Claude SDK). Implement hierarchical delegation via spawning parallel subagents.",
-      "allowed_paths": [
-        "magda_agent/agents/team_orchestrator.py",
-        "tests/test_team_orchestrator*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "TeamOrchestrator can spawn SubAgents.",
-        "Handles concurrent execution.",
-        "Tests verify subagent isolation."
-      ]
-    },
-    {
       "id": "hermes-skill-marketplace-integration-v1",
       "status": "done",
       "area": "skills",
@@ -4105,23 +3839,6 @@
       "acceptance": [
         "Module can search and list skills from marketplace",
         "Tests verify integration with mocked API"
-      ]
-    },
-    {
-      "id": "openclaw-canvas-live-visualization-v1",
-      "status": "done",
-      "area": "architecture",
-      "risk": "low",
-      "title": "OpenClaw Canvas Live Visualization",
-      "description": "Inspired by OpenClaw trend: Canvas live visualization. Implement a module to stream agent's internal state to a visual canvas for better observability.",
-      "allowed_paths": [
-        "magda_agent/visualization/canvas.py",
-        "tests/test_canvas*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent state updates are formatted for canvas streaming",
-        "Tests verify visualization formatting logic"
       ]
     },
     {
@@ -4207,23 +3924,6 @@
       "acceptance": [
         "Agent adjusts reward parameters based on feedback.",
         "Tests confirm RL feedback loop."
-      ]
-    },
-    {
-      "id": "agent-teams-git-worktree-v1",
-      "status": "done",
-      "area": "architecture",
-      "risk": "medium",
-      "title": "Agent Teams Git Worktree Isolation",
-      "description": "Inspired by trend: Agent Teams: multi-agent с git worktree isolation. Implement isolation layer using git worktrees.",
-      "allowed_paths": [
-        "magda_agent/agents/isolation.py",
-        "tests/test_isolation*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Isolation module creates git worktrees.",
-        "Tests verify worktree creation and teardown."
       ]
     },
     {
@@ -4460,23 +4160,6 @@
       ]
     },
     {
-      "id": "openclaw-rl-reinforcement-v1",
-      "status": "done",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Online Reinforcement Learning",
-      "description": "Inspired by trend: OpenClaw-RL: online reinforcement learning from next-state signals. Agent learns simply by talking.",
-      "allowed_paths": [
-        "magda_agent/learning/openclaw_rl.py",
-        "tests/test_openclaw_rl*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent utilizes online RL signals to optimize behavior.",
-        "Tests verify learning process."
-      ]
-    },
-    {
       "id": "claude-subagent-worktree",
       "status": "done",
       "area": "execution",
@@ -4513,23 +4196,6 @@
       ]
     },
     {
-      "id": "openclaw-canvas-live-visual",
-      "status": "done",
-      "area": "ui",
-      "risk": "medium",
-      "title": "OpenClaw Canvas Live Visualization",
-      "description": "Inspired by OpenClaw trends: Implement a Canvas for live visualization of the agent state.",
-      "allowed_paths": [
-        "magda_agent/ui/canvas.py",
-        "tests/test_canvas.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent state can be visualized in a canvas.",
-        "Canvas module connects successfully."
-      ]
-    },
-    {
       "id": "openclaw-rl-next-state-signals",
       "status": "done",
       "area": "core",
@@ -4544,23 +4210,6 @@
       "acceptance": [
         "Agent learns from next-state signals.",
         "Feedback updates agent behavior."
-      ]
-    },
-    {
-      "id": "claude-subagent-spawning-teams",
-      "status": "done",
-      "area": "core",
-      "risk": "high",
-      "title": "Claude Subagent Spawning",
-      "description": "Inspired by Claude Agent SDK trends: Implement subagent spawning for parallel execution of tasks using git worktree isolation.",
-      "allowed_paths": [
-        "magda_agent/agents/subagents.py",
-        "tests/test_subagents.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Subagents can be spawned.",
-        "Tasks execute in parallel."
       ]
     },
     {
@@ -4602,40 +4251,6 @@
       ]
     },
     {
-      "id": "mcpkernel-sandboxed-execution",
-      "status": "done",
-      "area": "security",
-      "risk": "high",
-      "title": "MCPKernel: Taint Tracking and Sandboxed Execution",
-      "description": "Inspired by trend: MCPKernel: taint tracking + sandboxed execution. Implement taint tracking for external inputs.",
-      "allowed_paths": [
-        "magda_agent/security/mcp_kernel.py",
-        "tests/test_mcp_kernel.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "MCPKernel blocks tainted inputs from execution.",
-        "Sandboxing works properly."
-      ]
-    },
-    {
-      "id": "scheduled-operations-cron-v2",
-      "status": "done",
-      "area": "operations",
-      "risk": "medium",
-      "title": "Scheduled operations cron-like tasks",
-      "description": "Inspired by trend: Scheduled operations — cron-подобные задачи без участия пользователя. Add a new generic cron scheduler for tasks.",
-      "allowed_paths": [
-        "magda_agent/operations/cron_v2.py",
-        "tests/test_cron_v2.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent can schedule tasks autonomously.",
-        "Tests verify scheduled execution."
-      ]
-    },
-    {
       "id": "cross-platform-reach-v2",
       "status": "done",
       "area": "channels",
@@ -4670,23 +4285,6 @@
       ]
     },
     {
-      "id": "assert-policy-driven-evaluator",
-      "status": "done",
-      "area": "evaluation",
-      "risk": "medium",
-      "title": "ASSERT Policy-Driven Evaluation",
-      "description": "Inspired by trend: ASSERT (Microsoft): policy-driven evaluation framework. Add policy-driven evaluator.",
-      "allowed_paths": [
-        "magda_agent/evals/assert_policy.py",
-        "tests/test_assert_policy.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Evaluator checks policies",
-        "Tests pass"
-      ]
-    },
-    {
       "id": "web-arena-evaluation-framework",
       "status": "done",
       "area": "testing",
@@ -4701,23 +4299,6 @@
       "acceptance": [
         "Evaluator runs WebArena-like tasks",
         "Metrics stored"
-      ]
-    },
-    {
-      "id": "hermes-skill-creation-from-exp",
-      "status": "done",
-      "area": "learning",
-      "risk": "high",
-      "title": "Skill creation from experience",
-      "description": "Inspired by trend: Skill creation from experience (Hermes). Agent generates skills from past executions.",
-      "allowed_paths": [
-        "magda_agent/skills/creation.py",
-        "tests/test_skill_creation.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent can generate skills",
-        "Tests verify export schema"
       ]
     },
     {
@@ -4772,40 +4353,6 @@
       ]
     },
     {
-      "id": "task-system-dependency-graphs",
-      "status": "done",
-      "area": "core",
-      "risk": "high",
-      "title": "Task System with Dependency Graphs",
-      "description": "Inspired by trend: Task system с dependency graphs (Claude Agent SDK). Implement dependency tracking for agent tasks.",
-      "allowed_paths": [
-        "magda_agent/core/task_graph.py",
-        "tests/test_task_graph.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Tasks can express dependencies",
-        "Scheduler respects task dependency graphs"
-      ]
-    },
-    {
-      "id": "context-compression-selective-retrieval-v2",
-      "status": "done",
-      "area": "memory",
-      "risk": "medium",
-      "title": "Context Compression & Selective Retrieval",
-      "description": "Inspired by trend: Context compression + selective retrieval (Memory Architecture). Add compression mechanisms to working memory.",
-      "allowed_paths": [
-        "magda_agent/memory/compression.py",
-        "tests/test_compression.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Old working memory is compressed before semantic conversion",
-        "Selective retrieval handles compressed blocks"
-      ]
-    },
-    {
       "id": "magentic-one-orchestration-v2",
       "status": "done",
       "area": "agents",
@@ -4837,40 +4384,6 @@
       "acceptance": [
         "Audit logs are generated",
         "Tests verify interception"
-      ]
-    },
-    {
-      "id": "hermes-skill-experience",
-      "status": "done",
-      "area": "learning",
-      "risk": "medium",
-      "title": "Hermes Skill Creation from Experience",
-      "description": "Inspired by trend: Skill creation from experience (Hermes). Implement experience to skill creation.",
-      "allowed_paths": [
-        "magda_agent/learning/experience.py",
-        "tests/test_experience.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Experience is converted to skills",
-        "Skills are validated"
-      ]
-    },
-    {
-      "id": "mcpkernel-taint-tracking-v3",
-      "status": "done",
-      "area": "safety",
-      "risk": "medium",
-      "title": "MCPKernel Taint Tracking",
-      "description": "Inspired by trend: MCPKernel: taint tracking + sandboxed execution.",
-      "allowed_paths": [
-        "magda_agent/safety/taint.py",
-        "tests/test_taint.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Tainted inputs are tracked",
-        "Sandboxed execution is verified"
       ]
     },
     {
@@ -5313,24 +4826,6 @@
       "acceptance": [
         "CronScheduler can schedule and execute tasks periodically.",
         "Pytest tests verify scheduling logic."
-      ]
-    },
-    {
-      "id": "hermes-cron-scheduler-expansion-v1",
-      "status": "done",
-      "area": "orchestration",
-      "risk": "medium",
-      "title": "Hermes-inspired Cron Scheduler Expansion",
-      "description": "Inspired by Hermes Agent trend: Expand the CronScheduler to support dynamic job registration at runtime and daily reporting functions.",
-      "allowed_paths": [
-        "magda_agent/scheduler/cron_v5.py",
-        "tests/test_cron_v5*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "CronScheduler can dynamically register and execute new jobs.",
-        "A daily report skeleton job is added.",
-        "Pytest tests verify registration logic."
       ]
     },
     {
@@ -5972,23 +5467,6 @@
       ]
     },
     {
-      "id": "claude-evaluator-subagent-85b14c3e",
-      "status": "done",
-      "title": "Claude Evaluator Subagent",
-      "area": "agents",
-      "risk": "medium",
-      "description": "Inspired by Claude Agent SDK pattern: Implement a standalone Evaluator Subagent that validates outputs of Generator agents within the team before returning the result to the Planner.",
-      "allowed_paths": [
-        "magda_agent/agents/evaluator_subagent.py",
-        "tests/test_evaluator_subagent.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Evaluator subagent can score other agents' outputs based on predefined policies.",
-        "Tests mock interactions to verify evaluation logic."
-      ]
-    },
-    {
       "id": "openclaw-context-compressor-hook",
       "status": "done",
       "title": "OpenClaw Context Compressor Hook",
@@ -6037,23 +5515,6 @@
       "acceptance": [
         "Agent Guard intercepts tool calls and validates against policy.",
         "Tests verify policy enforcement."
-      ]
-    },
-    {
-      "id": "mcp-kernel-taint-tracking-v2-fixed",
-      "status": "done",
-      "area": "safety",
-      "risk": "high",
-      "title": "MCPKernel Taint Tracking v2",
-      "description": "Inspired by trend: MCPKernel taint tracking. Implement robust string taint tracking for sandboxed execution.",
-      "allowed_paths": [
-        "magda_agent/safety/taint_tracking_v2.py",
-        "tests/test_taint_tracking_v2.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Tainted strings correctly propagate origin.",
-        "Tests verify tracking."
       ]
     },
     {
@@ -6173,40 +5634,6 @@
       "acceptance": [
         "Converter wraps Magda skills into MCP compatible schemas.",
         "Tests verify correct JSON-RPC output formatting."
-      ]
-    },
-    {
-      "id": "mcp-action-tool-exporter-v1-af26a87c",
-      "status": "done",
-      "title": "MCP Action Tool Exporter",
-      "area": "integration",
-      "risk": "medium",
-      "description": "Inspired by the trend: MCP-compatible tools. Export Magda's action tools as standard MCP JSON-RPC endpoints.",
-      "allowed_paths": [
-        "magda_agent/integration/mcp_exporter.py",
-        "tests/test_mcp_exporter.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "MCP action tool exporter is implemented.",
-        "Tests verify tool schema conversion."
-      ]
-    },
-    {
-      "id": "online-rl-user-feedback-v1-cf2a4ca2",
-      "status": "done",
-      "title": "Online RL from User Feedback",
-      "area": "learning",
-      "risk": "high",
-      "description": "Inspired by OpenClaw trends: Online learning from interactions. Implement a module that updates tool execution weights based on user feedback.",
-      "allowed_paths": [
-        "magda_agent/learning/online_feedback_rl.py",
-        "tests/test_online_feedback_rl.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Module parses user feedback and adjusts weights.",
-        "Tests verify weight adjustments."
       ]
     },
     {
@@ -6414,23 +5841,6 @@
       ]
     },
     {
-      "id": "a2a-task-delegation-v2",
-      "status": "done",
-      "area": "multi_agent",
-      "risk": "high",
-      "title": "A2A Task Delegation Protocol",
-      "description": "Inspired by A2A (Agent-to-Agent Protocol) trends: Implement an async A2A protocol for delegating subtasks to other agents securely.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_delegation.py",
-        "tests/test_a2a_delegation.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "A2A delegation module handles agent discovery and task dispatch.",
-        "Tests verify delegation logic via mocks."
-      ]
-    },
-    {
       "id": "online-rl-from-feedback-v2-v3",
       "status": "done",
       "area": "learning",
@@ -6619,7 +6029,7 @@
     },
     {
       "id": "a2a-async-error-handling-v1",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "low",
       "title": "A2A Async Error Handling",
@@ -6700,23 +6110,6 @@
       "acceptance": [
         "Subagents run in parallel.",
         "Tests verify async execution."
-      ]
-    },
-    {
-      "id": "openclaw-canvas-live-visualization-v3",
-      "status": "todo",
-      "area": "visualization",
-      "risk": "low",
-      "title": "OpenClaw Canvas Live Visualization",
-      "description": "Inspired by OpenClaw Canvas. Implement a live visualization endpoint for agent state in magda_agent/visualization/canvas.py.",
-      "allowed_paths": [
-        "magda_agent/visualization/canvas.py",
-        "tests/test_canvas.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Canvas endpoint exposes current agent state.",
-        "Tests mock state retrieval and verify output format."
       ]
     },
     {
@@ -6904,40 +6297,6 @@
       "acceptance": [
         "Skills can be exported as MCP tools dynamically.",
         "Tests pass."
-      ]
-    },
-    {
-      "id": "openclaw-local-first-gateway-v1-unique",
-      "status": "todo",
-      "area": "architecture",
-      "risk": "medium",
-      "title": "OpenClaw Local-First Gateway",
-      "description": "Inspired by OpenClaw trends: Implement a local-first gateway control plane to proxy messages from channels before they reach consciousness.",
-      "allowed_paths": [
-        "magda_agent/gateway/local_first.py",
-        "tests/test_local_first_gateway.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Gateway proxies and normalizes messages.",
-        "Tests verify local-first routing."
-      ]
-    },
-    {
-      "id": "mcp-action-tool-exporter-v9-unique",
-      "status": "todo",
-      "area": "skills",
-      "risk": "medium",
-      "title": "MCP Action Tool Exporter v9",
-      "description": "Inspired by MCP trends: Extend the tool exporter to support the latest JSON-RPC standard used by MCP tools.",
-      "allowed_paths": [
-        "magda_agent/skills/mcp_export_v9.py",
-        "tests/test_mcp_export_v9.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Tools can be exported compliant with MCP v9 JSON-RPC.",
-        "Tests confirm exported schema validity."
       ]
     },
     {
@@ -7309,22 +6668,6 @@
       ]
     },
     {
-      "id": "agent-teams-parallel-subagents-v3",
-      "status": "todo",
-      "area": "agents",
-      "risk": "high",
-      "title": "Agent Teams Parallel Subagents",
-      "description": "Inspired by Claude Multi-Agent trend: Run subagents in parallel with isolated worktrees.",
-      "allowed_paths": [
-        "magda_agent/agents/parallel_subagents_v3.py",
-        "tests/test_parallel_subagents_v3.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Parallel execution of subagents works correctly."
-      ]
-    },
-    {
       "id": "context-engine-virtual-memory-v1-6aa1fc58",
       "status": "todo",
       "area": "memory",
@@ -7390,23 +6733,6 @@
       "acceptance": [
         "Plugins can be loaded and unloaded with lifecycle events.",
         "Tests verify the execution of hooks without calling real APIs."
-      ]
-    },
-    {
-      "id": "openclaw-rl-interactive-learning-v5-6805",
-      "status": "todo",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Interactive Learning",
-      "description": "Inspired by OpenClaw online RL trend: Implement OpenClaw-RL to capture next-state signals and update agent weights from interactions.",
-      "allowed_paths": [
-        "magda_agent/learning/openclaw_rl_v5.py",
-        "tests/test_openclaw_rl_v5.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Online learning from next-state signals is correctly implemented.",
-        "Tests mock LLM calls and verify the interactive learning."
       ]
     },
     {
@@ -7853,23 +7179,6 @@
       ]
     },
     {
-      "id": "hermes-cron-nightly-backups-v2-6aeef707",
-      "status": "todo",
-      "area": "operations",
-      "risk": "medium",
-      "title": "Hermes Cron Nightly Backups v2",
-      "description": "Inspired by Hermes Cron scheduler trend: Implement a nightly backup scheduler to snapshot ChromaDB and working memory, expanding on operations cron capabilities.",
-      "allowed_paths": [
-        "magda_agent/operations/cron_backups.py",
-        "tests/test_cron_backups.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Cron backups scheduler correctly triggers database snapshots.",
-        "Tests mock time and file system to verify backup execution."
-      ]
-    },
-    {
       "id": "claude-evaluator-critic-agent-a8bc4909",
       "status": "todo",
       "area": "agents",
@@ -8020,23 +7329,6 @@
       "acceptance": [
         "Action tools can be registered and invoked via MCP",
         "Tests verify invocation and policy gating"
-      ]
-    },
-    {
-      "id": "openclaw-rl-interactive-learning-v9-1d630384",
-      "status": "todo",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Online Reinforcement Learning",
-      "description": "Inspired by OpenClaw trend: Implement an online reinforcement learning mechanism using MirrorNeurons PAD shifts from user replies to train agent simply by talking. Extract implicit feedback as next-state signals.",
-      "allowed_paths": [
-        "magda_agent/learning/openclaw_rl_v9.py",
-        "tests/test_openclaw_rl_v9.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent adjusts policies based on conversation PAD shifts.",
-        "Tests verify that positive feedback reinforces recent habits."
       ]
     },
     {
@@ -8516,57 +7808,6 @@
       ]
     },
     {
-      "id": "hermes-cron-daily-reports-new-2222",
-      "status": "todo",
-      "area": "operations",
-      "risk": "medium",
-      "title": "Hermes Cron Daily Reports",
-      "description": "Inspired by Hermes agent trend: Add a scheduled daily report that summarizes agent activity and quality metrics.",
-      "allowed_paths": [
-        "magda_agent/scheduler/cron_reports.py",
-        "tests/test_cron_reports.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "A cron task is implemented for daily reports.",
-        "Tests verify the report generation logic."
-      ]
-    },
-    {
-      "id": "acs-guardrails-policy-layer-new-3333",
-      "status": "todo",
-      "area": "safety",
-      "risk": "medium",
-      "title": "ACS Guardrails Policy Layer",
-      "description": "Inspired by ACS Specification trend: Implement 5 validation checkpoints for tool execution safety.",
-      "allowed_paths": [
-        "magda_agent/safety/acs_guardrails.py",
-        "tests/test_acs_guardrails.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Policy layer enforces 5 validation checkpoints.",
-        "Tests verify that unsafe tools are blocked."
-      ]
-    },
-    {
-      "id": "mcp-export-skills-trend-june-2026",
-      "status": "todo",
-      "area": "integration",
-      "risk": "medium",
-      "title": "Export Skills as MCP Tools",
-      "description": "Inspired by MCP trend (June 2026): Magda should be able to export its skills as MCP tools. Implement a generic wrapper to expose SkillRegistry capabilities via the MCP json-rpc server.",
-      "allowed_paths": [
-        "magda_agent/integration/mcp_export.py",
-        "tests/test_mcp_export.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Skills can be exported and called via MCP protocol.",
-        "Tests verify that MCP method calls route to the corresponding skill."
-      ]
-    },
-    {
       "id": "online-learning-interaction-loop-june-2026",
       "status": "todo",
       "area": "learning",
@@ -8683,23 +7924,6 @@
       "acceptance": [
         "Evaluator processes dependency graphs.",
         "Tests verify graph evaluation metrics."
-      ]
-    },
-    {
-      "id": "hermes-cron-nightly-backups-v2-03b0cbbd",
-      "status": "todo",
-      "area": "operations",
-      "risk": "medium",
-      "title": "Hermes Cron Nightly Backups",
-      "description": "Inspired by Hermes agent trend (June 2026): Add a scheduled nightly backup task that persists all episodic and semantic memory to encrypted storage.",
-      "allowed_paths": [
-        "magda_agent/scheduler/cron_backups.py",
-        "tests/test_cron_backups.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "A cron task is implemented for nightly backups.",
-        "Tests verify backup routines and mock the storage layer."
       ]
     },
     {
@@ -8989,57 +8213,6 @@
       "acceptance": [
         "The ACS checkpoint pattern is implemented cleanly",
         "Integration tests confirm all policies pass or block correctly"
-      ]
-    },
-    {
-      "id": "implement-mcp-tool-export-2b9c3e4d",
-      "status": "todo",
-      "area": "integration",
-      "risk": "medium",
-      "title": "Export Skills to MCP Tool Server",
-      "description": "Inspired by trend: MCP (Model Context Protocol). Create a module to export Magda skills as MCP-compatible tools.",
-      "allowed_paths": [
-        "magda_agent/integration/mcp_export.py",
-        "tests/test_mcp_export*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Module successfully generates MCP tool schemas for registered skills",
-        "Tests mock JSON-RPC endpoints and verify schema output"
-      ]
-    },
-    {
-      "id": "implement-openclaw-rl-canvas-1d8f5a6b",
-      "status": "todo",
-      "area": "UI",
-      "risk": "low",
-      "title": "OpenClaw RL Canvas Visualization Module",
-      "description": "Inspired by trend: OpenClaw Canvas. Implement a backend module to structure RL learning state for Canvas UI.",
-      "allowed_paths": [
-        "magda_agent/learning/canvas_sync.py",
-        "tests/test_canvas_sync*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Module tracks current goal, state, and next-state signals cleanly",
-        "Test suite verifies the JSON output structure"
-      ]
-    },
-    {
-      "id": "implement-acs-guard-refactor-9f3e2a1b",
-      "status": "todo",
-      "area": "safety",
-      "risk": "medium",
-      "title": "ACS Guardrail Checkpoint Refactor",
-      "description": "Inspired by trend: Agent Control Specification (ACS). Refactor the existing safety checks into 5 distinct ACS checkpoints.",
-      "allowed_paths": [
-        "magda_agent/safety/acs_guard_v2.py",
-        "tests/test_acs_guard_v2*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "5 validation checkpoints are defined in the pipeline",
-        "Policy-driven tests are verified without hitting real models"
       ]
     },
     {
@@ -9438,23 +8611,6 @@
       ]
     },
     {
-      "id": "agent-guard-policy-layer-v3",
-      "status": "todo",
-      "area": "safety",
-      "risk": "high",
-      "title": "Agent Guard Policy Layer",
-      "description": "Inspired by trend: Agent Guard runtime governance. Add policy layer between agent and outside world.",
-      "allowed_paths": [
-        "magda_agent/safety/agent_guard.py",
-        "tests/test_agent_guard.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Policy layer intercepts and evaluates actions",
-        "Tests mock agent outputs and verify policy enforcement"
-      ]
-    },
-    {
       "id": "post-merge-smoke-tests-loop-v2",
       "status": "todo",
       "area": "testing",
@@ -9468,23 +8624,6 @@
       "acceptance": [
         "Smoke tests run basic agent startup and teardown",
         "Integration triggers after PR merge"
-      ]
-    },
-    {
-      "id": "mcpkernel-taint-tracking-v2",
-      "status": "todo",
-      "area": "safety",
-      "risk": "high",
-      "title": "MCPKernel Taint Tracking",
-      "description": "Inspired by trend: MCPKernel sandboxed execution. Add taint tracking to data returned from tools.",
-      "allowed_paths": [
-        "magda_agent/safety/taint_tracking.py",
-        "tests/test_taint_tracking.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Variables returned from tools are marked as tainted",
-        "Tests verify taint logic propagates"
       ]
     },
     {
@@ -9540,23 +8679,6 @@
         "Cron task registered for local diagnostic checks",
         "Task gracefully reports failures to logs without interrupting main loop",
         "Tests mock datetime and execution loop to confirm trigger conditions"
-      ]
-    },
-    {
-      "id": "openclaw-canvas-live-visualization-2a20db5e",
-      "status": "todo",
-      "area": "visualization",
-      "risk": "medium",
-      "title": "OpenClaw Canvas Live Visualization",
-      "description": "Inspired by OpenClaw trend: Canvas для live визуализации. Implement a live visualization hook.",
-      "allowed_paths": [
-        "magda_agent/visualization/canvas.py",
-        "tests/test_canvas.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Canvas visualizer is implemented",
-        "Tests confirm live visualization hook works"
       ]
     },
     {
@@ -9625,23 +8747,6 @@
       "acceptance": [
         "Old working memory is compressed selectively based on token limits",
         "Tests simulate token window overflow and confirm proper LLM summarization calls"
-      ]
-    },
-    {
-      "id": "subagent-worktree-isolation-v1",
-      "status": "todo",
-      "area": "agents",
-      "risk": "high",
-      "title": "Agent Teams Git Worktree Isolation",
-      "description": "Inspired by Claude Agent SDK trend: Agent Teams. Enhance SubagentsManager to provision independent Git worktrees for parallel execution tasks.",
-      "allowed_paths": [
-        "magda_agent/agents/worktree_isolation.py",
-        "tests/test_worktree_isolation.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Parallel tasks execute in isolated git worktrees",
-        "Tests verify independent workspace provisioning and cleanup"
       ]
     },
     {
@@ -10404,40 +9509,6 @@
       ]
     },
     {
-      "id": "mcp-action-tool-preflight-v5",
-      "status": "todo",
-      "area": "safety",
-      "risk": "medium",
-      "title": "MCP Tool Pre-flight Validation V5",
-      "description": "Inspired by MCP Security trend: Implement a pre-flight validation mechanism for all MCP action tools before JSON-RPC execution to verify inputs against a static blocklist.",
-      "allowed_paths": [
-        "magda_agent/integration/mcp_preflight_v5.py",
-        "tests/test_mcp_preflight_v5.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Pre-flight validator intercepts invalid requests.",
-        "Tests mock MCP clients to verify blocking behavior."
-      ]
-    },
-    {
-      "id": "a2a-delegation-circuit-breaker-v6",
-      "status": "todo",
-      "area": "integration",
-      "risk": "medium",
-      "title": "A2A Delegation Circuit Breaker V6",
-      "description": "Inspired by A2A Protocol and enterprise-ready agents trend: Implement a circuit breaker pattern to prevent continuous task delegation failures to unresponsive peer agents.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_circuit_breaker_v6.py",
-        "tests/test_a2a_circuit_breaker_v6.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Circuit breaker trips after consecutive failures.",
-        "Tests verify fallback and trip limits."
-      ]
-    },
-    {
       "id": "hermes-self-improving-skills-loop-9c22cc29",
       "status": "todo",
       "area": "learning",
@@ -10474,41 +9545,6 @@
       ]
     },
     {
-      "id": "81ec7dcc-f29c-40a8-a0a5-5f2d62453080",
-      "status": "todo",
-      "area": "safety",
-      "risk": "medium",
-      "title": "MCP Tool Registry Interceptor",
-      "description": "Inspired by MCP Compatibility trend: Add an interceptor to the MCPRegistry to automatically validate dynamic action tool parameters using jsonschema.",
-      "allowed_paths": [
-        "magda_agent/skills/mcp_validator.py",
-        "tests/test_mcp_validator.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "MCP tools are intercepted during registration.",
-        "jsonschema is used to validate parameter schemas.",
-        "Invalid schemas raise registration errors."
-      ]
-    },
-    {
-      "id": "7d1d9385-5d1a-4a13-be2e-72be09d35b43",
-      "status": "todo",
-      "area": "multi-agent",
-      "risk": "medium",
-      "title": "A2A Workflow Chaining",
-      "description": "Inspired by A2A open standard trend: Implement an A2A workflow manager that allows peer-to-peer chaining of agent tasks natively without a central coordinator.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_workflow.py",
-        "tests/test_a2a_workflow.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "A2A Workflow manager orchestrates sequential task handoffs correctly.",
-        "Tests verify that context is passed accurately between chained steps."
-      ]
-    },
-    {
       "id": "claude-agent-dependency-graph-planner-4e97937f-c458-4ee5-9063-0cf7d76f8d48",
       "status": "todo",
       "area": "planning",
@@ -10526,23 +9562,6 @@
       ]
     },
     {
-      "id": "openclaw-canvas-live-visualization-aa07c2aa-60af-4590-bcf0-64d22a9ac775",
-      "status": "todo",
-      "area": "visualization",
-      "risk": "low",
-      "title": "OpenClaw Canvas Live Visualization",
-      "description": "Inspired by OpenClaw trend: Create a Canvas module that visualizes the agent's internal state and memory changes in real-time as a markdown or HTML artifact.",
-      "allowed_paths": [
-        "magda_agent/visualization/canvas.py",
-        "tests/test_canvas.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Canvas module renders current memory and emotion state.",
-        "Tests verify output format."
-      ]
-    },
-    {
       "id": "mcp-server-tool-concurrency-5ec68904-3f7f-4a2e-81c2-14dc184faf34",
       "status": "todo",
       "area": "execution",
@@ -10557,41 +9576,6 @@
       "acceptance": [
         "Multiple MCP tools can run concurrently.",
         "Tests use mocks to verify parallel execution times."
-      ]
-    },
-    {
-      "id": "openclaw-canvas-live-visualization-4e890426-555c-45ea-8f38-09fb6aff9bc3",
-      "status": "todo",
-      "area": "visualization",
-      "risk": "low",
-      "title": "OpenClaw Canvas Live Visualization",
-      "description": "Inspired by OpenClaw trend: Create a Canvas module that visualizes the agent's internal state and memory changes in real-time as a markdown or HTML artifact.",
-      "allowed_paths": [
-        "magda_agent/visualization/canvas.py",
-        "tests/test_canvas.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Canvas module renders current memory and emotion state.",
-        "Tests verify output format."
-      ]
-    },
-    {
-      "id": "acs-guardrail-runtime-evaluation-v3-b6c8af52-0358-4545-9a51-b030a7bcb549",
-      "status": "todo",
-      "area": "safety",
-      "risk": "high",
-      "title": "ACS Guardrail Runtime Evaluation Checkpoints",
-      "description": "Inspired by Agent Control Specification (ACS): Embed 5 distinct runtime validation checkpoints throughout the Agentic Workflow to validate state changes and external tool outputs before committing them.",
-      "allowed_paths": [
-        "magda_agent/safety/acs_workflow.py",
-        "tests/test_acs_workflow.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "The 5 distinct ACS validation checkpoints are invoked around state changes.",
-        "Workflow aborts or degrades gracefully upon validation failure.",
-        "Tests cover each checkpoint with both valid and invalid states."
       ]
     },
     {
@@ -10837,44 +9821,6 @@
       ]
     },
     {
-      "id": "0d6271ab-f941-4745-923a-6267fdd76dff",
-      "status": "todo",
-      "area": "memory",
-      "risk": "medium",
-      "title": "OpenClaw-RL Implicit Feedback Mechanism",
-      "description": "Inspired by OpenClaw trends: Implement an online reinforcement learning mechanism that adjusts tool selection weights simply by analyzing user replies using PAD shifts from MirrorNeurons.",
-      "allowed_paths": [
-        "magda_agent/learning/online.py",
-        "magda_agent/action/selector.py",
-        "tests/test_online_learning*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "User replies act as next-state reinforcement signals",
-        "Tool selection weights in Basal Ganglia update based on positive/negative shifts",
-        "Tests mock feedback PAD to verify weight changes"
-      ]
-    },
-    {
-      "id": "1dabe95a-2797-435d-9e42-5edaad6df0ad",
-      "status": "todo",
-      "area": "multi-agent",
-      "risk": "high",
-      "title": "Agent Teams with Git Worktree Isolation",
-      "description": "Inspired by Claude Agent SDK. Enable spawning independent sub-agents that operate in their own git worktrees, preventing cross-contamination during complex multi-agent coding workflows.",
-      "allowed_paths": [
-        "magda_agent/teams/git_worktree.py",
-        "magda_agent/teams/manager.py",
-        "tests/test_git_worktree*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Sub-agents can check out code into isolated worktrees",
-        "Main process and sub-agents operate safely concurrently",
-        "Tests mock git calls and verify isolation"
-      ]
-    },
-    {
       "id": "ada7b54a-a81c-4956-99d3-3cc6bb40bea4",
       "status": "todo",
       "area": "architecture",
@@ -11032,24 +9978,6 @@
       ]
     },
     {
-      "id": "hermes-skill-discovery-v2-5b1cfe84",
-      "status": "todo",
-      "area": "skills",
-      "risk": "medium",
-      "title": "Hermes Skill Discovery v2",
-      "description": "Inspired by Hermes Agent trend: Implement dynamic skill discovery from agentskills.io marketplace, allowing the agent to fetch and load missing skills on demand.",
-      "allowed_paths": [
-        "magda_agent/skills/discovery.py",
-        "tests/test_skill_discovery.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Skill discovery module implemented and unit tested with LLM mocks.",
-        "Tasks updated.",
-        "Python script validate_agent_tasks.py passes."
-      ]
-    },
-    {
       "id": "claude-planner-evaluation-v2-aaff5526",
       "status": "todo",
       "area": "planning",
@@ -11101,24 +10029,6 @@
         "Virtual Context Manager implemented.",
         "Pages out old memory tokens to episodic memory correctly.",
         "Tested with LLM mock."
-      ]
-    },
-    {
-      "id": "4d844c40-ef63-44bb-83a4-ee71b0640a17",
-      "status": "todo",
-      "area": "safety",
-      "risk": "high",
-      "title": "Agent Guard Runtime Policy Layer",
-      "description": "Implement an Agent Guard runtime governance layer to intercept external tool calls.",
-      "allowed_paths": [
-        "magda_agent/safety/agent_guard_v2.py",
-        "tests/test_agent_guard_v2.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Agent Guard intercepts function calls.",
-        "Policy enforcement tested with mocked actions.",
-        "High risk operations block automatically."
       ]
     },
     {
@@ -12066,60 +10976,6 @@
       ]
     },
     {
-      "id": "mcp-dynamic-tool-registry-sync-6bbf0c2e",
-      "status": "todo",
-      "area": "integration",
-      "risk": "medium",
-      "title": "MCP Dynamic Tool Registry Synchronization",
-      "description": "Inspired by MCP Standard trend: Implement a background loop that periodically polls a configured MCP server URL and dynamically registers or unregisters tools in the local MCPRegistry.",
-      "allowed_paths": [
-        "magda_agent/skills/mcp_registry_sync.py",
-        "tests/test_mcp_registry_sync.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Background loop successfully polls and parses MCP tool schema endpoints.",
-        "Local MCPRegistry reflects the state of the remote MCP server.",
-        "Tests verify the polling mechanism using a mocked client."
-      ]
-    },
-    {
-      "id": "a2a-enterprise-tracing-middleware-1f032401",
-      "status": "todo",
-      "area": "multi-agent",
-      "risk": "low",
-      "title": "A2A Enterprise Tracing Middleware",
-      "description": "Inspired by A2A Protocol enterprise-ready trend: Create a middleware component for A2A communication that injects and extracts OpenTelemetry trace IDs for cross-agent debugging.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_tracing_middleware.py",
-        "tests/test_a2a_tracing_middleware.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Middleware successfully injects trace IDs into outgoing A2A messages.",
-        "Middleware extracts and context-propagates trace IDs from incoming messages.",
-        "Tests verify ID handling with mock messages."
-      ]
-    },
-    {
-      "id": "openclaw-rl-fallback-recovery-374bb328",
-      "status": "todo",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Fallback Recovery",
-      "description": "Inspired by OpenClaw-RL trend: Implement a recovery handler that triggers negative habit weight reinforcement when an agent execution encounters an exception, utilizing the online learning loop.",
-      "allowed_paths": [
-        "magda_agent/learning/rl_fallback_recovery.py",
-        "tests/test_rl_fallback_recovery.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Recovery handler intercepts errors and extracts contextual features.",
-        "Reinforcement signal is sent to reduce the weight of the failed path.",
-        "Tests mock execution failures and verify weight adjustments."
-      ]
-    },
-    {
       "id": "mcp-background-registry-poller-7aac0296",
       "status": "todo",
       "area": "integration",
@@ -12138,96 +10994,6 @@
       ]
     },
     {
-      "id": "a2a-enterprise-tracing-middleware-b4e5ac80",
-      "status": "todo",
-      "area": "multi-agent",
-      "risk": "low",
-      "title": "A2A Enterprise Tracing Middleware",
-      "description": "Inspired by A2A Protocol enterprise-ready trend: Create a middleware component for A2A communication that injects and extracts OpenTelemetry trace IDs for cross-agent debugging.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_tracing_middleware.py",
-        "tests/test_a2a_tracing_middleware.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Middleware successfully injects trace IDs into outgoing A2A messages.",
-        "Middleware extracts and context-propagates trace IDs from incoming messages.",
-        "Tests verify ID handling with mock messages."
-      ]
-    },
-    {
-      "id": "openclaw-rl-fallback-recovery-18095eba",
-      "status": "todo",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Fallback Recovery",
-      "description": "Inspired by OpenClaw-RL trend: Implement a recovery handler that triggers negative habit weight reinforcement when an agent execution encounters an exception, utilizing the online learning loop.",
-      "allowed_paths": [
-        "magda_agent/learning/rl_fallback_recovery.py",
-        "tests/test_rl_fallback_recovery.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Recovery handler intercepts errors and extracts contextual features.",
-        "Reinforcement signal is sent to reduce the weight of the failed path.",
-        "Tests mock execution failures and verify weight adjustments."
-      ]
-    },
-    {
-      "id": "mcp-background-registry-poller-ff1b7331",
-      "status": "todo",
-      "area": "integration",
-      "risk": "medium",
-      "title": "MCP Background Registry Poller",
-      "description": "Inspired by MCP Standard trend: Implement a background loop that periodically polls a configured MCP server URL and dynamically registers or unregisters tools in the local MCPRegistry.",
-      "allowed_paths": [
-        "magda_agent/skills/mcp_registry_poller.py",
-        "tests/test_mcp_registry_poller.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Background loop successfully polls and parses MCP tool schema endpoints.",
-        "Local MCPRegistry reflects the state of the remote MCP server.",
-        "Tests verify the polling mechanism using a mocked client."
-      ]
-    },
-    {
-      "id": "a2a-enterprise-tracing-middleware-510f0278",
-      "status": "todo",
-      "area": "multi-agent",
-      "risk": "low",
-      "title": "A2A Enterprise Tracing Middleware",
-      "description": "Inspired by A2A Protocol enterprise-ready trend: Create a middleware component for A2A communication that injects and extracts OpenTelemetry trace IDs for cross-agent debugging.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_tracing_middleware.py",
-        "tests/test_a2a_tracing_middleware.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Middleware successfully injects trace IDs into outgoing A2A messages.",
-        "Middleware extracts and context-propagates trace IDs from incoming messages.",
-        "Tests verify ID handling with mock messages."
-      ]
-    },
-    {
-      "id": "openclaw-rl-fallback-recovery-5ee251da",
-      "status": "todo",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Fallback Recovery",
-      "description": "Inspired by OpenClaw-RL trend: Implement a recovery handler that triggers negative habit weight reinforcement when an agent execution encounters an exception, utilizing the online learning loop.",
-      "allowed_paths": [
-        "magda_agent/learning/rl_fallback_recovery.py",
-        "tests/test_rl_fallback_recovery.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Recovery handler intercepts errors and extracts contextual features.",
-        "Reinforcement signal is sent to reduce the weight of the failed path.",
-        "Tests mock execution failures and verify weight adjustments."
-      ]
-    },
-    {
       "id": "hermes-cron-scheduler-e20c8193",
       "status": "todo",
       "area": "autonomy",
@@ -12243,24 +11009,6 @@
         "Cron scheduler initializes and can register scheduled jobs.",
         "Jobs execute on time (or can be triggered in tests).",
         "Tests verify scheduling logic with mocks."
-      ]
-    },
-    {
-      "id": "openai-realtime-guardrails-d9a1b222",
-      "status": "todo",
-      "area": "safety",
-      "risk": "high",
-      "title": "OpenAI-inspired Realtime Guardrail Fallback",
-      "description": "Inspired by OpenAI Agents SDK trend: Implement a realtime guardrail that intercepts LLM outputs and triggers a safe fallback if policy violations are detected during tool execution.",
-      "allowed_paths": [
-        "magda_agent/safety/realtime_guardrail.py",
-        "tests/test_realtime_guardrail.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Realtime guardrail can evaluate tool inputs/outputs.",
-        "Triggers fallback response when violations are found.",
-        "Tests verify interception and fallback mechanics."
       ]
     },
     {
@@ -12538,57 +11286,6 @@
       ]
     },
     {
-      "id": "hermes-skill-creation-from-experience-6421ae7f",
-      "status": "todo",
-      "area": "skills",
-      "risk": "medium",
-      "title": "Hermes Skill Creation from Experience",
-      "description": "Inspired by Hermes Agent: Create a module that analyzes user interactions and automatically drafts new skills based on repeated patterns. Output should follow the agentskills.io standard.",
-      "allowed_paths": [
-        "magda_agent/skills/hermes_skill_creation.py",
-        "tests/test_hermes_skill_creation.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Analyzes interactions and outputs valid agentskills.io skill drafts.",
-        "Tests verify JSON generation with mocked LLM."
-      ]
-    },
-    {
-      "id": "longitudinal-quality-metrics-tracker-61a4aab4",
-      "status": "todo",
-      "area": "telemetry",
-      "risk": "low",
-      "title": "Longitudinal Quality Metrics Tracker",
-      "description": "Inspired by the trend of Longitudinal tracking: Implement a metrics tracker that tracks quality over time (e.g. test pass rates, error frequency) and exposes them to the context engine.",
-      "allowed_paths": [
-        "magda_agent/telemetry/longitudinal_metrics.py",
-        "tests/test_longitudinal_metrics.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Tracker aggregates and stores metrics over time.",
-        "Tests verify data accumulation and aggregation."
-      ]
-    },
-    {
-      "id": "openclaw-rl-implicit-feedback-d363c703",
-      "status": "todo",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Implicit Feedback Learning",
-      "description": "Inspired by OpenClaw online learning: Add functionality to update procedural memory automatically based on implicit user feedback (e.g., user correcting the agent).",
-      "allowed_paths": [
-        "magda_agent/learning/implicit_feedback.py",
-        "tests/test_implicit_feedback.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Updates procedural memory based on feedback signals.",
-        "Tests verify memory update with mocked interactions."
-      ]
-    },
-    {
       "id": "context-engine-selective-retrieval-b8bfa454",
       "status": "todo",
       "area": "memory",
@@ -12814,40 +11511,6 @@
       ]
     },
     {
-      "id": "hermes-skill-creation-experience-bf67873c",
-      "status": "todo",
-      "area": "skills",
-      "risk": "medium",
-      "title": "Hermes Skill Creation from Experience",
-      "description": "Inspired by Hermes self-improvement loops (Skill creation from experience): Implement a module that can derive skills from conversational experience.",
-      "allowed_paths": [
-        "magda_agent/skills/experience_creator_v2.py",
-        "tests/test_experience_creator_v2.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Experience creator generates skill logic from conversation context.",
-        "Tests mock LLM interactions and verify skill generation."
-      ]
-    },
-    {
-      "id": "openclaw-canvas-live-visualization-c51db8b9",
-      "status": "todo",
-      "area": "visualization",
-      "risk": "medium",
-      "title": "OpenClaw Canvas Live Visualization",
-      "description": "Canvas for live visualization from OpenClaw trend: stream complex agent state.",
-      "allowed_paths": [
-        "magda_agent/visualization/canvas_v4.py",
-        "tests/test_canvas_v4.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "CanvasVisualizerV4 correctly streams data",
-        "Tests pass"
-      ]
-    },
-    {
       "id": "a2a-distributed-telemetry-786a28d2",
       "status": "todo",
       "area": "telemetry",
@@ -12931,23 +11594,6 @@
       "acceptance": [
         "Habit weights shift based on feedback signals.",
         "Tests mock interactions and verify shifts."
-      ]
-    },
-    {
-      "id": "mcpkernel-taint-tracking-v3-80dc74fc",
-      "status": "todo",
-      "area": "safety",
-      "risk": "high",
-      "title": "MCPKernel Taint Tracking v3",
-      "description": "Inspired by MCPKernel trend: Implement taint tracking to propagate data origins across lists, dicts, and tool executions to prevent prompt injection.",
-      "allowed_paths": [
-        "magda_agent/safety/taint_tracking_v3.py",
-        "tests/test_taint_tracking_v3.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "TaintTrackingV3 class correctly tracks and propagates taints.",
-        "Tests verify taint propagation through nested data structures."
       ]
     },
     {
@@ -13036,23 +11682,6 @@
       ]
     },
     {
-      "id": "runtime-function-tool-concurrency-ddac9df1",
-      "status": "todo",
-      "area": "skills",
-      "risk": "medium",
-      "title": "Runtime function tool concurrency",
-      "description": "Inspired by the exact trend: 'Runtime function tool concurrency' under 'OpenAI Agents SDK' in docs/trends.md.",
-      "allowed_paths": [
-        "magda_agent/skills/concurrency_v3.py",
-        "tests/test_concurrency_v3.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Tools execute concurrently at runtime.",
-        "Tests verify concurrency limits and behavior."
-      ]
-    },
-    {
       "id": "agent-teams-git-worktree-isolation-ecc2d6cf",
       "status": "todo",
       "area": "architecture",
@@ -13119,23 +11748,6 @@
       "acceptance": [
         "Registry can dynamically load and validate MCP tools.",
         "Tests pass validation checks."
-      ]
-    },
-    {
-      "id": "a2a-discovery-agent-cards-v3-i9j0k1l2",
-      "status": "todo",
-      "area": "integration",
-      "risk": "medium",
-      "title": "A2A Discovery Agent Cards v3",
-      "description": "Implement A2A Agent Cards v3 for distributed discovery over A2A protocol.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_cards_v3.py",
-        "tests/test_a2a_cards_v3.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Cards are correctly formulated and exchanged.",
-        "Tests mock A2A network and pass."
       ]
     },
     {
@@ -13340,34 +11952,6 @@
       ]
     },
     {
-      "id": "claude-agent-teams-isolation-v4",
-      "status": "todo",
-      "area": "architecture",
-      "risk": "high",
-      "title": "Agent Teams Worktree Isolation",
-      "description": "Implement git worktree isolation for sub-agents to enable parallel multi-agent task execution without cross-contamination based on Claude Agent Teams trend.",
-      "allowed_paths": [
-        "magda_agent/architecture/worktree_isolation.py"
-      ],
-      "acceptance": [
-        "Subagents run in isolated worktrees"
-      ]
-    },
-    {
-      "id": "acs-runtime-guardrails-v5",
-      "status": "todo",
-      "area": "safety",
-      "risk": "medium",
-      "title": "ACS Validation Checkpoints",
-      "description": "Implement Agent Control Specification (ACS) 5 validation checkpoints for agentic workflows to ensure policy-driven execution based on Microsoft ACS trend.",
-      "allowed_paths": [
-        "magda_agent/safety/acs_guard_v3.py"
-      ],
-      "acceptance": [
-        "5 checkpoints validated during tool calls"
-      ]
-    },
-    {
       "id": "mcp-action-tool-registry-v6-1a2b3c4d",
       "status": "todo",
       "area": "skills",
@@ -13399,6 +11983,57 @@
       "acceptance": [
         "Processor maps next-state signals",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "openclaw-memory-virtual-context-v3-e89f7a00",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Virtual Context Memory V3",
+      "description": "Inspired by MemGPT/Letta pattern: Implement a Virtual Context Manager V3 that pages out old memory selectively and retrieves semantic memories using ChromaDB embeddings based on the current context.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v3.py",
+        "tests/test_virtual_context_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Manager limits working memory dynamically.",
+        "Tests mock ChromaDB to verify paging logic."
+      ]
+    },
+    {
+      "id": "acs-guardrails-taint-tracking-v3-0fb353c2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guardrails Taint Tracking V3",
+      "description": "Inspired by MCPKernel/ACS patterns: Implement a taint-tracking guardrail layer that prevents sensitive execution output from being inadvertently re-executed or broadcast via A2A.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_taint_v3.py",
+        "tests/test_acs_taint_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tainted payloads are blocked by the policy layer.",
+        "Tests verify that explicit taint checks pass correctly."
+      ]
+    },
+    {
+      "id": "hermes-skill-experience-generator-v2-8b627a98",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Hermes Skill Experience Generator V2",
+      "description": "Inspired by Hermes self-improving loop: Refine the ExperienceSkillCreator to automatically register new Python skills formatted as MCP-compatible JSON-RPC schemas based on successful problem resolutions.",
+      "allowed_paths": [
+        "magda_agent/learning/skills_creation_v2.py",
+        "tests/test_skills_creation_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Creator produces valid MCP-compatible tool schema from raw log strings.",
+        "Tests verify LLM schema generation using mocks."
       ]
     }
   ]
