@@ -52,3 +52,26 @@ def test_register_tool_at_runtime_failure():
 
     assert result is False
     assert "invalid_tool_v4" not in registry.list_tools()
+
+
+def test_register_tool_at_runtime_enhanced_validation_failure():
+    """Test failing dynamic registration due to enhanced validation (invalid name)."""
+    registry = MCPRegistry()
+    registrar = MCPDynamicRegistrarV4(registry)
+
+    invalid_schema_name = {
+        "name": "invalid name with spaces",
+        "description": "A tool with an invalid name."
+    }
+
+    result = registrar.register_tool_at_runtime(invalid_schema_name)
+    assert result is False
+
+    invalid_schema_input = {
+        "name": "valid_name",
+        "description": "A tool with invalid inputSchema.",
+        "inputSchema": "not_a_dict"
+    }
+
+    result = registrar.register_tool_at_runtime(invalid_schema_input)
+    assert result is False
