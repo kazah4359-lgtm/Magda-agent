@@ -170,3 +170,33 @@ async def test_execute_mcp_tools_duplicate_calls():
     assert results[0] == "server1-tool_a_1"
     assert results[1] is None
     assert results[2] == "server1-tool_a_1"
+
+@pytest.mark.asyncio
+async def test_execute_mcp_tools_concurrently_sync_blocking():
+    """
+    Test that synchronous fallback methods do not block the event loop.
+    We mock an execute method with time.sleep(0.2) and submit two tools concurrently.
+    The total execution time should be < 0.3s.
+    """
+    import time
+
+    class MockSyncClient:
+        def execute(self, name, kwargs):
+            time.sleep(0.2)
+            return f"{name}_sync_res"
+
+    mock_client = MockSyncClient()
+    executor = MCPConcurrentSkillExecutor(mock_client)
+
+    tool_calls = [
+        {"name": "server1-tool_a", "kwargs": {}},
+        {"name": "server2-tool_b", "kwargs": {}}
+    ]
+
+    start_time = asyncio.get_event_loop().time()
+    results = await executor.execute_mcp_tools_concurrently(tool_calls)
+    end_time = asyncio.get_event_loop().time()
+
+    assert end_time - start_time < 0.3
+    assert results[0] == "server1-tool_a_sync_res"
+    assert results[1] == "server2-tool_b_sync_res"
