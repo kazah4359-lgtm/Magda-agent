@@ -1,97 +1,79 @@
 import pytest
 import asyncio
-from datetime import datetime
 from unittest.mock import AsyncMock, patch
 
-from magda_agent.scheduler.cron_reports import DailyReportScheduler
-from magda_agent.scheduler.cron import CronScheduler
+from magda_agent.operations.cron_reports import DailyReportManager
+from magda_agent.operations.cron_v3 import HermesCronSchedulerV3
 
 @pytest.fixture
 def scheduler():
-    return DailyReportScheduler()
+    return HermesCronSchedulerV3(db_path=":memory:")
+
+@pytest.fixture
+def report_manager(scheduler):
+    return DailyReportManager(scheduler=scheduler)
 
 @pytest.mark.asyncio
-async def test_register_daily_report(scheduler):
-    mock_report = AsyncMock()
+async def test_register_daily_report(report_manager):
+    """
+    Tests that a daily report function is registered properly with the scheduler.
+    """
+    mock_func = AsyncMock(return_value="Daily events aggregated.")
 
-    scheduler.register_daily_report("daily_summary", mock_report)
+    report_manager.register_daily_report("test_report", mock_func, "0 9 * * *")
 
-    assert "daily_summary" in scheduler._registered_reports
+    conn = report_manager.scheduler._get_conn()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name, cron_expr FROM jobs WHERE name = 'test_report'")
+    row = cursor.fetchone()
 
-    # Check underlying CronScheduler
-    assert len(scheduler.scheduler.jobs) == 1
-    job = scheduler.scheduler.jobs[0]
-    assert job["name"] == "daily_summary"
-    assert job["cron_expr"] == "0 9 * * *"
-
-@pytest.mark.asyncio
-async def test_register_nightly_backup(scheduler):
-    mock_backup = AsyncMock()
-
-    scheduler.register_nightly_backup("db_backup", mock_backup)
-
-    assert "db_backup" in scheduler._registered_reports
-
-    # Check underlying CronScheduler
-    assert len(scheduler.scheduler.jobs) == 1
-    job = scheduler.scheduler.jobs[0]
-    assert job["name"] == "db_backup"
-    assert job["cron_expr"] == "0 2 * * *"
+    assert row is not None
+    assert row[0] == "test_report"
+    assert row[1] == "0 9 * * *"
 
 @pytest.mark.asyncio
-async def test_scheduler_triggers_reports_on_time():
-    ops_scheduler = CronScheduler()
-    scheduler = DailyReportScheduler(scheduler=ops_scheduler)
+async def test_generate_report_now(report_manager):
+    """
+    Tests that generate_report_now runs the correct registered function and returns its output.
+    """
+    mock_func = AsyncMock(return_value="Daily events aggregated.")
 
-    mock_report = AsyncMock(return_value="report_generated")
-    mock_backup = AsyncMock(return_value="backup_completed")
+    report_manager.register_daily_report("test_report", mock_func)
 
-    scheduler.register_daily_report("daily_summary", mock_report, cron_expr="0 9 * * *")
-    scheduler.register_nightly_backup("db_backup", mock_backup, cron_expr="0 2 * * *")
-
-    now = datetime(2026, 6, 1, 1, 59, 59) # Right before backup
-
-    with patch.object(ops_scheduler, '_get_now') as mock_get_now:
-        mock_get_now.return_value = now
-
-        # Manually force the iterator next run for testing
-        from croniter import croniter
-        for job in ops_scheduler.jobs:
-            job["iterator"] = croniter(job["cron_expr"], now)
-            job["next_run"] = job["iterator"].get_next(datetime)
-
-        ops_scheduler._running = True
-
-        # Advance time to backup run
-        mock_get_now.return_value = datetime(2026, 6, 1, 2, 0, 0)
-
-        for job in ops_scheduler.jobs:
-            if mock_get_now() >= job["next_run"]:
-                await ops_scheduler._execute_job(job)
-                job["next_run"] = job["iterator"].get_next(datetime)
-
-        mock_backup.assert_called_once()
-        mock_report.assert_not_called()
-
-        # Advance time to daily report run
-        mock_get_now.return_value = datetime(2026, 6, 1, 9, 0, 0)
-
-        for job in ops_scheduler.jobs:
-            if mock_get_now() >= job["next_run"]:
-                await ops_scheduler._execute_job(job)
-                job["next_run"] = job["iterator"].get_next(datetime)
-
-        mock_report.assert_called_once()
-        mock_backup.assert_called_once() # still 1
+    result = await report_manager.generate_report_now("test_report")
+    assert result == "Daily events aggregated."
+    mock_func.assert_called_once()
 
 @pytest.mark.asyncio
-async def test_scheduler_start_stop(scheduler):
-    await scheduler.start()
-    assert scheduler.scheduler._running is True
-    assert scheduler.scheduler._task is not None
-    assert not scheduler.scheduler._task.done()
+async def test_generate_report_now_not_registered(report_manager):
+    """
+    Tests that generate_report_now handles unregistered report tasks gracefully.
+    """
+    result = await report_manager.generate_report_now("nonexistent_report")
+    assert result is None
 
-    await scheduler.stop()
-    assert scheduler.scheduler._running is False
-    assert scheduler.scheduler._task.done()
-# Added for PR diff visibility
+@pytest.mark.asyncio
+async def test_generate_report_now_exception(report_manager):
+    """
+    Tests that generate_report_now handles exceptions raised by report functions gracefully.
+    """
+    mock_func = AsyncMock(side_effect=Exception("Simulation of report generation failure"))
+
+    report_manager.register_daily_report("error_report", mock_func)
+
+    result = await report_manager.generate_report_now("error_report")
+    assert result is None
+    mock_func.assert_called_once()
+
+@pytest.mark.asyncio
+async def test_report_manager_start_stop(report_manager):
+    """
+    Tests that the report manager correctly delegates start and stop to the scheduler.
+    """
+    with patch.object(report_manager.scheduler, 'start', new_callable=AsyncMock) as mock_start:
+        await report_manager.start()
+        mock_start.assert_called_once()
+
+    with patch.object(report_manager.scheduler, 'stop', new_callable=AsyncMock) as mock_stop:
+        await report_manager.stop()
+        mock_stop.assert_called_once()

@@ -6131,7 +6131,7 @@
     },
     {
       "id": "hermes-cron-scheduler-daily-reports-v2",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "low",
       "title": "Cron Scheduler Daily Reports",
@@ -12256,6 +12256,57 @@
       "acceptance": [
         "Auth logic supports network mesh traversal.",
         "Tests mock networking layer."
+      ]
+    },
+    {
+      "id": "claude-context-selective-retrieval-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Claude Selective Context Retrieval V2",
+      "description": "Inspired by Claude and MemGPT trends: Implement selective context retrieval mechanism for memory architecture to extract only context-relevant episodic memories.",
+      "allowed_paths": [
+        "magda_agent/memory/selective_retrieval_v2.py",
+        "tests/test_selective_retrieval_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context retrieval identifies relevant episodic memory.",
+        "Tests mock memory stores to verify retrieval logic."
+      ]
+    },
+    {
+      "id": "acs-validation-checkpoints-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Validation Checkpoints V4",
+      "description": "Inspired by ACS trend: Implement 5 validation checkpoints for agentic workflows to ensure input, output, state transition and intents are properly verified before external actions.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_checkpoints_v4.py",
+        "tests/test_acs_checkpoints_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agentic workflows run through the validation checkpoints.",
+        "Tests verify that inputs failing checkpoints are blocked."
+      ]
+    },
+    {
+      "id": "hermes-multi-platform-channels-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Hermes Multi-platform Channels V4",
+      "description": "Inspired by Hermes multi-platform trend: Expand Gateway to provide multi-platform adapters for Discord, WhatsApp and CLI using a unified Channel interface.",
+      "allowed_paths": [
+        "magda_agent/gateway/channels_v4.py",
+        "tests/test_channels_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Gateway provides unified channel adapters.",
+        "Tests mock each channel to verify format routing."
       ]
     }
   ]
