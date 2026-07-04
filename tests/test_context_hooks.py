@@ -1,5 +1,5 @@
 import pytest
-from magda_agent.architecture.context_hooks import HookRegistry
+from magda_agent.memory.context_hooks import HookRegistry, ContextPluginInterface
 
 def test_hook_registration():
     registry = HookRegistry()
@@ -10,6 +10,17 @@ def test_hook_registration():
     assert "before_retrieval" in registry._hooks
     assert len(registry._hooks["before_retrieval"]) == 1
     assert registry._hooks["before_retrieval"][0] == sample_hook
+
+def test_hook_unregistration():
+    registry = HookRegistry()
+    def sample_hook(query: str, user_id: int) -> str:
+        return query + " modified"
+
+    registry.register_hook("before_retrieval", sample_hook)
+    assert len(registry._hooks["before_retrieval"]) == 1
+
+    registry.unregister_hook("before_retrieval", sample_hook)
+    assert len(registry._hooks["before_retrieval"]) == 0
 
 def test_hook_triggering_pipeline():
     registry = HookRegistry()
@@ -56,3 +67,34 @@ def test_hook_triggering_side_effect():
 
     assert len(context_updates) == 1
     assert context_updates[0] == ({"key": "value"}, 42)
+
+class DummyPlugin:
+    def __init__(self):
+        self.hook_called = False
+
+    def my_hook(self, *args, **kwargs):
+        self.hook_called = True
+        if args:
+            return args[0]
+        return None
+
+    def attach(self, registry: HookRegistry) -> None:
+        registry.register_hook("custom_hook", self.my_hook)
+
+    def detach(self, registry: HookRegistry) -> None:
+        registry.unregister_hook("custom_hook", self.my_hook)
+
+
+def test_plugin_attach_detach():
+    registry = HookRegistry()
+    plugin = DummyPlugin()
+
+    plugin.attach(registry)
+    assert "custom_hook" in registry._hooks
+    assert len(registry._hooks["custom_hook"]) == 1
+
+    registry.trigger_hook("custom_hook")
+    assert plugin.hook_called is True
+
+    plugin.detach(registry)
+    assert len(registry._hooks["custom_hook"]) == 0

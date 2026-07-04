@@ -6551,7 +6551,7 @@
     },
     {
       "id": "context-engine-hooks-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Lifecycle Hooks",
@@ -13221,6 +13221,57 @@
       "acceptance": [
         "ACS module enforces checkpoints on tool execution",
         "Tests verify guardrail blocking logic"
+      ]
+    },
+    {
+      "id": "mcp-skill-marketplace-sync-v2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Skill Marketplace Sync v2",
+      "description": "Inspired by trend: Skill marketplace compatibility. Implement a background sync process that dynamically updates MCP tools from agentskills.io marketplace to maintain the local skill registry.",
+      "allowed_paths": [
+        "magda_agent/integration/skill_marketplace.py",
+        "tests/test_skill_marketplace.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Background sync successfully fetches and registers new tools via MCP.",
+        "Tests verify sync logic with mocked network requests."
+      ]
+    },
+    {
+      "id": "a2a-discovery-agent-cards-v4",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Discovery Agent Cards v4",
+      "description": "Inspired by trend: Agent discovery через Agent Cards (A2A protocol). Implement an updated agent discovery mechanism for peer-to-peer network discovery using the new Agent Cards v4 standard.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_cards.py",
+        "tests/test_a2a_cards.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can broadcast and parse Agent Cards v4 over the A2A network.",
+        "Tests mock network layer and verify parsing logic."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-metrics-v6",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw-RL Live Telemetry Streaming V6",
+      "description": "Inspired by trend: OpenClaw canvas live visualization. Stream live OpenClaw-RL telemetry (PAD shifts, reward signals) over websockets for canvas visualization.",
+      "allowed_paths": [
+        "magda_agent/telemetry/a2a_distributed_v7.py",
+        "tests/test_a2a_distributed_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL telemetry events are correctly formatted and streamed.",
+        "Tests mock websocket emission and verify event payloads."
       ]
     }
   ]
