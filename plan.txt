@@ -1,0 +1,22 @@
+1. Read the required documents. I've read `AGENTS.md`, `docs/cognitive_architecture.md`, `docs/jules_autonomous_loop.md`, `docs/codex_worker_plan.md`, `docs/trends.md`.
+2. I found the first task with status "todo":
+`id`: `claude-multi-agent-spawning-v3`
+`title`: `Claude multi-agent spawning v3`
+`allowed_paths`:
+- `magda_agent/agents/multi_agent_manager_v3.py`
+- `tests/test_multi_agent_manager_v3.py`
+- `agent_tasks.json`
+
+3. Implement `magda_agent/agents/multi_agent_manager_v3.py`.
+It should have a `MultiAgentManagerV3` class with methods to spawn subagents, assign tasks, and gather results, potentially running concurrently via asyncio. It should accept an `LLMClient` to give to the `SubAgent`s.
+
+4. Implement `tests/test_multi_agent_manager_v3.py`.
+Use `pytest_asyncio` and `AsyncMock` to mock `LLMClient.chat_completion`. Ensure testing concurrent spawning.
+
+5. Update `agent_tasks.json` to mark `claude-multi-agent-spawning-v3` as "done".
+
+6. Generate 2-3 NEW "todo" tasks in `agent_tasks.json` based on the trends read. Use explicit UUIDs, low/medium risk.
+
+7. Update `backlog.md` if the task exists there. Let's check `backlog.md` for `Claude multi-agent spawning v3`.
+
+8. Pre-commit check using `python scripts/validate_agent_tasks.py agent_tasks.json` and running pytest.
