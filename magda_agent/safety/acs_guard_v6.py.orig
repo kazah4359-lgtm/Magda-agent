@@ -4,8 +4,6 @@ from typing import Dict, Any, Tuple, Optional
 from magda_agent.safety.policy import PolicyLayer
 from magda_agent.safety.audit_trail import AuditTrail
 from magda_agent.safety.taint import is_tainted
-from magda_agent.safety.acs_sandboxing import ACSToolSandbox
-from magda_agent.safety.acs_sandboxing import ACSToolSandbox
 
 _SENSITIVE_PATTERNS = (
     re.compile(r"api[_-]?key|token|password|private[_-]?key|secret[_-]?key", re.IGNORECASE),
@@ -36,7 +34,6 @@ class ACSGuardV6:
         self.logger = logging.getLogger(__name__)
         self.policy_layer = policy_layer or PolicyLayer()
         self.audit_trail = audit_trail or AuditTrail()
-        self.tool_sandbox = ACSToolSandbox()
 
     def checkpoint_1_input_validation(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
         """
