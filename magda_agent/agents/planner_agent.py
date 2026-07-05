@@ -13,7 +13,14 @@ class PlannerAgent:
 
 
 
-    async def plan(self, user_input: str, user_id: Optional[str] = None, mental_state: Optional[MentalState] = None) -> List[Dict[str, Any]]:
+    async def plan(
+        self,
+        user_input: str,
+        user_id: Optional[str] = None,
+        mental_state: Optional[MentalState] = None,
+        behavior_weights: Optional[Dict[str, float]] = None,
+        skill_weights: Optional[Dict[str, float]] = None
+    ) -> List[Dict[str, Any]]:
         """
         Generates a plan based on the user input.
         If a plan step requires a capability available on an external agent, it delegates the sub-plan.
@@ -23,7 +30,13 @@ class PlannerAgent:
 
         current_plan = self.planner.get_current_plan(user_id=user_id)
         if not current_plan:
-            await self.planner.generate_plan(user_input, user_id=user_id, mental_state=mental_state)
+            await self.planner.generate_plan(
+                user_input,
+                user_id=user_id,
+                mental_state=mental_state,
+                behavior_weights=behavior_weights,
+                skill_weights=skill_weights
+            )
             current_plan = self.planner.get_current_plan(user_id=user_id)
 
         # Retrieve plan and automatically delegate steps if an A2A Delegator is available

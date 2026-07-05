@@ -120,7 +120,14 @@ class Planner:
     def paused_plan(self, value: Optional[Dict[str, Any]]) -> None:
         self.get_user_state().paused_plan = value
 
-    async def generate_plan(self, user_input: str, user_id: int = None, mental_state: Optional[MentalState] = None) -> List[Dict[str, Any]]:
+    async def generate_plan(
+        self,
+        user_input: str,
+        user_id: Optional[str] = None,
+        mental_state: Optional[MentalState] = None,
+        behavior_weights: Optional[Dict[str, float]] = None,
+        skill_weights: Optional[Dict[str, float]] = None
+    ) -> List[Dict[str, Any]]:
         logging.info("Generating plan for input")
         state = self.get_user_state(user_id)
         skills_desc = self.skills.get_skills_summary()
@@ -151,6 +158,27 @@ class Planner:
 
             if bias_instructions:
                 system_prompt += "\n\nCognitive Bias Modifiers:\n" + "\n".join(bias_instructions)
+
+        if behavior_weights:
+            weight_instructions = ["\n\nBehavioral Parameters:"]
+            if behavior_weights.get("exploration", 1.0) > 1.3:
+                weight_instructions.append("- High exploration mode: Prefer new or complex tools, suggest experimental steps.")
+            elif behavior_weights.get("exploration", 1.0) < 0.7:
+                weight_instructions.append("- Low exploration mode: Stick to proven, safe tools and standard procedures.")
+
+            if behavior_weights.get("directness", 1.0) > 1.3:
+                weight_instructions.append("- High directness: Prioritize efficient, minimal-step plans.")
+            elif behavior_weights.get("directness", 1.0) < 0.7:
+                weight_instructions.append("- Low directness: Include extra verification and safety checkpoints in the plan.")
+
+            if len(weight_instructions) > 1:
+                system_prompt += "\n".join(weight_instructions)
+
+        if skill_weights:
+            top_skills = sorted(skill_weights.items(), key=lambda x: x[1], reverse=True)[:3]
+            preferred = [s for s, w in top_skills if w > 1.2]
+            if preferred:
+                system_prompt += f"\n\nHighly weighted skills for this user: {', '.join(preferred)}. Prefer using these if appropriate."
 
         if self.habit_tracker:
             suggested_strategy = self.habit_tracker.suggest_strategy(user_input, user_id=user_id)
