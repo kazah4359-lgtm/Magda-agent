@@ -231,3 +231,4 @@
 * [x] FEATURE: OpenClaw RL Dynamic Behavior Adjustment v2 (openclaw-rl-dynamic-behavior-adjustment-v2)
 * [x] FEATURE: ACS Runtime Safety Controls V6 (acs-guard-runtime-safety-controls-v6)
 * [x] FEATURE: MCP Dynamic Action Tool v7 (mcp-dynamic-action-tool-v7)
+- [x] a2a-enterprise-integration-v8: A2A Enterprise Integration v8

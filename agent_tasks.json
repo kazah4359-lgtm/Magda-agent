@@ -6621,7 +6621,7 @@
     },
     {
       "id": "a2a-enterprise-integration-v8",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Enterprise Integration v8",
@@ -13742,6 +13742,57 @@
       "acceptance": [
         "Plugin handles context compression.",
         "Tests mock memory stores."
+      ]
+    },
+    {
+      "id": "464cfb79-7ffc-4573-8f84-b49d3a9fa201",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Tool Registry Auth Interceptor V2",
+      "description": "Implement a runtime interceptor for the MCP dynamic tool registry to block unsafe external calls.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_interceptor_v2.py",
+        "tests/test_mcp_interceptor_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Interceptor correctly blocks blocked calls.",
+        "Mock tests confirm logic."
+      ]
+    },
+    {
+      "id": "6547409a-f763-4793-a53d-94dded9863f7",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "low",
+      "title": "Hierarchical Planner Subagent Dependency Resolver",
+      "description": "Extract logic for grouping independent parallel tasks to be passed to Magentic-One subagents.",
+      "allowed_paths": [
+        "magda_agent/architecture/dependency_resolver.py",
+        "tests/test_dependency_resolver.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "DAG topological sort correctly organizes dependencies.",
+        "Tests mock DAG inputs."
+      ]
+    },
+    {
+      "id": "232aaef3-a110-4064-88d2-48104a0a0c93",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT Procedural Memory Manager",
+      "description": "Manage reusable code snippets in a separate procedural memory database, retrieved separately from episodic data.",
+      "allowed_paths": [
+        "magda_agent/memory/procedural.py",
+        "tests/test_procedural.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Procedural memories are isolated and recall correctly.",
+        "Tests mock DB logic."
       ]
     }
   ]
