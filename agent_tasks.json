@@ -6420,7 +6420,7 @@
     },
     {
       "id": "hermes-agent-multi-platform-v1",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "high",
       "title": "Hermes Agent Multi-Platform Support",
@@ -13156,6 +13156,40 @@
       "acceptance": [
         "Background loop successfully polls and parses MCP tool schema endpoints.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "mcp-agent-teams-isolation-v5",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "MCP Agent Teams Isolation V5",
+      "description": "Inspired by MCP / Agent Teams: Implement git worktree isolation specifically tailored for MCP action tools to prevent state bleed.",
+      "allowed_paths": [
+        "magda_agent/teams/mcp_isolation_v5.py",
+        "tests/test_mcp_isolation_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP action tools run in isolated git worktrees.",
+        "Tests verify worktree containment."
+      ]
+    },
+    {
+      "id": "openclaw-memory-compaction-cron",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Memory Compaction Cron",
+      "description": "Inspired by OpenClaw virtual context: Implement a cron job that automatically compacts episodic memory overnight.",
+      "allowed_paths": [
+        "magda_agent/operations/memory_compaction_cron.py",
+        "tests/test_memory_compaction_cron.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory compaction job runs on schedule.",
+        "Tests mock cron execution."
       ]
     }
   ]
