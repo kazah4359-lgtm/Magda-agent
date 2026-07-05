@@ -6216,7 +6216,7 @@
     },
     {
       "id": "mcp-dynamic-tool-registration-v4",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Dynamic Tool Registration v4",
@@ -12527,6 +12527,57 @@
       "acceptance": [
         "Habit weights decay over time.",
         "Decay logic is covered in tests."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-tracing-v5",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Enterprise Tracing V5",
+      "description": "Inspired by A2A Protocol trends. Add enterprise tracing and monitoring support for A2A delegated tasks.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing_v5.py",
+        "tests/test_a2a_tracing_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Delegated tasks are traced.",
+        "Tests mock A2A calls and trace data."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-subagent-pattern-v2",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "MCP Action Tool Subagent Pattern V2",
+      "description": "Inspired by Agent Teams trend. Orchestrate an MCP action tool execution inside a dedicated isolated subagent.",
+      "allowed_paths": [
+        "magda_agent/architecture/mcp_subagent_v2.py",
+        "tests/test_mcp_subagent_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent executes MCP tool in isolation.",
+        "Tests mock subagent spawner."
+      ]
+    },
+    {
+      "id": "context-engine-lifecycle-plugins-v6",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Lifecycle Plugins V6",
+      "description": "Inspired by OpenClaw trends. Implement advanced lifecycle plugins for context engine to compress semantic memory dynamically.",
+      "allowed_paths": [
+        "magda_agent/memory/context_plugins_v6.py",
+        "tests/test_context_plugins_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Lifecycle plugins trigger appropriately.",
+        "Tests mock memory and verify triggers."
       ]
     }
   ]

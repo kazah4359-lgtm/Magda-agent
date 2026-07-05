@@ -69,3 +69,20 @@ class MCPRegistry:
             List[str]: A list of tool names.
         """
         return list(self.mcp_tools.keys())
+
+    def unload_tool(self, name: str) -> bool:
+        """
+        Dynamically unregisters and removes an MCP tool from the registry.
+
+        Args:
+            name (str): The name of the MCP tool to unload.
+
+        Returns:
+            bool: True if the tool was successfully unloaded, False if not found.
+        """
+        if name in self.mcp_tools:
+            del self.mcp_tools[name]
+            logging.info(f"Successfully unloaded MCP tool: {name}")
+            return True
+        logging.warning(f"Failed to unload MCP tool: {name} not found in registry.")
+        return False
