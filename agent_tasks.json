@@ -6318,7 +6318,7 @@
     },
     {
       "id": "hermes-cron-scheduler-daily-reports-v3",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "low",
       "title": "Hermes Cron Scheduler Daily Reports v3",
@@ -12848,6 +12848,57 @@
       ],
       "acceptance": [
         "Semantic memory updates are visualized live."
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-creation-v5",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Hermes Agent Skills Creation v5",
+      "description": "Inspired by Hermes Agent trends: Implement a v5 of the skills creation mechanism to autonomously build skills from experience and register them natively.",
+      "allowed_paths": [
+        "magda_agent/learning/skills_creation_v5.py",
+        "tests/test_skills_creation_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill creation creates correctly.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "claude-context-compression-v7",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Claude Context Compression v7",
+      "description": "Inspired by Claude Agent SDK context compression trends: Create an enhanced context compression plugin to dynamically shrink long-term memory into working context using semantic cues.",
+      "allowed_paths": [
+        "magda_agent/memory/compression_v7.py",
+        "tests/test_compression_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Compression logic triggers.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "openclaw-semantic-memory-canvas-v3",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Semantic Memory Canvas v3",
+      "description": "Inspired by OpenClaw Canvas Live trends: Implement canvas APIs for displaying semantic memory relations visually.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_api_v3.py",
+        "tests/test_canvas_api_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas API correctly fetches semantic memory visually.",
+        "Tests pass."
       ]
     }
   ]
