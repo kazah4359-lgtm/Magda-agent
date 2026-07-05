@@ -13279,7 +13279,7 @@
     },
     {
       "id": "045f5265-421f-4035-bde4-cc3a35ca53ed",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Semantic Memory Compaction V4",
@@ -13516,6 +13516,42 @@
         "MCP tools run in isolated context namespace.",
         "Taint tracker effectively blocks unsafe data transitions.",
         "Tests use mocked tool executions to verify isolation."
+      ]
+    },
+    {
+      "id": "8a857a8b-360a-4a5a-aff1-9d05fdd8ece1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT Virtual Context Integration V2",
+      "description": "Inspired by MemGPT virtual context patterns: Create a context manager that swaps episodic memories in and out of the active LLM context based on token limits.",
+      "allowed_paths": [
+        "magda_agent/memory/memgpt_virtual_context_v2.py",
+        "tests/test_memgpt_virtual_context_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context manager enforces token limits.",
+        "Episodic memories are correctly swapped.",
+        "Tests verify virtual context swapping logic."
+      ]
+    },
+    {
+      "id": "cc58a34c-3f1a-41aa-9db6-ddff979cb589",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Prempti Tool Interception Logger V1",
+      "description": "Inspired by Prempti (Falco): Implement a low-level logger that intercepts all dynamic tool executions and records metadata into the AuditTrail before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/prempti_logger_v1.py",
+        "tests/test_prempti_logger_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Logger intercepts tool calls.",
+        "AuditTrail receives pre-execution logs.",
+        "Tests verify logging logic without executing the actual tool."
       ]
     }
   ]
