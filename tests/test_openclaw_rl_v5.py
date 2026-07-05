@@ -26,6 +26,10 @@ async def test_process_feedback_positive(integrator):
         skill_used="search"
     )
     assert integrator.skill_weights["search"] == 1.1
+    # Check behavior parameters (1.0 + 0.1 = 1.1)
+    assert integrator.behavior_parameters["exploration"] == pytest.approx(1.1)
+    assert integrator.behavior_parameters["verbosity"] == pytest.approx(1.1)
+    assert integrator.behavior_parameters["directness"] == pytest.approx(1.1)
 
 @pytest.mark.asyncio
 async def test_process_feedback_negative(integrator):
@@ -36,6 +40,10 @@ async def test_process_feedback_negative(integrator):
         skill_used="search"
     )
     assert integrator.skill_weights["search"] == 0.9
+    # Check behavior parameters (1.0 - 0.1 = 0.9)
+    assert integrator.behavior_parameters["exploration"] == pytest.approx(0.9)
+    assert integrator.behavior_parameters["verbosity"] == pytest.approx(0.9)
+    assert integrator.behavior_parameters["directness"] == pytest.approx(0.9)
 
 @pytest.mark.asyncio
 async def test_process_feedback_new_skill(integrator):

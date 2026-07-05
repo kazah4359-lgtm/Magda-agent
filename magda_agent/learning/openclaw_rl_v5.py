@@ -7,14 +7,20 @@ class OnlineRLIntegrator:
     Updates skill_weights based on user feedback.
     """
 
-    def __init__(self, initial_weights: Optional[Dict[str, float]] = None) -> None:
+    def __init__(self, initial_weights: Optional[Dict[str, float]] = None, initial_behavior: Optional[Dict[str, float]] = None) -> None:
         """
         Initializes the OnlineRLIntegrator.
 
         Args:
             initial_weights (Optional[Dict[str, float]]): Initial weights for skills.
+            initial_behavior (Optional[Dict[str, float]]): Initial behavior parameters for the agent.
         """
         self.skill_weights: Dict[str, float] = initial_weights or {}
+        self.behavior_parameters: Dict[str, float] = initial_behavior or {
+            "exploration": 1.0,
+            "verbosity": 1.0,
+            "directness": 1.0
+        }
         logging.info("Initialized OnlineRLIntegrator")
 
     def parse_feedback(self, feedback: str) -> float:
@@ -67,3 +73,10 @@ class OnlineRLIntegrator:
         self.skill_weights[skill_used] = max(0.1, self.skill_weights[skill_used])
 
         logging.info(f"Updated weight for skill '{skill_used}' to {self.skill_weights[skill_used]:.2f} based on feedback reward {reward}")
+
+        # Update behavior parameters dynamically
+        behavior_adjustment = reward * 0.1
+        for param in self.behavior_parameters:
+            new_val = self.behavior_parameters[param] + behavior_adjustment
+            self.behavior_parameters[param] = max(0.5, min(2.0, new_val))
+            logging.info(f"Updated behavior parameter '{param}' to {self.behavior_parameters[param]:.2f}")
