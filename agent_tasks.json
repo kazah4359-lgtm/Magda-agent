@@ -6352,7 +6352,7 @@
     },
     {
       "id": "claude-agent-evaluator-v2",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Claude Agent Evaluator v2",
@@ -12950,6 +12950,58 @@
       "acceptance": [
         "Card broadcast is received locally",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "claude-subagent-token-optimizer-v5-f7574180-20c7-4782-904b-523e23aaaf6a",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Claude Subagent Token Optimizer V5",
+      "description": "Inspired by Claude Agent SDK context compression trend. Enhance context compression algorithms.",
+      "allowed_paths": [
+        "magda_agent/memory/compression_v5.py",
+        "tests/test_compression_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context is effectively compressed.",
+        "Tests verify context window limits."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registry-sync-v10-ab8196e0-d9a4-401f-b9d4-23487568426a",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registry Synchronization V10",
+      "description": "Inspired by MCP Standard trend: Implement a background loop that periodically polls a configured MCP server URL and dynamically registers or unregisters tools in the local MCPRegistry.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_sync.py",
+        "tests/test_mcp_registry_sync.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Background loop successfully polls and parses MCP tool schema endpoints.",
+        "Local MCPRegistry reflects the state of the remote MCP server.",
+        "Tests verify the polling mechanism using a mocked client."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-live-memory-telemetry-v7-6a29979c-e215-4b3c-a6e3-87be8ab9f990",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Memory Telemetry V7",
+      "description": "Inspired by OpenClaw Canvas Live Visualization trend: Create an export module to broadcast episodic memory consolidation events dynamically to a live dashboard.",
+      "allowed_paths": [
+        "magda_agent/telemetry/canvas_memory_v5.py",
+        "tests/test_canvas_memory_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory telemetry broadcaster implemented and broadcasts consolidation events.",
+        "Tests verify event payloads format matches Canvas UI."
       ]
     }
   ]
