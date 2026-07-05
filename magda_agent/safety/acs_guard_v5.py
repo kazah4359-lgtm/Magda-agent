@@ -78,17 +78,11 @@ class ACSGuardV5:
         """
         Checkpoint 3: Tool Policy.
         Checks if the tool complies with defined policies using the PolicyLayer.
+        Delegates to ACSRuntimeGuardV5.
         """
-        tool = workflow_data.get("tool")
-        if tool == "forbidden_tool":
-            return False, f"Tool policy failed: tool '{tool}' is forbidden."
-
-        kwargs = workflow_data.get("kwargs", {})
-        allow, explanation = self.policy_layer.evaluate(tool, **kwargs)
-        if not allow:
-            return False, f"Tool policy failed: {explanation}"
-
-        return True, "Tool policy Passed."
+        from magda_agent.safety.acs_runtime_v5 import ACSRuntimeGuardV5
+        guard = ACSRuntimeGuardV5(policy_layer=self.policy_layer)
+        return guard.evaluate(workflow_data)
 
     def checkpoint_4_state_transition(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
         """
