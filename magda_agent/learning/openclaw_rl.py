@@ -94,6 +94,33 @@ class OpenClawInteractiveLearner:
             model_data["preferences"] = {}
         model_data["preferences"]["last_p_shift"] = p_shift
 
+        # Dynamic Behavior Adjustment based on implicit emotional shifts
+        behavior_weights = model_data.setdefault("behavior_weights", {
+            "exploration": 1.0,
+            "verbosity": 1.0,
+            "directness": 1.0
+        })
+
+        # Adjust exploration based on pleasure shift
+        if p_shift > 0.0:
+            behavior_weights["exploration"] = min(2.0, behavior_weights["exploration"] + p_shift * 0.5)
+        elif p_shift < 0.0:
+            behavior_weights["exploration"] = max(0.5, behavior_weights["exploration"] + p_shift * 0.5)
+
+        # Adjust verbosity based on arousal shift
+        if a_shift > 0.0:
+            behavior_weights["verbosity"] = min(2.0, behavior_weights["verbosity"] + a_shift)
+        elif a_shift < 0.0:
+            behavior_weights["verbosity"] = max(0.5, behavior_weights["verbosity"] + a_shift)
+
+        # Adjust directness based on dominance shift
+        if d_shift > 0.0:
+            behavior_weights["directness"] = min(2.0, behavior_weights["directness"] + d_shift)
+        elif d_shift < 0.0:
+            behavior_weights["directness"] = max(0.5, behavior_weights["directness"] + d_shift)
+
+        model_data["behavior_weights"] = behavior_weights
+
         # Save the updated user model back to disk
         self.user_model.save_model(user_id, model_data)
         logging.info(f"OpenClaw-RL: Updated user model for user {user_id}")

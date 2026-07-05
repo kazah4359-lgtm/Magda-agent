@@ -228,3 +228,4 @@
 
 * [x] mcp-dynamic-tool-registry-v4: MCP Dynamic Tool Registry
 * [x] FEATURE: A2A Task Delegation Protocol (a2a-task-delegation-v2)
+* [x] FEATURE: OpenClaw RL Dynamic Behavior Adjustment v2 (openclaw-rl-dynamic-behavior-adjustment-v2)
