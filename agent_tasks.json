@@ -6653,7 +6653,7 @@
     },
     {
       "id": "mcp-server-prefixed-tools-v3",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Server Prefixed Tools",
@@ -13844,6 +13844,60 @@
       "acceptance": [
         "Trigger initiates compression when context exceeds threshold.",
         "Tests verify threshold detection and compression call."
+      ]
+    },
+    {
+      "id": "a961f497-7231-4129-b058-bc19f8a5ab8e",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes-inspired Dynamic Skill Optimizer V2",
+      "description": "Inspired by Hermes Agent learning loop: Create a module that observes the output of standard skills and, upon consecutive successful executions, dynamically generates an optimized, cached version of the skill to reduce token usage and latency.",
+      "allowed_paths": [
+        "magda_agent/skills/dynamic_optimizer_v2.py",
+        "tests/test_dynamic_optimizer_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Optimizer detects consecutive successful executions of a skill.",
+        "Generates and registers an optimized cached version.",
+        "Tests verify detection and registration using mocked skill executions."
+      ]
+    },
+    {
+      "id": "ff002869-57a4-4a3b-a7ae-f96da0500728",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCPKernel Taint Tracking Sandbox V3",
+      "description": "Inspired by MCPKernel standard trend: Implement a runtime sandbox wrapper for MCP tool execution that tracks tainted inputs (e.g., untrusted user strings) and blocks them from reaching sensitive tool arguments (like file paths or command payloads).",
+      "allowed_paths": [
+        "magda_agent/safety/mcpkernel_sandbox_v3.py",
+        "tests/test_mcpkernel_sandbox_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sandbox wrapper successfully tracks tainted input variables.",
+        "Execution is blocked if tainted data is passed to sensitive arguments.",
+        "Tests verify block and allow paths using mock tainted data."
+      ]
+    },
+    {
+      "id": "ffcc3daa-d337-460a-8e3d-9686ec7a1ede",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "A2A Peer Delegation Routing V2",
+      "description": "Inspired by the Agent-to-Agent (A2A) protocol trend: Implement a routing mechanism that allows Magda to evaluate a task's complexity and delegate it to a specialized peer sub-agent network using Agent Cards for capability matching.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_peer_routing_v2.py",
+        "tests/test_a2a_peer_routing_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Router evaluates task complexity and matches it to a peer agent via Agent Card capabilities.",
+        "Task is delegated successfully if a match is found.",
+        "Tests verify matching logic and mock delegation payload."
       ]
     }
   ]
