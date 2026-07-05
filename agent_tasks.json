@@ -6233,7 +6233,7 @@
     },
     {
       "id": "acs-guard-audit-trail-v1",
-      "status": "todo",
+      "status": "done",
       "area": "security",
       "risk": "medium",
       "title": "ACS Guard Audit Trail",
@@ -12612,6 +12612,57 @@
       "acceptance": [
         "Circuit breaker trips after consecutive failures.",
         "Tests verify fallback and trip limits."
+      ]
+    },
+    {
+      "id": "mcp-server-prefixed-tools-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Server Prefixed Tools v2",
+      "description": "Inspired by OpenAI Agents SDK trend: Handle server-prefixed tools by appending the server name and registering them with the MCPClient via register_mcp_server.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_engine.py",
+        "tests/test_mcp_engine.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tools are correctly prefixed.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "a2a-auth-token-delegation-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Auth Token Delegation v4",
+      "description": "Inspired by A2A Protocol trend: Manage secure token-based authentication delegation for A2A peers.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_auth.py",
+        "tests/test_a2a_auth.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Active tokens are generated securely.",
+        "Tests verify token generation and validation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-dynamic-behavior-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "high",
+      "title": "OpenClaw RL Dynamic Behavior v3",
+      "description": "Inspired by OpenClaw RL online learning trend: Implement online reinforcement learning from user feedback for adapting agent behavior parameters.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v3.py",
+        "tests/test_openclaw_rl_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent behavior adapts via user feedback.",
+        "Tests pass."
       ]
     }
   ]
