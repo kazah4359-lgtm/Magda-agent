@@ -6301,7 +6301,7 @@
     },
     {
       "id": "hermes-cron-nightly-backups-v1-unique",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "low",
       "title": "Hermes Cron Nightly Backups",
@@ -12816,6 +12816,38 @@
       "acceptance": [
         "Canvas updates live based on RL events.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "acs-state-transition-checkpoint-v5-1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS State Transition Checkpoint V5",
+      "description": "Implement Microsoft ACS state transition guardrail.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_state_transition_v5.py",
+        "tests/test_acs_state_transition_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "State transition checkpoint blocks invalid transitions."
+      ]
+    },
+    {
+      "id": "openclaw-semantic-memory-canvas-v2-1",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Semantic Memory Canvas V2",
+      "description": "Add live visualization of semantic memory updates inspired by OpenClaw.",
+      "allowed_paths": [
+        "magda_agent/visualization/openclaw_semantic_canvas_v2.py",
+        "tests/test_openclaw_semantic_canvas_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Semantic memory updates are visualized live."
       ]
     }
   ]
