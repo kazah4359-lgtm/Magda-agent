@@ -6454,7 +6454,7 @@
     },
     {
       "id": "mcp-action-tool-concurrency-v1-unique",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Runtime Tool Concurrency",
@@ -13224,6 +13224,57 @@
       "acceptance": [
         "Subagents operate in isolated worktrees.",
         "Tests verify isolation."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-evaluator-plugin-v2-a9ba9bdc-07ef-46ea-a5c8-a69fae9d45ed",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Evaluator Plugin v2",
+      "description": "Inspired by MCP standards trend: Develop an evaluator plugin that evaluates new skills against an MCP dynamic verification sandbox.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_eval_v2.py",
+        "tests/test_mcp_eval_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator plugin successfully evaluates skills in a dynamic sandbox.",
+        "Tests verify evaluation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-live-metrics-v8-dbdf3a77-d78e-47b0-8c8a-7f683d60b2e7",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "OpenClaw RL Canvas Live Metrics v8",
+      "description": "Inspired by OpenClaw Canvas Live Visualization trend: Create an export module to broadcast memory consolidation metrics to a live dashboard.",
+      "allowed_paths": [
+        "magda_agent/skills/canvas_metrics_v8.py",
+        "tests/test_canvas_metrics_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry broadcaster implemented and broadcasts metrics.",
+        "Tests verify metric payloads format matches Canvas UI."
+      ]
+    },
+    {
+      "id": "a2a-discovery-mesh-cards-v8-0ee4892e-796f-4470-b084-0579481e265e",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Discovery Mesh Cards V8",
+      "description": "Inspired by A2A Protocol trends: Enable Agent Card broadcasting across A2A mesh network to discover agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_mesh_v8.py",
+        "tests/test_a2a_discovery_mesh_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Card broadcast is received locally.",
+        "Tests pass."
       ]
     }
   ]
