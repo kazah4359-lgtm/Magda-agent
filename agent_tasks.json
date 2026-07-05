@@ -6637,7 +6637,7 @@
     },
     {
       "id": "claude-multi-agent-spawning-v3",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Claude multi-agent spawning v3",
@@ -13793,6 +13793,57 @@
       "acceptance": [
         "Procedural memories are isolated and recall correctly.",
         "Tests mock DB logic."
+      ]
+    },
+    {
+      "id": "96c3b83b-8572-42d7-9ec1-e4041374df51",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Discovery Agent Card Broadcaster V4",
+      "description": "Inspired by A2A standard trend: Implement an agent discovery component that periodically broadcasts the agent's capabilities via Agent Card formatting over network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v4.py",
+        "tests/test_a2a_discovery_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent capabilities are broadcasted correctly.",
+        "Tests verify payload format."
+      ]
+    },
+    {
+      "id": "f5a908a1-4008-47a8-8cb1-60faf53ff94a",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Dynamic Verification Sandbox Hook V2",
+      "description": "Inspired by MCP policy layer trends: Implement a dynamic execution hook for intercepting and sandboxing external MCP action tools during runtime.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_sandbox_hook_v2.py",
+        "tests/test_mcp_sandbox_hook_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Hook intercepts and sandboxes external calls.",
+        "Tests mock hook behavior."
+      ]
+    },
+    {
+      "id": "69833305-d25f-4b77-9472-65747ad0e5f4",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT Virtual Context Compression Trigger V3",
+      "description": "Inspired by MemGPT virtual context trend: Introduce a subagent trigger specifically responsible for periodic context compression of long dialogue history.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_compression_trigger_v3.py",
+        "tests/test_virtual_compression_trigger_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Trigger initiates compression when context exceeds threshold.",
+        "Tests verify threshold detection and compression call."
       ]
     }
   ]
