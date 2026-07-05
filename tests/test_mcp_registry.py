@@ -66,3 +66,17 @@ def test_list_tools(registry: MCPRegistry) -> None:
     assert len(tools) == 2
     assert "tool1" in tools
     assert "tool2" in tools
+
+def test_unload_existing_tool(registry: MCPRegistry) -> None:
+    """Test unloading an existing tool."""
+    tool = {"name": "test_tool", "description": "A tool to test unloading."}
+    registry.load_tool(tool)
+    assert "test_tool" in registry.list_tools()
+
+    assert registry.unload_tool("test_tool") is True
+    assert "test_tool" not in registry.list_tools()
+    assert registry.get_tool("test_tool") == {}
+
+def test_unload_nonexistent_tool(registry: MCPRegistry) -> None:
+    """Test unloading a tool that does not exist in the registry."""
+    assert registry.unload_tool("nonexistent_tool") is False
