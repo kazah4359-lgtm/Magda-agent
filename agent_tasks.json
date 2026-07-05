@@ -6573,7 +6573,7 @@
     },
     {
       "id": "a2a-agent-discovery-v3-89076f63",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Agent Discovery v3",
@@ -13552,6 +13552,57 @@
         "Logger intercepts tool calls.",
         "AuditTrail receives pre-execution logs.",
         "Tests verify logging logic without executing the actual tool."
+      ]
+    },
+    {
+      "id": "7fb16e93-1c84-4e9e-b85f-42b18bc3f423",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Magentic-One Multi-Agent Orchestration V3",
+      "description": "Inspired by Magentic-One pattern from Microsoft: Build an orchestration layer that efficiently routes tasks to parallel subagents and merges state natively.",
+      "allowed_paths": [
+        "magda_agent/architecture/magentic_one_v3.py",
+        "tests/test_magentic_one_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Orchestrator can route tasks among multiple sub-agents.",
+        "Tests verify task routing."
+      ]
+    },
+    {
+      "id": "3a7bb365-8d58-4c05-bfba-cf78ee024091",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Tool Runtime Execution Policy Sandbox V4",
+      "description": "Inspired by MCP sandboxing trends: Introduce a tight runtime policy evaluator sandbox to intercept action tools preventing unverified side-effects.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_policy_sandbox_v4.py",
+        "tests/test_mcp_policy_sandbox_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP action tools trigger the sandbox policy.",
+        "Tests verify valid executions and blocked executions."
+      ]
+    },
+    {
+      "id": "d11098fc-9600-4fb2-a17b-68efa4eab388",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Workflow Auth Delegation Tokens",
+      "description": "Inspired by A2A Protocol standard trends: Manage active authentication tokens when passing tasks over A2A mesh network to peers.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_auth_delegation.py",
+        "tests/test_a2a_auth_delegation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tasks delegate securely via active token.",
+        "Tests verify A2A requests over mock token exchange."
       ]
     }
   ]
