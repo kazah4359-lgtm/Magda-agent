@@ -70,7 +70,7 @@ def test_checkpoint_3_tool_policy(acs_guard: ACSGuardV5, mock_policy_layer: Magi
     # Fail - forbidden_tool
     passed, reason = acs_guard.checkpoint_3_tool_policy({"tool": "forbidden_tool"})
     assert not passed
-    assert "is forbidden" in reason
+    assert "is explicitly forbidden" in reason
 
     # Fail - PolicyLayer denial
     mock_policy_layer.evaluate.return_value = (False, "Policy denial")
@@ -167,7 +167,7 @@ def test_intercept_action(acs_guard: ACSGuardV5, mock_audit_trail: MagicMock) ->
     mock_audit_trail.log_call.assert_called_with(
         tool_name="forbidden_tool",
         kwargs={},
-        why="ACS Checkpoint 3 Failed: Tool policy failed: tool 'forbidden_tool' is forbidden.",
+        why="ACS Checkpoint 3 Failed: Tool policy failed: tool 'forbidden_tool' is explicitly forbidden.",
         result="blocked",
         duration=0.0
     )

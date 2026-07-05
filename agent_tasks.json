@@ -6605,7 +6605,7 @@
     },
     {
       "id": "acs-guardrail-runtime-v5-e48c3980",
-      "status": "todo",
+      "status": "done",
       "area": "security",
       "risk": "high",
       "title": "ACS Guardrails Runtime Policy v5",
@@ -13637,6 +13637,60 @@
       "acceptance": [
         "Agent falls back to a neutral response on output validation failure.",
         "Tests mock a denied validation and assert the fallback path is taken."
+      ]
+    },
+    {
+      "id": "2d0966fd-8abe-4b49-8ac8-73aa7d00068a",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Magentic-One Task Dependency Resolution Engine v4",
+      "description": "Inspired by Magentic-One and Agent Teams trends: Implement an orchestration router component that topologically sorts DAG-based execution plans and routes independent sub-tasks concurrently to subagents in isolated git worktrees.",
+      "allowed_paths": [
+        "magda_agent/architecture/dependency_router_v4.py",
+        "tests/test_dependency_router_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Orchestrator correctly resolves sub-task dependencies using a topological sort.",
+        "Independent tasks are grouped for parallel execution.",
+        "Tests verify DAG resolution logic with mocked subagent workflows."
+      ]
+    },
+    {
+      "id": "640fdf1f-cd6c-4543-9eb5-dbaffad4e745",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT Semantic Cluster Virtual Context Pager v2",
+      "description": "Inspired by MemGPT/Letta patterns and Context Compression trends: Introduce a Context Engine plugin that applies local embeddings clustering on episodic memories, automatically evicting or compressing entire redundant thematic clusters to maintain token constraints.",
+      "allowed_paths": [
+        "magda_agent/memory/semantic_pager_v2.py",
+        "tests/test_semantic_pager_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Pager identifies redundant thematic clusters across episodic records.",
+        "Evicts or summarizes related records concurrently when threshold is hit.",
+        "Tests mock local embeddings to verify proper cluster eviction logic."
+      ]
+    },
+    {
+      "id": "6d8ad2d6-3cec-40d9-b1bf-68c2995ab826",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Reward Propagator v6",
+      "description": "Inspired by OpenClaw-RL implicit feedback trends: Develop an online reinforcement learning propagator that dynamically traces sub-agent execution paths, assigning positive or negative PAD feedback signals recursively up the hierarchy of delegated actions based on user replies.",
+      "allowed_paths": [
+        "magda_agent/learning/reward_propagator_v6.py",
+        "tests/test_reward_propagator_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Reward propagator tracks execution hierarchies using context metadata.",
+        "Implicit feedback properly trickles down and modulates weights across parallel subagents.",
+        "Tests verify weight adjustments through the propagation graph using simulated feedback."
       ]
     }
   ]
