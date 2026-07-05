@@ -6335,7 +6335,7 @@
     },
     {
       "id": "mcp-dynamic-tool-registration-v5",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Dynamic Tool Registration v5",
@@ -12899,6 +12899,57 @@
       "acceptance": [
         "Canvas API correctly fetches semantic memory visually.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-memory-viz-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "OpenClaw Canvas Memory Viz V3",
+      "description": "Implement live visualization of memory nodes on OpenClaw Canvas.",
+      "allowed_paths": [
+        "magda_agent/memory/openclaw_canvas_v3.py",
+        "tests/test_openclaw_canvas_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory nodes appear on Canvas dynamically",
+        "Tests verify state changes correctly"
+      ]
+    },
+    {
+      "id": "claude-subagent-spawner-v4",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Subagent Spawner V4",
+      "description": "Implement spawning of isolated subagents for parallel code synthesis.",
+      "allowed_paths": [
+        "magda_agent/architecture/subagent_spawner_v4.py",
+        "tests/test_subagent_spawner_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Spawns subagent cleanly",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "a2a-discovery-mesh-cards-v5",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Discovery Mesh Cards V5",
+      "description": "Enable Agent Card broadcasting across A2A mesh network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_mesh_v5.py",
+        "tests/test_a2a_discovery_mesh_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Card broadcast is received locally",
+        "Tests pass"
       ]
     }
   ]
