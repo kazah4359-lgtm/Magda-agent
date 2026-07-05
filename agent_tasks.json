@@ -9389,7 +9389,7 @@
     },
     {
       "id": "online-rl-feedback-loop-e2767014-e0af-4dd5-8dfe-2883b576fbe4",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "Online RL User Feedback Loop",
@@ -12578,6 +12578,40 @@
       "acceptance": [
         "Lifecycle plugins trigger appropriately.",
         "Tests mock memory and verify triggers."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-preflight-validation-v6-1e2612a5",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Tool Pre-flight Validation V6 v2",
+      "description": "Implement a pre-flight validation mechanism for all MCP action tools before JSON-RPC execution to verify inputs against a static schema.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_preflight_v6_v2.py",
+        "tests/test_mcp_preflight_v6_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Pre-flight validator intercepts invalid requests.",
+        "Tests mock MCP clients to verify blocking behavior."
+      ]
+    },
+    {
+      "id": "a2a-delegation-circuit-breaker-v7-bc9e8aae",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Delegation Circuit Breaker V7 v2",
+      "description": "Implement a circuit breaker pattern to prevent continuous task delegation failures to unresponsive peer agents via A2A.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_circuit_breaker_v7_v2.py",
+        "tests/test_a2a_circuit_breaker_v7_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Circuit breaker trips after consecutive failures.",
+        "Tests verify fallback and trip limits."
       ]
     }
   ]
