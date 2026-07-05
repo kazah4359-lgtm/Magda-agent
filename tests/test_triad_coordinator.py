@@ -28,7 +28,13 @@ async def test_triad_coordinator():
     )
 
     assert res == "final response"
-    planner.plan.assert_called_once_with("hello", user_id="123", mental_state=None)
+    planner.plan.assert_called_once_with(
+        "hello",
+        user_id="123",
+        mental_state=None,
+        behavior_weights=None,
+        skill_weights=None
+    )
     generator.execute_plan.assert_called_once_with("hello", user_id="123")
     message_builder.assert_called_once_with("plan string")
     pre_hook.assert_called_once()
