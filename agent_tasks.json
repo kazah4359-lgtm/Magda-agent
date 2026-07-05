@@ -6267,7 +6267,7 @@
     },
     {
       "id": "acs-guard-runtime-safety-controls-v6",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Guard Runtime Safety Controls v6",
@@ -12715,6 +12715,57 @@
         "Routing falls back correctly when remote server fails.",
         "Tests mock remote server failure to verify fallback."
       ]
+    },
+    {
+      "id": "a2a-enterprise-tracing-v6",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Enterprise Tracing V6",
+      "description": "Inspired by A2A Protocol trends. Add enhanced enterprise tracing and distributed monitoring support for A2A delegated tasks.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing_v6.py",
+        "tests/test_a2a_tracing_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Delegated tasks include trace IDs.",
+        "Tests mock A2A calls and trace data."
+      ],
+      "status": "todo"
+    },
+    {
+      "id": "openclaw-rl-habit-decay-v4",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Habit Decay V4",
+      "description": "Inspired by OpenClaw-RL trend: Add momentum-based explicit time decay to learned habits in the tracker.",
+      "allowed_paths": [
+        "magda_agent/learning/habits_v4.py",
+        "tests/test_habits_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Habit weights decay over time with momentum.",
+        "Decay logic is covered in tests."
+      ],
+      "status": "todo"
+    },
+    {
+      "id": "claude-evaluator-subagent-teams-v4",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude Evaluator Subagent Teams V4",
+      "description": "Inspired by Claude Agent SDK trend: Implement a specialized subagent evaluator pool with strict sandboxing.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v4.py",
+        "tests/test_agent_teams_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator team runs in sandbox.",
+        "LLM is mocked in tests."
+      ],
+      "status": "todo"
     }
   ]
 }
