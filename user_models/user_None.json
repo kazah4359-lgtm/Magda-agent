@@ -4,5 +4,10 @@
   },
   "communication_style": "default",
   "expertise_level": "unknown",
-  "recurring_topics": []
+  "recurring_topics": [],
+  "behavior_weights": {
+    "exploration": 1.0,
+    "verbosity": 1.0,
+    "directness": 1.0
+  }
 }

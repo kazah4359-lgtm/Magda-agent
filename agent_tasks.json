@@ -6199,7 +6199,7 @@
     },
     {
       "id": "openclaw-rl-dynamic-behavior-adjustment-v2",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "OpenClaw RL Dynamic Behavior Adjustment",
@@ -12477,6 +12477,56 @@
       "acceptance": [
         "Nightly backups are scheduled.",
         "Tests verify cron jobs."
+      ]
+    },
+    {
+      "id": "claude-evaluator-subagent-teams",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude Evaluator Subagent Teams",
+      "description": "Inspired by Claude Agent SDK trend: Implement a subagent evaluator pool that can test generator team code iteratively.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v3.py",
+        "tests/test_agent_teams_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator team tests code iteratively.",
+        "LLM is mocked in tests."
+      ]
+    },
+    {
+      "id": "mcp-server-prefixed-routing-v2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Server Prefixed Routing V2",
+      "description": "Inspired by OpenAI Agents SDK trend: Allow MCP tools to use server-prefixed routing inside the core engine.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_engine.py",
+        "tests/test_mcp_engine.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Prefixed routes resolve successfully to corresponding remote servers.",
+        "Tests pass with mocked requests."
+      ]
+    },
+    {
+      "id": "openclaw-rl-habit-decay-v3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Habit Decay V3",
+      "description": "Inspired by OpenClaw-RL trend: Add explicit time decay to learned habits in the tracker so unused skills gradually reduce their Q-values.",
+      "allowed_paths": [
+        "magda_agent/learning/habits.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Habit weights decay over time.",
+        "Decay logic is covered in tests."
       ]
     }
   ]

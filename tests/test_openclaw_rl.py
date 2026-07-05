@@ -107,3 +107,39 @@ async def test_openclaw_rl_tool_output(mock_habit_tracker: MagicMock, mock_mirro
     model_data = user_model.get_model(3)
     assert model_data["preferences"]["last_p_shift"] == 0.5
     assert "(friendly)" in model_data["communication_style"]
+
+@pytest.mark.asyncio
+async def test_openclaw_rl_dynamic_behavior_weights(mock_habit_tracker: MagicMock, mock_mirror_neurons: MagicMock, user_model: UserModel) -> None:
+    """Tests that dynamic behavior weights are adjusted based on PAD shifts."""
+    learner = OpenClawInteractiveLearner(mock_habit_tracker, mock_mirror_neurons, user_model)
+
+    # Initialize a user model with specific weights
+    user_model.save_model(4, {"behavior_weights": {"exploration": 1.0, "verbosity": 1.0, "directness": 1.0}})
+
+    # Mock empathize
+    # p_shift = 0.4, a_shift = 0.2, d_shift = -0.1
+    mock_mirror_neurons.empathize.return_value = (0.4, 0.2, -0.1)
+
+    await learner.process_next_state_signal("This is great but confusing", "test_context", 4)
+
+    # Verify model modifications
+    model_data = user_model.get_model(4)
+    weights = model_data["behavior_weights"]
+
+    # Exploration: 1.0 + 0.4 * 0.5 = 1.2
+    assert abs(weights["exploration"] - 1.2) < 1e-6
+    # Verbosity: 1.0 + 0.2 = 1.2
+    assert abs(weights["verbosity"] - 1.2) < 1e-6
+    # Directness: 1.0 - 0.1 = 0.9
+    assert abs(weights["directness"] - 0.9) < 1e-6
+
+    # Test bounding logic
+    # Mock empathize with large shifts
+    mock_mirror_neurons.empathize.return_value = (3.0, 3.0, -3.0)
+    await learner.process_next_state_signal("Huge shift", "test_context", 4)
+    model_data2 = user_model.get_model(4)
+    weights2 = model_data2["behavior_weights"]
+
+    assert weights2["exploration"] <= 2.0
+    assert weights2["verbosity"] <= 2.0
+    assert weights2["directness"] >= 0.5
