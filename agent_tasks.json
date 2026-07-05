@@ -6284,7 +6284,7 @@
     },
     {
       "id": "mcp-dynamic-action-tool-v7",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "low",
       "title": "MCP Dynamic Action Tool v7",
@@ -12766,6 +12766,57 @@
         "LLM is mocked in tests."
       ],
       "status": "todo"
+    },
+    {
+      "id": "mcp-dynamic-tool-telemetry-v8",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Telemetry v8",
+      "description": "Add telemetry hooks to track MCP dynamic tool exports.",
+      "allowed_paths": [
+        "magda_agent/telemetry/mcp_export_telemetry.py",
+        "tests/test_mcp_export_telemetry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry is captured on export.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-tracing-v8",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Enterprise Tracing v8",
+      "description": "Add enterprise tracing enhancements for A2A communication.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing_v8.py",
+        "tests/test_a2a_tracing_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tracing enhancements are applied.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-live-v5",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw RL Canvas Live v5",
+      "description": "Live canvas updates for RL openclaw.",
+      "allowed_paths": [
+        "magda_agent/visualization/openclaw_canvas_v5.py",
+        "tests/test_openclaw_canvas_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas updates live based on RL events.",
+        "Tests pass."
+      ]
     }
   ]
 }
