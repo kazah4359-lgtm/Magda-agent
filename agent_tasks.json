@@ -6539,7 +6539,7 @@
     },
     {
       "id": "acs-guard-tool-sandboxing-v1",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Guard Tool Sandboxing",
@@ -13210,23 +13210,6 @@
       ]
     },
     {
-      "id": "agent-teams-worktree-v1",
-      "status": "todo",
-      "area": "agents",
-      "risk": "medium",
-      "title": "Agent Teams Worktree Isolation",
-      "description": "Inspired by Agent Teams trend. Implement worktree isolation for subagents.",
-      "allowed_paths": [
-        "magda_agent/agents/worktree_isolation_v1.py",
-        "tests/test_worktree_isolation_v1*.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Subagents operate in isolated worktrees.",
-        "Tests verify isolation."
-      ]
-    },
-    {
       "id": "mcp-dynamic-evaluator-plugin-v2-a9ba9bdc-07ef-46ea-a5c8-a69fae9d45ed",
       "status": "todo",
       "area": "skills",
@@ -13428,6 +13411,58 @@
       "acceptance": [
         "Skill metrics are correctly formatted into websocket payloads.",
         "Tests verify format."
+      ]
+    },
+    {
+      "id": "hermes-skill-experience-refinement-v8-7fd3c28f",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Hermes Skill Experience Refinement v8",
+      "description": "Inspired by Hermes Agent built-in learning loop trend: Implement an experience refiner that iteratively improves generated skills in procedural memory over time based on successful completions and usage frequency.",
+      "allowed_paths": [
+        "magda_agent/learning/skill_refinement_v8.py",
+        "tests/test_skill_refinement_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill refiner identifies frequently used skills and proposes optimized versions.",
+        "Tests mock procedural memory to verify refinement logic."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-learning-viz-v9-5a29889f",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw RL Canvas Learning Viz v9",
+      "description": "Inspired by OpenClaw Canvas Live Visualization trend: Create an export module to broadcast online RL learning metric shifts (e.g., changes in User Model parameters) dynamically to a live dashboard.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_learning_viz_v9.py",
+        "tests/test_canvas_learning_viz_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry broadcaster emits learning metrics.",
+        "Tests verify event payloads format matches Canvas UI."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-policy-auditor-v11-7b3a0524",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tool Policy Auditor v11",
+      "description": "Inspired by MCP standard trend (action tools grown to 65%): Implement an auditor component that periodically reviews the AuditTrail for any blocked MCP action tool calls and generates a report of potential policy misconfigurations.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_policy_auditor_v11.py",
+        "tests/test_mcp_policy_auditor_v11.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Auditor scans AuditTrail for blocked calls.",
+        "Generates a summary report.",
+        "Tests verify auditing logic."
       ]
     }
   ]
