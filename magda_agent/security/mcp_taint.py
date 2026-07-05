@@ -44,3 +44,28 @@ def mcp_action_taint_sandbox(critical_params: Optional[List[str]] = None) -> Cal
 
         return wrapper
     return decorator
+
+
+def advanced_mcp_taint_tracker() -> Callable[..., Any]:
+    """
+    Decorator for MCP action tools to track data flow of taint.
+    If any input (arg or kwarg) is tainted, the output is also tainted.
+    """
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+        @functools.wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            # Check if any arg is tainted
+            args_tainted = any(is_tainted(arg) for arg in args)
+            # Check if any kwarg is tainted
+            kwargs_tainted = any(is_tainted(val) for val in kwargs.values())
+
+            # Execute the function
+            result: Any = func(*args, **kwargs)
+
+            # If inputs were tainted, taint the output
+            if args_tainted or kwargs_tainted:
+                return mark_tainted(result)
+            return result
+
+        return wrapper
+    return decorator

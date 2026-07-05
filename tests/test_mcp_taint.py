@@ -57,3 +57,40 @@ def test_mcp_action_taint_sandbox_v4_param_type_hints() -> None:
     result = process_data(10)
     assert is_tainted(result) is True
     assert result == "ok 10"
+
+
+from magda_agent.security.mcp_taint import advanced_mcp_taint_tracker
+
+def test_advanced_mcp_taint_tracker_tainted_arg() -> None:
+    """Tests that tainted arg results in tainted output."""
+    @advanced_mcp_taint_tracker()
+    def process(data: str) -> str:
+        return f"Processed {data}"
+
+    tainted_data = mark_tainted("secret")
+    result = process(tainted_data)
+    assert is_tainted(result) is True
+    assert result == "Processed secret"
+
+def test_advanced_mcp_taint_tracker_tainted_kwarg() -> None:
+    """Tests that tainted kwarg results in tainted output."""
+    @advanced_mcp_taint_tracker()
+    def process(data: str, meta: str = "") -> str:
+        return f"Processed {data} with {meta}"
+
+    clean_data = "public"
+    tainted_meta = mark_tainted("hidden")
+    result = process(clean_data, meta=tainted_meta)
+    assert is_tainted(result) is True
+    assert result == "Processed public with hidden"
+
+def test_advanced_mcp_taint_tracker_clean_inputs() -> None:
+    """Tests that clean inputs result in clean output."""
+    @advanced_mcp_taint_tracker()
+    def process(data: str) -> str:
+        return f"Processed {data}"
+
+    clean_data = "public"
+    result = process(clean_data)
+    assert is_tainted(result) is False
+    assert result == "Processed public"
