@@ -6182,7 +6182,7 @@
     },
     {
       "id": "claude-agent-code-review-worker-v1",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Claude Agent Code Review Worker",
@@ -12426,6 +12426,57 @@
       "acceptance": [
         "Tool arguments are correctly intercepted and parsed.",
         "Tests verify blocking mechanism for invalid arguments."
+      ]
+    },
+    {
+      "id": "openai-realtime-guardrail-fallback-v2-new-1",
+      "title": "OpenAI Realtime Guardrail Fallback V2",
+      "description": "Inspired by OpenAI Agents SDK trend. Implement a realtime guardrail fallback mechanism.",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "allowed_paths": [
+        "magda_agent/safety/realtime_guardrail_v2.py",
+        "tests/test_realtime_guardrail_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrail fallback operates in realtime.",
+        "Tests verify fallback triggers."
+      ]
+    },
+    {
+      "id": "claude-context-compression-v5",
+      "title": "Claude Context Compression V5",
+      "description": "Inspired by Claude Agent SDK context compression. Enhance context compression algorithms.",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "allowed_paths": [
+        "magda_agent/memory/compression_v5.py",
+        "tests/test_compression_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context is effectively compressed.",
+        "Tests verify context window limits."
+      ]
+    },
+    {
+      "id": "hermes-cron-nightly-backups-v4",
+      "title": "Hermes Cron Nightly Backups V4",
+      "description": "Inspired by Hermes agent trend. Add a dedicated module for managing cron nightly backups.",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "allowed_paths": [
+        "magda_agent/operations/nightly_backups_v4.py",
+        "tests/test_nightly_backups_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Nightly backups are scheduled.",
+        "Tests verify cron jobs."
       ]
     }
   ]
