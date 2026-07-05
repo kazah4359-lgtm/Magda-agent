@@ -6556,7 +6556,7 @@
     },
     {
       "id": "hermes-agent-skill-marketplace-v1",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "low",
       "title": "Hermes Agent Skill Marketplace",
@@ -13463,6 +13463,59 @@
         "Auditor scans AuditTrail for blocked calls.",
         "Generates a summary report.",
         "Tests verify auditing logic."
+      ]
+    },
+    {
+      "id": "trend-openclaw-rl-pad-shift-analysis-0667e36f",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL PAD Shift Analysis Module",
+      "description": "Inspired by OpenClaw-RL trend: Implement an analytics module to track Pleasure, Arousal, Dominance (PAD) shifts across user interactions and measure overall agent behavior adaptability.",
+      "allowed_paths": [
+        "magda_agent/learning/pad_shift_analyzer.py",
+        "tests/test_pad_shift_analyzer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module can extract and aggregate PAD shifts from interaction logs.",
+        "Tests use mocks to verify aggregation behavior."
+      ]
+    },
+    {
+      "id": "trend-claude-planner-generator-eval-trio-a73a7a3d",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude-inspired Planner/Generator/Evaluator Workflow Sandbox",
+      "description": "Inspired by Claude Agent SDK triad architecture: Create a strict workflow sandbox that requires every Planner-generated task to be evaluated by an Evaluator subagent before Generator output is considered final.",
+      "allowed_paths": [
+        "magda_agent/architecture/triad_sandbox.py",
+        "tests/test_triad_sandbox.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Workflow sandbox enforces the triad sequence.",
+        "Generator output is blocked if Evaluator validation fails.",
+        "Tests mock subagents to verify the workflow pipeline."
+      ]
+    },
+    {
+      "id": "trend-mcp-agent-tools-isolation-e7bb98f0",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Tool Execution Isolation Wrapper",
+      "description": "Inspired by MCP standard and sandboxing trends: Implement a wrapper that executes MCP tools in an isolated execution namespace, utilizing advanced TaintTrackerV2 checks to protect the main agent context.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_isolation_wrapper.py",
+        "tests/test_mcp_isolation_wrapper.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tools run in isolated context namespace.",
+        "Taint tracker effectively blocks unsafe data transitions.",
+        "Tests use mocked tool executions to verify isolation."
       ]
     }
   ]
