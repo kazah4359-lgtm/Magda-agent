@@ -6437,7 +6437,7 @@
     },
     {
       "id": "openclaw-context-engine-hooks-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Context Engine Plugins",
@@ -13190,6 +13190,40 @@
       "acceptance": [
         "Memory compaction job runs on schedule.",
         "Tests mock cron execution."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "A2A Peer Task Delegation",
+      "description": "Inspired by A2A Protocol trend. Implement peer-to-peer task delegation mechanism to assign sub-tasks.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegation_v1.py",
+        "tests/test_a2a_delegation_v1*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent can discover and delegate tasks via A2A.",
+        "Tests verify A2A delegation."
+      ]
+    },
+    {
+      "id": "agent-teams-worktree-v1",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Agent Teams Worktree Isolation",
+      "description": "Inspired by Agent Teams trend. Implement worktree isolation for subagents.",
+      "allowed_paths": [
+        "magda_agent/agents/worktree_isolation_v1.py",
+        "tests/test_worktree_isolation_v1*.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents operate in isolated worktrees.",
+        "Tests verify isolation."
       ]
     }
   ]
