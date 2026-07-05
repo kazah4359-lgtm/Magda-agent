@@ -55,11 +55,24 @@ class ACSGuardV2:
         if tool == "forbidden_tool":
             return False, f"Tool policy failed: tool '{tool}' is forbidden."
 
+        kwargs = workflow_data.get("kwargs", {})        # Evaluate memory policy if context is provided
+        from magda_agent.safety.acs_memory import ACSMemoryPolicy
+        user_id = workflow_data.get("context", {}).get("user_id")
+
+        # We need to bypass base PolicyLayer evaluation inside ACSMemoryPolicy
+        # to avoid triggering the base check twice, so we directly check memory
+        if tool in ("read_memory", "write_memory"):
+            memory_policy = ACSMemoryPolicy(expected_user_id=user_id)
+            allow, explanation = memory_policy.evaluate(tool, **kwargs)
+            if not allow:
+                return False, f"Tool policy failed: {explanation}"
+
+
         if self.policy_layer and tool:
-            kwargs = workflow_data.get("kwargs", {})
             allow, explanation = self.policy_layer.evaluate(tool, **kwargs)
             if not allow:
                  return False, f"Tool policy failed: {explanation}"
+
         return True, "Tool policy passed."
 
     def checkpoint_4_state_transition(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
