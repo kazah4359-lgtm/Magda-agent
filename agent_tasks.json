@@ -6471,7 +6471,7 @@
     },
     {
       "id": "mcp-dynamic-evaluator-v1",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "MCP Dynamic Evaluator Plugin",
@@ -13275,6 +13275,57 @@
       "acceptance": [
         "Card broadcast is received locally.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "3d08bc96-e512-4caa-898b-cc7ac78f185a",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Workflow Subagent Discovery V2",
+      "description": "Inspired by A2A Protocol open standard: Implement an enhanced subagent discovery mechanism using Agent Cards version 2 for peer-to-peer delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v2.py",
+        "tests/test_a2a_discovery_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Discovery matches capabilities using Agent Cards v2.",
+        "Tests verify mock discovery and capability matching."
+      ]
+    },
+    {
+      "id": "045f5265-421f-4035-bde4-cc3a35ca53ed",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Semantic Memory Compaction V4",
+      "description": "Inspired by OpenClaw trends: Implement semantic memory compaction that runs periodically via cron, clustering related events.",
+      "allowed_paths": [
+        "magda_agent/memory/semantic_compaction_v4.py",
+        "tests/test_semantic_compaction_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Semantic memory compaction logic successfully clusters events.",
+        "Tests verify event clustering and reduced token size."
+      ]
+    },
+    {
+      "id": "ac8c2801-1ada-489f-95d8-9db5b6c97c93",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Kernel Taint Tracking Context Integrator V5",
+      "description": "Inspired by MCPKernel Sandboxing trends: Expand taint tracking to correctly propagate through working memory context updates.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_context_v5.py",
+        "tests/test_taint_context_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint tags propagate correctly when written to working memory.",
+        "Tests verify memory entries carry taint flag if originated from tainted source."
       ]
     }
   ]
