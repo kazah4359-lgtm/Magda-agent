@@ -6403,7 +6403,7 @@
     },
     {
       "id": "claude-agent-evaluator-v3",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Claude Agent Evaluator v3",
@@ -13104,6 +13104,57 @@
       ],
       "acceptance": [
         "Canvas updates live based on RL events.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "claude-subagent-spawner-v5",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Subagent Spawner V5",
+      "description": "Inspired by Claude Agent SDK context compression trends: Create an enhanced Subagent Spawner.",
+      "allowed_paths": [
+        "magda_agent/architecture/subagent_spawner_v5.py",
+        "tests/test_subagent_spawner_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Spawns subagent cleanly.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "a2a-discovery-mesh-cards-v7",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Discovery Mesh Cards V7",
+      "description": "Enable Agent Card broadcasting across A2A mesh network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_mesh_v7.py",
+        "tests/test_a2a_discovery_mesh_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Card broadcast is received locally.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-registry-sync-v11",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Registry Synchronization V11",
+      "description": "Inspired by MCP Standard trend: Implement a background loop that periodically polls a configured MCP server URL.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_sync_v11.py",
+        "tests/test_mcp_registry_sync_v11.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Background loop successfully polls and parses MCP tool schema endpoints.",
         "Tests pass."
       ]
     }
