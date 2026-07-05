@@ -6505,7 +6505,7 @@
     },
     {
       "id": "openclaw-multi-agent-canvas-v1",
-      "status": "todo",
+      "status": "done",
       "area": "visualization",
       "risk": "medium",
       "title": "OpenClaw Multi-Agent Canvas Extension",
@@ -13377,6 +13377,57 @@
       "acceptance": [
         "RL parameter tuner correctly updates learning rates.",
         "Tests verify learning rate adjustment logic."
+      ]
+    },
+    {
+      "id": "mcp-agent-action-tools-audit-v1-68f664a0-eec9-49f9-ab30-330a32f42c16",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Agent Action Tools Audit V1",
+      "description": "Inspired by MCP Standard trend: Add audit trail logging specifically for MCP action tools to track tool usage frequency and execution results.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_audit_v1.py",
+        "tests/test_mcp_audit_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Audit trail logs MCP tool invocations.",
+        "Tests verify logging occurs correctly."
+      ]
+    },
+    {
+      "id": "agent-teams-parallel-subagents-v4-228d45c3-ed5c-4968-a69d-8e0b61e3425b",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams Parallel Subagents V4",
+      "description": "Inspired by Agent Teams isolation trend: Implement parallel execution manager for subagents operating in isolated git worktrees.",
+      "allowed_paths": [
+        "magda_agent/architecture/parallel_execution_v4.py",
+        "tests/test_parallel_execution_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents execute concurrently in their respective worktrees.",
+        "Tests verify concurrency and isolation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-skills-metrics-v2-3fd53530-b2f2-4fa2-a905-96e6577ec73c",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Canvas Skills Metrics V2",
+      "description": "Inspired by OpenClaw Canvas Live Visualization: Broadcast dynamic skill adjustments and learning metrics over websocket.",
+      "allowed_paths": [
+        "magda_agent/learning/canvas_skills_metrics_v2.py",
+        "tests/test_canvas_skills_metrics_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill metrics are correctly formatted into websocket payloads.",
+        "Tests verify format."
       ]
     }
   ]
