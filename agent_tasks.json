@@ -6165,7 +6165,7 @@
     },
     {
       "id": "mcp-advanced-tool-taint-tracking-v2",
-      "status": "todo",
+      "status": "done",
       "area": "security",
       "risk": "medium",
       "title": "Advanced MCP Tool Taint Tracking",
@@ -12375,6 +12375,57 @@
       "acceptance": [
         "Agent Teams correctly spawns and orchestrates subagents in parallel.",
         "Tests verify parallel execution and state merging."
+      ]
+    },
+    {
+      "id": "mcp-kernel-execution-sandbox-enhancements",
+      "status": "todo",
+      "area": "security",
+      "risk": "high",
+      "title": "MCP Kernel execution sandbox enhancements",
+      "description": "Inspired by MCP Kernel Sandbox Enhancements trend. Enhance the MCPKernel sandbox to allow tighter restrictions and better logging of executed actions.",
+      "allowed_paths": [
+        "magda_agent/security/mcp_kernel.py",
+        "tests/test_mcp_kernel.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sandbox restrictions are tightened and testable.",
+        "Tests mock execution to verify enhanced blocking."
+      ]
+    },
+    {
+      "id": "letta-virtual-context-pagination-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Letta virtual context pagination v3",
+      "description": "Inspired by MemGPT/Letta context management trend. Improve the virtual context pagination manager to more aggressively page out unused context blocks to episodic memory.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_v2.py",
+        "tests/test_virtual_context_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Paging triggers properly when limits are approached.",
+        "Tests mock token size tracking to verify page outs."
+      ]
+    },
+    {
+      "id": "acs-runtime-safety-controls-v5",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS runtime safety controls v5",
+      "description": "Inspired by ACS runtime safety controls trend. Update ACS guard to correctly intercept and validate complex tool arguments.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_v5.py",
+        "tests/test_acs_guard_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool arguments are correctly intercepted and parsed.",
+        "Tests verify blocking mechanism for invalid arguments."
       ]
     }
   ]
