@@ -6522,7 +6522,7 @@
     },
     {
       "id": "openclaw-online-rl-integration-v1",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw Online RL Integration",

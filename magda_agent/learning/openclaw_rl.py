@@ -36,7 +36,7 @@ class OpenClawInteractiveLearner:
         self,
         user_reply: str,
         action_context: str,
-        user_id: int,
+        user_id: Optional[str],
         tool_output: Optional[str] = None,
         skills_used: Optional[List[str]] = None
     ) -> None:
@@ -65,8 +65,14 @@ class OpenClawInteractiveLearner:
         if p_shift > 0.0:
             # Positive signal, reinforce the habits explicitly
             skills: List[str] = skills_used or ["rl_skill"]
+
+            # Update skill weights
+            skill_weights = model_data.setdefault("skill_weights", {})
             for skill in skills:
+                current_w = skill_weights.get(skill, 1.0)
+                skill_weights[skill] = min(2.0, current_w + p_shift * 0.2)
                 self.habit_tracker.record_usage(input_text=action_context, skill_used=skill, evaluation_score=10.0, user_id=user_id)
+
             logging.info(f"OpenClaw-RL: Positive signal received (p_shift={p_shift:.2f}). Reinforced habits: {skills}")
 
             # Adjust communication style towards friendly if not present
@@ -75,6 +81,13 @@ class OpenClawInteractiveLearner:
 
         elif p_shift < 0.0:
             logging.info(f"OpenClaw-RL: Negative signal received (p_shift={p_shift:.2f}).")
+
+            # Update skill weights (penalty)
+            if skills_used:
+                skill_weights = model_data.setdefault("skill_weights", {})
+                for skill in skills_used:
+                    current_w = skill_weights.get(skill, 1.0)
+                    skill_weights[skill] = max(0.1, current_w + p_shift * 0.2)
 
             # Directive signal: generate recovery lesson for significant negative feedback
             if p_shift <= -0.2 and self.recovery_lessons:

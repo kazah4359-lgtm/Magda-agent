@@ -137,7 +137,7 @@ class Consciousness:
             a_delta = min(0.1, score * 0.1)
             self.emotions.update(p_delta=0.0, a_delta=a_delta, d_delta=0.0, user_id=None)
 
-    async def process_input(self, user_input: str, user_id: Optional[int] = None) -> str:
+    async def process_input(self, user_input: str, user_id: Optional[str] = None) -> str:
         logging.info(f"Consciousness processing: {user_input}")
         if self.tracer:
             self.tracer.add_step("input_received", {"user_input": user_input, "user_id": user_id})
@@ -387,6 +387,14 @@ class Consciousness:
         # Actually, passing it evaluated before `coordinate()` is fine since the state is already loaded.
         policies = self.planner.get_user_state(user_id).current_constraints if self.planner else None
 
+        # Retrieve weights from user model if available
+        behavior_weights = None
+        skill_weights = None
+        if self.user_model and user_id is not None:
+            model_data = self.user_model.get_model(user_id)
+            behavior_weights = model_data.get("behavior_weights")
+            skill_weights = model_data.get("skill_weights")
+
         try:
             response = await coordinator.coordinate(
                 user_input,
@@ -394,7 +402,9 @@ class Consciousness:
                 message_builder=message_builder,
                 pre_generation_hook=pre_generation_hook,
                 policies=policies,
-                mental_state=self.mental_states._get_state(user_id)
+                mental_state=self.mental_states._get_state(user_id),
+                behavior_weights=behavior_weights,
+                skill_weights=skill_weights
             )
         except ActionIgnored as e:
             return str(e)

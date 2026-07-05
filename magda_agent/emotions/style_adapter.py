@@ -55,6 +55,19 @@ class StyleAdapter:
             if "short_answers" in preferences and preferences["short_answers"]:
                 style_instructions.append("- User strictly prefers very short, bulleted answers.")
 
+        # Behavior Weight Modifications
+        if user_model and "behavior_weights" in user_model:
+            bw = user_model["behavior_weights"]
+            if bw.get("verbosity", 1.0) > 1.3:
+                style_instructions.append("- High verbosity mode: Provide detailed, thorough explanations.")
+            elif bw.get("verbosity", 1.0) < 0.7:
+                style_instructions.append("- Low verbosity mode: Be as brief and concise as possible.")
+
+            if bw.get("directness", 1.0) > 1.3:
+                style_instructions.append("- High directness mode: Get straight to the point, avoid preamble.")
+            elif bw.get("directness", 1.0) < 0.7:
+                style_instructions.append("- Low directness mode: Use polite softeners and structured introductions.")
+
         if len(style_instructions) > 1:
             return "\n".join(style_instructions)
         return ""
