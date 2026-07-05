@@ -6386,7 +6386,7 @@
     },
     {
       "id": "mcp-dynamic-tool-registration-v6",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Dynamic Tool Registration v6",
@@ -13053,6 +13053,58 @@
       "acceptance": [
         "Action tools are intercepted.",
         "Tests mock tool execution to verify interception."
+      ]
+    },
+    {
+      "id": "mcp-kernel-taint-tracking-v3-9077ff09-2e36-4ca9-ba53-99c574098cf7",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCPKernel Taint Tracking V3",
+      "description": "Inspired by Safety & Guardrails trends: Implement MCPKernel taint tracking and sandboxed execution.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_tracking_v3.py",
+        "tests/test_taint_tracking_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint tracking successfully implemented.",
+        "Sandboxed execution isolates MCP tools.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "claude-context-compression-v8-ac7afdc4-561b-4671-b419-226fc195b128",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Claude Context Compression V8",
+      "description": "Inspired by Context Compression trends: Enhance context compression algorithms.",
+      "allowed_paths": [
+        "magda_agent/memory/compression_v8.py",
+        "tests/test_compression_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context is effectively compressed.",
+        "Tests verify context window limits."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-live-v6-299a89d3-1186-43dc-810e-b9ab9d51c9de",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw RL Canvas Live V6",
+      "description": "Inspired by OpenClaw trends: Implement live canvas updates for RL openclaw.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_v4.py",
+        "tests/test_canvas_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Canvas updates live based on RL events.",
+        "Tests pass."
       ]
     }
   ]
