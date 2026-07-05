@@ -6488,7 +6488,7 @@
     },
     {
       "id": "acs-guard-memory-policy-v1",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Guard Memory Access Policy",
@@ -13326,6 +13326,57 @@
       "acceptance": [
         "Taint tags propagate correctly when written to working memory.",
         "Tests verify memory entries carry taint flag if originated from tainted source."
+      ]
+    },
+    {
+      "id": "a2a-service-auth-v2-42adfdd1-9357-4277-b424-22ca3f62d174",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Service Authentication V2",
+      "description": "Inspired by A2A Protocol trends: Implement secure mutual TLS authentication for A2A communication.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_auth_v2.py",
+        "tests/test_a2a_auth_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "mTLS authentication successfully deployed.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "mcp-taint-propagation-sandbox-v4-de7864dd-bb04-421c-8aea-f30c60a7dd60",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Taint Propagation Sandbox V4",
+      "description": "Inspired by MCPKernel Sandboxing trends: Enhance taint tracking to propagate safely within MCP sandboxes.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_sandbox_v4.py",
+        "tests/test_taint_sandbox_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint propagation works correctly within sandbox.",
+        "Tests verify sandbox taint tracking."
+      ]
+    },
+    {
+      "id": "online-rl-parameter-tuner-v5-5572f5ce-b7db-42c1-9e8f-7256c1d8effb",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL Parameter Tuner V5",
+      "description": "Inspired by OpenClaw RL trends: Implement online RL to tune learning rates during execution.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_tuner_v5.py",
+        "tests/test_rl_tuner_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL parameter tuner correctly updates learning rates.",
+        "Tests verify learning rate adjustment logic."
       ]
     }
   ]

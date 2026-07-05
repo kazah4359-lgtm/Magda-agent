@@ -19,11 +19,19 @@ class SkillRegistry:
 
         # Initialize RealtimeGuardrail
         from magda_agent.safety.guardrails import RealtimeGuardrail
-        self.realtime_guardrail = RealtimeGuardrail(policy_layer) if policy_layer else None
+        self.realtime_guardrail = RealtimeGuardrail(policy_layer) if policy_layer else None        # Initialize ACSMemoryPolicy and chain with existing policy layer
+        from magda_agent.safety.acs_memory import ACSMemoryPolicy
+        self.acs_memory_policy = ACSMemoryPolicy()
 
         # Initialize ACSGuard
         from magda_agent.safety.acs_guard_v2 import ACSGuardV2
         self.acs_guard = ACSGuardV2(policy_layer=policy_layer)
+
+
+        # Initialize ACSMemoryPolicy
+        from magda_agent.safety.acs_memory import ACSMemoryPolicy
+        self.acs_memory_policy = ACSMemoryPolicy()
+
 
 
 
