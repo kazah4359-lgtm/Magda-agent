@@ -6369,7 +6369,7 @@
     },
     {
       "id": "hermes-cron-nightly-backups-v2",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "low",
       "title": "Hermes Cron Nightly Backups v2",
@@ -13002,6 +13002,57 @@
       "acceptance": [
         "Memory telemetry broadcaster implemented and broadcasts consolidation events.",
         "Tests verify event payloads format matches Canvas UI."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-metrics-v7",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "OpenClaw RL Canvas Metrics V7",
+      "description": "Inspired by OpenClaw trends: Implement live RL telemetry streaming via WebSockets, mapping PAD shifts in real-time.",
+      "allowed_paths": [
+        "magda_agent/operations/live_rl_v7.py",
+        "tests/test_live_rl_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module formats telemetry events to JSON.",
+        "Tests verify WebSocket emission."
+      ]
+    },
+    {
+      "id": "a2a-discovery-mesh-cards-v6",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "A2A Discovery Mesh Cards V6",
+      "description": "Inspired by A2A Protocol trends: Enable Agent Card broadcasting across A2A mesh network to discover agents.",
+      "allowed_paths": [
+        "magda_agent/operations/a2a_discovery_mesh_v6.py",
+        "tests/test_a2a_discovery_mesh_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Card broadcast is received locally.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-governance-v6",
+      "status": "todo",
+      "area": "operations",
+      "risk": "high",
+      "title": "MCP Action Tool Governance V6",
+      "description": "Inspired by MCP/ACS: Implement an Action Tool Governance layer that intercepts external tool calls to ensure sandboxed execution.",
+      "allowed_paths": [
+        "magda_agent/operations/mcp_governance_v6.py",
+        "tests/test_mcp_governance_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Action tools are intercepted.",
+        "Tests mock tool execution to verify interception."
       ]
     }
   ]
