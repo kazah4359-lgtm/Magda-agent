@@ -6250,7 +6250,7 @@
     },
     {
       "id": "openclaw-rl-user-feedback-v5",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw RL User Feedback v5",
@@ -12663,6 +12663,57 @@
       "acceptance": [
         "Agent behavior adapts via user feedback.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "claude-context-compression-v6",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Claude Context Compression V6",
+      "description": "Inspired by Claude Agent SDK context compression. Enhance context compression algorithms with selective retrieval based on semantic clustering.",
+      "allowed_paths": [
+        "magda_agent/memory/compression_v6.py",
+        "tests/test_compression_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context is effectively compressed using semantic clustering.",
+        "Tests verify context window limits."
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-v5-health",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Discovery v5 Health",
+      "description": "Inspired by A2A Protocol trends. Add health check metadata to Agent Cards discovery, so offline agents are ignored during delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v5.py",
+        "tests/test_a2a_discovery_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Discovery service filters out offline agents based on health check metadata.",
+        "Tests verify filtering logic."
+      ]
+    },
+    {
+      "id": "mcp-engine-prefixed-routing-v3-fallback",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Engine Prefixed Routing v3 Fallback",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement robust fallback mechanisms for MCP server prefixed routing in case the remote server is unreachable.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_engine_v5.py",
+        "tests/test_mcp_engine_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Routing falls back correctly when remote server fails.",
+        "Tests mock remote server failure to verify fallback."
       ]
     }
   ]
