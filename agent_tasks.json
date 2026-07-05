@@ -6589,7 +6589,7 @@
     },
     {
       "id": "context-engine-plugin-lifecycle-v2-28520349",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "low",
       "title": "Context Engine Plugin Lifecycle Hooks v2",
@@ -13603,6 +13603,40 @@
       "acceptance": [
         "Tasks delegate securely via active token.",
         "Tests verify A2A requests over mock token exchange."
+      ]
+    },
+    {
+      "id": "e7fb872a-ebce-4600-acca-7d6ba7ac4739",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Hierarchical Delegation Telemetry Exporter v2",
+      "description": "Inspired by Magentic-One and Agent Teams: Expose telemetry data on parallel sub-agent communication for live visualization tools.",
+      "allowed_paths": [
+        "magda_agent/architecture/hierarchical_delegation_telemetry_v2.py",
+        "tests/test_hierarchical_delegation_telemetry_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sub-agent message traffic is captured by the telemetry exporter.",
+        "Tests mock message passing and verify export payloads."
+      ]
+    },
+    {
+      "id": "3aea55f9-c46a-4e15-973e-819f9c57cb7f",
+      "status": "todo",
+      "area": "safety",
+      "risk": "low",
+      "title": "ACS Control Fallback Strategy v5",
+      "description": "Inspired by ACS runtime safety controls: Implement a graceful fallback strategy when a tool's output validation is denied by the state check.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_fallback_v5.py",
+        "tests/test_acs_fallback_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent falls back to a neutral response on output validation failure.",
+        "Tests mock a denied validation and assert the fallback path is taken."
       ]
     }
   ]
