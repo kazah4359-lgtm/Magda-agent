@@ -10380,7 +10380,7 @@
     },
     {
       "id": "b074131c-9004-48dc-9d88-feb29e8ba1c2",
-      "status": "todo",
+      "status": "done",
       "area": "metacognition",
       "risk": "low",
       "title": "Agent-generated code longitudinal tracker",
@@ -13691,6 +13691,57 @@
         "Reward propagator tracks execution hierarchies using context metadata.",
         "Implicit feedback properly trickles down and modulates weights across parallel subagents.",
         "Tests verify weight adjustments through the propagation graph using simulated feedback."
+      ]
+    },
+    {
+      "id": "eae22bdf-ac48-486d-ba69-38dbb06ecf2a",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "A2A Distributed Telemetry Collection v8",
+      "description": "Inspired by A2A standard trend: Create a module that collects sub-agent telemetry events and broadcasts them over the A2A network.",
+      "allowed_paths": [
+        "magda_agent/telemetry/a2a_distributed_v8.py",
+        "tests/test_a2a_distributed_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry module tracks distributed events.",
+        "Tests mock A2A broadcasting and verify payload generation."
+      ]
+    },
+    {
+      "id": "34786d8b-7329-4f97-b93e-ada7d9ab06ac",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Concurrency v4",
+      "description": "Inspired by MCP runtime concurrency trend: Safely execute MCP action tools concurrently.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency_v4.py",
+        "tests/test_mcp_concurrency_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Action tools run concurrently.",
+        "Tests mock execution."
+      ]
+    },
+    {
+      "id": "ef032098-856e-4e96-8e46-383cfbd55bbd",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Virtual Context Compression V4",
+      "description": "Inspired by MemGPT context management trend: Context engine plugin for context compression.",
+      "allowed_paths": [
+        "magda_agent/memory/context_plugin_v4.py",
+        "tests/test_context_plugin_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin handles context compression.",
+        "Tests mock memory stores."
       ]
     }
   ]
