@@ -39,7 +39,7 @@ class SemanticCompactionV4:
             "Return the facts as a simple text list, one fact per line.\n\nEvents:\n{events}"
         )
 
-    async def run_compaction(self) -> SemanticCompactionV4:
+    async def run_compaction(self) -> None:
         """
         Fetches non-decayed events, clusters them using LLM, stores as semantic facts,
         and decays the original events.
@@ -91,7 +91,7 @@ def register_compaction_cron(
     semantic_memory: SemanticMemory,
     llm_client: LLMClient,
     cron_expr: str = "0 2 * * *" # Daily at 2 AM
-) -> SemanticCompactionV4:
+) -> "SemanticCompactionV4":
     """
     Registers the compaction process with HermesCronSchedulerV3.
     """
