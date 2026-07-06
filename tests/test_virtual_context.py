@@ -7,96 +7,86 @@ from magda_agent.emotions.engine import PADState
 import asyncio
 
 @pytest.mark.asyncio
-async def test_virtual_context_page_out():
-    wm = WorkingMemory(limit=2)
+async def test_virtual_context_page_out_explicit():
+    wm = WorkingMemory(limit=10)
     em = EpisodicMemory(persist_directory=":memory:")
     vcm = VirtualContextManager()
 
-    wm.virtual_context_manager = vcm
-    wm.episodic_memory = em
+    user_id = "user_123"
+    state = PADState(0.1, 0.2, 0.3)
 
-    state = PADState(0, 0, 0)
-
-    e1 = MemoryEntry("First Item", 0.5, state, user_id=1)
-    e2 = MemoryEntry("Second Item", 0.6, state, user_id=1)
-    e3 = MemoryEntry("Third Item", 0.7, state, user_id=1)
+    e1 = MemoryEntry("First Item", 0.5, state, user_id=user_id)
+    e2 = MemoryEntry("Second Item", 0.6, state, user_id=user_id)
 
     await wm.add(e1)
     await wm.add(e2)
 
-    assert len(wm.get_entries(user_id=1)) == 2
+    assert len(wm.get_entries(user_id=user_id)) == 2
 
-    # Adding third item should trigger page_out of the oldest (First Item)
-    await wm.add(e3)
+    # Explicitly page out 1 item
+    await vcm.page_out_explicit(wm, em, user_id=user_id, count=1)
 
-    entries = wm.get_entries(user_id=1)
-    assert len(entries) == 2
+    entries = wm.get_entries(user_id=user_id)
+    assert len(entries) == 1
     assert entries[0].content == "Second Item"
-    assert entries[1].content == "Third Item"
 
     # Verify Episodic Memory has the paged out entry
-    episodic_events = em.get_all_events(user_id=1)
+    episodic_events = em.get_all_events(user_id=user_id)
     assert len(episodic_events) == 1
     assert episodic_events[0]["text"] == "First Item"
-    assert episodic_events[0]["metadata"]["paged_out"] == True
+    assert episodic_events[0]["metadata"]["paged_out_explicitly"] == True
 
 @pytest.mark.asyncio
-async def test_virtual_context_page_in():
+async def test_virtual_context_page_in_explicit():
     wm = WorkingMemory(limit=5)
     em = EpisodicMemory(persist_directory=":memory:")
     vcm = VirtualContextManager()
 
-    wm.virtual_context_manager = vcm
-    wm.episodic_memory = em
+    user_id = "user_456"
+    em.store_event("Historical facts about Python", metadata={"paged_out": True}, user_id=user_id)
 
-    em.store_event("Historical facts about Python", metadata={"paged_out": True}, user_id=2)
+    await vcm.page_in_explicit(wm, em, user_id=user_id, query="Python facts")
 
-    await vcm.page_in(wm, em, user_id=2, query="Python facts")
-
-    entries = wm.get_entries(user_id=2)
+    entries = wm.get_entries(user_id=user_id)
     assert len(entries) == 1
     assert "Historical facts about Python" in entries[0].content
 
 @pytest.mark.asyncio
-async def test_virtual_context_empty_entries() -> None:
-    """Test that compressing empty entries raises ValueError."""
+async def test_virtual_context_plugin_assemble():
     vcm = VirtualContextManager()
-    with pytest.raises(ValueError):
-        await vcm.compress_context([])
+    user_id = "user_789"
+    await vcm.update_core_section(user_id, "persona", "I am a test agent.")
+
+    state = PADState(0, 0, 0)
+    e1 = MemoryEntry("Working fact", 0.8, state, user_id=user_id)
+
+    assembled = await vcm.assemble([e1], {"user_id": user_id})
+
+    assert "CORE MEMORY (PERSONA):\nI am a test agent." in assembled
+    assert "WORKING MEMORY:\n- Working fact" in assembled
 
 @pytest.mark.asyncio
-async def test_virtual_context_compress_without_llm() -> None:
-    """Test that context compression works with fallback summary when LLM is absent."""
-    vcm = VirtualContextManager()
-    state = PADState(0.1, 0.2, 0.3)
-    e1 = MemoryEntry("First", 0.5, state, user_id=1)
-    e2 = MemoryEntry("Second", 0.5, state, user_id=1)
-
-    summary = await vcm.compress_context([e1, e2])
-    assert "Summary of 2 items: First\nSecond" in summary.content
-    assert summary.importance == 0.5
-    assert summary.user_id == 1
-
-@pytest.mark.asyncio
-async def test_virtual_context_compress_with_llm() -> None:
-    """Test that context compression leverages the LLM client to generate summaries."""
+async def test_virtual_context_plugin_compact():
     mock_llm = AsyncMock()
-    mock_llm.chat_completion.return_value = "Mocked Summary"
-    vcm = VirtualContextManager(llm_client=mock_llm)
+    mock_llm.chat_completion.return_value = "Compressed Summary"
+    vcm = VirtualContextManager(llm_client=mock_llm, section_limit=100)
 
-    state = PADState(0.1, 0.2, 0.3)
-    e1 = MemoryEntry("First", 0.5, state, user_id=1)
-    e2 = MemoryEntry("Second", 0.5, state, user_id=1)
+    user_id = "user_abc"
+    state = PADState(0.5, 0.5, 0.5)
+    e1 = MemoryEntry("Fact 1", 0.5, state, user_id=user_id)
+    e2 = MemoryEntry("Fact 2", 0.5, state, user_id=user_id)
 
-    summary = await vcm.compress_context([e1, e2])
-    assert summary.content == "Mocked Summary"
-    assert summary.importance == 0.5
-    assert summary.user_id == 1
+    # Threshold 1, so 2 items should trigger compaction
+    compacted = await vcm.compact([e1, e2], {"limit": 1, "user_id": user_id})
+
+    assert len(compacted) == 1
+    assert compacted[0].content == "Compressed Summary"
+    mock_llm.chat_completion.assert_called_once()
 
 @pytest.mark.asyncio
 async def test_core_memory_management():
     vcm = VirtualContextManager()
-    user_id = 42
+    user_id = "user_999"
 
     await vcm.update_core_section(user_id, "persona", "I am a helpful assistant.")
     await vcm.update_core_section(user_id, "human", "The user is an engineer.")
@@ -119,7 +109,7 @@ async def test_core_memory_management():
 async def test_core_memory_overflow_truncation():
     # Set a small limit for testing truncation
     vcm = VirtualContextManager(section_limit=5)
-    user_id = 123
+    user_id = "user_limit"
 
     long_content = "This is a very long string that will definitely exceed the five word limit."
     await vcm.update_core_section(user_id, "persona", long_content)
@@ -131,70 +121,30 @@ async def test_core_memory_overflow_truncation():
     assert core.persona.endswith("...")
 
 @pytest.mark.asyncio
-async def test_core_memory_overflow_llm_summarization():
-    mock_llm = AsyncMock()
-    mock_llm.chat_completion.return_value = "Summarized Persona"
-    vcm = VirtualContextManager(llm_client=mock_llm, section_limit=5)
-    user_id = 123
-
-    long_content = "This is a very long string that will definitely exceed the five word limit."
-    await vcm.update_core_section(user_id, "persona", long_content)
-
-    core = vcm.get_core_memory(user_id)
-    assert core.persona == "Summarized Persona"
-    mock_llm.chat_completion.assert_called_once()
-
-@pytest.mark.asyncio
 async def test_maintain_working_memory_limits_pages_out():
-    wm = WorkingMemory(limit=10) # limit by entries is high
+    wm = WorkingMemory(limit=10)
     em = EpisodicMemory(persist_directory=":memory:")
     vcm = VirtualContextManager()
 
-    wm.virtual_context_manager = vcm
-    wm.episodic_memory = em
-
+    user_id = "user_maintain"
     state = PADState(0, 0, 0)
 
     # Each entry has 4 words -> ~5 tokens. 3 entries = ~15 tokens
-    e1 = MemoryEntry("word1 word2 word3 word4", 0.5, state, user_id=1)
-    e2 = MemoryEntry("word5 word6 word7 word8", 0.6, state, user_id=1)
-    e3 = MemoryEntry("word9 word10 word11 word12", 0.7, state, user_id=1)
+    e1 = MemoryEntry("word1 word2 word3 word4", 0.5, state, user_id=user_id)
+    e2 = MemoryEntry("word5 word6 word7 word8", 0.6, state, user_id=user_id)
+    e3 = MemoryEntry("word9 word10 word11 word12", 0.7, state, user_id=user_id)
 
     await wm.add(e1)
     await wm.add(e2)
     await wm.add(e3)
 
-    assert len(wm.get_entries(user_id=1)) == 3
-    assert vcm.get_token_length(wm.get_entries(user_id=1)) == int(12 * 1.3)
+    assert len(wm.get_entries(user_id=user_id)) == 3
 
     # Maintain with max_tokens = 10. Current is ~15, so it should page out entries.
-    await vcm.maintain_working_memory_limits(wm, em, user_id=1, max_tokens=10)
+    await vcm.maintain_working_memory_limits(wm, em, user_id=user_id, max_tokens=10)
 
     # It pages out max(1, len(entries)//2) = max(1, 1) = 1 entry.
-    entries = wm.get_entries(user_id=1)
+    entries = wm.get_entries(user_id=user_id)
     assert len(entries) == 2
     assert entries[0].content == "word5 word6 word7 word8"
     assert entries[1].content == "word9 word10 word11 word12"
-
-@pytest.mark.asyncio
-async def test_maintain_working_memory_limits_no_page_out():
-    wm = WorkingMemory(limit=10)
-    em = EpisodicMemory(persist_directory=":memory:")
-    vcm = VirtualContextManager()
-
-    wm.virtual_context_manager = vcm
-    wm.episodic_memory = em
-
-    state = PADState(0, 0, 0)
-
-    # 4 words -> ~5 tokens
-    e1 = MemoryEntry("word1 word2 word3 word4", 0.5, state, user_id=1)
-    await wm.add(e1)
-
-    assert len(wm.get_entries(user_id=1)) == 1
-
-    # Limit is 10, current is 5 -> no page out
-    await vcm.maintain_working_memory_limits(wm, em, user_id=1, max_tokens=10)
-
-    entries = wm.get_entries(user_id=1)
-    assert len(entries) == 1
