@@ -6686,7 +6686,7 @@
     },
     {
       "id": "openclaw-rl-next-state-signals-v1-d14a492a",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Next-State Signals capture",
@@ -13898,6 +13898,60 @@
         "Router evaluates task complexity and matches it to a peer agent via Agent Card capabilities.",
         "Task is delegated successfully if a match is found.",
         "Tests verify matching logic and mock delegation payload."
+      ]
+    },
+    {
+      "id": "a2a-discovery-agent-card-validation-v5-6af99633",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Card Dynamic Validation V5",
+      "description": "Inspired by the A2A standard trend in docs/trends.md: Implement dynamic JSON schema validation for incoming Agent Cards during network discovery to ensure enterprise-ready interoperability and security.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v5.py",
+        "tests/test_a2a_discovery_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2ADiscovery applies strict schema validation to discovered Agent Cards.",
+        "Invalid or malformed Agent Cards are rejected and logged.",
+        "Tests verify schema validation with valid and mock invalid cards."
+      ]
+    },
+    {
+      "id": "acs-guard-checkpoint-runtime-v7-4e1d186a",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Agent Control Specification Runtime Guard V7",
+      "description": "Inspired by the ACS standard trend from docs/trends.md: Introduce a robust ACS runtime validation guardrail module that intercepts all tool executions, evaluating them against 5 validation checkpoints for policy adherence.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guard_runtime_v7.py",
+        "tests/test_acs_guard_runtime_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACSGuard evaluates tool executions against predefined runtime policies.",
+        "Execution is blocked if any of the ACS validation checkpoints fail.",
+        "Pytest verification with mock executions ensures blocks and passes correctly."
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-isolation-v4-6cee8930",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams Git Worktree Isolation V4",
+      "description": "Inspired by the Claude Agent SDK pattern in docs/trends.md: Develop a mechanism to spawn independent Git worktrees for parallel Agent Teams, preventing merge conflicts across concurrent generation tasks.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v4.py",
+        "tests/test_agent_teams_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "AgentTeamManager creates independent Git worktrees for assigned sub-agents.",
+        "Sub-agents operate within their isolated worktrees successfully.",
+        "Mock tests confirm worktree creation and isolation."
       ]
     }
   ]
