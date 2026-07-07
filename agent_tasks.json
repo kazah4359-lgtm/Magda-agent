@@ -6737,7 +6737,7 @@
     },
     {
       "id": "agent-teams-subagent-spawning-v5-6806",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "high",
       "title": "Agent Teams Parallel Subagent Spawning",
@@ -14054,6 +14054,40 @@
       "acceptance": [
         "Guardrail correctly blocks excessive MCP tool requests.",
         "Tests verify the token-bucket logic implementation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-context-b7616d3b",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Online RL Implementation",
+      "description": "Inspired by OpenClaw RL trends: Implement online reinforcement learning from user feedback dynamically integrated into the context engine.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl_context_v2.py",
+        "tests/test_online_rl_context_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Online learning module accurately updates context retrieval weights based on feedback.",
+        "Tests use AsyncMock and verify weight adjustment algorithms without real LLM usage."
+      ]
+    },
+    {
+      "id": "acs-guardrails-policy-f8f43db8",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Compliance Policy Guardrails V7",
+      "description": "Inspired by ACS trends: Enhance the existing ACS guard architecture with a centralized policy validation layer prior to tool execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guardrails_v7.py",
+        "tests/test_acs_guardrails_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS Guardrails V7 is implemented and integrates dynamically before tool actions.",
+        "Tests verify policy enforcement rules via AsyncMock."
       ]
     }
   ]
