@@ -6720,7 +6720,7 @@
     },
     {
       "id": "context-engine-plugin-lifecycle-v5-6804",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "low",
       "title": "Context Engine Plugin Lifecycle Hooks v5",
@@ -14003,6 +14003,57 @@
       "acceptance": [
         "A2A execution hook successfully evaluates tool calls through safety checkpoints.",
         "Mock executions confirm tainted peer parameters block execution."
+      ]
+    },
+    {
+      "id": "47c649d8-ed2b-40bc-99b4-122e210d7b91",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Semantic Clustering V2",
+      "description": "Inspired by MemGPT/Letta patterns: Implement an advanced context engine hook that clusters related episodic memories semantically to compress the working context effectively.",
+      "allowed_paths": [
+        "magda_agent/memory/semantic_clustering_v2.py",
+        "tests/test_semantic_clustering_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Hook successfully clusters episodic memories based on semantic tags.",
+        "Tests mock memory stores and verify token reduction."
+      ]
+    },
+    {
+      "id": "6fed0f15-f976-4ce8-afe4-187237a11c25",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams Worktree State Diffing V1",
+      "description": "Inspired by Claude Agent SDK Agent Teams: Implement a robust state diffing utility that evaluates isolation leaks across subagent git worktrees prior to state merges.",
+      "allowed_paths": [
+        "magda_agent/architecture/worktree_diffing_v1.py",
+        "tests/test_worktree_diffing_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Diffing utility strictly identifies cross-contamination.",
+        "Tests mock isolated worktrees and simulate leaks."
+      ]
+    },
+    {
+      "id": "8de63680-bfd0-44c1-a314-23b76d215261",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tool Rate Limiting V1",
+      "description": "Inspired by MCP action tools standardization (65% growth): Introduce a strict token-bucket based rate limiting guardrail specifically tailored for MCP action tools to prevent runaway external side-effects.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_rate_limiting_v1.py",
+        "tests/test_mcp_rate_limiting_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrail correctly blocks excessive MCP tool requests.",
+        "Tests verify the token-bucket logic implementation."
       ]
     }
   ]
