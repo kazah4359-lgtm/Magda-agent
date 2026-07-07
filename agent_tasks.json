@@ -6840,7 +6840,7 @@
     },
     {
       "id": "claude-evaluator-subagent-policy",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Claude Evaluator Subagent Policy Enforcement",
@@ -14310,6 +14310,57 @@
         "Routine builder identifies routine patterns across episodic records.",
         "Generates procedural routines correctly.",
         "Tests mock memory to verify extraction logic."
+      ]
+    },
+    {
+      "id": "602790d1-4a47-4ca0-98c8-743101b3fe34",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Agent Scheduled Tasks Export Integration",
+      "description": "Inspired by Hermes Agent Cron scheduler: implement scheduled task export configuration for easier multi-platform deployment without altering cron files.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_export_v1.py",
+        "tests/test_cron_export_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Export routine formats tasks accurately.",
+        "Tests verify export schemas."
+      ]
+    },
+    {
+      "id": "c639a867-2e61-43c5-aac4-0f20995f7a93",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Canvas Visualization V2",
+      "description": "Inspired by OpenClaw Canvas Live Visualization: create a module to serialize Context Engine state to a live JSON payload for front-end rendering.",
+      "allowed_paths": [
+        "magda_agent/telemetry/context_canvas_v2.py",
+        "tests/test_context_canvas_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Serialization converts context engine state accurately.",
+        "Tests mock engine and test JSON structure."
+      ]
+    },
+    {
+      "id": "689bf4c3-d060-4f17-aae1-3fa0bed483b0",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Peer Authentication V2",
+      "description": "Inspired by A2A standard trend for agent-to-agent delegation: implement robust token-based peer authentication for discovered agent cards.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_auth_v2.py",
+        "tests/test_a2a_auth_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Peer authentication accurately verifies tokens.",
+        "Tests mock incoming A2A requests and test rejection/acceptance."
       ]
     }
   ]
