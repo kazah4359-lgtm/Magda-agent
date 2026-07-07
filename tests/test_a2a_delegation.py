@@ -29,6 +29,20 @@ def a2a_discovery(mock_agent_card):
 def a2a_delegator(a2a_discovery):
     return A2ADelegator(a2a_discovery)
 
+def test_a2a_delegator_security_context_initialization(a2a_discovery: A2ADiscovery) -> None:
+    """
+    Tests that the A2ADelegator initializes its own A2ASecurityContext
+    if the provided discovery instance does not have one.
+
+    Args:
+        a2a_discovery: The A2ADiscovery fixture to use.
+    """
+    from magda_agent.integration.a2a_security import A2ASecurityContext
+    # Ensure a2a_discovery has no security context
+    a2a_discovery.security_context = None
+    delegator = A2ADelegator(a2a_discovery)
+    assert isinstance(delegator.security_context, A2ASecurityContext)
+
 @pytest.mark.asyncio
 @patch('httpx.AsyncClient.post', new_callable=AsyncMock)
 async def test_a2a_delegator_finds_agent(mock_post, a2a_delegator):

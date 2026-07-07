@@ -6703,7 +6703,7 @@
     },
     {
       "id": "a2a-task-delegation-v1-5088edc2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "high",
       "title": "A2A task delegation integration",
@@ -13952,6 +13952,57 @@
         "AgentTeamManager creates independent Git worktrees for assigned sub-agents.",
         "Sub-agents operate within their isolated worktrees successfully.",
         "Mock tests confirm worktree creation and isolation."
+      ]
+    },
+    {
+      "id": "782bc0da-552a-4121-bb33-04f21a8d56b0",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams Git Worktree Synchronization V5",
+      "description": "Inspired by Claude Agent SDK patterns (docs/trends.md). Ensure independent Git worktrees for parallel Agent Teams synchronize successfully back to a central bare repository without conflicts.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v5.py",
+        "tests/test_agent_teams_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "AgentTeamManager can synchronize sub-agent worktrees.",
+        "Mock tests simulate successful synchronization."
+      ]
+    },
+    {
+      "id": "a173247b-c719-4ce6-8a17-f5a87d18ddfc",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT Virtual Context Semantic Compressor V5",
+      "description": "Inspired by MemGPT virtual context (docs/trends.md). Implement an async background compressor that periodically converts older episodic memory chunks into clustered semantic concepts to free working memory space.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_compression_v5.py",
+        "tests/test_virtual_compression_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Compressor correctly processes raw episodic chunks into semantic facts.",
+        "Pytest verification with mock LLM outputs confirms accurate formatting."
+      ]
+    },
+    {
+      "id": "6075b249-f42e-4786-b0a8-aececa6a2c80",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCPKernel A2A Guardrail Runtime Checkpoint V4",
+      "description": "Inspired by the MCPKernel taint tracking sandbox (docs/trends.md). Extend A2A tool execution hooks to evaluate payload parameters against safety checkpoint validations dynamically during peer task delegations.",
+      "allowed_paths": [
+        "magda_agent/safety/a2a_mcpkernel_guard_v4.py",
+        "tests/test_a2a_mcpkernel_guard_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A execution hook successfully evaluates tool calls through safety checkpoints.",
+        "Mock executions confirm tainted peer parameters block execution."
       ]
     }
   ]

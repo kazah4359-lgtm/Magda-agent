@@ -2,6 +2,7 @@ from typing import Dict, Any
 import logging
 from magda_agent.integration.a2a_discovery import A2ADiscovery
 from magda_agent.integration.a2a_tracing import A2ATracer
+from magda_agent.integration.a2a_security import A2ASecurityContext
 import httpx
 
 class A2ADelegator:
@@ -13,7 +14,7 @@ class A2ADelegator:
         Initializes the delegator with the discovery component.
         """
         self.discovery = discovery
-        self.security_context = getattr(discovery, 'security_context', None)
+        self.security_context = getattr(discovery, 'security_context', None) or A2ASecurityContext()
 
 
 
