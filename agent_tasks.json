@@ -6789,7 +6789,7 @@
     },
     {
       "id": "openclaw-virtual-context-manager-v2-i9j0k1l2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Virtual Context Manager for MemorySystem v2",
@@ -14156,6 +14156,57 @@
       "acceptance": [
         "Agent discovery correctly resolves and parses Agent Cards.",
         "Tests mock network responses and evaluate validation."
+      ]
+    },
+    {
+      "id": "hermes-agent-nightly-backups-bb325590",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Agent Scheduled Nightly Backups",
+      "description": "Inspired by Hermes Agent Cron scheduler: implement a nightly backup cron job for episodic memory dumps.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_backups_v3.py",
+        "tests/test_cron_backups_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cron job successfully schedules nightly episodic memory backup.",
+        "Tests verify scheduling."
+      ]
+    },
+    {
+      "id": "claude-subagent-dependency-graph-0641a915",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Subagent Dependency Graph V2",
+      "description": "Inspired by Claude Agent SDK Task system with dependency graphs.",
+      "allowed_paths": [
+        "magda_agent/architecture/dependency_graph_v2.py",
+        "tests/test_dependency_graph_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dependency graph validates subagent task execution order.",
+        "Tests simulate subagent dependency validation."
+      ]
+    },
+    {
+      "id": "mcp-action-tools-export-v2-58dbbdbc",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tools Export Compatibility V2",
+      "description": "Inspired by MCP compatibility standard: Ensure skills can be natively exported as MCP tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_export_v8.py",
+        "tests/test_mcp_export_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported as MCP tools accurately.",
+        "Tests verify export JSON schema format."
       ]
     }
   ]
