@@ -6857,7 +6857,7 @@
     },
     {
       "id": "mcp-action-tool-concurrency-v2-a9a0b782",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP concurrent action tool execution v2",
@@ -14361,6 +14361,57 @@
       "acceptance": [
         "Peer authentication accurately verifies tokens.",
         "Tests mock incoming A2A requests and test rejection/acceptance."
+      ]
+    },
+    {
+      "id": "3f400a74-15eb-4d21-80e1-e4017b730b4f",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Kernel Taint Tracking Context Integration",
+      "description": "Inspired by MCPKernel Sandboxing trends: Expand taint tracking to seamlessly integrate with working memory context.",
+      "allowed_paths": [
+        "magda_agent/safety/taint_context_v6.py",
+        "tests/test_taint_context_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint tags propagate correctly to working memory context.",
+        "Tests verify working memory entries carry taint flag correctly."
+      ]
+    },
+    {
+      "id": "4d78fb0f-566e-4a65-965c-10a9bb2fee26",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Habit Decay Parameterization",
+      "description": "Inspired by OpenClaw-RL trend: Add adjustable time decay parameters to learned habits based on explicit feedback loops.",
+      "allowed_paths": [
+        "magda_agent/learning/habit_decay_v2.py",
+        "tests/test_habit_decay_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Habit decay is configurable.",
+        "Decay tests simulate adjustable parameters."
+      ]
+    },
+    {
+      "id": "60cfa7dd-4b71-457d-b396-4c3d49f037b5",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Workflow Auth Delegation Manager V3",
+      "description": "Inspired by A2A Protocol standard trends: Upgrade active authentication token manager for A2A mesh network peers.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_auth_delegation_v3.py",
+        "tests/test_a2a_auth_delegation_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Active tokens are managed centrally.",
+        "Tests mock token exchange verification."
       ]
     }
   ]
