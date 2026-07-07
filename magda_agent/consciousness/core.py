@@ -80,6 +80,7 @@ class Consciousness:
         tracer: Optional[ThoughtChainTracer] = None,
         style_adapter: Optional[StyleAdapter] = None,
         user_model: Optional[UserModel] = None,
+        a2a_delegator: Optional['A2ADelegator'] = None,
         **kwargs
     ):
         self.llm = llm
@@ -117,6 +118,7 @@ class Consciousness:
         self.tracer = tracer
         self.skill_versioning = kwargs.get('skill_versioning', None)
         self.style_adapter = style_adapter
+        self.a2a_delegator = a2a_delegator
         self.user_model = user_model
         self.mental_states = MentalStates()
 
@@ -291,7 +293,7 @@ class Consciousness:
         if self.tracer:
             self.tracer.add_step("planning_start", {})
 
-        planner_agent = PlannerAgent(planner=self.planner)
+        planner_agent = PlannerAgent(planner=self.planner, a2a_delegator=self.a2a_delegator)
         generator_agent = GeneratorAgent(
             llm=self.llm,
             skills=self.skills,
