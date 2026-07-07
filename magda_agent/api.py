@@ -26,6 +26,9 @@ from magda_agent.learning.skill_versioning import SkillVersioning
 from magda_agent.skills import initialize_skills
 from magda_agent.planning.planner import Planner
 from magda_agent.integration.a2a_server import A2AServer
+from magda_agent.integration.a2a_discovery import A2ADiscovery, AgentCard
+from magda_agent.integration.a2a_delegation import A2ADelegator
+from magda_agent.integration.a2a_security import A2ASecurityContext
 from magda_agent.consciousness.core import Consciousness
 from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.evaluation.agentbench import daily_agentbench_eval
@@ -125,6 +128,19 @@ openclaw_rl = OpenClawInteractiveLearner(
     user_model=user_model,
     recovery_lessons=recovery_lessons
 )
+
+# A2A Integration Setup
+a2a_security = A2ASecurityContext()
+local_card = AgentCard(
+    agent_id=os.getenv("AGENT_ID", "magda-agent-1"),
+    name=os.getenv("AGENT_NAME", "Magda"),
+    description="Experimental cognitive AGI agent",
+    capabilities=["coding", "analysis", "reflection"],
+    endpoints={"mcp": f"{os.getenv('BASE_URL', 'http://localhost:8000')}/a2a/rpc"}
+)
+a2a_discovery = A2ADiscovery(local_card=local_card, security_context=a2a_security)
+a2a_delegator = A2ADelegator(discovery=a2a_discovery)
+
 brainstem = Brainstem()
 planner = Planner(llm=llm_client, skills=skill_registry, habit_tracker=habit_tracker)
 long_term_memory = LongTermMemory()
@@ -175,6 +191,7 @@ consciousness = Consciousness(
     style_adapter=style_adapter,
     user_model=user_model,
     skill_versioning=skill_versioning,
+    a2a_delegator=a2a_delegator,
 )
 
 subconsciousness = Subconsciousness(
@@ -213,7 +230,7 @@ autonomous_executor = AutonomousExecutor(
 
 
 canvas_server = CanvasServer(consciousness=consciousness)
-a2a_server = A2AServer(planner=planner)
+a2a_server = A2AServer(planner=planner, security_context=a2a_security)
 rpc_manager = SubAgentRPCManager(llm=llm_client)
 cross_platform_dispatcher = CrossPlatformDispatcher()
 local_first_gateway = LocalFirstGateway()

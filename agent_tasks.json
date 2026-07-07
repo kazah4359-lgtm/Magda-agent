@@ -6707,7 +6707,7 @@
       "area": "integration",
       "risk": "high",
       "title": "A2A task delegation integration",
-      "description": "Inspired by A2A Protocol trend in docs/trends.md: Implement peer-to-peer task delegation using A2ADDelegator and A2ASecurityContext for async tracing.",
+      "description": "Inspired by A2A Protocol trend in docs/trends.md: Implement peer-to-peer task delegation using A2ADelegator and A2ASecurityContext for async tracing.",
       "allowed_paths": [
         "magda_agent/integration/a2a_delegation.py",
         "tests/test_a2a_delegation.py",
