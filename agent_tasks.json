@@ -6754,7 +6754,7 @@
     },
     {
       "id": "mcp-compatibility-export-v1-a1b2c3d4",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Compatibility Export",
@@ -14088,6 +14088,40 @@
       "acceptance": [
         "ACS Guardrails V7 is implemented and integrates dynamically before tool actions.",
         "Tests verify policy enforcement rules via AsyncMock."
+      ]
+    },
+    {
+      "id": "9d27c5fc-0ce1-4476-b12a-b13b32e3e37a",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams Distributed Tracing V9",
+      "description": "Inspired by Claude Agent SDK Agent Teams and enterprise tracing trends: Implement distributed tracing that propagates OpenTelemetry context across sub-agents running in isolated Git worktrees, allowing full visibility into parallel tasks.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_tracing_v9.py",
+        "tests/test_agent_teams_tracing_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tracing context propagates to spawned sub-agents.",
+        "Tests mock sub-agent spans and verify trace IDs match."
+      ]
+    },
+    {
+      "id": "78af6406-b0ef-4b72-822e-be43e41edb3e",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Policy Interceptor V8",
+      "description": "Inspired by MCP action tool growth and ACS safety standard: Add a centralized runtime policy interceptor specifically tailored for dynamic MCP tools to validate payloads before execution.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_policy_interceptor_v8.py",
+        "tests/test_mcp_policy_interceptor_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy interceptor intercepts MCP tool calls.",
+        "Tests verify valid inputs pass and tainted inputs are blocked."
       ]
     }
   ]
