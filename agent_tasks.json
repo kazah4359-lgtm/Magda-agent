@@ -6823,7 +6823,7 @@
     },
     {
       "id": "openclaw-local-first-context-engine",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Local-First Context Engine",
@@ -14258,6 +14258,58 @@
       "acceptance": [
         "Smoke tester correctly identifies syntax and import errors post-merge.",
         "Tests evaluate mock code files with syntax errors."
+      ]
+    },
+    {
+      "id": "4d3e907f-d2e9-44f1-b4f8-f9b4733e731a",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Reflection Tracing",
+      "description": "Inspired by OpenClaw Canvas Live Visualization trend: Create a reflection telemetry export module to broadcast subconsciousness events dynamically to a live dashboard.",
+      "allowed_paths": [
+        "magda_agent/telemetry/canvas_reflection_v1.py",
+        "tests/test_canvas_reflection_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Reflection telemetry broadcaster implemented and broadcasts reflection events.",
+        "Tests verify event payloads format matches Canvas UI."
+      ]
+    },
+    {
+      "id": "1a68b69f-2238-495c-9a7c-57c1447a365c",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Server Taint Context Isolation",
+      "description": "Inspired by MCPKernel Sandboxing trends: Enhance MCP Server export functionality with taint isolation to prevent tainted responses from polluting memory.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_taint_context_v1.py",
+        "tests/test_mcp_taint_context_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Taint tags propagate correctly to exported tool responses.",
+        "Tests verify responses carry taint flag appropriately."
+      ]
+    },
+    {
+      "id": "81d7564a-5ff7-4a2b-9e9f-4776e139f832",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Letta Virtual Context Routine Builder",
+      "description": "Inspired by MemGPT/Letta patterns: Create a context manager hook to automatically extract routine patterns from episodic memory and populate procedural memory.",
+      "allowed_paths": [
+        "magda_agent/memory/letta_routine_v1.py",
+        "tests/test_letta_routine_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Routine builder identifies routine patterns across episodic records.",
+        "Generates procedural routines correctly.",
+        "Tests mock memory to verify extraction logic."
       ]
     }
   ]
