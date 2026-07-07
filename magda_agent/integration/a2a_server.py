@@ -117,7 +117,7 @@ class A2AServer:
                     return Response(status_code=204)
                 return Response(content=json.dumps({
                     "jsonrpc": "2.0",
-                    "result": {"status": "accepted", "method": method},
+                    "result": {"status": "accepted", "method": method, "task": str(task)},
                     "id": req_id
                 }), media_type="application/json")
             except Exception as e:
