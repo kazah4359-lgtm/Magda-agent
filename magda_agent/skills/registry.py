@@ -17,6 +17,9 @@ class SkillRegistry:
         from magda_agent.safety.agent_guard import AgentGuard
         self.agent_guard = AgentGuard(policy_layer) if policy_layer else None
 
+        from magda_agent.safety.runtime_governance import RuntimeGovernanceLayer
+        self.runtime_governance = RuntimeGovernanceLayer(policy_layer) if policy_layer else None
+
         # Initialize RealtimeGuardrail
         from magda_agent.safety.guardrails import RealtimeGuardrail
         self.realtime_guardrail = RealtimeGuardrail(policy_layer) if policy_layer else None        # Initialize ACSMemoryPolicy and chain with existing policy layer
@@ -76,6 +79,8 @@ class SkillRegistry:
             try:
                 if self.realtime_guardrail is not None:
                     result = self.realtime_guardrail.execute_with_guardrails(self.skills[name], name, **kwargs)
+                elif self.runtime_governance is not None:
+                    result = self.runtime_governance.execute_tool(self.skills[name], name, **kwargs)
                 elif self.agent_guard is not None:
                     result = self.agent_guard.execute_tool(self.skills[name], name, **kwargs)
                 else:
