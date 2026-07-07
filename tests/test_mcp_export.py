@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from magda_agent.integration.mcp_export import MCPExporter
+from magda_agent.skills.mcp_export import MCPExporter
 
 @pytest.fixture
 def mock_registry():
