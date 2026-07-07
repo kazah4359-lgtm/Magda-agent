@@ -6874,7 +6874,7 @@
     },
     {
       "id": "agent-teams-subagent-isolation-v2-49252226",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "high",
       "title": "Agent Teams Subagent Git Worktree Isolation v2",
@@ -14412,6 +14412,57 @@
       "acceptance": [
         "Active tokens are managed centrally.",
         "Tests mock token exchange verification."
+      ]
+    },
+    {
+      "id": "aider-post-merge-smoke-tests-v2-1234abcd",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "low",
+      "title": "Aider Style Post-Merge Smoke Tests V2",
+      "description": "Inspired by SWE-bench Aider evaluation trends: Update the post-merge smoke testing pipeline to provide more robust analysis of agent-generated code.",
+      "allowed_paths": [
+        "magda_agent/evaluation/smoke_tester_v2.py",
+        "tests/test_smoke_tester_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Smoke tester V2 is implemented and can detect syntax and import errors.",
+        "Tests verify that incorrect files trigger validation errors."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-live-reflection-v2-5678efgh",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "OpenClaw Canvas Live Reflection Tracing V2",
+      "description": "Inspired by OpenClaw Canvas Live Visualization trend: Create a reflection telemetry exporter to stream V2 reflection events to a Canvas interface.",
+      "allowed_paths": [
+        "magda_agent/telemetry/canvas_reflection_v2.py",
+        "tests/test_canvas_reflection_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "V2 reflection exporter is implemented.",
+        "Tests mock data correctly matching Canvas payload."
+      ]
+    },
+    {
+      "id": "letta-virtual-context-routine-builder-v2-9012ijkl",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Letta Virtual Context Routine Builder V2",
+      "description": "Inspired by MemGPT/Letta patterns: Build an advanced routine generator hook V2 that dynamically builds procedural memory from virtual context streams.",
+      "allowed_paths": [
+        "magda_agent/memory/letta_routine_v2.py",
+        "tests/test_letta_routine_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "V2 routine builder hook is written.",
+        "Tests correctly extract routines into procedural memory."
       ]
     }
   ]
