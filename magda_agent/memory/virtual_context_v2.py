@@ -130,6 +130,48 @@ class VirtualContextManagerV2:
             await working_memory.add(entry)
             logging.debug(f"Paged in explicit memory entry for user {user_id}: {event_text[:30]}...")
 
+    async def paginate_explicit_memory_blocks(self, working_memory: 'WorkingMemory', episodic_memory: 'EpisodicMemory', user_id: int, block_size: int = 2) -> None:
+        """
+        Divides the working memory into explicit blocks of a given size and pages them out to episodic memory.
+
+        Args:
+            working_memory: The WorkingMemory instance to page out from.
+            episodic_memory: The EpisodicMemory instance to page out into.
+            user_id: The ID of the user.
+            block_size: The number of entries per block to paginate.
+        """
+        entries = working_memory.get_entries(user_id=user_id)
+        if not entries:
+            return
+
+        to_remove = entries[:- (len(entries) % block_size)] if len(entries) % block_size != 0 else entries
+        if not to_remove:
+            return
+
+        blocks = [to_remove[i:i + block_size] for i in range(0, len(to_remove), block_size)]
+
+        for block in blocks:
+            for entry in block:
+                metadata = {
+                    "paged_out_explicitly": True,
+                    "importance": entry.importance,
+                    "pad_p": entry.emotional_state.pleasure,
+                    "pad_a": entry.emotional_state.arousal,
+                    "pad_d": entry.emotional_state.dominance
+                }
+                if entry.tags:
+                    metadata["tags"] = ",".join(entry.tags)
+
+                episodic_memory.store_event(
+                    text=entry.content,
+                    metadata=metadata,
+                    user_id=user_id
+                )
+                logging.debug(f"Paged out memory entry {entry.id} in block explicitly for user {user_id}")
+
+            for entry in block:
+                working_memory.remove(entry.id, user_id=user_id)
+
     def get_token_length(self, entries: List['MemoryEntry']) -> int:
         """
         Calculates a heuristic token length for the given memory entries.

@@ -40,6 +40,32 @@ async def test_virtual_context_v2_page_out_explicit() -> None:
     assert episodic_events[0]["metadata"]["paged_out_explicitly"] == True
 
 @pytest.mark.asyncio
+async def test_virtual_context_v2_paginate_explicit_memory_blocks() -> None:
+    wm = WorkingMemory(limit=10)
+    em = EpisodicMemory(persist_directory=":memory:")
+    em.collection_name = "test_episodic_memory_v2_paginate_out"
+    em.collection = em.client.get_or_create_collection(name=em.collection_name)
+    vcm = VirtualContextManagerV2()
+
+    state = PADState(0, 0, 0)
+
+    for i in range(5):
+        await wm.add(MemoryEntry(f"Item {i}", 0.5, state, user_id=1))
+
+    assert len(wm.get_entries(user_id=1)) == 5
+
+    await vcm.paginate_explicit_memory_blocks(wm, em, user_id=1, block_size=2)
+
+    entries = wm.get_entries(user_id=1)
+    assert len(entries) == 1
+    assert entries[0].content == "Item 4"
+
+    episodic_events = em.get_all_events(user_id=1)
+    assert len(episodic_events) == 4
+    assert episodic_events[0]["metadata"]["paged_out_explicitly"] == True
+
+
+@pytest.mark.asyncio
 async def test_virtual_context_v2_page_in_explicit() -> None:
     wm = WorkingMemory(limit=5)
     em = EpisodicMemory(persist_directory=":memory:")
