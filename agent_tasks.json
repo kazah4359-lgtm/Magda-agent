@@ -6771,7 +6771,7 @@
     },
     {
       "id": "acs-runtime-governance-layer-v1-e5f6g7h8",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard Runtime Governance Layer",
@@ -14122,6 +14122,40 @@
       "acceptance": [
         "Policy interceptor intercepts MCP tool calls.",
         "Tests verify valid inputs pass and tainted inputs are blocked."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v4-7cdc8b40",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Learning Integration V4",
+      "description": "Inspired by OpenClaw RL trend (docs/trends.md): implement interactive RL loop for skill improvement from next-state signals.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl_v4.py",
+        "tests/test_interactive_rl_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL loop processes interactive signals and correctly updates weights.",
+        "Tests mock LLM endpoints to confirm functionality."
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-cards-v3-5578da62",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Discovery Cards Integration V3",
+      "description": "Inspired by A2A standard trend (docs/trends.md): implement peer discovery mechanism using Agent Cards.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_cards_v3.py",
+        "tests/test_a2a_cards_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent discovery correctly resolves and parses Agent Cards.",
+        "Tests mock network responses and evaluate validation."
       ]
     }
   ]
