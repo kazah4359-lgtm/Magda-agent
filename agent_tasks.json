@@ -6976,7 +6976,7 @@
     },
     {
       "id": "claude-agent-teams-subagent-isolation-v3-56a1b5e7",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "high",
       "title": "Agent Teams Subagent Git Worktree Isolation v3",
@@ -14806,6 +14806,40 @@
       "acceptance": [
         "Subagents execute concurrently in their respective worktrees.",
         "Tests verify concurrency and isolation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-habit-integrator-2b516875",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Habit Integrator",
+      "description": "Implement an OnlineRLIntegrator inspired by OpenClaw-RL that dynamically adjusts habit weights based on next-state signals from user replies.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl.py",
+        "tests/test_online_rl.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "OnlineRLIntegrator adjusts habit weights accurately.",
+        "Tests verify weight adjustment logic."
+      ]
+    },
+    {
+      "id": "marketplace-skill-exporter-c9363a92",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Marketplace Skill Exporter for agentskills.io",
+      "description": "Implement a MarketplaceExporter that dynamically exports Magda's registered skills to the open agentskills.io standard by extracting JSON schemas.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_exporter.py",
+        "tests/test_marketplace_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MarketplaceExporter generates valid agentskills.io JSON definitions.",
+        "Tests confirm extraction of schema."
       ]
     }
   ]
