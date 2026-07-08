@@ -6942,7 +6942,7 @@
     },
     {
       "id": "prempti-audit-logger-v2-5678",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "low",
       "title": "Prempti Audit Logger v2 Integration",
@@ -14718,6 +14718,60 @@
       "acceptance": [
         "Habit weights update in real-time from feedback.",
         "Tests verify habit scaling using mocked feedback."
+      ]
+    },
+    {
+      "id": "canvas-ui-adapter-workspace",
+      "status": "todo",
+      "area": "UI",
+      "risk": "low",
+      "title": "Canvas UI Adapter for Global Workspace",
+      "description": "Inspired by OpenClaw Canvas Live Visualization trend: Create an adapter to visually expose the current state of the Global Workspace to a connected Canvas UI.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_workspace_adapter.py",
+        "tests/test_canvas_workspace_adapter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Adapter successfully reads workspace state.",
+        "Adapter formats data correctly for websocket streaming.",
+        "Tests verify format."
+      ]
+    },
+    {
+      "id": "hierarchical-a2a-subagent-spawner",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Hierarchical A2A Subagent Spawner",
+      "description": "Inspired by Claude Agent SDK and Agent Teams trend: Allow main orchestrator to spawn A2A compliant subagents to handle complex parallel multi-step goals.",
+      "allowed_paths": [
+        "magda_agent/architecture/a2a_spawner.py",
+        "tests/test_a2a_spawner.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Spawner can instantiate a subagent successfully.",
+        "Subagent delegates via A2A.",
+        "Tests mock A2A subagent execution."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-action-tool-redactor",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Dynamic Action Tool Redactor",
+      "description": "Inspired by MCP action tools standardization trend: Develop a safety redactor module that strips PII and sensitive internal IDs from outgoing tool requests automatically.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_redactor.py",
+        "tests/test_mcp_redactor.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Redactor strips identifiable PII.",
+        "Outgoing payload avoids leaking agent private state.",
+        "Tests mock extraction and redaction correctly."
       ]
     }
   ]
