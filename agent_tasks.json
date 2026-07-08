@@ -7231,7 +7231,7 @@
     },
     {
       "id": "mcp-policy-runtime-engine-isolation-v1-b548ccd1",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Policy Runtime Engine Isolation v1",
@@ -15537,6 +15537,57 @@
       "acceptance": [
         "Tools are executed concurrently using asyncio.gather.",
         "Tests verify parallel execution."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-guardrails-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Dynamic Guardrails V1",
+      "description": "Inspired by ACS trend: Implement dynamic guardrails policy manager.",
+      "allowed_paths": [
+        "magda_agent/safety/dynamic_guardrails.py",
+        "tests/test_dynamic_guardrails.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrails policy manager can dynamically update policies.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "openclaw-memory-compaction-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Memory Compaction V3",
+      "description": "Inspired by MemGPT/Letta pattern: Implement episodic memory compactor for the Virtual context management.",
+      "allowed_paths": [
+        "magda_agent/memory/compaction_v3.py",
+        "tests/test_compaction_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Episodic memory compactor correctly truncates old memories.",
+        "Tests mock LLM and pass."
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-heartbeat-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "A2A Agent Discovery Heartbeat V1",
+      "description": "Inspired by A2A standard trend: Implement heartbeat broadcasting for agent discovery.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_heartbeat.py",
+        "tests/test_a2a_heartbeat.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent successfully broadcasts heartbeat periodically.",
+        "Tests mock broadcasting and pass."
       ]
     }
   ]
