@@ -7401,7 +7401,7 @@
     },
     {
       "id": "a2a-discovery-v3-unique",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A Discovery v3 (Agent Cards)",
@@ -15946,6 +15946,57 @@
       "risk": "medium",
       "area": "skills",
       "status": "todo"
+    },
+    {
+      "id": "hermes-cron-daily-backups-v10-unique",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Daily Backups V10",
+      "description": "Inspired by Hermes trends: Implement a scheduled task for generating nightly backups using a cron scheduler.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_backups_v10.py",
+        "tests/test_cron_backups_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Nightly backup cron task executes successfully.",
+        "Tests mock time and backup execution."
+      ]
+    },
+    {
+      "id": "claude-agent-teams-isolation-v10-unique",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude Agent Teams Isolation V10",
+      "description": "Inspired by Claude Agent SDK trends: Implement Git worktree isolation enhancements for spawned subagents.",
+      "allowed_paths": [
+        "magda_agent/agents/worktree_manager_v10.py",
+        "tests/test_worktree_manager_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Git worktrees are correctly isolated.",
+        "Tests verify sandbox environments."
+      ]
+    },
+    {
+      "id": "openai-realtime-guardrail-fallback-v10-unique",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "OpenAI Realtime Guardrail Fallback V10",
+      "description": "Inspired by OpenAI Agents SDK trends: Implement realtime guardrails that catch and safely fallback during unsafe tool actions.",
+      "allowed_paths": [
+        "magda_agent/safety/fallback_v10.py",
+        "tests/test_fallback_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Realtime guardrails catch unsafe actions.",
+        "Tests verify fallback on mock failure."
+      ]
     }
   ]
 }
