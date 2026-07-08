@@ -7197,7 +7197,7 @@
     },
     {
       "id": "hermes-persistent-memory-marketplace-v1-28a4370c",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Hermes Persistent Memory Marketplace v1",
@@ -15435,6 +15435,57 @@
       "acceptance": [
         "Subagents operate in isolated worktrees",
         "Tests check path isolation logic"
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-plugin-interface-v1-11a22b3c",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Plugin Interface",
+      "description": "Implement a Context Engine plugin interface with lifecycle hooks inspired by OpenClaw trends.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_plugin.py",
+        "tests/test_context_engine_plugin.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin interface is defined",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "claude-agent-teams-subagent-spawning-v3-22c33d4e",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "high",
+      "title": "Claude Agent Teams Subagent Spawning v3",
+      "description": "Implement subagent spawning for parallel tasks with git worktree isolation inspired by Claude Agent Teams.",
+      "allowed_paths": [
+        "magda_agent/agents/subagent_spawning_v3.py",
+        "tests/test_subagent_spawning_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents can be spawned in isolated worktrees",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "mcp-agent-skills-export-v2-33d44e5f",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Agent Skills Export v2",
+      "description": "Export Magda skills as MCP-compatible JSON-RPC tools inspired by MCP trends.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_export_v2.py",
+        "tests/test_mcp_export_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be exported as MCP tools",
+        "Tests pass"
       ]
     }
   ]

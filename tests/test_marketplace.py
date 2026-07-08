@@ -112,3 +112,68 @@ async def test_search_marketplace_skills(mock_get):
     names = [r["name"] for r in results2]
     assert "calculator" in names
     assert "math_helper" in names
+
+
+from magda_agent.memory.marketplace import export_episodic_to_marketplace_format, import_episodic_from_marketplace_format
+
+def test_export_episodic_to_marketplace_format():
+    events = [
+        {
+            "id": "mem-1",
+            "text": "User wants a pizza",
+            "metadata": {"timestamp": 1234567890, "user_id": 42}
+        },
+        {
+            "id": "mem-2",
+            "text": "User likes mushrooms",
+            "metadata": {"user_id": 42}
+        }
+    ]
+
+    result = export_episodic_to_marketplace_format(events, author_id="magda_test")
+
+    assert result["version"] == "1.0"
+    assert result["author_id"] == "magda_test"
+    assert len(result["events"]) == 2
+
+    assert result["events"][0]["event_id"] == "mem-1"
+    assert result["events"][0]["text"] == "User wants a pizza"
+    assert result["events"][0]["metadata"] == {"timestamp": 1234567890, "user_id": 42}
+    assert result["events"][0]["timestamp"] == 1234567890
+
+    assert result["events"][1]["event_id"] == "mem-2"
+    assert result["events"][1]["text"] == "User likes mushrooms"
+    assert result["events"][1]["metadata"] == {"user_id": 42}
+    assert result["events"][1]["timestamp"] is None
+
+def test_import_episodic_from_marketplace_format():
+    marketplace_data = {
+        "version": "1.0",
+        "author_id": "other_agent",
+        "events": [
+            {
+                "event_id": "ext-1",
+                "text": "User hates olives",
+                "metadata": {"source": "external"},
+                "timestamp": 987654321
+            },
+            {
+                "event_id": "ext-2",
+                "text": "User loves cheese",
+                "metadata": {}
+            }
+        ]
+    }
+
+    result = import_episodic_from_marketplace_format(marketplace_data)
+
+    assert len(result) == 2
+
+    assert result[0]["id"] == "ext-1"
+    assert result[0]["text"] == "User hates olives"
+    assert result[0]["metadata"]["source"] == "external"
+    assert result[0]["metadata"]["timestamp"] == 987654321
+
+    assert result[1]["id"] == "ext-2"
+    assert result[1]["text"] == "User loves cheese"
+    assert "timestamp" not in result[1]["metadata"]
