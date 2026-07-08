@@ -7214,7 +7214,7 @@
     },
     {
       "id": "openclaw-a2a-orchestration-streaming-v1-4fa9de5b",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "OpenClaw A2A Orchestration Streaming v1",
@@ -15486,6 +15486,57 @@
       "acceptance": [
         "Skills can be exported as MCP tools",
         "Tests pass"
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-importer-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Hermes Skill Marketplace Importer V1",
+      "description": "Inspired by Hermes trends: Implement an importer to load external agentskills.io standard formats into Magda.",
+      "allowed_paths": [
+        "magda_agent/skills/agentskills_importer.py",
+        "tests/test_agentskills_importer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Importer reads valid agentskills.io schemas.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "claude-subagent-teams-isolation-v9",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude Subagent Teams Isolation v9",
+      "description": "Inspired by Claude Agent Teams: Ensure git worktree isolation for hierarchical subagent spawns (v9 iteration).",
+      "allowed_paths": [
+        "magda_agent/architecture/teams_isolation_v9.py",
+        "tests/test_teams_isolation_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents operate in isolated worktrees",
+        "Tests check path isolation logic"
+      ]
+    },
+    {
+      "id": "openai-agents-runtime-tool-concurrency-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents Runtime Tool Concurrency",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement runtime function tool concurrency for executing multiple tools in parallel.",
+      "allowed_paths": [
+        "magda_agent/skills/tool_concurrency_v2.py",
+        "tests/test_tool_concurrency_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools are executed concurrently using asyncio.gather.",
+        "Tests verify parallel execution."
       ]
     }
   ]
