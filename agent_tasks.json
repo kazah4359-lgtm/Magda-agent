@@ -7129,7 +7129,7 @@
     },
     {
       "id": "a2a-discovery-v2-8142d1f8",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A Discovery v2 (Agent Cards)",
@@ -15231,6 +15231,57 @@
       "acceptance": [
         "Delegation tasks timeout appropriately and retry based on policy",
         "Tests mock network failure and verify retry logic"
+      ]
+    },
+    {
+      "id": "hermes-skill-marketplace-exporter-v1",
+      "title": "Hermes Skill Marketplace Exporter V1",
+      "description": "Inspired by Hermes trends: Implement an exporter to translate Magda skills into the open agentskills.io standard format for sharing in external marketplaces.",
+      "area": "skills",
+      "risk": "low",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/skills/agentskills_exporter.py",
+        "tests/test_agentskills_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Exporter outputs valid agentskills.io schemas.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "claude-subagent-compression-v1",
+      "title": "Claude Subagent Context Compression V1",
+      "description": "Inspired by Claude Agent Teams: Implement specialized context compression when spawning subagents to ensure they only receive minimal, relevant task context.",
+      "area": "architecture",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/architecture/subagent_compression.py",
+        "tests/test_subagent_compression.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context is successfully compressed before subagent delegation.",
+        "Tests mock compression logic and verify subagent inputs."
+      ]
+    },
+    {
+      "id": "openclaw-live-canvas-telemetry-v1",
+      "title": "OpenClaw Live Canvas Telemetry V1",
+      "description": "Inspired by OpenClaw trends: Implement live canvas telemetry to stream real-time agent execution state to an external dashboard.",
+      "area": "visualization",
+      "risk": "low",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_telemetry.py",
+        "tests/test_canvas_telemetry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent execution states are correctly streamed as telemetry data.",
+        "Tests verify telemetry formatting."
       ]
     }
   ]
