@@ -7384,7 +7384,7 @@
     },
     {
       "id": "openclaw-rl-metrics-v2-unique",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw RL Metrics System v2",
@@ -15895,6 +15895,57 @@
         "Telemetry data is logged upon tool execution.",
         "Tests verify telemetry generation on success and failure."
       ]
+    },
+    {
+      "id": "openclaw-canvas-ws-v3-unique",
+      "title": "OpenClaw Canvas WS Streaming V3",
+      "description": "Inspired by OpenClaw trends: Enhance Memory Canvas visualization to stream real-time JSON deltas to clients via WebSockets.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_ws_v3.py",
+        "tests/test_canvas_ws_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WebSockets stream state deltas.",
+        "Tests verify correct delta emission."
+      ],
+      "risk": "medium",
+      "area": "visualization",
+      "status": "todo"
+    },
+    {
+      "id": "a2a-telemetry-metrics-v4-unique",
+      "title": "A2A Mesh Telemetry V4",
+      "description": "Inspired by A2A Protocol trends: Implement a distributed telemetry broadcaster over the mesh network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_telemetry_v4.py",
+        "tests/test_a2a_telemetry_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry payloads broadcast properly.",
+        "Tests pass with mock endpoints."
+      ],
+      "risk": "medium",
+      "area": "integration",
+      "status": "todo"
+    },
+    {
+      "id": "mcp-dynamic-tool-concurrency-v16-unique",
+      "title": "MCP Tool Concurrency V16",
+      "description": "Inspired by OpenAI Agents SDK: Improve runtime tool concurrency utilizing asyncio.gather and error isolation boundaries for dynamic tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency_v16.py",
+        "tests/test_mcp_concurrency_v16.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Parallel dynamic tools execute smoothly.",
+        "Tests verify isolated exception handling."
+      ],
+      "risk": "medium",
+      "area": "skills",
+      "status": "todo"
     }
   ]
 }

@@ -235,3 +235,4 @@
 * [x] FEATURE: MCP Kernel Taint Tracking Policy Engine (mcp-kernel-sandbox-taint-policy-v1-uuid)
 * [x] FEATURE: OpenClaw-RL Interactive Feedback Formatter (openclaw-rl-interactive-feedback-v1-uuid)
 * [x] FEATURE: OpenClaw-RL Interactive Feedback Formatter v2 (openclaw-rl-interactive-feedback-v2-uuid)
+* [x] FEATURE: OpenClaw RL Metrics System v2 (openclaw-rl-metrics-v2-unique)
