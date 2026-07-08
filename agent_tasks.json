@@ -7333,7 +7333,7 @@
     },
     {
       "id": "a2a-workflow-chaining-b3c1a29f",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A Workflow Chaining",
@@ -15759,6 +15759,57 @@
         "Parallel tools execute successfully",
         "Tests pass"
       ]
+    },
+    {
+      "id": "mcp-dynamic-tool-concurrency-v12",
+      "title": "MCP Dynamic Tool Concurrency v12",
+      "description": "Inspired by OpenAI Agents SDK trends: Extend runtime tool concurrency to dynamically load tools over network and execute them in parallel.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency_v12.py",
+        "tests/test_mcp_concurrency_v12.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dynamically fetched tools can execute concurrently.",
+        "Tests verify dynamic parallel execution."
+      ],
+      "risk": "medium",
+      "area": "skills",
+      "status": "todo"
+    },
+    {
+      "id": "openclaw-memory-canvas-streaming-v2",
+      "title": "OpenClaw Memory Canvas Streaming v2",
+      "description": "Inspired by OpenClaw trends: Implement real-time WebSockets streaming for MemoryCanvas UI visualization.",
+      "allowed_paths": [
+        "magda_agent/visualization/memory_canvas_ws_v2.py",
+        "tests/test_memory_canvas_ws_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory canvas state is streamed via websockets.",
+        "Tests verify mock websocket endpoints."
+      ],
+      "risk": "medium",
+      "area": "visualization",
+      "status": "todo"
+    },
+    {
+      "id": "acs-guardrails-policy-v9",
+      "title": "ACS Compliance Policy Guardrails V9",
+      "description": "Inspired by ACS trends: Add rate limiting and temporal analysis to ACS compliance guardrails prior to tool execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guardrails_v9.py",
+        "tests/test_acs_guardrails_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Rate limiting added to ACS guardrails.",
+        "Tests verify rate limiting logic via AsyncMock."
+      ],
+      "risk": "medium",
+      "area": "safety",
+      "status": "todo"
     }
   ]
 }
