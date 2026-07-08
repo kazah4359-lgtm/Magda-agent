@@ -6925,7 +6925,7 @@
     },
     {
       "id": "assert-policy-eval-framework-v1-4321",
-      "status": "todo",
+      "status": "done",
       "area": "metacognition",
       "risk": "medium",
       "title": "ASSERT Policy Driven Eval Framework v1",
@@ -14565,6 +14565,57 @@
       "acceptance": [
         "Memory compaction job runs on schedule.",
         "Tests mock cron execution."
+      ]
+    },
+    {
+      "id": "letta-virtual-context-advanced-sync-v3",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Letta Virtual Context Advanced Sync V3",
+      "description": "Inspired by MemGPT/Letta patterns: Implement an advanced synchronization hook to push procedural memory from virtual context streams to disk in real-time.",
+      "allowed_paths": [
+        "magda_agent/memory/letta_sync_v3.py",
+        "tests/test_letta_sync_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Advanced sync hook correctly writes virtual context.",
+        "Tests mock disk writes and context updates."
+      ]
+    },
+    {
+      "id": "claude-dependency-graph-planner-v4",
+      "status": "todo",
+      "area": "planning",
+      "risk": "medium",
+      "title": "Claude Dependency Graph Planner Export V2",
+      "description": "Inspired by Claude Agent SDK task system: Serialize internal dependency graphs into standard MCP task format for external observability.",
+      "allowed_paths": [
+        "magda_agent/planning/graph_exporter_v2.py",
+        "tests/test_graph_exporter_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dependency graph exports to standard MCP task format.",
+        "Tests verify JSON export schema."
+      ]
+    },
+    {
+      "id": "prempti-audit-logger-intercept-v4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Prempti Audit Logger Action Intercept V4",
+      "description": "Inspired by Prempti (Falco) trend: Implement action interception layer that intercepts standard output during skill execution to mask PII.",
+      "allowed_paths": [
+        "magda_agent/safety/prempti_intercept_v4.py",
+        "tests/test_prempti_intercept_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Logger intercepts outputs and redacts PII.",
+        "Tests verify PII masking."
       ]
     }
   ]
