@@ -1,6 +1,7 @@
 import pytest
 from typing import Any, Dict
 from magda_agent.learning.interactive_feedback import InteractiveFeedbackFormatter
+from magda_agent.learning.interactive_feedback import InteractiveFeedbackFormatterV2
 
 def test_parse_corrections_explicit_score() -> None:
     """Tests if explicit score is correctly extracted."""
@@ -52,4 +53,32 @@ def test_parse_corrections_empty() -> None:
 
     assert result["is_correction"] is False
     assert result["explicit_score"] is None
+    assert result["implicit_sentiment"] == 0.0
+
+
+def test_parse_detailed_feedback_praise() -> None:
+    """Tests if detailed feedback correctly identifies praise intent."""
+    formatter = InteractiveFeedbackFormatterV2()
+
+    result = formatter.parse_detailed_feedback("This is great! 9/10.")
+    assert result["intent"] == "praise"
+    assert result["explicit_score"] == 9.0
+    assert result["implicit_sentiment"] > 0
+
+def test_parse_detailed_feedback_criticism() -> None:
+    """Tests if detailed feedback correctly identifies criticism intent."""
+    formatter = InteractiveFeedbackFormatterV2()
+
+    result = formatter.parse_detailed_feedback("No, that is completely wrong.")
+    assert result["intent"] == "criticism"
+    assert result["is_correction"] is True
+    assert result["implicit_sentiment"] < 0
+
+def test_parse_detailed_feedback_neutral() -> None:
+    """Tests if detailed feedback correctly identifies neutral intent."""
+    formatter = InteractiveFeedbackFormatterV2()
+
+    result = formatter.parse_detailed_feedback("Here is some random text.")
+    assert result["intent"] == "neutral"
+    assert result["is_correction"] is False
     assert result["implicit_sentiment"] == 0.0

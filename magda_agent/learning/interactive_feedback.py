@@ -64,3 +64,43 @@ class InteractiveFeedbackFormatter:
             "explicit_score": explicit_score,
             "implicit_sentiment": implicit_sentiment
         }
+
+class InteractiveFeedbackFormatterV2(InteractiveFeedbackFormatter):
+    """
+    V2 Formatter to extract explicit and implicit feedback signals from user text.
+    Provides enhanced parsing capabilities, including intent extraction.
+    """
+    def __init__(self) -> None:
+        """
+        Initializes the InteractiveFeedbackFormatterV2.
+        """
+        super().__init__()
+
+    def parse_detailed_feedback(self, text: str) -> Dict[str, Any]:
+        """
+        Parses user text to extract a detailed feedback payload.
+
+        Args:
+            text (str): The user's input text to be parsed.
+
+        Returns:
+            Dict[str, Any]: A detailed dictionary containing feedback signals:
+                - is_correction (bool): True if a correction was detected.
+                - explicit_score (Optional[float]): Extracted explicit score (0-10), if any.
+                - implicit_sentiment (float): Calculated implicit sentiment (-1.0 to 1.0).
+                - intent (str): The primary intent of the feedback (e.g., 'praise', 'criticism', 'neutral').
+        """
+        base_signals = self.parse_corrections(text)
+
+        intent = "neutral"
+        if base_signals["is_correction"] or base_signals["implicit_sentiment"] < 0:
+            intent = "criticism"
+        elif base_signals["implicit_sentiment"] > 0 or (base_signals["explicit_score"] and base_signals["explicit_score"] >= 7.0):
+            intent = "praise"
+
+        return {
+            "is_correction": base_signals["is_correction"],
+            "explicit_score": base_signals["explicit_score"],
+            "implicit_sentiment": base_signals["implicit_sentiment"],
+            "intent": intent
+        }
