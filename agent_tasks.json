@@ -7316,7 +7316,7 @@
     },
     {
       "id": "mcp-action-tool-concurrency-v8-a317db1a",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP action tools support with dynamic loading",
