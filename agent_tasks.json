@@ -7044,7 +7044,7 @@
     },
     {
       "id": "openclaw-rl-interactive-feedback-v1-uuid",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Feedback Formatter",
@@ -14993,6 +14993,57 @@
       "acceptance": [
         "Dashboard exposes metrics correctly.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v4-uuid",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Exporter V4",
+      "description": "Inspired by MCP standardization trends: Implement an exporter to automatically extract JSON schemas from Magda's registered skills for exposing them as MCP action tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_exporter.py",
+        "tests/test_mcp_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Exporter generates valid MCP JSON definitions.",
+        "Tests confirm extraction logic."
+      ]
+    },
+    {
+      "id": "a2a-discovery-agent-cards-v3-uuid",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "low",
+      "title": "A2A Discovery Agent Cards V3",
+      "description": "Inspired by A2A standard: Implement Agent Cards generation for peer-to-peer agent discovery in a multi-agent network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_agent_cards.py",
+        "tests/test_a2a_agent_cards.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Generates valid A2A Agent Cards.",
+        "Tests verify format."
+      ]
+    },
+    {
+      "id": "context-engine-plugin-interface-v5-uuid",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Plugin Interface V5",
+      "description": "Inspired by OpenClaw architecture: Implement a Context Engine plugin interface with lifecycle hooks (on_load, on_unload) for dynamic memory management.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_plugin.py",
+        "tests/test_context_engine_plugin.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Interface handles dynamic plugin loading/unloading.",
+        "Tests mock plugin lifecycle hooks."
       ]
     }
   ]
