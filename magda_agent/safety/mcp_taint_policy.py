@@ -38,3 +38,21 @@ class MCPTaintPolicyEngine:
             raise PolicyViolationError(
                 f"Tainted input to sensitive tool call from origins: {origins}"
             )
+
+    def evaluate_output_stream(self, output: Any, is_trusted: bool = False) -> None:
+        """
+        Evaluates a stream of outputs against the taint policy.
+
+        Args:
+            output: The output to be evaluated.
+            is_trusted: If True, the output is considered trusted and execution will
+                succeed even if it contains tainted data.
+
+        Raises:
+            PolicyViolationError: If is_trusted is False and the output contains tainted data.
+        """
+        if not is_trusted and self.tracker.is_tainted(output):
+            origins = self.tracker.get_origins(output)
+            raise PolicyViolationError(
+                f"Tainted output from untrusted tool call with origins: {origins}"
+            )

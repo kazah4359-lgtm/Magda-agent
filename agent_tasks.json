@@ -7078,7 +7078,7 @@
     },
     {
       "id": "mcp-kernel-sandbox-taint-policy-v2-uuid",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Kernel Taint Tracking Policy Engine v2",
@@ -15095,6 +15095,57 @@
       "acceptance": [
         "Telemetry correctly records tool call metrics.",
         "Tests confirm metrics collection."
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-origin-graph-v1",
+      "title": "MCPKernel Taint Origin Graph",
+      "description": "Inspired by MCPKernel trends: Implement a visual or structured representation of taint origin propagation graphs to track complex data lineage across agent operations.",
+      "area": "safety",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/safety/taint_graph.py",
+        "tests/test_taint_graph.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Origin graph accurately traces and visualizes taint sources.",
+        "Tests verify graph construction and tracking correctness."
+      ]
+    },
+    {
+      "id": "mcpkernel-sandbox-resource-limits-v1",
+      "title": "MCPKernel Sandbox Resource Limits",
+      "description": "Inspired by MCPKernel and general sandboxing trends: Add configurable resource limits (timeout, memory heuristics) to the SandboxExecutionEnvironmentV2.",
+      "area": "safety",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/safety/sandbox_limits.py",
+        "tests/test_sandbox_limits.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Resource limits prevent tool executions from exceeding defined boundaries.",
+        "Tests mock resource exhaustion scenarios to verify enforcement."
+      ]
+    },
+    {
+      "id": "mcpkernel-policy-audit-logger-v1",
+      "title": "MCPKernel Policy Audit Logger",
+      "description": "Inspired by Prempti and ACS standards: Implement a dedicated policy audit logger to record all taint policy evaluations and violations into a structured audit trail.",
+      "area": "safety",
+      "risk": "low",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/safety/policy_audit.py",
+        "tests/test_policy_audit.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Policy audit logger records policy evaluations and violations.",
+        "Tests ensure correct formatting and logging behavior without external side-effects."
       ]
     }
   ]
