@@ -7027,7 +7027,7 @@
     },
     {
       "id": "mcp-kernel-sandbox-taint-policy-v1-uuid",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Kernel Taint Tracking Policy Engine",
@@ -14942,6 +14942,57 @@
       "acceptance": [
         "Worktree isolation handles nested subagent spawning.",
         "Tests verify nested subagent paths."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-integration-v10",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "A2A Enterprise Auth Token Delegation",
+      "description": "Implement A2A token delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_enterprise_v10.py",
+        "tests/test_a2a_enterprise_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A supports token delegation.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "openclaw-semantic-context-compression",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "OpenClaw Semantic Search Context Compression",
+      "description": "Implement context compression via semantic search.",
+      "allowed_paths": [
+        "magda_agent/memory/semantic_compression.py",
+        "tests/test_semantic_compression.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context compresses correctly.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "mcp-tool-registry-metrics-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "MCP Tool Registry Metrics Dashboard",
+      "description": "Implement MCP tool metrics dashboard.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_metrics.py",
+        "tests/test_mcp_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dashboard exposes metrics correctly.",
+        "Tests pass."
       ]
     }
   ]
