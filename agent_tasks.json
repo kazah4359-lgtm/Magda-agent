@@ -7265,7 +7265,7 @@
     },
     {
       "id": "acs-runtime-tool-validation-v5",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Runtime Tool Validation v5",
@@ -15623,6 +15623,40 @@
         "Procedural memory tracks RL signals accurately.",
         "Tests mock learning signals and verify updates."
       ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency-v11",
+      "title": "MCP Action Tool Concurrency v11",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement robust runtime concurrency for multiple MCP tool executions using asyncio.gather with error boundary isolation.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency_v11.py",
+        "tests/test_mcp_concurrency_v11.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools execute concurrently",
+        "Exceptions are isolated"
+      ],
+      "risk": "medium",
+      "area": "skills",
+      "status": "todo"
+    },
+    {
+      "id": "a2a-discovery-mesh-telemetry-v3",
+      "title": "A2A Discovery Mesh Telemetry v3",
+      "description": "Inspired by A2A Protocol trend: Implement distributed telemetry broadcasting over the A2A mesh network.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_mesh_telemetry_v3.py",
+        "tests/test_a2a_mesh_telemetry_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry is broadcasted",
+        "Tests verify mock payloads"
+      ],
+      "risk": "medium",
+      "area": "integration",
+      "status": "todo"
     }
   ]
 }
