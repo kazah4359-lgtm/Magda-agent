@@ -14365,7 +14365,7 @@
     },
     {
       "id": "3f400a74-15eb-4d21-80e1-e4017b730b4f",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCP Kernel Taint Tracking Context Integration",
@@ -14616,6 +14616,57 @@
       "acceptance": [
         "Logger intercepts outputs and redacts PII.",
         "Tests verify PII masking."
+      ]
+    },
+    {
+      "id": "openclaw-mcp-subagent-router-plugin-v1",
+      "title": "OpenClaw MCP Subagent Router Plugin",
+      "area": "architecture",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by OpenClaw gateway patterns: Build a subagent routing plugin using MCP to delegate user prompts efficiently.",
+      "allowed_paths": [
+        "magda_agent/architecture/mcp_router_plugin_v1.py",
+        "tests/test_mcp_router_plugin_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Router routes inputs accurately.",
+        "Tests mock MCP routing endpoints."
+      ]
+    },
+    {
+      "id": "a2a-secure-payload-validation-v2",
+      "title": "A2A Secure Payload Validation",
+      "area": "integration",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by A2A Protocol standard trends: Enhance the payload validation to ensure secure agent-to-agent communication payloads.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_payload_validation_v2.py",
+        "tests/test_a2a_payload_validation_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Payloads are securely validated.",
+        "Tests verify correct rejection of invalid payloads."
+      ]
+    },
+    {
+      "id": "virtual-context-semantic-pruning-v3",
+      "title": "Virtual Context Semantic Pruning",
+      "area": "memory",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by Letta context patterns: Implement a semantic pruning hook for virtual context, removing decayed short-term entries dynamically.",
+      "allowed_paths": [
+        "magda_agent/memory/semantic_pruning_v3.py",
+        "tests/test_semantic_pruning_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Semantic pruning effectively removes irrelevant context.",
+        "Tests mock decay metrics logic."
       ]
     }
   ]
