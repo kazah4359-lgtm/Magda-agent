@@ -7163,7 +7163,7 @@
     },
     {
       "id": "openclaw-canvas-memory-visualization-59894892",
-      "status": "todo",
+      "status": "done",
       "area": "visualization",
       "risk": "medium",
       "title": "OpenClaw Canvas Memory Visualization",
@@ -15333,6 +15333,57 @@
       "acceptance": [
         "Extracts implicit/explicit signals securely.",
         "Tests mock RL metric updates."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-dynamic-registry-v9",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Dynamic Registry v9",
+      "description": "Inspired by MCP standard trend: Implement an advanced registry to dynamically load and unload MCP Action Tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_registry_v9.py",
+        "tests/test_mcp_registry_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Registry dynamically loads tools",
+        "Tests verify load/unload logic"
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-metrics-visualization-v4",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw RL Canvas Metrics Visualization v4",
+      "description": "Inspired by OpenClaw trends: Stream RL performance metrics to the Canvas Live Visualization.",
+      "allowed_paths": [
+        "magda_agent/visualization/rl_canvas_metrics_v4.py",
+        "tests/test_rl_canvas_metrics_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL metrics are streamed to Canvas",
+        "Tests mock WebSocket and check payload"
+      ]
+    },
+    {
+      "id": "claude-subagent-teams-isolation-v8",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude Subagent Teams Isolation v8",
+      "description": "Inspired by Claude Agent SDK: Ensure git worktree isolation for hierarchical subagent spawns.",
+      "allowed_paths": [
+        "magda_agent/architecture/teams_isolation_v8.py",
+        "tests/test_teams_isolation_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents operate in isolated worktrees",
+        "Tests check path isolation logic"
       ]
     }
   ]
