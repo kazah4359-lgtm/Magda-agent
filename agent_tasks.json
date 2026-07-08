@@ -14416,7 +14416,7 @@
     },
     {
       "id": "aider-post-merge-smoke-tests-v2-1234abcd",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "low",
       "title": "Aider Style Post-Merge Smoke Tests V2",
@@ -14667,6 +14667,57 @@
       "acceptance": [
         "Semantic pruning effectively removes irrelevant context.",
         "Tests mock decay metrics logic."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v9",
+      "title": "MCP Action Tool Exporter V9",
+      "area": "skills",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by MCP standards: Enhance the MCP exporter to handle advanced runtime concurrency and dynamic schema updates.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_exporter_v9.py",
+        "tests/test_mcp_exporter_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Exporter V9 can handle dynamic schemas.",
+        "Tests verify concurrent updates."
+      ]
+    },
+    {
+      "id": "a2a-enterprise-integration-v9",
+      "title": "A2A Enterprise Integration V9",
+      "area": "integration",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by A2A Protocol trends: Implement secure role-based task delegation integration for enterprise A2A environments.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_enterprise_v9.py",
+        "tests/test_a2a_enterprise_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Enterprise V9 supports role-based tasks.",
+        "Tests mock token and role validations."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v10",
+      "title": "OpenClaw-RL Interactive Learning V10",
+      "area": "learning",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by OpenClaw trends: Implement real-time procedural habit weights updates based on explicit multi-agent feedback streams.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl_v10.py",
+        "tests/test_interactive_rl_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Habit weights update in real-time from feedback.",
+        "Tests verify habit scaling using mocked feedback."
       ]
     }
   ]
