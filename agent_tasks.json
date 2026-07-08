@@ -7180,7 +7180,7 @@
     },
     {
       "id": "claude-evaluator-critic-agent-a8bc4909",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "high",
       "title": "Claude Evaluator Critic Agent",
@@ -15379,6 +15379,57 @@
       "allowed_paths": [
         "magda_agent/architecture/teams_isolation_v8.py",
         "tests/test_teams_isolation_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents operate in isolated worktrees",
+        "Tests check path isolation logic"
+      ]
+    },
+    {
+      "id": "mcp-server-prefixed-tools-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Server-Prefixed Tools Integration",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement server-prefixed tool names in the MCP dynamic registry to avoid tool name collisions when multiple servers provide the same tool name.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp/prefixed_tools.py",
+        "tests/test_mcp_prefixed_tools.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools are dynamically prefixed with their server name during registration.",
+        "Tests verify tool name prefixing logic."
+      ]
+    },
+    {
+      "id": "context-engine-compression-plugin-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Compression Plugin",
+      "description": "Inspired by Claude Agent Teams Context Compression: Create a plugin for ContextEngine that dynamically compresses context before subagent delegation.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine/compression_plugin.py",
+        "tests/test_context_compression_plugin.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin compresses context over a specific token limit.",
+        "Tests mock LLM or algorithm used for compression and check lengths."
+      ]
+    },
+    {
+      "id": "agent-teams-git-worktree-v1",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams Git Worktree Isolation",
+      "description": "Inspired by Claude Agent Teams: Provide an isolation layer for subagents using git worktrees so each subagent can work safely in parallel.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_v2.py",
+        "tests/test_agent_teams_v2.py",
         "agent_tasks.json"
       ],
       "acceptance": [
