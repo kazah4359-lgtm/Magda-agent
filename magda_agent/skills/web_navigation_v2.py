@@ -1,6 +1,6 @@
 """
 Web navigation skill v2 (WebArena inspired).
-Provides capabilities to load a URL, click on elements, type text, scroll, and submit forms.
+Provides capabilities to load a URL, click on elements, type text, hover, clear, scroll, and submit forms.
 """
 import ipaddress
 import logging
@@ -105,6 +105,21 @@ def type_text(element_id: str, text: str) -> str:
     logging.info(f"Typing '{text}' into element: {element_id}")
     return json.dumps({"status": "success", "action": "type", "element_id": element_id, "text": text})
 
+
+def hover_element(element_id: str) -> str:
+    """
+    Simulates a hover action on a specific element identified by element_id.
+    """
+    logging.info(f"Hovering element: {element_id}")
+    return json.dumps({"status": "success", "action": "hover", "element_id": element_id})
+
+def clear_text(element_id: str) -> str:
+    """
+    Simulates clearing text from a specific element identified by element_id.
+    """
+    logging.info(f"Clearing text from element: {element_id}")
+    return json.dumps({"status": "success", "action": "clear", "element_id": element_id})
+
 def scroll(direction: str) -> str:
     """
     Simulates scrolling the viewport.
@@ -139,6 +154,17 @@ def web_navigate_v2(action: str, **kwargs: Any) -> str:
         if not element_id or text is None:
             return json.dumps({"status": "error", "message": "'element_id' and 'text' are required for type action."})
         return type_text(str(element_id), str(text))
+
+    elif action == 'hover':
+        element_id = kwargs.get('element_id')
+        if not element_id:
+            return json.dumps({"status": "error", "message": "'element_id' is required for hover action."})
+        return hover_element(str(element_id))
+    elif action == 'clear':
+        element_id = kwargs.get('element_id')
+        if not element_id:
+            return json.dumps({"status": "error", "message": "'element_id' is required for clear action."})
+        return clear_text(str(element_id))
     elif action == 'scroll':
         direction = kwargs.get('direction', 'down')
         return scroll(str(direction))
