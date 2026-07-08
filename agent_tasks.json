@@ -7112,7 +7112,7 @@
     },
     {
       "id": "openclaw-rl-metrics-v1-4b8afd35",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw RL Metrics System",
@@ -15197,6 +15197,40 @@
       "acceptance": [
         "A2A Discovery matches capabilities using Agent Cards v3.",
         "Tests verify mock discovery."
+      ]
+    },
+    {
+      "id": "mcp-server-health-monitor-v2",
+      "area": "skills",
+      "risk": "low",
+      "status": "todo",
+      "title": "MCP Server Health Monitor v2",
+      "description": "Inspired by MCP standard trend: Implement a background health monitoring system that periodically pings registered MCP servers and logs their latency and availability.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_health_monitor.py",
+        "tests/test_mcp_health_monitor.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Health monitor correctly pings MCP servers and logs status",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-timeout-v1",
+      "area": "multi-agent",
+      "risk": "medium",
+      "status": "todo",
+      "title": "A2A Peer Delegation Timeout",
+      "description": "Inspired by A2A Protocol standard: Implement timeout and automatic retry logic for long-running peer-to-peer delegation tasks to improve reliability.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_timeout.py",
+        "tests/test_a2a_timeout.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Delegation tasks timeout appropriately and retry based on policy",
+        "Tests mock network failure and verify retry logic"
       ]
     }
   ]
