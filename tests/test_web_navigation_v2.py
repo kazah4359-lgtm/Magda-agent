@@ -2,7 +2,7 @@ import socket
 import pytest
 import json
 from unittest.mock import patch, MagicMock
-from magda_agent.skills.web_navigation_v2 import load_url, click_element, type_text, scroll, submit_form, web_navigate_v2
+from magda_agent.skills.web_navigation_v2 import load_url, click_element, type_text, hover_element, clear_text, scroll, submit_form, web_navigate_v2
 
 @patch('urllib.request.urlopen')
 
@@ -42,6 +42,17 @@ def test_type_text():
     assert result["status"] == "success"
     assert result["action"] == "type"
 
+
+def test_hover_element():
+    result = json.loads(hover_element("elem-1"))
+    assert result["status"] == "success"
+    assert result["action"] == "hover"
+
+def test_clear_text():
+    result = json.loads(clear_text("input-1"))
+    assert result["status"] == "success"
+    assert result["action"] == "clear"
+
 def test_scroll():
     result = json.loads(scroll("down"))
     assert result["status"] == "success"
@@ -63,4 +74,7 @@ def test_web_navigate_v2_errors():
     assert "required" in web_navigate_v2("click")
     assert "required" in web_navigate_v2("type", element_id="1")
     assert "required" in web_navigate_v2("submit")
+
+    assert "required" in web_navigate_v2("hover")
+    assert "required" in web_navigate_v2("clear")
     assert "Unknown" in web_navigate_v2("invalid_action")

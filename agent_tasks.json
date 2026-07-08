@@ -7299,7 +7299,7 @@
     },
     {
       "id": "webarena-navigation-skills-v2-2aa4a776",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "WebArena Navigation Skill Integration v2",
@@ -15707,6 +15707,57 @@
       "acceptance": [
         "ACS Guardrails V8 is implemented and integrates dynamically before tool actions.",
         "Tests verify policy enforcement rules via AsyncMock."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-learning-v15",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Interactive Learning v15",
+      "description": "Implement interactive feedback processing for OpenClaw-RL.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl_v15.py",
+        "tests/test_interactive_rl_v15.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Feedback processed correctly",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "a2a-enterprise-integration-v15",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Enterprise Integration v15",
+      "description": "Implement A2A enterprise tracing and authentication.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_enterprise_v15.py",
+        "tests/test_a2a_enterprise_v15.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tracing enabled",
+        "Auth works"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-concurrency-v15",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Concurrency v15",
+      "description": "Enhance MCP execution engine to support concurrent dynamic tools.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency_v15.py",
+        "tests/test_mcp_concurrency_v15.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Parallel tools execute successfully",
+        "Tests pass"
       ]
     }
   ]
