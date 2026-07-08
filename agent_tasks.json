@@ -7282,7 +7282,7 @@
     },
     {
       "id": "openclaw-context-compression-v3",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Context Compression v3",
@@ -15657,6 +15657,57 @@
       "risk": "medium",
       "area": "integration",
       "status": "todo"
+    },
+    {
+      "id": "agent-teams-isolation-v9-f1a2b3c4",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Agent Teams Isolation V9",
+      "description": "Inspired by Claude Agent SDK: Ensure git worktree isolation for hierarchical subagent spawns (v9).",
+      "allowed_paths": [
+        "magda_agent/architecture/teams_isolation_v9.py",
+        "tests/test_teams_isolation_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents operate in isolated worktrees",
+        "Tests check path isolation logic"
+      ]
+    },
+    {
+      "id": "a2a-discovery-agent-cards-v4-e5d6c7b8",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "low",
+      "title": "A2A Discovery Agent Cards V4",
+      "description": "Inspired by A2A standard: Implement Agent Cards generation for peer-to-peer agent discovery in a multi-agent network (v4).",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_agent_cards_v4.py",
+        "tests/test_a2a_agent_cards_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Generates valid A2A Agent Cards.",
+        "Tests verify format."
+      ]
+    },
+    {
+      "id": "acs-guardrails-policy-v8-a1b2c3d4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Compliance Policy Guardrails V8",
+      "description": "Inspired by ACS trends: Enhance the existing ACS guard architecture with a centralized policy validation layer prior to tool execution (v8).",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guardrails_v8.py",
+        "tests/test_acs_guardrails_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS Guardrails V8 is implemented and integrates dynamically before tool actions.",
+        "Tests verify policy enforcement rules via AsyncMock."
+      ]
     }
   ]
 }
