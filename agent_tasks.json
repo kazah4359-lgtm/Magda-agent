@@ -7061,7 +7061,7 @@
     },
     {
       "id": "a2a-task-delegation-streaming-v2-uuid",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A Task Delegation Streaming Interface v2",
@@ -15044,6 +15044,57 @@
       "acceptance": [
         "Interface handles dynamic plugin loading/unloading.",
         "Tests mock plugin lifecycle hooks."
+      ]
+    },
+    {
+      "id": "openclaw-rl-habit-integrator-v11",
+      "title": "OpenClaw RL Habit Integrator V11",
+      "description": "Inspired by OpenClaw trends: Implement an online reinforcement learning integrator to adjust habit weights from user dialogue signals.",
+      "area": "learning",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v11.py",
+        "tests/test_openclaw_rl_v11.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL integrator correctly updates habit weights.",
+        "Tests mock RL behavior and user signals."
+      ]
+    },
+    {
+      "id": "claude-agent-teams-isolation-v6",
+      "title": "Claude Agent Teams Isolation V6",
+      "description": "Inspired by Claude Agent Teams trend: Implement strict Git worktree isolation for subagent spawning in a multi-agent architecture.",
+      "area": "architecture",
+      "risk": "high",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_isolation_v6.py",
+        "tests/test_agent_teams_isolation_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents execute in isolated git worktrees.",
+        "Tests verify path isolation."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-telemetry-v10",
+      "title": "MCP Dynamic Tool Telemetry V10",
+      "description": "Inspired by MCP runtime concurrency trend: Implement dynamic tool telemetry to trace tool performance metrics during execution.",
+      "area": "skills",
+      "risk": "low",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_telemetry_v10.py",
+        "tests/test_mcp_telemetry_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry correctly records tool call metrics.",
+        "Tests confirm metrics collection."
       ]
     }
   ]
