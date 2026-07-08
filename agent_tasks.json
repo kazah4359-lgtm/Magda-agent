@@ -7367,7 +7367,7 @@
     },
     {
       "id": "subagent-heartbeat-monitor-74d1a2f1",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Subagent Heartbeat Monitor",
@@ -15843,6 +15843,57 @@
       "acceptance": [
         "Feedback processor correctly captures signals and logs them.",
         "Tests pass."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-plugin-interface-v1-e5c63734",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Plugin Interface V1",
+      "description": "Inspired by OpenClaw trends: Implement a plugin interface for the Context Engine with lifecycle hooks.",
+      "allowed_paths": [
+        "magda_agent/memory/context_plugin_v1.py",
+        "tests/test_context_plugin_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin interface successfully registers hooks.",
+        "Tests verify hook execution."
+      ]
+    },
+    {
+      "id": "hermes-daily-report-scheduler-v1-304d0b6d",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Daily Report Scheduler V1",
+      "description": "Inspired by Hermes cron scheduler trends: Implement a scheduled task for generating daily reports based on episodic memory.",
+      "allowed_paths": [
+        "magda_agent/operations/daily_report_v1.py",
+        "tests/test_daily_report_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Daily report task executes successfully.",
+        "Tests mock time and memory retrieval."
+      ]
+    },
+    {
+      "id": "mcp-tool-registry-telemetry-v1-d6ef4f7c",
+      "status": "todo",
+      "area": "observability",
+      "risk": "medium",
+      "title": "MCP Tool Registry Telemetry V1",
+      "description": "Inspired by MCP standard trend: Add usage telemetry to the MCP tool registry to track tool popularity and failure rates.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_telemetry_v1.py",
+        "tests/test_mcp_telemetry_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry data is logged upon tool execution.",
+        "Tests verify telemetry generation on success and failure."
       ]
     }
   ]
