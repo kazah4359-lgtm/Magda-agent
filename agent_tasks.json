@@ -7418,7 +7418,7 @@
     },
     {
       "id": "mcp-kernel-runtime-v4-unique",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Kernel Runtime v4",
@@ -15997,6 +15997,57 @@
         "Realtime guardrails catch unsafe actions.",
         "Tests verify fallback on mock failure."
       ]
+    },
+    {
+      "id": "openclaw-rl-dynamic-behavior-v3-unique",
+      "title": "OpenClaw RL Dynamic Behavior Adjustment V3",
+      "description": "Inspired by OpenClaw trends: Implement continuous online learning logic to dynamically adjust response length and tone based on user feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_dynamic_rl_v3.py",
+        "tests/test_openclaw_dynamic_rl_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Continuous RL loop correctly adjusts behavioral parameters.",
+        "Tests verify parameter update based on reward signals."
+      ],
+      "risk": "medium",
+      "area": "learning",
+      "status": "todo"
+    },
+    {
+      "id": "claude-subagent-spawning-v4-unique",
+      "title": "Claude Subagent Spawning V4",
+      "description": "Inspired by Claude Agent SDK trends: Develop a manager that spawns isolated Git worktree subagents for parallel execution of multi-step plans.",
+      "allowed_paths": [
+        "magda_agent/agents/claude_spawner_v4.py",
+        "tests/test_claude_spawner_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents are correctly spawned and tracked.",
+        "Tests verify parallel spawning using AsyncMock."
+      ],
+      "risk": "medium",
+      "area": "multi-agent",
+      "status": "todo"
+    },
+    {
+      "id": "hermes-skill-creation-v5-unique",
+      "title": "Hermes Skill Creation V5",
+      "description": "Inspired by Hermes Agent trends: Add the ability to capture successfully executed tool workflows as reusable procedural skills.",
+      "allowed_paths": [
+        "magda_agent/skills/hermes_skill_creator_v5.py",
+        "tests/test_hermes_skill_creator_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Workflows are successfully parsed and saved as skills.",
+        "Tests verify skill registration."
+      ],
+      "risk": "medium",
+      "area": "skills",
+      "status": "todo"
     }
   ]
 }
