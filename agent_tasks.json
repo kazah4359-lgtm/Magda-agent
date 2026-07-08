@@ -7146,7 +7146,7 @@
     },
     {
       "id": "mcp-kernel-runtime-v3-629cf94c",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Kernel Runtime v3",
@@ -15282,6 +15282,57 @@
       "acceptance": [
         "Agent execution states are correctly streamed as telemetry data.",
         "Tests verify telemetry formatting."
+      ]
+    },
+    {
+      "id": "mcp-tool-exporter-v4-1111",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Tool Exporter V4",
+      "description": "Inspired by MCP standards trend: Extract Python functions into MCP tools, producing valid schemas dynamically.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_exporter_v4.py",
+        "tests/test_mcp_exporter_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Generates valid MCP JSON schemas from standard python functions using type hints.",
+        "Tests cover argument and docstring extraction."
+      ]
+    },
+    {
+      "id": "agent-team-spawn-v2-2222",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Agent Team Spawner V2",
+      "description": "Inspired by Anthropic Claude Agent Teams trend: create a system for dynamically spawning sub-agents securely.",
+      "allowed_paths": [
+        "magda_agent/agents/team_spawner_v2.py",
+        "tests/test_team_spawner_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Provides an interface to initialize and execute isolated sub-agents.",
+        "Tests cover successful agent isolation and lifecycle hooks."
+      ]
+    },
+    {
+      "id": "online-learning-feedback-v4-3333",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online Learning Feedback V4",
+      "description": "Inspired by OpenClaw-RL trend: Capture user feedback signals automatically from dialogue for self-improvement.",
+      "allowed_paths": [
+        "magda_agent/learning/online_feedback_v4.py",
+        "tests/test_online_feedback_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Extracts implicit/explicit signals securely.",
+        "Tests mock RL metric updates."
       ]
     }
   ]
