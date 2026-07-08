@@ -7350,7 +7350,7 @@
     },
     {
       "id": "context-eviction-policy-v1-987a1f5c",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Eviction Policy v1",
@@ -15810,6 +15810,40 @@
       "risk": "medium",
       "area": "safety",
       "status": "todo"
+    },
+    {
+      "id": "acs-agent-control-validation-v6-f7a8b9c0",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Agent Control Validation V6",
+      "description": "Inspired by ACS trends: Implement an advanced runtime validation guard that intercepts tools and checks them across 5 validation checkpoints.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_validation_v6.py",
+        "tests/test_acs_validation_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS Validation guard successfully intercepts and checks tools.",
+        "Tests pass using AsyncMock."
+      ]
+    },
+    {
+      "id": "openclaw-online-rl-feedback-v16-a1b2c3d4",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw Online RL Feedback v16",
+      "description": "Inspired by OpenClaw trends: Implement a feedback collection mechanism that tracks explicit and implicit signals for RL updates.",
+      "allowed_paths": [
+        "magda_agent/learning/interactive_rl_v16.py",
+        "tests/test_interactive_rl_v16.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Feedback processor correctly captures signals and logs them.",
+        "Tests pass."
+      ]
     }
   ]
 }
