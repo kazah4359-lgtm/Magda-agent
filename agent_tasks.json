@@ -6908,7 +6908,7 @@
     },
     {
       "id": "mcp-kernel-taint-tracking-v1-9876",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Kernel Taint Tracking Sandbox v1",
@@ -14514,6 +14514,57 @@
       "acceptance": [
         "Concurrency guardrail allows independent tool runs.",
         "Tests simulate parallel asynchronous function tool executions."
+      ]
+    },
+    {
+      "id": "agent-teams-parallel-subagents-v6",
+      "title": "Agent Teams Parallel Subagents V6",
+      "area": "architecture",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by Agent Teams isolation trend: Implement parallel execution manager for subagents operating in isolated git worktrees.",
+      "allowed_paths": [
+        "magda_agent/architecture/parallel_execution_v6.py",
+        "tests/test_parallel_execution_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents execute concurrently in their respective worktrees.",
+        "Tests verify concurrency and isolation."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-skill-marketplace-poller-v2",
+      "title": "MCP Dynamic Skill Marketplace Poller V2",
+      "area": "integration",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by agentskills.io standard: Implement a background cron job that periodically syncs with the agentskills.io marketplace.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_marketplace_poller_v2.py",
+        "tests/test_mcp_marketplace_poller_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Poller accurately parses agentskills.io JSON formats",
+        "Tests mock network calls"
+      ]
+    },
+    {
+      "id": "openclaw-memory-compaction-cron-v2",
+      "title": "OpenClaw Memory Compaction Cron V2",
+      "area": "memory",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by OpenClaw virtual context: Implement a cron job that automatically compacts episodic memory overnight.",
+      "allowed_paths": [
+        "magda_agent/scheduler/memory_compaction_cron_v2.py",
+        "tests/test_memory_compaction_cron_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory compaction job runs on schedule.",
+        "Tests mock cron execution."
       ]
     }
   ]
