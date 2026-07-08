@@ -6993,7 +6993,7 @@
     },
     {
       "id": "openclaw-local-first-context-engine-v2-618a2738",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Local-First Context Engine v2",
@@ -14840,6 +14840,57 @@
       "acceptance": [
         "MarketplaceExporter generates valid agentskills.io JSON definitions.",
         "Tests confirm extraction of schema."
+      ]
+    },
+    {
+      "id": "acs-runtime-safety-controls-v1-9871ab",
+      "title": "ACS Runtime Safety Controls",
+      "area": "safety",
+      "status": "todo",
+      "risk": "high",
+      "description": "Inspired by Microsoft ACS 2026 standard, implement runtime safety controls acting as guardrails for tool execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_controls.py",
+        "tests/test_acs_controls.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS controls successfully guard tool execution.",
+        "Tests confirm rejected invalid tools."
+      ]
+    },
+    {
+      "id": "claude-agent-teams-isolation-v2-8756cd",
+      "title": "Claude Agent Teams Isolation",
+      "area": "architecture",
+      "status": "todo",
+      "risk": "medium",
+      "description": "Inspired by Claude Agent SDK Agent Teams, implement multi-agent delegation with strict git worktree isolation.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams.py",
+        "tests/test_agent_teams.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sub-agents can spawn with isolated worktrees.",
+        "Tests verify worktree paths."
+      ]
+    },
+    {
+      "id": "hermes-skill-creation-loop-v3-1245ef",
+      "title": "Hermes Skill Creation Loop",
+      "area": "learning",
+      "status": "todo",
+      "risk": "medium",
+      "description": "Inspired by Hermes self-improving loop, implement a module to automatically generate skills from repeated user workflows.",
+      "allowed_paths": [
+        "magda_agent/learning/skill_loop.py",
+        "tests/test_skill_loop.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skills can be generated from past interactions.",
+        "Tests verify schema creation."
       ]
     }
   ]
