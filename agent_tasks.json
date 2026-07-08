@@ -7010,7 +7010,7 @@
     },
     {
       "id": "a2a-task-delegation-streaming-v1-uuid",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A Task Delegation Streaming Interface",
@@ -14891,6 +14891,57 @@
       "acceptance": [
         "Skills can be generated from past interactions.",
         "Tests verify schema creation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-fallback-recovery-v2",
+      "title": "OpenClaw RL Fallback Recovery",
+      "area": "learning",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by OpenClaw trends: Implement fallback recovery mechanism for online RL habit weight adjustments when next-state feedback signals are ambiguous.",
+      "allowed_paths": [
+        "magda_agent/learning/fallback_recovery.py",
+        "tests/test_fallback_recovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Fallback recovery prevents inaccurate habit weight modifications.",
+        "Tests confirm fallback logic on ambiguous signals."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-concurrency-sync-v12",
+      "title": "MCP Dynamic Tool Concurrency Sync",
+      "area": "skills",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by MCP runtime concurrency: Add dynamic tool concurrent synchronization across the agent network to ensure state consistency during parallel MCP action execution.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency_sync.py",
+        "tests/test_mcp_concurrency_sync.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP concurrency sync maintains state consistency during parallel execution.",
+        "Tests mock concurrent tool executions."
+      ]
+    },
+    {
+      "id": "claude-subagent-teams-isolation-v3-unique",
+      "title": "Claude Subagent Teams Isolation",
+      "area": "multi-agent",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by Claude Agent Teams: Enhance git worktree isolation for subagents executing parallel MCP tool actions.",
+      "allowed_paths": [
+        "magda_agent/architecture/agent_teams_isolation.py",
+        "tests/test_agent_teams_isolation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Worktree isolation handles nested subagent spawning.",
+        "Tests verify nested subagent paths."
       ]
     }
   ]
