@@ -6959,7 +6959,7 @@
     },
     {
       "id": "hermes-skill-marketplace-integration-v3-bd5e414d",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Hermes-style Skill Marketplace Export v3",
@@ -14772,6 +14772,40 @@
         "Redactor strips identifiable PII.",
         "Outgoing payload avoids leaking agent private state.",
         "Tests mock extraction and redaction correctly."
+      ]
+    },
+    {
+      "id": "openclaw-memory-compaction-cron-v3",
+      "title": "OpenClaw Memory Compaction Cron V3",
+      "area": "memory",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by OpenClaw virtual context: Implement a cron job that automatically compacts episodic memory overnight.",
+      "allowed_paths": [
+        "magda_agent/scheduler/memory_compaction_cron_v3.py",
+        "tests/test_memory_compaction_cron_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory compaction job runs on schedule.",
+        "Tests mock cron execution."
+      ]
+    },
+    {
+      "id": "agent-teams-parallel-subagents-v8",
+      "title": "Agent Teams Parallel Subagents V8",
+      "area": "architecture",
+      "risk": "medium",
+      "status": "todo",
+      "description": "Inspired by Agent Teams isolation trend: Implement parallel execution manager for subagents operating in isolated git worktrees.",
+      "allowed_paths": [
+        "magda_agent/architecture/parallel_execution_v8.py",
+        "tests/test_parallel_execution_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents execute concurrently in their respective worktrees.",
+        "Tests verify concurrency and isolation."
       ]
     }
   ]
