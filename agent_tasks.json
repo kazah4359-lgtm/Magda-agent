@@ -7095,7 +7095,7 @@
     },
     {
       "id": "openclaw-rl-interactive-feedback-v2-uuid",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Feedback Formatter v2",
@@ -15146,6 +15146,57 @@
       "acceptance": [
         "Policy audit logger records policy evaluations and violations.",
         "Tests ensure correct formatting and logging behavior without external side-effects."
+      ]
+    },
+    {
+      "id": "mcp-agent-control-integration-v5-ba1716f8",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Agent Control Integration v5",
+      "description": "Inspired by MCP standard trend: Integrate the Agent Control Specification (ACS) policies directly into the MCP export layer to enforce safety before remote tools are invoked.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_acs_integration_v5.py",
+        "tests/test_mcp_acs_integration_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP export layer triggers ACS validation.",
+        "Tests verify that policy violations block the MCP response."
+      ]
+    },
+    {
+      "id": "openclaw-rl-habit-integration-v12-ee1f039b",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Habit Integration V12",
+      "description": "Inspired by OpenClaw trends: Implement real-time procedural habit weight decay that acts on implicit feedback from user dialogues.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v12.py",
+        "tests/test_openclaw_rl_v12.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Habit weights decay automatically over time.",
+        "Tests mock RL behavior and decay logic."
+      ]
+    },
+    {
+      "id": "a2a-workflow-subagent-discovery-v3-36cb0d36",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "A2A Workflow Subagent Discovery V3",
+      "description": "Inspired by A2A Protocol standard: Implement a subagent discovery mechanism using Agent Cards version 3 for A2A peer delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v3_cards.py",
+        "tests/test_a2a_discovery_v3_cards.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Discovery matches capabilities using Agent Cards v3.",
+        "Tests verify mock discovery."
       ]
     }
   ]

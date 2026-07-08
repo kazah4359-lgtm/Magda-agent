@@ -234,3 +234,4 @@
 - [x] a2a-enterprise-integration-v8: A2A Enterprise Integration v8
 * [x] FEATURE: MCP Kernel Taint Tracking Policy Engine (mcp-kernel-sandbox-taint-policy-v1-uuid)
 * [x] FEATURE: OpenClaw-RL Interactive Feedback Formatter (openclaw-rl-interactive-feedback-v1-uuid)
+* [x] FEATURE: OpenClaw-RL Interactive Feedback Formatter v2 (openclaw-rl-interactive-feedback-v2-uuid)
