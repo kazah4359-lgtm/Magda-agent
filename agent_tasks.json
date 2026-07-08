@@ -6891,7 +6891,7 @@
     },
     {
       "id": "openclaw-canvas-live-visualization-v2-553ba456",
-      "status": "todo",
+      "status": "done",
       "area": "visualization",
       "risk": "low",
       "title": "OpenClaw Canvas Live Visualization WebSockets v2",
@@ -14463,6 +14463,57 @@
       "acceptance": [
         "V2 routine builder hook is written.",
         "Tests correctly extract routines into procedural memory."
+      ]
+    },
+    {
+      "id": "hermes-agent-skill-improvement-v1-abcd",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Hermes Agent Experience Skill Improvement V1",
+      "description": "Inspired by Hermes Agent trend: Implement a learning module that creates and refines skills dynamically from episodic experience.",
+      "allowed_paths": [
+        "magda_agent/learning/skill_improver_v1.py",
+        "tests/test_skill_improver_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill Improver correctly distills skills from memory.",
+        "Tests mock memory extractions."
+      ]
+    },
+    {
+      "id": "claude-agent-subagent-spawning-v4-efgh",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Agent Teams Context Compression V4",
+      "description": "Inspired by Claude Agent SDK: Add context compression hooks to subagent spawner to pass highly condensed context down the hierarchy.",
+      "allowed_paths": [
+        "magda_agent/architecture/context_compression_v4.py",
+        "tests/test_context_compression_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context compression properly formats hierarchical context.",
+        "Tests verify prompt sizes are appropriately condensed."
+      ]
+    },
+    {
+      "id": "mcp-kernel-runtime-function-concurrency-v1-ijkl",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI SDK Runtime Function Tool Concurrency V1",
+      "description": "Inspired by OpenAI Agents SDK: Allow concurrent execution of independent function tool requests inside the runtime execution guardrail.",
+      "allowed_paths": [
+        "magda_agent/skills/runtime_concurrency_v4.py",
+        "tests/test_runtime_concurrency_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Concurrency guardrail allows independent tool runs.",
+        "Tests simulate parallel asynchronous function tool executions."
       ]
     }
   ]
