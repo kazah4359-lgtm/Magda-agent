@@ -7248,7 +7248,7 @@
     },
     {
       "id": "agent-teams-subagent-spawner-v2",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "Agent Teams Subagent Spawner v2",
@@ -15588,6 +15588,40 @@
       "acceptance": [
         "Agent successfully broadcasts heartbeat periodically.",
         "Tests mock broadcasting and pass."
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-agent-cards-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "A2A Agent Discovery Agent Cards V1",
+      "description": "Inspired by A2A standard trend: Implement Agent Cards for agent discovery protocol.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_agent_cards_v1.py",
+        "tests/test_a2a_agent_cards_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Cards protocol successfully broadcasts discovery info.",
+        "Tests mock broadcasting and pass."
+      ]
+    },
+    {
+      "id": "openclaw-rl-procedural-memory-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "OpenClaw RL Procedural Memory V1",
+      "description": "Inspired by OpenClaw trends: Implement RL online learning for procedural memory.",
+      "allowed_paths": [
+        "magda_agent/memory/rl_procedural_memory_v1.py",
+        "tests/test_rl_procedural_memory_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Procedural memory tracks RL signals accurately.",
+        "Tests mock learning signals and verify updates."
       ]
     }
   ]
