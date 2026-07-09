@@ -153,6 +153,9 @@ class Planner:
             elif mental_state.optimism < 0.3:
                 bias_instructions.append("You are feeling pessimistic. Be cautious and prioritize safety and verification in your plan.")
 
+            if mental_state.fear > 0.6:
+                bias_instructions.append("FEAR LEVEL HIGH: You are feeling anxious about potential failures. You MUST include at least one explicit verification step for every state-changing action.")
+
             if mental_state.overconfidence > 0.7:
                 bias_instructions.append("You are very confident in your abilities. You might skip some redundant verification steps or combine multiple complex operations.")
 

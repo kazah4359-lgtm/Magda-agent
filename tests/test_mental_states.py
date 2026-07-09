@@ -16,7 +16,7 @@ def test_update_from_action_result_success():
     ms.update_from_action_result(success=True, user_id=user_id)
     state = ms._get_state(user_id)
     assert state.fear == 0.0
-    assert state.desire == 0.6
+    assert state.desire == 0.65
     assert state.tension == 0.0
 
     # Multiple successes to reach "Determined"
@@ -32,9 +32,9 @@ def test_update_from_action_result_failure():
     # Failure: fear +, tension +, desire -
     ms.update_from_action_result(success=False, user_id=user_id)
     state = ms._get_state(user_id)
-    assert state.fear == 0.1
-    assert state.tension == 0.1
-    assert state.desire == 0.4
+    assert state.fear == 0.2
+    assert state.tension == 0.15
+    assert state.desire == 0.35
 
     # Multiple failures to reach "Anxious"
     for _ in range(5):

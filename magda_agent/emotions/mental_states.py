@@ -28,17 +28,17 @@ class MentalStates:
         """
         state = self._get_state(user_id)
         if success:
-            state.fear = self._clamp(state.fear - 0.1)
-            state.desire = self._clamp(state.desire + 0.1)
+            state.fear = self._clamp(state.fear - 0.15)
+            state.desire = self._clamp(state.desire + 0.15)
             state.tension = self._clamp(state.tension - 0.2)
-            state.optimism = self._clamp(state.optimism + 0.05)
-            state.overconfidence = self._clamp(state.overconfidence + 0.05)
+            state.optimism = self._clamp(state.optimism + 0.1)
+            state.overconfidence = self._clamp(state.overconfidence + 0.1)
         else:
-            state.fear = self._clamp(state.fear + 0.1)
-            state.tension = self._clamp(state.tension + 0.1)
-            state.desire = self._clamp(state.desire - 0.1)
-            state.optimism = self._clamp(state.optimism - 0.1)
-            state.overconfidence = self._clamp(state.overconfidence - 0.05)
+            state.fear = self._clamp(state.fear + 0.2)
+            state.tension = self._clamp(state.tension + 0.15)
+            state.desire = self._clamp(state.desire - 0.15)
+            state.optimism = self._clamp(state.optimism - 0.2)
+            state.overconfidence = self._clamp(state.overconfidence - 0.1)
 
     def apply_bias_modifier(self, optimism_mod: float = 0.0, overconfidence_mod: float = 0.0, user_id: Optional[int] = None) -> None:
         """
