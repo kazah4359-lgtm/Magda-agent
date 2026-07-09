@@ -16,23 +16,23 @@ def test_mental_states_biases():
 
     # Success update
     ms.update_from_action_result(success=True, user_id=user_id)
-    # optimism: 0.5 -> 0.55
-    # overconfidence: 0.0 -> 0.05
-    assert abs(state.optimism - 0.55) < 1e-9
-    assert abs(state.overconfidence - 0.05) < 1e-9
+    # optimism: 0.5 -> 0.6
+    # overconfidence: 0.0 -> 0.1
+    assert abs(state.optimism - 0.6) < 1e-9
+    assert abs(state.overconfidence - 0.1) < 1e-9
 
     # Failure update
     ms.update_from_action_result(success=False, user_id=user_id)
-    # optimism: 0.55 -> 0.45
-    # overconfidence: 0.05 -> 0.0
-    assert abs(state.optimism - 0.45) < 1e-9
+    # optimism: 0.6 -> 0.4
+    # overconfidence: 0.1 -> 0.0
+    assert abs(state.optimism - 0.4) < 1e-9
     assert abs(state.overconfidence - 0.0) < 1e-9
 
     # Manual modifier
     ms.apply_bias_modifier(optimism_mod=0.5, overconfidence_mod=0.8, user_id=user_id)
-    # optimism: 0.45 + 0.5 = 0.95
+    # optimism: 0.4 + 0.5 = 0.9
     # overconfidence: 0.0 + 0.8 = 0.8
-    assert abs(state.optimism - 0.95) < 1e-9
+    assert abs(state.optimism - 0.9) < 1e-9
     assert abs(state.overconfidence - 0.8) < 1e-9
 
 @pytest.mark.asyncio
