@@ -1,7 +1,8 @@
 import pytest
 from unittest.mock import patch, MagicMock, AsyncMock
-from magda_agent.skills.marketplace import fetch_and_register_skills
+from magda_agent.integration.skill_marketplace import fetch_and_register_skills, AgentSkillsExporter
 from magda_agent.skills.registry import SkillRegistry
+from magda_agent.skills.marketplace import search_marketplace_skills
 
 @pytest.mark.asyncio
 async def test_fetch_and_register_skills():
@@ -51,7 +52,6 @@ async def test_fetch_and_register_skills():
 
 @pytest.mark.asyncio
 async def test_search_marketplace_skills():
-    from magda_agent.skills.marketplace import search_marketplace_skills
     mock_url = "https://mock-marketplace.io/skills.json"
     mock_data = {
         "skills": [
@@ -90,3 +90,19 @@ async def test_search_marketplace_skills():
         # Search with no match
         results = await search_marketplace_skills(mock_url, "nonexistent")
         assert len(results) == 0
+
+def test_agent_skills_exporter():
+    registry = MagicMock(spec=SkillRegistry)
+    def dummy_skill(arg1: str, arg2: int = 5):
+        pass
+
+    registry.skills = {"dummy_skill": dummy_skill}
+    registry.descriptions = {"dummy_skill": "A dummy skill"}
+
+    exporter = AgentSkillsExporter(registry)
+    skills = exporter.export_skills()
+
+    assert len(skills) == 1
+    assert skills[0]["name"] == "dummy_skill"
+    assert skills[0]["description"] == "A dummy skill"
+    assert "parameters" in skills[0]
