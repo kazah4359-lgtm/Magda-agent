@@ -10,6 +10,8 @@ from magda_agent.learning.skill_creator import SkillCreator
 from magda_agent.safety.guardrails import RealtimeGuardrail, FallbackStrategy
 from magda_agent.skills.mcp_client import MCPClient
 from magda_agent.safety.acs_checkpoints import ACSCheckpoints
+from magda_agent.safety.policy import PolicyLayer
+from magda_agent.safety.audit_trail import AuditTrail
 
 
 class GeneratorAgent:
@@ -25,7 +27,9 @@ class GeneratorAgent:
         skill_creator: Optional[SkillCreator] = None,
         guardrail: Optional[RealtimeGuardrail] = None,
         mcp_client: Optional[MCPClient] = None,
-        tracer=None
+        tracer=None,
+        policy_layer: Optional[PolicyLayer] = None,
+        audit_trail: Optional[AuditTrail] = None
     ):
         self.llm = llm
         self.skills = skills
@@ -35,7 +39,7 @@ class GeneratorAgent:
         self.guardrail = guardrail
         self.mcp_client = mcp_client
         self.tracer = tracer
-        self.acs = ACSCheckpoints()
+        self.acs = ACSCheckpoints(policy_layer=policy_layer, audit_trail=audit_trail)
 
     async def execute_plan(self, user_input: str, user_id: Optional[str] = None) -> str:
         """
@@ -86,21 +90,10 @@ class GeneratorAgent:
                         "state": "executing",
                         "next_state": "evaluating"
                     }
-                    passed_pre = True
-                    for cp in [
-                        self.acs.checkpoint_1_input_validation,
-                        self.acs.checkpoint_2_intent_authorization,
-                        self.acs.checkpoint_3_tool_policy,
-                        self.acs.checkpoint_4_state_transition
-                    ]:
-                        ok, reason = cp(workflow_data)
-                        if not ok:
-                            logging.warning(f"ACS Pre-execution Blocked: {reason}")
-                            self.planner.mark_step_id_completed(step_id, f"Safety Violation (Pre): {reason}", user_id=user_id)
-                            passed_pre = False
-                            break
-
-                    if not passed_pre:
+                    ok_pre, reason_pre = self.acs.validate_pre_execution(workflow_data)
+                    if not ok_pre:
+                        logging.warning(f"ACS Pre-execution Blocked: {reason_pre}")
+                        self.planner.mark_step_id_completed(step_id, f"Safety Violation (Pre): {reason_pre}", user_id=user_id)
                         continue
 
                     # Guardrail check
@@ -152,7 +145,10 @@ class GeneratorAgent:
                     else:
                         result_str = str(result)
                         # ACS Post-execution Check (Checkpoint 5: Output Sanitization)
-                        ok_post, reason_post = self.acs.checkpoint_5_output_sanitization({"output": result_str})
+                        ok_post, reason_post = self.acs.validate_post_execution({
+                            "tool_name": skill_name,
+                            "output": result_str
+                        })
                         if not ok_post:
                             logging.warning(f"ACS Post-execution Blocked: {reason_post}")
                             result_str = f"Safety Violation (Post): {reason_post}"

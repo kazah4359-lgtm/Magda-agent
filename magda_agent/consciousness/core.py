@@ -301,7 +301,9 @@ class Consciousness:
             skill_versioning=self.skill_versioning,
             skill_creator=self.skill_creator,
             guardrail=self.guardrail,
-            tracer=self.tracer
+            tracer=self.tracer,
+            policy_layer=getattr(self.guardrail, 'policy_layer', None),
+            audit_trail=getattr(self.skills, 'audit_logger', None)
         )
 
         evaluator_agent = EvaluatorAgent(
