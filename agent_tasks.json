@@ -7554,7 +7554,7 @@
     },
     {
       "id": "claude-multi-agent-v2-38d01b1a",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "Claude Multi Agent Teams v2",
@@ -16337,6 +16337,57 @@
       "acceptance": [
         "Subagents operate in isolated worktrees",
         "Tests check path isolation logic"
+      ]
+    },
+    {
+      "id": "claude-subagent-dependency-graph-visualizer-v2",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude Subagent Dependency Graph Visualizer v2",
+      "description": "Inspired by Claude Agent Teams trend: Create a visualizer module that converts internal subagent dependency graphs into a visual format (like Mermaid JS) for debugging and observability.",
+      "allowed_paths": [
+        "magda_agent/agents/multi_agent_visualizer.py",
+        "tests/test_multi_agent_visualizer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Visualizer correctly converts DAG to Mermaid representation.",
+        "Tests verify visualizer output."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-prefixed-registry-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Action Tool Prefixed Registry v4",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a robust dynamic tool registry that allows automatic runtime prefixing of tool names based on their MCP server to prevent name collisions in multi-server setups.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_prefixed_registry.py",
+        "tests/test_mcp_prefixed_registry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools are registered with their respective MCP server prefixes.",
+        "Tests verify tool retrieval by prefixed name."
+      ]
+    },
+    {
+      "id": "openclaw-rl-metrics-aggregator-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "low",
+      "title": "OpenClaw RL Metrics Aggregator v2",
+      "description": "Inspired by OpenClaw trends: Implement a metrics aggregator that batches fine-grained online reinforcement learning signals into larger trajectory updates to reduce noise during model tuning.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_aggregator_v2.py",
+        "tests/test_rl_aggregator_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Aggregator successfully batches RL signals into trajectory updates.",
+        "Tests verify metric batching logic and calculations."
       ]
     }
   ]
