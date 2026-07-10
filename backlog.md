@@ -236,3 +236,4 @@
 * [x] FEATURE: OpenClaw-RL Interactive Feedback Formatter (openclaw-rl-interactive-feedback-v1-uuid)
 * [x] FEATURE: OpenClaw-RL Interactive Feedback Formatter v2 (openclaw-rl-interactive-feedback-v2-uuid)
 * [x] FEATURE: OpenClaw RL Metrics System v2 (openclaw-rl-metrics-v2-unique)
+* [x] FEATURE: A2A Peer-to-Peer Delegation v4 (a2a-peer-delegation-v4-5d34cc13)
