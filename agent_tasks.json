@@ -7503,7 +7503,7 @@
     },
     {
       "id": "openclaw-online-rl-user-behavior-v4-new-suffix-456",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw Online RL from User Behavior v4",
@@ -16201,6 +16201,41 @@
       "risk": "medium",
       "area": "skills",
       "status": "todo"
+    },
+    {
+      "id": "mcp-action-tool-policy-audit-v12-new",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tool Policy Auditor v12",
+      "description": "Inspired by MCP standard trend (action tools grown to 65%): Implement an auditor component that periodically reviews the AuditTrail for any blocked MCP action tool calls and generates a report of potential policy misconfigurations.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_policy_auditor_v12.py",
+        "tests/test_mcp_policy_auditor_v12.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Auditor scans AuditTrail for blocked calls.",
+        "Generates a summary report.",
+        "Tests verify auditing logic."
+      ]
+    },
+    {
+      "id": "a2a-workflow-subagent-discovery-v4-new",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Workflow Subagent Discovery v4",
+      "description": "Inspired by A2A Protocol standard: Implement a subagent discovery mechanism using Agent Cards version 4 for A2A peer delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v4_cards.py",
+        "tests/test_a2a_discovery_v4_cards.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Discovery matches capabilities using Agent Cards v4.",
+        "Tests verify mock discovery."
+      ]
     }
   ]
 }

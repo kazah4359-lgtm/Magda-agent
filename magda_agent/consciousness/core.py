@@ -30,6 +30,7 @@ from magda_agent.learning.dialogue_v3 import DialogueOnlineLearnerV3
 from magda_agent.learning.online_rl import OnlineRLIntegrator
 from magda_agent.learning.openclaw_rl_v5 import OnlineRLIntegrator as OpenClawRLV5Integrator
 from magda_agent.learning.online_rl_v6 import OnlineRLFeedbackLoopV6
+from magda_agent.learning.rl_user_behavior_v4 import OnlineRLUserBehaviorV4
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
 from magda_agent.learning.online_feedback_rl import OnlineFeedbackRL
 from magda_agent.learning.feedback_loop import FeedbackLoop
@@ -73,6 +74,7 @@ class Consciousness:
         online_rl_integrator: Optional[OnlineRLIntegrator] = None,
         openclaw_rl_v5: Optional['OpenClawRLV5Integrator'] = None,
         online_rl_v6: Optional[OnlineRLFeedbackLoopV6] = None,
+        rl_user_behavior_v4: Optional[OnlineRLUserBehaviorV4] = None,
         dialogue_online_learner_v3: Optional[DialogueOnlineLearnerV3] = None,
         openclaw_rl: Optional[OpenClawInteractiveLearner] = None,
         feedback_loop: Optional[FeedbackLoop] = None,
@@ -110,6 +112,7 @@ class Consciousness:
         self.online_rl_integrator = online_rl_integrator
         self.openclaw_rl_v5 = openclaw_rl_v5
         self.online_rl_v6 = online_rl_v6
+        self.rl_user_behavior_v4 = rl_user_behavior_v4
         self.dialogue_online_learner_v3 = dialogue_online_learner_v3
         self.openclaw_rl = openclaw_rl
         self.online_feedback_rl = OnlineFeedbackRL(habit_tracker, mirror_neurons) if habit_tracker and mirror_neurons else None
