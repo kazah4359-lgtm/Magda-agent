@@ -7486,7 +7486,7 @@
     },
     {
       "id": "hermes-skill-marketplace-integration-v1-new-suffix-123",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Hermes Skill Marketplace Integration v1",
@@ -16150,6 +16150,57 @@
         "Nightly backup cron task executes successfully.",
         "Tests mock time and backup execution."
       ]
+    },
+    {
+      "id": "openclaw-online-rl-user-behavior-v5-unique",
+      "title": "OpenClaw Online RL User Behavior v5",
+      "description": "Inspired by OpenClaw trends: Enhance online RL to continuously adjust tone based on real-time user feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v5.py",
+        "tests/test_openclaw_rl_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Online RL loop updates correctly.",
+        "Tests verify parameter tuning."
+      ],
+      "risk": "medium",
+      "area": "learning",
+      "status": "todo"
+    },
+    {
+      "id": "claude-subagent-spawning-v5-unique",
+      "title": "Claude Subagent Spawning V5",
+      "description": "Inspired by Claude Agent SDK trends: Spawn isolated Git worktree subagents for parallel multi-step subtasks v5.",
+      "allowed_paths": [
+        "magda_agent/agents/claude_spawner_v5.py",
+        "tests/test_claude_spawner_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents are spawned successfully.",
+        "Tests verify parallel spawning isolation."
+      ],
+      "risk": "medium",
+      "area": "multi-agent",
+      "status": "todo"
+    },
+    {
+      "id": "mcp-dynamic-tool-concurrency-v18-unique",
+      "title": "MCP Tool Concurrency V18",
+      "description": "Inspired by OpenAI Agents SDK: Improve runtime tool concurrency utilizing asyncio.gather v18.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency_v18.py",
+        "tests/test_mcp_concurrency_v18.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Parallel dynamic tools execute.",
+        "Tests pass isolated exceptions."
+      ],
+      "risk": "medium",
+      "area": "skills",
+      "status": "todo"
     }
   ]
 }
