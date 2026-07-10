@@ -7571,7 +7571,7 @@
     },
     {
       "id": "mcp-server-prefixed-tools-v3-8d19abf1",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Server-Prefixed Tools v3",
@@ -16388,6 +16388,57 @@
       "acceptance": [
         "Aggregator successfully batches RL signals into trajectory updates.",
         "Tests verify metric batching logic and calculations."
+      ]
+    },
+    {
+      "id": "openclaw-rl-multimodal-signals-v1",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Multimodal Signals v1",
+      "description": "Enhance OpenClaw-RL to support multimodal next-state signals like image understanding and reaction latency.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_multimodal.py",
+        "tests/test_openclaw_rl_multimodal.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL can process multimodal signals.",
+        "Tests pass."
+      ]
+    },
+    {
+      "id": "claude-subagent-memory-compression-v2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Claude Subagent Memory Compression v2",
+      "description": "Implement hierarchical memory compression for subagents dynamically scaling their virtual context window.",
+      "allowed_paths": [
+        "magda_agent/agents/compression_v2.py",
+        "tests/test_compression_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory is correctly compressed.",
+        "Tests verify context sizes."
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-marketplace-v3",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Hermes Agent Skills Marketplace Integration v3",
+      "description": "Provide a standard interface to publish and install skills dynamically from an agentskills.io-compatible marketplace.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_v3.py",
+        "tests/test_marketplace_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Marketplace integrations support install and publish.",
+        "Tests mock HTTP interactions correctly."
       ]
     }
   ]
