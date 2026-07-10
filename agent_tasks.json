@@ -7588,7 +7588,7 @@
     },
     {
       "id": "mcp-kernel-sandboxed-execution-v5-new-1234",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCPKernel Sandboxed Execution v5",
@@ -16439,6 +16439,57 @@
       "acceptance": [
         "Marketplace integrations support install and publish.",
         "Tests mock HTTP interactions correctly."
+      ]
+    },
+    {
+      "id": "mcp-action-tools-v9-new-101",
+      "status": "todo",
+      "area": "mcp",
+      "risk": "medium",
+      "title": "MCP Action Tools v9",
+      "description": "Support runtime function tool concurrency inspired by OpenAI Agents SDK.",
+      "allowed_paths": [
+        "magda_agent/mcp/action_tools_v9.py",
+        "tests/test_action_tools_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Concurrent tool executions are handled correctly.",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "a2a-enterprise-tracing-v9-new-102",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Enterprise Tracing v9",
+      "description": "Enterprise-ready distributed tracing for A2A delegation streams.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_tracing_v9.py",
+        "tests/test_a2a_tracing_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A streams are properly traced.",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "openclaw-rl-v6-new-103",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL v6",
+      "description": "Online reinforcement learning from user replies and tool outputs.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_v6.py",
+        "tests/test_openclaw_rl_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Online RL handles next-state signals.",
+        "Tests pass"
       ]
     }
   ]
