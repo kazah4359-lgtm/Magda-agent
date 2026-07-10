@@ -7435,7 +7435,7 @@
     },
     {
       "id": "acs-validation-checkpoints-a467f77d",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Validation Checkpoints",
