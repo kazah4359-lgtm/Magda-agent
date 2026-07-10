@@ -7469,7 +7469,7 @@
     },
     {
       "id": "claude-subagent-spawning-v4-6ab3f8c6",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "Claude Agent Teams Subagent Spawning v4",
@@ -16098,6 +16098,57 @@
       "acceptance": [
         "Parallel dynamic tools execute smoothly.",
         "Tests verify isolated exception handling."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-tool-concurrency-v17-unique",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Tool Concurrency V17",
+      "description": "Inspired by OpenAI Agents SDK: Improve runtime tool concurrency utilizing asyncio.gather and error isolation boundaries for dynamic tools V17.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_concurrency_v17.py",
+        "tests/test_mcp_concurrency_v17.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Parallel dynamic tools execute smoothly.",
+        "Tests verify isolated exception handling."
+      ]
+    },
+    {
+      "id": "openclaw-virtual-context-engine-plugin-v6-unique",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "OpenClaw Virtual Context Engine Plugin V6",
+      "description": "Inspired by OpenClaw trends: Implement a plugin interface for the Context Engine with lifecycle hooks V6.",
+      "allowed_paths": [
+        "magda_agent/memory/context_plugin_v6.py",
+        "tests/test_context_plugin_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin interface successfully registers hooks.",
+        "Tests verify hook execution."
+      ]
+    },
+    {
+      "id": "hermes-agent-scheduled-nightly-backups-v6-unique",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Hermes Agent Scheduled Nightly Backups V6",
+      "description": "Inspired by Hermes trends: Implement a scheduled task for generating nightly backups using a cron scheduler V6.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_backups_v6.py",
+        "tests/test_cron_backups_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Nightly backup cron task executes successfully.",
+        "Tests mock time and backup execution."
       ]
     }
   ]
