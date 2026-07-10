@@ -1,51 +1,67 @@
 import pytest
-from unittest.mock import AsyncMock, patch, MagicMock
-from magda_agent.evaluation.swe_bench import SWEBenchEvaluator
+from unittest.mock import AsyncMock, patch
+
+from magda_agent.evals.swe_bench import SWEBenchEvaluator
 
 @pytest.fixture
-def mock_llm_client():
-    """Mocks the LLMClient for testing."""
-    with patch('magda_agent.evaluation.swe_bench.LLMClient') as mock_llm:
-        mock_instance = mock_llm.return_value
-        mock_instance.chat_completion = AsyncMock(return_value="SUCCESS")
-        yield mock_llm
+def mock_llm():
+    with patch("magda_agent.evals.swe_bench.LLMClient") as mock:
+        yield mock.return_value
 
 @pytest.fixture
-def mock_quality_tracker():
-    """Mocks the QualityTracker for testing."""
-    with patch('magda_agent.evaluation.swe_bench.QualityTracker') as mock_tracker:
-        yield mock_tracker
+def mock_tracker():
+    with patch("magda_agent.evals.swe_bench.QualityTracker") as mock:
+        yield mock.return_value
 
 @pytest.fixture
-def mock_load_dataset():
-    """Mocks the datasets.load_dataset function."""
-    with patch('magda_agent.evaluation.swe_bench.load_dataset') as mock_load:
-        mock_dataset = [
-            {"problem_statement": "Fix issue 1", "repo": "test/repo"},
-            {"problem_statement": "Fix issue 2", "repo": "test/repo"}
-        ]
-        mock_load.return_value = mock_dataset
-        yield mock_load
+def mock_consciousness():
+    return AsyncMock()
 
 @pytest.mark.asyncio
-async def test_run_evaluation_suite(mock_llm_client, mock_quality_tracker, mock_load_dataset) -> None:
-    """Tests the execution of an evaluation suite, ensuring score and metadata are returned correctly."""
-    evaluator = SWEBenchEvaluator()
-    result = await evaluator.run_evaluation_suite("swe_bench_verified")
-    assert result["score"] == 1.0
-    assert result["metadata"]["meets_baseline"] is True
-    assert result["metadata"]["tasks_run"] == 2
+async def test_swe_bench_evaluator_simulation(mock_llm, mock_tracker):
+    # Test simulation mode (no consciousness)
+    mock_llm.generate = AsyncMock(return_value="0.8")
+    evaluator = SWEBenchEvaluator(db_path=":memory:")
+
+    score = await evaluator.run_task(evaluator.tasks[0])
+
+    assert score == 0.8
+    mock_llm.generate.assert_called_once()
 
 @pytest.mark.asyncio
-async def test_trigger_evaluations(mock_llm_client, mock_quality_tracker, mock_load_dataset) -> None:
-    """Tests triggering evaluations for all suites and ensures scores are properly logged."""
-    evaluator = SWEBenchEvaluator()
-    results = await evaluator.trigger_evaluations()
-    assert len(results) == 1
-    assert results[0]["score"] == 1.0
+async def test_swe_bench_evaluator_with_consciousness(mock_llm, mock_tracker, mock_consciousness):
+    # Test execution with consciousness
+    mock_consciousness.process_input.return_value = "I have fixed the issue and run the tests."
+    mock_llm.generate = AsyncMock(return_value="0.9")
 
-def test_compare_with_baseline() -> None:
-    """Tests the baseline comparison logic."""
-    evaluator = SWEBenchEvaluator()
-    assert evaluator.compare_with_baseline(0.85, "swe_bench_verified") is True
-    assert evaluator.compare_with_baseline(0.75, "swe_bench_verified") is False
+    evaluator = SWEBenchEvaluator(db_path=":memory:", consciousness=mock_consciousness)
+
+    score = await evaluator.run_task(evaluator.tasks[0])
+
+    assert score == 0.9
+    mock_consciousness.process_input.assert_called_once_with(evaluator.tasks[0]["goal"])
+    mock_llm.generate.assert_called_once()
+
+@pytest.mark.asyncio
+async def test_swe_bench_run_evaluation_suite(mock_llm, mock_tracker):
+    # Test running the full suite
+    mock_llm.generate = AsyncMock(return_value="0.7")
+    evaluator = SWEBenchEvaluator(db_path=":memory:")
+
+    result = await evaluator.run_evaluation_suite()
+
+    assert pytest.approx(result["score"], 0.01) == 0.7
+    assert result["metadata"]["tasks_run"] == 3
+    assert len(result["metadata"]["scores"]) == 3
+    mock_tracker.log_metric.assert_called_once_with("swe_bench_score", result["score"], result["metadata"])
+
+@pytest.mark.asyncio
+async def test_swe_bench_evaluator_error_handling(mock_llm, mock_tracker, mock_consciousness):
+    # Test error handling when consciousness fails
+    mock_consciousness.process_input.side_effect = Exception("System failure")
+
+    evaluator = SWEBenchEvaluator(db_path=":memory:", consciousness=mock_consciousness)
+
+    score = await evaluator.run_task(evaluator.tasks[0])
+
+    assert score == 0.0
