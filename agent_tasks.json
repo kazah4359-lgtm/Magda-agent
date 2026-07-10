@@ -7537,7 +7537,7 @@
     },
     {
       "id": "context-engine-plugin-v5-48fa1bc2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Plugin v5",
@@ -16286,6 +16286,57 @@
       "acceptance": [
         "Dependency graph exports to standard task format.",
         "Tests verify JSON export schema."
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-metrics-visualization-v6",
+      "title": "OpenClaw RL Canvas Metrics Visualization v6",
+      "description": "Inspired by OpenClaw trends: Stream RL performance metrics to the Canvas Live Visualization using a newer v6 format.",
+      "area": "visualization",
+      "risk": "low",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/visualization/rl_canvas_metrics_v6.py",
+        "tests/test_rl_canvas_metrics_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL metrics are streamed to Canvas in v6 format",
+        "Tests mock WebSocket and check payload"
+      ]
+    },
+    {
+      "id": "mcp-action-tool-exporter-v11",
+      "title": "MCP Action Tool Exporter V11",
+      "description": "Inspired by MCP standards: Enhance the MCP exporter to handle advanced runtime concurrency and dynamic schema updates for v11.",
+      "area": "skills",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_exporter_v11.py",
+        "tests/test_mcp_exporter_v11.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Exporter V11 can handle dynamic schemas.",
+        "Tests verify concurrent updates."
+      ]
+    },
+    {
+      "id": "claude-subagent-teams-isolation-v11",
+      "title": "Claude Subagent Teams Isolation v11",
+      "description": "Inspired by Claude Agent SDK: Ensure git worktree isolation for hierarchical subagent spawns (v11 iteration).",
+      "area": "architecture",
+      "risk": "high",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/architecture/teams_isolation_v11.py",
+        "tests/test_teams_isolation_v11.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents operate in isolated worktrees",
+        "Tests check path isolation logic"
       ]
     }
   ]
