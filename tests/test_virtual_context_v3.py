@@ -1,0 +1,161 @@
+from unittest.mock import AsyncMock
+import pytest
+from magda_agent.memory.virtual_context_v3 import VirtualContextManagerV3
+from magda_agent.memory.working import WorkingMemory, MemoryEntry
+from magda_agent.memory.episodic import EpisodicMemory
+from magda_agent.emotions.engine import PADState
+import asyncio
+
+@pytest.mark.asyncio
+async def test_virtual_context_v3_page_out_explicit() -> None:
+    wm = WorkingMemory(limit=5)
+    em = EpisodicMemory(persist_directory=":memory:")
+    em.collection_name = "test_episodic_memory_v3_out"
+    em.collection = em.client.get_or_create_collection(name=em.collection_name)
+    vcm = VirtualContextManagerV3()
+
+    state = PADState(0, 0, 0)
+
+    e1 = MemoryEntry("First Item", 0.5, state, user_id=1)
+    e2 = MemoryEntry("Second Item", 0.6, state, user_id=1)
+    e3 = MemoryEntry("Third Item", 0.7, state, user_id=1)
+
+    await wm.add(e1)
+    await wm.add(e2)
+    await wm.add(e3)
+
+    assert len(wm.get_entries(user_id=1)) == 3
+
+    # Explicitly page out the first 2 items
+    await vcm.page_out_explicit(wm, em, user_id=1, count=2)
+
+    entries = wm.get_entries(user_id=1)
+    assert len(entries) == 1
+    assert entries[0].content == "Third Item"
+
+    # Verify Episodic Memory has the paged out entry/entries
+    episodic_events = em.get_all_events(user_id=1)
+    assert len(episodic_events) > 0
+    # The paged out metadata should indicate explicit page out
+    assert episodic_events[0]["metadata"]["paged_out_explicitly"] == True
+
+@pytest.mark.asyncio
+async def test_virtual_context_v3_paginate_explicit_memory_blocks() -> None:
+    wm = WorkingMemory(limit=10)
+    em = EpisodicMemory(persist_directory=":memory:")
+    em.collection_name = "test_episodic_memory_v3_paginate_out"
+    em.collection = em.client.get_or_create_collection(name=em.collection_name)
+    vcm = VirtualContextManagerV3()
+
+    state = PADState(0, 0, 0)
+
+    for i in range(5):
+        await wm.add(MemoryEntry(f"Item {i}", 0.5, state, user_id=1))
+
+    assert len(wm.get_entries(user_id=1)) == 5
+
+    await vcm.paginate_explicit_memory_blocks(wm, em, user_id=1, block_size=2)
+
+    entries = wm.get_entries(user_id=1)
+    assert len(entries) == 1
+    assert entries[0].content == "Item 4"
+
+    episodic_events = em.get_all_events(user_id=1)
+    assert len(episodic_events) == 4
+    assert episodic_events[0]["metadata"]["paged_out_explicitly"] == True
+
+@pytest.mark.asyncio
+async def test_virtual_context_v3_page_in_explicit() -> None:
+    wm = WorkingMemory(limit=5)
+    em = EpisodicMemory(persist_directory=":memory:")
+    em.collection_name = "test_episodic_memory_v3_in"
+    em.collection = em.client.get_or_create_collection(name=em.collection_name)
+    vcm = VirtualContextManagerV3()
+
+    em.store_event("Historical facts about Python explicitly", metadata={"paged_out_explicitly": True}, user_id=2)
+
+    await vcm.page_in_explicit(wm, em, user_id=2, query="Python facts", top_k=1)
+
+    entries = wm.get_entries(user_id=2)
+    assert len(entries) == 1
+    assert "Historical facts about Python explicitly" in entries[0].content
+
+@pytest.mark.asyncio
+async def test_virtual_context_v3_compress_without_llm() -> None:
+    """Test that context compression works with fallback summary when LLM is absent."""
+    vcm = VirtualContextManagerV3()
+    state = PADState(0.1, 0.2, 0.3)
+    e1 = MemoryEntry("First", 0.5, state, user_id=1)
+    e2 = MemoryEntry("Second", 0.5, state, user_id=1)
+
+    summary = await vcm.compress_context([e1, e2])
+    assert "Summary of 2 items: First\nSecond" in summary.content
+    assert summary.importance == 0.5
+    assert summary.user_id == 1
+
+@pytest.mark.asyncio
+async def test_virtual_context_v3_compress_with_llm() -> None:
+    """Test that context compression leverages the LLM client to generate summaries."""
+    mock_llm = AsyncMock()
+    mock_llm.chat_completion.return_value = "Mocked Summary V3"
+    vcm = VirtualContextManagerV3(llm_client=mock_llm)
+
+    state = PADState(0.1, 0.2, 0.3)
+    e1 = MemoryEntry("First", 0.5, state, user_id=1)
+    e2 = MemoryEntry("Second", 0.5, state, user_id=1)
+
+    summary = await vcm.compress_context([e1, e2])
+    assert summary.content == "Mocked Summary V3"
+    assert summary.importance == 0.5
+    assert summary.user_id == 1
+
+@pytest.mark.asyncio
+async def test_virtual_context_v3_maintain_limits_pages_out() -> None:
+    wm = WorkingMemory(limit=10)
+    em = EpisodicMemory(persist_directory=":memory:")
+    em.collection_name = "test_episodic_memory_v3_maintain_out"
+    em.collection = em.client.get_or_create_collection(name=em.collection_name)
+    vcm = VirtualContextManagerV3()
+
+    state = PADState(0, 0, 0)
+
+    # 4 words -> ~5 tokens. 3 entries = ~15 tokens.
+    e1 = MemoryEntry("word1 word2 word3 word4", 0.5, state, user_id=1)
+    e2 = MemoryEntry("word5 word6 word7 word8", 0.6, state, user_id=1)
+    e3 = MemoryEntry("word9 word10 word11 word12", 0.7, state, user_id=1)
+
+    await wm.add(e1)
+    await wm.add(e2)
+    await wm.add(e3)
+
+    assert len(wm.get_entries(user_id=1)) == 3
+    assert vcm.get_token_length(wm.get_entries(user_id=1)) == int(12 * 1.3)
+
+    # Maintain with max_tokens = 10. Current is ~15.
+    await vcm.maintain_working_memory_limits(wm, em, user_id=1, max_tokens=10)
+
+    entries = wm.get_entries(user_id=1)
+    assert len(entries) == 2
+    assert entries[0].content == "word5 word6 word7 word8"
+    assert entries[1].content == "word9 word10 word11 word12"
+
+@pytest.mark.asyncio
+async def test_virtual_context_v3_maintain_limits_no_page_out() -> None:
+    wm = WorkingMemory(limit=10)
+    em = EpisodicMemory(persist_directory=":memory:")
+    em.collection_name = "test_episodic_memory_v3_maintain_no_out"
+    em.collection = em.client.get_or_create_collection(name=em.collection_name)
+    vcm = VirtualContextManagerV3()
+
+    state = PADState(0, 0, 0)
+
+    # 4 words -> ~5 tokens
+    e1 = MemoryEntry("word1 word2 word3 word4", 0.5, state, user_id=1)
+    await wm.add(e1)
+
+    assert len(wm.get_entries(user_id=1)) == 1
+
+    await vcm.maintain_working_memory_limits(wm, em, user_id=1, max_tokens=10)
+
+    entries = wm.get_entries(user_id=1)
+    assert len(entries) == 1

@@ -7605,7 +7605,7 @@
     },
     {
       "id": "memgpt-virtual-context-v3-new-5678",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "MemGPT Virtual Context Management v3",
@@ -16489,6 +16489,57 @@
       ],
       "acceptance": [
         "Online RL handles next-state signals.",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "openclaw-rl-online-feedback-v7",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Feedback Loop V7",
+      "description": "Inspired by OpenClaw trend: Implement online reinforcement learning from user feedback for dynamic habit adjustment.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_user_behavior_v7.py",
+        "tests/test_rl_user_behavior_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Captures feedback correctly.",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "acs-runtime-security-controls-v7",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Runtime Security Controls Validator V7",
+      "description": "Inspired by Microsoft ACS standard trend: Implement runtime validation checkpoints for tool interception.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_validation_v7.py",
+        "tests/test_acs_validation_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Validates actions accurately.",
+        "Tests pass"
+      ]
+    },
+    {
+      "id": "agent-teams-context-spawner-v3",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Agent Teams Concurrent Context Spawner V3",
+      "description": "Inspired by Claude multi-agent worktrees trend: Implement subagent context spawner for parallel isolation.",
+      "allowed_paths": [
+        "magda_agent/agents/spawner_v3.py",
+        "tests/test_spawner_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Spawns concurrent subagents isolatedly.",
         "Tests pass"
       ]
     }
