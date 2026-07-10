@@ -7520,7 +7520,7 @@
     },
     {
       "id": "agent-guard-runtime-policy-v5-new-suffix-789",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard Runtime Policy v5",
@@ -16235,6 +16235,57 @@
       "acceptance": [
         "A2A Discovery matches capabilities using Agent Cards v4.",
         "Tests verify mock discovery."
+      ]
+    },
+    {
+      "id": "mcp-context-engine-state-exporter-v5",
+      "area": "integration",
+      "risk": "medium",
+      "status": "todo",
+      "title": "MCP Context Engine State Exporter v5",
+      "description": "Inspired by MCP standard trend: Expose Magda's Context Engine memory states dynamically over an MCP-compliant JSON-RPC server endpoint.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_context_exporter_v5.py",
+        "tests/test_mcp_context_exporter_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Memory state can be exported and accessed via MCP interface.",
+        "Tests verify format."
+      ]
+    },
+    {
+      "id": "openclaw-multi-agent-rl-telemetry-v5",
+      "area": "telemetry",
+      "risk": "low",
+      "status": "todo",
+      "title": "OpenClaw Multi-Agent RL Telemetry v5",
+      "description": "Inspired by OpenClaw trends: Implement real-time RL telemetry streaming for multi-agent workflows via WebSockets.",
+      "allowed_paths": [
+        "magda_agent/telemetry/openclaw_rl_telemetry_v5.py",
+        "tests/test_openclaw_rl_telemetry_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Module formats telemetry events to JSON.",
+        "Tests verify WebSocket emission."
+      ]
+    },
+    {
+      "id": "claude-subagent-dependency-graph-exporter-v5",
+      "area": "planning",
+      "risk": "medium",
+      "status": "todo",
+      "title": "Claude Subagent Dependency Graph Exporter v5",
+      "description": "Inspired by Claude Agent SDK task system: Serialize internal dependency graphs into standard task format for external observability.",
+      "allowed_paths": [
+        "magda_agent/planning/dependency_graph_exporter_v5.py",
+        "tests/test_dependency_graph_exporter_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Dependency graph exports to standard task format.",
+        "Tests verify JSON export schema."
       ]
     }
   ]
