@@ -7758,7 +7758,7 @@
     },
     {
       "id": "agent-guard-audit-trail-v4-unique-5678",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Agent Guard Audit Trail v4",
@@ -16888,6 +16888,42 @@
       "acceptance": [
         "Guardrail intercepts tool calls",
         "Tests mock forbidden calls and assert blocks"
+      ]
+    },
+    {
+      "id": "hermes-persistent-skill-memory-v2-abc",
+      "title": "Hermes Persistent Skill Memory V2",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "description": "Inspired by Hermes Agent (June 2026): Implement persistent skill memory where the agent records experience and improves skills over long-term usage.",
+      "allowed_paths": [
+        "magda_agent/memory/persistent_skill_v2.py",
+        "tests/test_persistent_skill_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Persistent skill memory is stored across sessions.",
+        "Agent can retrieve past usage of skills.",
+        "Tests verify skill storage and retrieval."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-hooks-v5-def",
+      "title": "OpenClaw Context Engine Hooks V5",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "description": "Inspired by OpenClaw trends (June 2026): Create a plugin-based Context Engine that exposes lifecycle hooks for modifying context prior to LLM submission.",
+      "allowed_paths": [
+        "magda_agent/architecture/context_engine_hooks_v5.py",
+        "tests/test_context_engine_hooks_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Plugin architecture with pre/post context hooks.",
+        "Allows dynamic manipulation of context.",
+        "Tests verify hook execution order."
       ]
     }
   ]
