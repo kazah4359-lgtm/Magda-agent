@@ -7690,7 +7690,7 @@
     },
     {
       "id": "claude-evaluator-multi-modal-v4",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "Claude Evaluator Multi-Modal Context v4",
@@ -16681,6 +16681,60 @@
         "Tool calls are intercepted and audited before execution.",
         "Policy rules can deny actions.",
         "Blocked actions return explanatory feedback."
+      ]
+    },
+    {
+      "id": "openclaw-rl-implicit-feedback-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Implicit Feedback Tracking v2",
+      "description": "Inspired by OpenClaw-RL: Implement online reinforcement learning from implicit feedback, tracking user engagement times and session lengths to adjust system behaviors and habit weights without direct prompting.",
+      "allowed_paths": [
+        "magda_agent/learning/implicit_rl_tracker.py",
+        "tests/test_implicit_rl_tracker.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A tracker exists that logs interaction time and frequency.",
+        "Weights are adjusted based on implicit signals.",
+        "Tests verify behavior changes."
+      ]
+    },
+    {
+      "id": "acs-validation-checkpoints-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Guardrail Checkpoints Integration v2",
+      "description": "Based on Microsoft's Agent Control Specification (ACS): Introduce a robust guardrail system with explicit validation checkpoints before executing tools and emitting outputs.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_guardrails.py",
+        "tests/test_acs_guardrails.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrail system implements at least pre-tool and pre-output checkpoints.",
+        "Violations trigger an explicit block and feedback loop.",
+        "Tests confirm safety checks."
+      ]
+    },
+    {
+      "id": "hermes-cron-scheduler-v2",
+      "status": "todo",
+      "area": "orchestration",
+      "risk": "low",
+      "title": "Hermes-Style Cron Scheduler v2",
+      "description": "Implement a background task scheduler inspired by Hermes, capable of triggering daily summaries, nightly learning consolidations, and scheduled user reminders independently of direct interaction.",
+      "allowed_paths": [
+        "magda_agent/orchestration/cron_scheduler.py",
+        "tests/test_cron_scheduler.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A lightweight cron-like scheduler can register recurring tasks.",
+        "Scheduler executes tasks asynchronously.",
+        "Tests simulate time progression and task execution."
       ]
     }
   ]
