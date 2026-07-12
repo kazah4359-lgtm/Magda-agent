@@ -1,0 +1,98 @@
+from typing import Dict, Any, Optional
+import logging
+import json
+
+from magda_agent.llm_client import LLMClient
+from magda_agent.agents.sub_agent import SubAgent
+
+class EvaluatorMultimodalV4(SubAgent):
+    """
+    Claude-inspired specialized sub-agent for evaluating output from Generator sub-agents.
+    Version 4: Supports multi-modal context (images + text) during evaluation.
+    """
+    def __init__(self, llm: LLMClient):
+        super().__init__(
+            llm=llm,
+            system_prompt=(
+                "You are an expert multi-modal Evaluator sub-agent (v4). "
+                "Critique the provided output against the user request, including any visual context. "
+                "Provide actionable feedback. You MUST output valid JSON only."
+            ),
+            use_isolation=False
+        )
+
+    async def evaluate_generator_output(self,
+                                        generator_output: str,
+                                        user_request: str,
+                                        images: Optional[list[str]] = None) -> Dict[str, Any]:
+        """
+        Evaluates the output produced by the Generator Agent and provides critique, handling images if provided.
+
+        Args:
+            generator_output (str): The text or code output generated.
+            user_request (str): The initial user request or context.
+            images (Optional[list[str]]): List of base64-encoded images.
+
+        Returns:
+            Dict[str, Any]: Parsed JSON representing the critique and feedback containing keys:
+                - score (int): 1-10 evaluation score.
+                - approved (bool): Whether the output is acceptable.
+                - feedback (str): Detailed, actionable critique.
+        """
+        logging.info("Starting EvaluatorMultimodalV4 evaluation...")
+
+        task = (
+            "Evaluate the generator's output against the user's original request.\n\n"
+            "Return a JSON object with the following schema:\n"
+            '{"score": <int 1-10>, "approved": <bool>, "feedback": "<detailed critique and actionable feedback>"}'
+        )
+
+        full_context = (
+            f"Parent Context:\n"
+            f"User Request:\n{user_request}\n"
+            "------------------------\n"
+            f"Generator Output:\n{generator_output}\n"
+            "------------------------\n"
+            f"\n\nAssigned Task:\n{task}"
+        )
+
+        content = [{"type": "text", "text": full_context}]
+
+        if images:
+            for img in images:
+                content.append({
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{img}"
+                    }
+                })
+
+        messages = [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "user", "content": content}
+        ]
+
+        try:
+            response_text = await self.llm.chat_completion(messages, temperature=0.2)
+
+            # Simple markdown cleaning if the LLM wraps it in markdown blocks
+            if "```" in response_text:
+                response_text = response_text.split("```")[1]
+                if response_text.lower().startswith("json"):
+                    response_text = response_text[4:]
+
+            result = json.loads(response_text.strip())
+
+            # Validate expected keys are present
+            if not all(k in result for k in ("score", "approved", "feedback")):
+                raise ValueError("Missing required keys in LLM JSON output")
+
+            return result
+
+        except Exception as e:
+            logging.error(f"EvaluatorMultimodalV4 review failed: {e}")
+            return {
+                "score": 0,
+                "approved": False,
+                "feedback": f"Evaluation error: {str(e)}"
+            }
