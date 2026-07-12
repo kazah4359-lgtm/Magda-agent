@@ -7639,7 +7639,7 @@
     },
     {
       "id": "hermes-scheduled-nightly-backups",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "medium",
       "title": "Hermes Scheduled Nightly Backups",

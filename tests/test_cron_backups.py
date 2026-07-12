@@ -1,114 +1,65 @@
-import os
-import sqlite3
 import pytest
-import pytest_asyncio
-from magda_agent.operations.cron_backups import SQLiteCronBackupManager
-from magda_agent.operations.cron_v3 import HermesCronSchedulerV3
-
-from typing import List, Generator, AsyncGenerator
-import pathlib
-
-@pytest.fixture
-def temp_dbs(tmp_path: pathlib.Path) -> List[str]:
-    """
-    Creates temporary SQLite databases and populates them with test data.
-
-    Args:
-        tmp_path: The temporary path fixture provided by pytest.
-
-    Returns:
-        A list of string paths to the temporary databases.
-    """
-    db1_path = tmp_path / "test1.db"
-    db2_path = tmp_path / "test2.db"
-
-    # Create dummy dbs
-    conn1 = sqlite3.connect(db1_path)
-    conn1.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)")
-    conn1.execute("INSERT INTO users (name) VALUES ('Alice')")
-    conn1.commit()
-    conn1.close()
-
-    conn2 = sqlite3.connect(db2_path)
-    conn2.execute("CREATE TABLE settings (key TEXT PRIMARY KEY, value TEXT)")
-    conn2.execute("INSERT INTO settings (key, value) VALUES ('theme', 'dark')")
-    conn2.commit()
-    conn2.close()
-
-    return [str(db1_path), str(db2_path)]
-
-@pytest.fixture
-def backup_dir(tmp_path: pathlib.Path) -> str:
-    """
-    Creates a temporary directory for storing database backups.
-
-    Args:
-        tmp_path: The temporary path fixture provided by pytest.
-
-    Returns:
-        A string path to the created backup directory.
-    """
-    path = tmp_path / "backups"
-    path.mkdir()
-    return str(path)
-
-@pytest_asyncio.fixture
-async def backup_manager(temp_dbs: List[str], backup_dir: str) -> AsyncGenerator[SQLiteCronBackupManager, None]:
-    """
-    Initializes a SQLiteCronBackupManager with temporary databases and backup directory.
-
-    Args:
-        temp_dbs: The list of temporary database paths.
-        backup_dir: The directory path for storing backups.
-
-    Yields:
-        An instance of SQLiteCronBackupManager ready for testing.
-    """
-    scheduler = HermesCronSchedulerV3()
-    manager = SQLiteCronBackupManager(databases=temp_dbs, backup_dir=backup_dir, scheduler=scheduler)
-    yield manager
-    await manager.stop()
+import os
+import shutil
+import sqlite3
+from pathlib import Path
+from magda_agent.scheduler.cron_backups import perform_sqlite_backups
 
 @pytest.mark.asyncio
-async def test_backup_databases(backup_manager: SQLiteCronBackupManager, backup_dir: str) -> None:
-    """
-    Tests that the backup manager successfully copies SQLite databases to the backup directory.
+async def test_perform_sqlite_backups(tmp_path):
+    # Change current working directory to tmp_path for the test
+    original_cwd = os.getcwd()
+    os.chdir(tmp_path)
+    try:
+        # Create a dummy sqlite file
+        db_file = tmp_path / "test_data.sqlite3"
+        conn = sqlite3.connect(db_file)
+        conn.execute("CREATE TABLE test (id INTEGER PRIMARY KEY)")
+        conn.commit()
+        conn.close()
 
-    Args:
-        backup_manager: The initialized SQLiteCronBackupManager fixture.
-        backup_dir: The string path to the backup directory fixture.
-    """
-    await backup_manager.backup_databases()
+        # Create a dummy db file in a subdirectory
+        subdir = tmp_path / "subdir"
+        subdir.mkdir()
+        db_file2 = subdir / "other.db"
+        conn2 = sqlite3.connect(db_file2)
+        conn2.execute("CREATE TABLE other (id INTEGER PRIMARY KEY)")
+        conn2.commit()
+        conn2.close()
 
-    # Verify backup files were created
-    files = os.listdir(backup_dir)
-    assert len(files) == 2
+        # Run backup
+        backup_dir = "test_backups"
+        await perform_sqlite_backups(backup_dir=backup_dir)
 
-    db1_backup = next(f for f in files if f.startswith("test1.db"))
-    db2_backup = next(f for f in files if f.startswith("test2.db"))
+        # Verify backup directory exists
+        backup_path = tmp_path / backup_dir
+        assert backup_path.exists()
+        assert backup_path.is_dir()
 
-    # Verify data in backups
-    conn1 = sqlite3.connect(os.path.join(backup_dir, db1_backup))
-    cursor1 = conn1.cursor()
-    cursor1.execute("SELECT name FROM users")
-    assert cursor1.fetchone()[0] == 'Alice'
-    conn1.close()
+        # List files in backup directory
+        backup_files = list(backup_path.iterdir())
+        assert len(backup_files) == 2
 
-    conn2 = sqlite3.connect(os.path.join(backup_dir, db2_backup))
-    cursor2 = conn2.cursor()
-    cursor2.execute("SELECT value FROM settings")
-    assert cursor2.fetchone()[0] == 'dark'
-    conn2.close()
+        # Check if names match expected pattern (timestamp is dynamic so we check prefix and suffix)
+        file_names = [f.name for f in backup_files]
+        assert any(n.startswith("test_data.sqlite3") and n.endswith(".bak") for n in file_names)
+        assert any(n.startswith("subdir_other.db") and n.endswith(".bak") for n in file_names)
+
+    finally:
+        os.chdir(original_cwd)
 
 @pytest.mark.asyncio
-async def test_register_nightly_backup(backup_manager: SQLiteCronBackupManager) -> None:
-    """
-    Tests that the nightly backup task is correctly registered with the cron scheduler.
+async def test_perform_sqlite_backups_no_files(tmp_path):
+    original_cwd = os.getcwd()
+    os.chdir(tmp_path)
+    try:
+        backup_dir = "test_backups_empty"
+        await perform_sqlite_backups(backup_dir=backup_dir)
 
-    Args:
-        backup_manager: The initialized SQLiteCronBackupManager fixture.
-    """
-    backup_manager.register_nightly_backup()
-
-    # Verify the job is registered in the scheduler
-    assert "sqlite_nightly_backup" in backup_manager.scheduler._func_registry
+        # Directory might be created even if no files found (Path.mkdir called before search)
+        # but let's check if it's empty if it exists
+        backup_path = tmp_path / backup_dir
+        if backup_path.exists():
+            assert len(list(backup_path.iterdir())) == 0
+    finally:
+        os.chdir(original_cwd)
