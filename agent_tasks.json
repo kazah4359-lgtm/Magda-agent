@@ -7775,7 +7775,7 @@
     },
     {
       "id": "a2a-agent-discovery-cards-v3-unique-9012",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Agent Discovery Cards v3",
@@ -16925,6 +16925,57 @@
         "Allows dynamic manipulation of context.",
         "Tests verify hook execution order."
       ]
+    },
+    {
+      "id": "mcp-prefixed-tools-v8-cf6089f9",
+      "title": "MCP Prefixed Tools Integration v8",
+      "description": "Inspired by MCP trends (June 2026): Add namespacing to MCP tools by prefixing them with their originating server ID to avoid collisions.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_prefixed_tools_v8.py",
+        "tests/test_mcp_prefixed_tools_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tools are automatically prefixed with server IDs.",
+        "Tests verify the prefixing behavior."
+      ],
+      "area": "integration",
+      "risk": "medium",
+      "status": "todo"
+    },
+    {
+      "id": "openclaw-rl-tool-outputs-v8-cf6089f9",
+      "title": "OpenClaw RL Tool Outputs Feedback v8",
+      "description": "Inspired by OpenClaw online RL trend: Implement tracking of tool outputs as direct feedback signals for dynamic adjustment of agent skill weights.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_tool_outputs_v8.py",
+        "tests/test_rl_tool_outputs_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool outputs adjust skill weights.",
+        "Tests verify weight adjustments."
+      ],
+      "area": "learning",
+      "risk": "medium",
+      "status": "todo"
+    },
+    {
+      "id": "acs-runtime-policy-v8-cf6089f9",
+      "title": "ACS Runtime Policy Enforcement v8",
+      "description": "Inspired by Microsoft ACS trend: Implement a runtime policy layer that intercepts tool executions and enforces safety based on dynamic rules.",
+      "allowed_paths": [
+        "magda_agent/safety/runtime_policy_v8.py",
+        "tests/test_runtime_policy_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Runtime policy layer intercepts tool executions.",
+        "Tests mock execution and verify enforcement."
+      ],
+      "area": "safety",
+      "risk": "high",
+      "status": "todo"
     }
   ]
 }
