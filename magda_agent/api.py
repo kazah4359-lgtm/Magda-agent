@@ -34,6 +34,7 @@ from magda_agent.subconsciousness.reflection import Subconsciousness
 from magda_agent.evaluation.agentbench import daily_agentbench_eval
 from magda_agent.scheduler.cron import CronScheduler
 from magda_agent.scheduler.cron_reports import DailyReportScheduler
+from magda_agent.scheduler.cron_backups import perform_sqlite_backups
 
 from magda_agent.operations.cron_v3 import HermesCronSchedulerV3
 from magda_agent.scheduler.autonomous_tasks import run_health_check, report_quality_metrics
@@ -219,6 +220,9 @@ cron_scheduler.schedule("0 0 * * *", report_quality_metrics, name="quality_repor
 
 # Schedule daily AgentBench evaluation
 cron_scheduler.schedule("0 0 * * *", daily_agentbench_eval, name="agentbench_eval")
+
+# Schedule nightly backups
+cron_scheduler.schedule("0 2 * * *", perform_sqlite_backups, name="nightly_backups")
 
 task_store = TaskStore(path=os.getenv("AUTONOMY_TASKS_PATH", "./autonomy_tasks.json"))
 autonomous_executor = AutonomousExecutor(
