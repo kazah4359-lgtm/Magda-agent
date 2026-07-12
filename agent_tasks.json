@@ -7656,7 +7656,7 @@
     },
     {
       "id": "openclaw-rl-tool-outputs-v2",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw RL from Tool Outputs",
@@ -16592,6 +16592,40 @@
       "acceptance": [
         "A2ADiscoveryServiceV3Unique can discover peers by matching capabilities.",
         "Tests mock httpx to verify async peer discovery."
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-creation-from-experience-v5",
+      "title": "Hermes Agent Skills Creation v5",
+      "description": "Inspired by Hermes: Automate creating new persistent skills based on repetitive positive feedback experiences.",
+      "area": "skills",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/skills/skill_creator_v5.py",
+        "tests/test_skill_creator_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill creator identifies repeated positive actions and saves new tools.",
+        "Tests mock experience logs to verify skill generation."
+      ]
+    },
+    {
+      "id": "openclaw-rl-next-state-signals-v9",
+      "title": "OpenClaw RL Next-State Signals v9",
+      "description": "Inspired by OpenClaw: Extend RL capabilities to use latency and non-verbal usage as implicit feedback next-state signals.",
+      "area": "learning",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/learning/rl_next_state_signals_v9.py",
+        "tests/test_rl_next_state_signals_v9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Model weights adjust dynamically based on latency metrics.",
+        "Tests simulate usage timing."
       ]
     }
   ]
