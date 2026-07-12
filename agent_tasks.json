@@ -7724,7 +7724,7 @@
     },
     {
       "id": "mcp-dynamic-tool-discovery-v4",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Dynamic Tool Discovery v4",
@@ -16786,6 +16786,57 @@
       "acceptance": [
         "Abandoned worktrees are correctly pruned after timeout.",
         "Tests mock timeout and verify directory deletion."
+      ]
+    },
+    {
+      "id": "trend-mcp-dynamic-tool-discovery-v5-5a0095e9",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Discovery v5",
+      "description": "Inspired by MCP standard trend: Enhance the MCP Client to automatically poll known MCP server endpoints and dynamically discover new action tools without rebooting the agent.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_discovery_v5.py",
+        "tests/test_mcp_discovery_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Client polls servers and discovers tools dynamically.",
+        "Tests verify dynamic loading of new tools."
+      ]
+    },
+    {
+      "id": "trend-agent-teams-git-worktree-v12-906afdf3",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Agent Teams Git Worktree Isolation v12",
+      "description": "Inspired by Claude Agent SDK: Enhance the Subagent Spawner to aggressively prune abandoned git worktrees after subagent timeout to save disk space.",
+      "allowed_paths": [
+        "magda_agent/architecture/teams_worktree_v12.py",
+        "tests/test_teams_worktree_v12.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Abandoned worktrees are correctly pruned after timeout.",
+        "Tests mock timeout and verify directory deletion."
+      ]
+    },
+    {
+      "id": "trend-openclaw-canvas-streaming-v3-5490d84e",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Streaming Enhancements v3",
+      "description": "Inspired by OpenClaw Live Visualization trend: Enhance the CanvasServerV2 to support binary patch updates (e.g., using bsdiff or jsonpatch) for even lower bandwidth consumption on large cognitive state objects.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_streaming_v3.py",
+        "tests/test_canvas_streaming_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "CanvasServerV3 supports patch diff updates.",
+        "Tests verify correct patch generation and client consumption."
       ]
     }
   ]
