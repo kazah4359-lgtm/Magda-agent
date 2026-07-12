@@ -7741,7 +7741,7 @@
     },
     {
       "id": "mcp-client-auth-v3-unique-1234",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "MCP Client Authentication Support v3",
@@ -16837,6 +16837,57 @@
       "acceptance": [
         "CanvasServerV3 supports patch diff updates.",
         "Tests verify correct patch generation and client consumption."
+      ]
+    },
+    {
+      "id": "memory-context-compression-v1",
+      "title": "Memory Context Compression v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "description": "Implement a context compression module to optimize memory storage for episodic and semantic memory.",
+      "allowed_paths": [
+        "magda_agent/memory/context_compression_v1.py",
+        "tests/test_context_compression_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context compression module exists",
+        "Tests verify memory is compressed"
+      ]
+    },
+    {
+      "id": "integration-cross-channel-sync-v1",
+      "title": "Cross-Channel Conversation Sync v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "description": "Implement cross-channel sync for user conversations to keep consistent context across platforms.",
+      "allowed_paths": [
+        "magda_agent/integration/cross_channel_sync_v1.py",
+        "tests/test_cross_channel_sync_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Conversations are synchronized",
+        "Tests mock different channels and verify state"
+      ]
+    },
+    {
+      "id": "safety-policy-guardrail-v1",
+      "title": "Safety Policy Guardrail v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "description": "Implement a safety policy guardrail interceptor for tool calls.",
+      "allowed_paths": [
+        "magda_agent/safety/policy_guardrail_v1.py",
+        "tests/test_policy_guardrail_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrail intercepts tool calls",
+        "Tests mock forbidden calls and assert blocks"
       ]
     }
   ]
