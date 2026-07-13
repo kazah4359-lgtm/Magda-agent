@@ -7860,7 +7860,7 @@
     },
     {
       "id": "openclaw-rl-metrics-tracker-v4",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw RL Metrics Tracker v4",
@@ -17134,6 +17134,59 @@
       "acceptance": [
         "Agent tone shifts in response to positive/negative user feedback.",
         "Tests verify weight adjustments."
+      ]
+    },
+    {
+      "id": "mcp-client-auth-v3-oauth-refresh",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Client OAuth2 Token Refresh",
+      "description": "Inspired by MCP Auth trend (June 2026): Implement automated OAuth2 token refresh for remote MCP tool servers to ensure long-lived tool sessions.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_client_auth_v3.py",
+        "tests/test_mcp_auth_refresh_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP client successfully refreshes expired OAuth2 tokens.",
+        "Tests mock token expiration and verify refresh logic."
+      ]
+    },
+    {
+      "id": "a2a-semantic-discovery-v3-embeddings",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Semantic Discovery via Embeddings",
+      "description": "Inspired by A2A Protocol trend (June 2026): Enhance the A2A discovery service with semantic embedding search to find approximate capability matches when exact string matching fails.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v3_unique.py",
+        "magda_agent/memory/semantic.py",
+        "tests/test_a2a_semantic_discovery_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A Discovery can find peers with semantically similar capabilities.",
+        "Tests verify that \"web search\" matches \"internet search\" via embeddings."
+      ]
+    },
+    {
+      "id": "context-engine-v5-dynamic-hook-unregistration",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Dynamic Context Hook Unregistration",
+      "description": "Inspired by Context Engine trend (June 2026): Implement a mechanism in ContextEngineV5 to dynamically unregister hooks and plugins at runtime to optimize resource usage and prevent context pollution.",
+      "allowed_paths": [
+        "magda_agent/memory/context_engine_v5.py",
+        "tests/test_context_engine_unreg_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ContextEngineV5 allows unregistering active hooks.",
+        "Unregistered hooks are no longer executed during context cycles.",
+        "Tests verify unregistration logic."
       ]
     }
   ]
