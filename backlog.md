@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+- [x] claude-evaluator-multi-agent-teams-v2: Claude SDK Teams Orchestration Evaluator (2026-06-XX)
 * [x] FEATURE: Export Skills to MCP Tool Server (mcp-tool-export-skills) (2026-06-XX)
 * [x] FEATURE: Agent Guard ACS Checkpoints v6 (agent-guard-acs-checkpoints-v6)
 * [x] FEATURE: Online RL from User Feedback v6 (online-rl-user-feedback-v6)
