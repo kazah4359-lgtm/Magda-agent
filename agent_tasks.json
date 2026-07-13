@@ -7843,7 +7843,7 @@
     },
     {
       "id": "agent-guard-acs-checkpoints-v6",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard ACS Checkpoints v6",
@@ -17083,6 +17083,57 @@
         "Worker fetches skill definitions in agentskills.io format.",
         "Discovered skills are dynamically registered in the SkillRegistry.",
         "Tests mock the marketplace API and verify successful skill registration."
+      ]
+    },
+    {
+      "id": "mcp-oauth-auth-v3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Client OAuth2 Authentication",
+      "description": "Inspired by MCP Auth trend (June 2026): Implement OAuth2 support for connecting to remote MCP servers requiring token-based authorization.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_client_auth_v3.py",
+        "tests/test_mcp_auth_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP client successfully negotiates OAuth2 tokens.",
+        "Tests mock token exchange."
+      ]
+    },
+    {
+      "id": "a2a-recursive-validation-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Recursive Agent Card Validation",
+      "description": "Inspired by A2A Protocol trend (June 2026): Implement a recursive validation mechanism for Agent Cards discovered via A2A to ensure deep delegation trees are safe.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_v3_unique.py",
+        "tests/test_a2a_recursive_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Deeply nested Agent Cards are validated recursively.",
+        "Invalid cards in the tree trigger rejection."
+      ]
+    },
+    {
+      "id": "openclaw-rl-tone-adaptation-v5",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL Tone Adaptation",
+      "description": "Inspired by OpenClaw-RL trend (June 2026): Implement a behavior modifier that uses online reinforcement learning to adjust the agent's response tone based on user PAD shifts.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_user_behavior_v4.py",
+        "tests/test_tone_adaptation_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent tone shifts in response to positive/negative user feedback.",
+        "Tests verify weight adjustments."
       ]
     }
   ]
