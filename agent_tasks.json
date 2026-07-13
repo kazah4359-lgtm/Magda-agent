@@ -7928,13 +7928,15 @@
     },
     {
       "id": "openclaw-rl-metrics-v3-unique",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw RL Metrics and Visualization v3",
       "description": "Inspired by OpenClaw Canvas Live Visualization: Add visual metrics for Q-value updates and rewards from the RL system to track improvement visually.",
       "allowed_paths": [
         "magda_agent/learning/openclaw_rl_metrics.py",
+        "magda_agent/consciousness/core.py",
+        "magda_agent/visualization/canvas_v3.py",
         "tests/test_openclaw_rl_metrics.py",
         "agent_tasks.json"
       ],
@@ -17529,6 +17531,57 @@
       "acceptance": [
         "Agent adjusts response parameters in real-time based on sentiment.",
         "Tests verify parameter convergence toward user-preferred style."
+      ]
+    },
+    {
+      "id": "agent-skills-self-documentation-v1-768a",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Agent Skills Self-Documentation V1",
+      "description": "Inspired by Hermes skill creation trend: Implement a background process that generates natural language documentation for all registered skills and stores it in Semantic Memory for better LLM retrieval.",
+      "allowed_paths": [
+        "magda_agent/skills/documentation.py",
+        "magda_agent/memory/semantic.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Natural language documentation generated for all skills",
+        "Documentation searchable via Semantic Memory"
+      ]
+    },
+    {
+      "id": "a2a-delegation-cost-estimation-v1-b2c3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Delegation Cost Estimation V1",
+      "description": "Inspired by OpenAI Agents SDK and A2A trends: Implement a cost estimation module for peer-to-peer delegation that predicts token usage and latency before dispatching tasks.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_cost_estimator.py",
+        "magda_agent/integration/a2a_delegation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cost estimation module returns predicted tokens and latency",
+        "Delegation module uses estimation to decide whether to delegate"
+      ]
+    },
+    {
+      "id": "rl-interaction-loop-entropy-v1-d4e5",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "RL Interaction Loop Entropy Tracking V1",
+      "description": "Inspired by OpenClaw-RL trends: Track the entropy of the agent behavior over multiple turns to detect repetitive loops and trigger a curiosity-driven exploration shift.",
+      "allowed_paths": [
+        "magda_agent/learning/entropy_tracker.py",
+        "magda_agent/learning/openclaw_rl_metrics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Entropy tracker identifies repetitive behavior patterns",
+        "High entropy score triggers curiosity drive update"
       ]
     }
   ]

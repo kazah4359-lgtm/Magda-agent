@@ -34,6 +34,7 @@ from magda_agent.learning.rl_user_behavior_v4 import OnlineRLUserBehaviorV4
 from magda_agent.learning.openclaw_rl import OpenClawInteractiveLearner
 from magda_agent.learning.online_feedback_rl import OnlineFeedbackRL
 from magda_agent.learning.feedback_loop import FeedbackLoop
+from magda_agent.learning.openclaw_rl_metrics import OpenClawRLMetrics
 from magda_agent.attention.salience import SalienceNetwork
 from magda_agent.attention.workspace import GlobalWorkspace
 from magda_agent.memory.context_engine import ContextEngine
@@ -124,6 +125,7 @@ class Consciousness:
         self.a2a_delegator = a2a_delegator
         self.user_model = user_model
         self.mental_states = MentalStates()
+        self.openclaw_rl_metrics = OpenClawRLMetrics()
 
         if self.global_workspace:
             self.global_workspace.register_listener(self._broadcast_event)
@@ -183,6 +185,17 @@ class Consciousness:
             )
         if self.online_rl_v6:
             await self.online_rl_v6.adjust_behavior(user_input, last_context, user_id)
+
+        # Update OpenClaw RL Metrics
+        if self.mirror_neurons:
+            p_shift, _, _ = self.mirror_neurons.empathize(user_input)
+            if p_shift != 0.0:
+                # Use p_shift as a reward signal
+                self.openclaw_rl_metrics.add_reward("dialogue_skill", p_shift, user_id=user_id)
+                # For demo purposes, we also update Q-value based on shift
+                current_q = self.openclaw_rl_metrics.q_values.get("dialogue_skill", 0.0)
+                self.openclaw_rl_metrics.update_q_value("dialogue_skill", current_q + p_shift * 0.1)
+
         if getattr(self, 'dialogue_online_learner_v3', None):
             self.dialogue_online_learner_v3.process_turn(user_input, None)
 

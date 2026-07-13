@@ -65,6 +65,11 @@ def test_canvas_visualizer_v3_formatting():
     mock_workspace.focused_event = "User Input"
     mock_consciousness.global_workspace = mock_workspace
 
+    # Mock RL Metrics
+    mock_rl_metrics = MagicMock()
+    mock_rl_metrics.get_visualization_data.return_value = {"status": "active", "q_values": {}}
+    mock_consciousness.openclaw_rl_metrics = mock_rl_metrics
+
     visualizer = CanvasVisualizerV3(mock_consciousness)
     state = visualizer.get_formatted_state(user_id="test_user")
 
@@ -94,6 +99,8 @@ def test_canvas_visualizer_v3_formatting():
     assert state["global_workspace"]["focused_event"] == "User Input"
     assert state["global_workspace"]["active"] is True
 
+    assert state["rl_metrics"]["status"] == "active"
+
     assert "error" not in state
 
     json_str = visualizer.get_state_json(user_id="test_user")
@@ -111,6 +118,7 @@ def test_canvas_visualizer_v3_error_handling():
     mock_consciousness.planner = None
     mock_consciousness.hypothalamus = None
     mock_consciousness.global_workspace = None
+    mock_consciousness.openclaw_rl_metrics = None
 
     visualizer = CanvasVisualizerV3(mock_consciousness)
     state = visualizer.get_formatted_state()
