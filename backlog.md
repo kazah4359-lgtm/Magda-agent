@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+* [x] FEATURE: Agent Guard ACS Checkpoints v6 (agent-guard-acs-checkpoints-v6)
 * [x] FEATURE: Online RL from User Feedback v6 (online-rl-user-feedback-v6)
 * [x] MODULE: **Virtual Context Manager** — magda_agent/memory/virtual_context.py.
 * [x] FEATURE: Hermes Skill Creation from Experience (hermes-skill-creation-8563188e)

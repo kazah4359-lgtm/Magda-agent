@@ -55,6 +55,9 @@ class ACSGuardV6:
             if not isinstance(workflow_data[field], str):
                 return False, f"Input validation failed: '{field}' must be a string."
 
+        if is_tainted(workflow_data.get("kwargs")):
+            return False, "Input validation failed: tainted data detected in tool inputs (kwargs)."
+
         return True, "Input validation passed."
 
     def checkpoint_2_intent_authorization(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
@@ -63,6 +66,9 @@ class ACSGuardV6:
         Verifies if the agent's intent is authorized.
         """
         action = workflow_data.get("action")
+        if is_tainted(action):
+            return False, "Intent authorization failed: action is tainted."
+
         # Standard allowed intents in ACS-like architectures
         allowed_intents = {
             "read", "write", "execute", "plan", "reflect", "delegate", "analyze", "chat"
@@ -82,10 +88,18 @@ class ACSGuardV6:
         Checks if the tool complies with defined policies using the PolicyLayer.
         """
         tool = workflow_data.get("tool")
+        if is_tainted(tool):
+            return False, "Tool policy failed: tool name is tainted."
+
         if tool == "forbidden_tool":
             return False, f"Tool policy failed: tool '{tool}' is forbidden."
 
         kwargs = workflow_data.get("kwargs", {})
+        # Note: checkpoint_1 already checks for tainted kwargs,
+        # but we re-check here for completeness if called in isolation.
+        if is_tainted(kwargs):
+            return False, "Tool policy failed: tainted data detected in tool inputs (kwargs)."
+
         allow, explanation = self.policy_layer.evaluate(tool, **kwargs)
         if not allow:
             return False, f"Tool policy failed: {explanation}"

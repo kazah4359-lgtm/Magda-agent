@@ -43,6 +43,16 @@ def test_checkpoint_1_input_validation(acs_guard: ACSGuardV6) -> None:
     assert not passed
     assert "missing 'action' field" in reason
 
+    # Fail - tainted kwargs
+    tainted_kwargs = mark_tainted({"path": "/etc/passwd"})
+    passed, reason = acs_guard.checkpoint_1_input_validation({
+        "action": "read",
+        "tool": "cat",
+        "kwargs": tainted_kwargs
+    })
+    assert not passed
+    assert "tainted data detected in tool inputs" in reason
+
 
 def test_checkpoint_2_intent_authorization(acs_guard: ACSGuardV6) -> None:
     """Tests the intent authorization checkpoint."""
@@ -61,11 +71,21 @@ def test_checkpoint_2_intent_authorization(acs_guard: ACSGuardV6) -> None:
     assert not passed
     assert "not in allowed intents list" in reason
 
+    # Fail - tainted action
+    passed, reason = acs_guard.checkpoint_2_intent_authorization({"action": mark_tainted("read")})
+    assert not passed
+    assert "action is tainted" in reason
+
 
 def test_checkpoint_3_tool_policy(acs_guard: ACSGuardV6, mock_policy_layer: MagicMock) -> None:
     """Tests the tool policy checkpoint with mocking."""
     # Pass
     assert acs_guard.checkpoint_3_tool_policy({"tool": "ls"})[0]
+
+    # Fail - tainted tool name
+    passed, reason = acs_guard.checkpoint_3_tool_policy({"tool": mark_tainted("ls")})
+    assert not passed
+    assert "tool name is tainted" in reason
 
     # Fail - forbidden_tool
     passed, reason = acs_guard.checkpoint_3_tool_policy({"tool": "forbidden_tool"})
