@@ -7843,7 +7843,7 @@
     },
     {
       "id": "agent-to-agent-delegation",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "A2A Protocol Discovery and Delegation",
@@ -17258,6 +17258,57 @@
         "Tool executions are intercepted and validated against dynamic policy rules.",
         "Violations result in blocked execution with an explanatory message.",
         "Tests cover rule-based allow and deny scenarios."
+      ]
+    },
+    {
+      "id": "a2a-trust-metrics-v1",
+      "status": "todo",
+      "area": "security",
+      "risk": "medium",
+      "title": "A2A Trust and Reputation Metrics",
+      "description": "Implement a trust scoring system for peer agents based on successful delegation history and response latency.",
+      "allowed_paths": [
+        "magda_agent/security/a2a_trust.py",
+        "tests/test_a2a_trust.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Trust scores are updated after each delegation",
+        "Low trust agents are deprioritized in selection"
+      ]
+    },
+    {
+      "id": "mcp-tool-versioning-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "MCP Tool Versioning Support",
+      "description": "Extend MCP exporter to support versioning of tools, allowing multiple versions of the same skill to coexist.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_versioning.py",
+        "tests/test_mcp_versioning.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tools include version metadata",
+        "Clients can request specific tool versions"
+      ]
+    },
+    {
+      "id": "canvas-delta-streaming-v1",
+      "status": "todo",
+      "area": "UI",
+      "risk": "low",
+      "title": "Advanced Canvas Delta Streaming",
+      "description": "Optimize Canvas Live Visualization by streaming only state deltas instead of full state objects using JSON-Patch.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_delta.py",
+        "tests/test_canvas_delta.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "CanvasServer sends JSON-Patch deltas",
+        "WebSocket bandwidth usage is significantly reduced"
       ]
     }
   ]
