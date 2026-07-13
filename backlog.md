@@ -239,3 +239,4 @@
 * [x] FEATURE: A2A Peer-to-Peer Delegation v4 (a2a-peer-delegation-v4-5d34cc13)
 
 * [x] FEATURE: Online Learning from Dialog Interactions (online-learning-interaction-loop-june-2026) (2026-06-08)
+* [x] FEATURE: A2A Task Delegation and Discovery (a2a-task-delegation-discovery-june-2026) (2026-06-08)
