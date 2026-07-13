@@ -7009,108 +7009,6 @@
       ]
     },
     {
-      "id": "a2a-task-delegation-streaming-v1-uuid",
-      "status": "done",
-      "area": "multi-agent",
-      "risk": "medium",
-      "title": "A2A Task Delegation Streaming Interface",
-      "description": "Inspired by trend: A2A open standard. Implement a streaming interface for A2A peer-to-peer task delegation to support long-horizon task coordination.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_streaming.py",
-        "tests/test_a2a_streaming.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "A2A streaming interface supports chunked updates for task delegation.",
-        "Tests verify chunked response processing."
-      ]
-    },
-    {
-      "id": "mcp-kernel-sandbox-taint-policy-v1-uuid",
-      "status": "done",
-      "area": "safety",
-      "risk": "high",
-      "title": "MCP Kernel Taint Tracking Policy Engine",
-      "description": "Inspired by trend: MCPKernel taint tracking + sandboxed execution. Build a dynamic taint tracking policy engine to restrict untrusted tool outputs.",
-      "allowed_paths": [
-        "magda_agent/safety/mcp_taint_policy.py",
-        "tests/test_mcp_taint_policy.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Taint policy engine evaluates data streams before execution.",
-        "Tests ensure malicious untrusted output is blocked."
-      ]
-    },
-    {
-      "id": "openclaw-rl-interactive-feedback-v1-uuid",
-      "status": "done",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Interactive Feedback Formatter",
-      "description": "Inspired by trend: OpenClaw-RL interactive learning. Implement an interactive feedback formatter to capture explicit and implicit user signals during conversations.",
-      "allowed_paths": [
-        "magda_agent/learning/interactive_feedback.py",
-        "tests/test_interactive_feedback.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Feedback formatter correctly parses user corrections.",
-        "Tests ensure parsed signals are accurately extracted."
-      ]
-    },
-    {
-      "id": "a2a-task-delegation-streaming-v2-uuid",
-      "status": "done",
-      "area": "multi-agent",
-      "risk": "medium",
-      "title": "A2A Task Delegation Streaming Interface v2",
-      "description": "Inspired by trend: A2A open standard. Implement a streaming interface for A2A peer-to-peer task delegation to support long-horizon task coordination.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_streaming.py",
-        "tests/test_a2a_streaming.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "A2A streaming interface supports chunked updates for task delegation.",
-        "Tests verify chunked response processing."
-      ]
-    },
-    {
-      "id": "mcp-kernel-sandbox-taint-policy-v2-uuid",
-      "status": "done",
-      "area": "safety",
-      "risk": "high",
-      "title": "MCP Kernel Taint Tracking Policy Engine v2",
-      "description": "Inspired by trend: MCPKernel taint tracking + sandboxed execution. Build a dynamic taint tracking policy engine to restrict untrusted tool outputs.",
-      "allowed_paths": [
-        "magda_agent/safety/mcp_taint_policy.py",
-        "tests/test_mcp_taint_policy.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Taint policy engine evaluates data streams before execution.",
-        "Tests ensure malicious untrusted output is blocked."
-      ]
-    },
-    {
-      "id": "openclaw-rl-interactive-feedback-v2-uuid",
-      "status": "done",
-      "area": "learning",
-      "risk": "medium",
-      "title": "OpenClaw-RL Interactive Feedback Formatter v2",
-      "description": "Inspired by trend: OpenClaw-RL interactive learning. Implement an interactive feedback formatter to capture explicit and implicit user signals during conversations.",
-      "allowed_paths": [
-        "magda_agent/learning/interactive_feedback.py",
-        "tests/test_interactive_feedback.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Feedback formatter correctly parses user corrections.",
-        "Tests ensure parsed signals are accurately extracted."
-      ]
-    },
-    {
       "id": "openclaw-rl-metrics-v1-4b8afd35",
       "status": "done",
       "area": "learning",
@@ -7911,7 +7809,7 @@
     },
     {
       "id": "claude-evaluator-dependency-graph-v3-3910b122",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "Claude Evaluator Dependency Graph v3",
@@ -14996,57 +14894,6 @@
       ]
     },
     {
-      "id": "mcp-action-tool-exporter-v4-uuid",
-      "status": "todo",
-      "area": "skills",
-      "risk": "medium",
-      "title": "MCP Action Tool Exporter V4",
-      "description": "Inspired by MCP standardization trends: Implement an exporter to automatically extract JSON schemas from Magda's registered skills for exposing them as MCP action tools.",
-      "allowed_paths": [
-        "magda_agent/skills/mcp_exporter.py",
-        "tests/test_mcp_exporter.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Exporter generates valid MCP JSON definitions.",
-        "Tests confirm extraction logic."
-      ]
-    },
-    {
-      "id": "a2a-discovery-agent-cards-v3-uuid",
-      "status": "todo",
-      "area": "multi-agent",
-      "risk": "low",
-      "title": "A2A Discovery Agent Cards V3",
-      "description": "Inspired by A2A standard: Implement Agent Cards generation for peer-to-peer agent discovery in a multi-agent network.",
-      "allowed_paths": [
-        "magda_agent/integration/a2a_agent_cards.py",
-        "tests/test_a2a_agent_cards.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Generates valid A2A Agent Cards.",
-        "Tests verify format."
-      ]
-    },
-    {
-      "id": "context-engine-plugin-interface-v5-uuid",
-      "status": "todo",
-      "area": "memory",
-      "risk": "medium",
-      "title": "Context Engine Plugin Interface V5",
-      "description": "Inspired by OpenClaw architecture: Implement a Context Engine plugin interface with lifecycle hooks (on_load, on_unload) for dynamic memory management.",
-      "allowed_paths": [
-        "magda_agent/memory/context_engine_plugin.py",
-        "tests/test_context_engine_plugin.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "Interface handles dynamic plugin loading/unloading.",
-        "Tests mock plugin lifecycle hooks."
-      ]
-    },
-    {
       "id": "openclaw-rl-habit-integrator-v11",
       "title": "OpenClaw RL Habit Integrator V11",
       "description": "Inspired by OpenClaw trends: Implement an online reinforcement learning integrator to adjust habit weights from user dialogue signals.",
@@ -17289,6 +17136,76 @@
       "acceptance": [
         "RL agent optimizes tone based on user PAD feedback.",
         "Tests verify weight updates on positive/negative shifts."
+      ]
+    },
+    {
+      "id": "mcp-resource-template-expansion-v1-40cd4b99",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Implement MCP Resource Template Expansion",
+      "description": "Inspired by MCP standard trend (June 2026): Implement dynamic resource template expansion for MCP servers to allow parameterized resource access.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_resource_template_v1.py",
+        "tests/test_mcp_resource_template_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ResourceTemplateHandler correctly expands templates.",
+        "Tests verify parameter mapping."
+      ]
+    },
+    {
+      "id": "a2a-capability-negotiation-v2-d23539d3",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Capability Negotiation v2",
+      "description": "Inspired by A2A Protocol trend (June 2026): Enhance A2A delegation with multi-turn capability negotiation between agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_negotiation_v2.py",
+        "tests/test_a2a_negotiation_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2ANegotiator handles multi-turn negotiation.",
+        "Tests mock peer communication."
+      ]
+    },
+    {
+      "id": "acs-adaptive-guardrails-v1-2afa73c6",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Adaptive Guardrails v1",
+      "description": "Inspired by ACS standard trend (June 2026): Implement risk-based adaptive guardrails that dynamically enable/disable ACS checkpoints based on real-time risk scoring.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_adaptive_v1.py",
+        "tests/test_acs_adaptive_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "AdaptiveGuardrail enables/disables checkpoints based on risk score.",
+        "Tests verify dynamic behavior."
+      ]
+    },
+    {
+      "id": "improvement-memory-unification-v1-b50d7fba",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Unify long-term memory storage",
+      "description": "Improvement: MemorySystem has a long_term list which is redundant if LongTermMemory module is also used. Unify storage to reduce confusion and potential state sync issues.",
+      "allowed_paths": [
+        "magda_agent/memory/storage.py",
+        "magda_agent/memory/episodic.py",
+        "tests/test_memory_storage.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Redundant long_term list removed from MemorySystem.",
+        "All episodic persistence goes through EpisodicMemory (Hippocampus).",
+        "Existing tests pass."
       ]
     }
   ]
