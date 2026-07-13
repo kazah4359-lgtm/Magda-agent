@@ -7826,7 +7826,7 @@
     },
     {
       "id": "a2a-task-delegation-discovery-june-2026",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A Task Delegation and Discovery",
@@ -17029,6 +17029,60 @@
         "Audit Trail V5 redacts sensitive keys recursively.",
         "Sanitization handles nested dicts and lists.",
         "Tests verify that sensitive data is masked in the database."
+      ]
+    },
+    {
+      "id": "acs-safety-checkpoints-v8-576638f5",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS Safety Checkpoints V8",
+      "description": "Inspired by Microsoft ACS standard (June 2026): Implement the 5 mandatory validation checkpoints within the PolicyLayer to standardize runtime guardrails for all agentic workflows.",
+      "allowed_paths": [
+        "magda_agent/safety/policy_layer_v8.py",
+        "tests/test_acs_checkpoints_v8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "PolicyLayer enforces 5 validation checkpoints before and after tool execution.",
+        "Tests verify that violations at any checkpoint block the workflow.",
+        "LLM-friendly error messages are returned for each checkpoint violation."
+      ]
+    },
+    {
+      "id": "magentic-one-blackboard-v3-34b5c415",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Magentic-One Blackboard Orchestration V3",
+      "description": "Inspired by Magentic-One orchestration trend: Implement a shared blackboard state module that allows specialized sub-agents to share context and observations safely during parallel task execution.",
+      "allowed_paths": [
+        "magda_agent/agents/blackboard_v3.py",
+        "tests/test_blackboard_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Blackboard module supports concurrent read/write from multiple sub-agents.",
+        "Observability events are triggered upon blackboard state changes.",
+        "Tests verify state consistency across multiple mock sub-agents."
+      ]
+    },
+    {
+      "id": "agentskills-marketplace-sync-v1-3ffe3335",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "AgentSkills Marketplace Sync V1",
+      "description": "Inspired by agentskills.io standard: Implement a synchronization worker that periodically fetches and registers new skills from a standard skill marketplace to expand agent capabilities dynamically.",
+      "allowed_paths": [
+        "magda_agent/skills/marketplace_sync_v1.py",
+        "tests/test_marketplace_sync_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Worker fetches skill definitions in agentskills.io format.",
+        "Discovered skills are dynamically registered in the SkillRegistry.",
+        "Tests mock the marketplace API and verify successful skill registration."
       ]
     }
   ]
