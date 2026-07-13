@@ -7792,7 +7792,7 @@
     },
     {
       "id": "agent-teams-git-worktree-v5-new-1111",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Agent Teams Git Worktree Isolation v5",
