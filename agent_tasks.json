@@ -7877,7 +7877,7 @@
     },
     {
       "id": "claude-team-git-worktrees-v6",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Claude Team Git Worktrees v6",
@@ -17187,6 +17187,57 @@
         "ContextEngineV5 allows unregistering active hooks.",
         "Unregistered hooks are no longer executed during context cycles.",
         "Tests verify unregistration logic."
+      ]
+    },
+    {
+      "id": "mcp-streaming-tool-outputs-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Streaming Tool Outputs",
+      "description": "Inspired by OpenAI and Anthropic streaming trends (June 2026): Implement streaming support for MCP tool outputs to allow the agent to process partial results and reduce perceived latency.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_streaming_v1.py",
+        "tests/test_mcp_streaming_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCPStreamingHandler correctly processes partial tool outputs.",
+        "Tests verify streaming chunks are aggregated or handled incrementally."
+      ]
+    },
+    {
+      "id": "a2a-p2p-capability-negotiation-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A P2P Capability Negotiation",
+      "description": "Inspired by the A2A standard trend: Implement a P2P capability negotiation protocol that allows agents to negotiate task parameters and resource requirements.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_negotiation_v1.py",
+        "tests/test_a2a_negotiation_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agents can exchange and negotiate capability constraints.",
+        "Negotiation protocol handles multi-turn refinement."
+      ]
+    },
+    {
+      "id": "rl-skill-weight-stability-v1",
+      "status": "todo",
+      "area": "learning",
+      "risk": "low",
+      "title": "Online RL Skill Weight Stability Tracker",
+      "description": "Inspired by OpenClaw-RL online learning: Implement a monitoring module that tracks the stability of skill weights in Procedural Memory.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_stability_v1.py",
+        "tests/test_rl_stability_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Stability tracker identifies rapid oscillations in skill weights.",
+        "Logs stability metrics to the longitudinal quality store."
       ]
     }
   ]
