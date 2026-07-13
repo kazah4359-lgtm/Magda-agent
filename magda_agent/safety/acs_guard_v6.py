@@ -5,7 +5,7 @@ from magda_agent.safety.policy import PolicyLayer
 from magda_agent.safety.audit_trail import AuditTrail
 from magda_agent.safety.taint import is_tainted
 from magda_agent.safety.acs_sandboxing import ACSToolSandbox
-from magda_agent.safety.acs_sandboxing import ACSToolSandbox
+from magda_agent.safety.acs_persistence import ACSPersistence
 
 _SENSITIVE_PATTERNS = (
     re.compile(r"api[_-]?key|token|password|private[_-]?key|secret[_-]?key", re.IGNORECASE),
@@ -25,17 +25,24 @@ class ACSGuardV6:
     across all skills using 5 validation checkpoints.
     """
 
-    def __init__(self, policy_layer: Optional[PolicyLayer] = None, audit_trail: Optional[AuditTrail] = None) -> None:
+    def __init__(
+        self,
+        policy_layer: Optional[PolicyLayer] = None,
+        audit_trail: Optional[AuditTrail] = None,
+        persistence: Optional[ACSPersistence] = None
+    ) -> None:
         """
         Initializes the ACS Guard V6.
 
         Args:
             policy_layer: An optional policy layer for evaluating tool policies.
             audit_trail: An optional audit trail for logging checkpoint results.
+            persistence: An optional persistence layer for recording checkpoint states.
         """
         self.logger = logging.getLogger(__name__)
         self.policy_layer = policy_layer or PolicyLayer()
         self.audit_trail = audit_trail or AuditTrail()
+        self.persistence = persistence or ACSPersistence()
         self.tool_sandbox = ACSToolSandbox()
 
     def checkpoint_1_input_validation(self, workflow_data: Dict[str, Any]) -> Tuple[bool, str]:
@@ -206,6 +213,14 @@ class ACSGuardV6:
 
         for i, checkpoint in enumerate(checkpoints, 1):
             passed, reason = checkpoint(workflow_data)
+            status = "passed" if passed else "failed"
+            self.persistence.log_checkpoint(
+                checkpoint_id=i,
+                status=status,
+                reason=reason,
+                workflow_context=workflow_data
+            )
+
             if not passed:
                 self.logger.warning(f"ACS Checkpoint {i} Failed: {reason}")
                 self.audit_trail.log_call(
