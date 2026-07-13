@@ -7860,7 +7860,7 @@
     },
     {
       "id": "acs-guardrail-persistence",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "ACS Control Specification Persistence",
@@ -17309,6 +17309,70 @@
       "acceptance": [
         "CanvasServer sends JSON-Patch deltas",
         "WebSocket bandwidth usage is significantly reduced"
+      ]
+    },
+    {
+      "id": "mcp-discovery-v7-86f1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Discovery V7",
+      "description": "Inspired by MCP standard trend: Implement a mechanism to scan a local directory for .py files, extract MCP tools using AST, and register them dynamically at runtime.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_discovery_v7.py",
+        "tests/test_mcp_discovery_v7.py"
+      ],
+      "acceptance": [
+        "Tools are discovered from files",
+        "Dynamic registration works without restart"
+      ]
+    },
+    {
+      "id": "a2a-retry-v5-92a1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Delegation V5 with Retry Policy",
+      "description": "Inspired by A2A task delegation trend: Implement an exponential backoff retry policy for A2A task delegation to handle transient network failures.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_retry_v5.py",
+        "tests/test_a2a_retry_v5.py"
+      ],
+      "acceptance": [
+        "Retry logic triggers on timeout/connection error",
+        "Exponential backoff works"
+      ]
+    },
+    {
+      "id": "rl-directness-v8-44b2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Directness Habit V8",
+      "description": "Inspired by OpenClaw-RL trend: Extract implicit feedback from user interaction frequency to adjust the directness habit weight in Procedural Memory.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_directness_v8.py",
+        "tests/test_rl_directness_v8.py"
+      ],
+      "acceptance": [
+        "Implicit feedback affects habit weights",
+        "Directness adjusts over multiple interactions"
+      ]
+    },
+    {
+      "id": "sqlite-concurrency-fix-77b3",
+      "status": "todo",
+      "area": "stabilization",
+      "risk": "medium",
+      "title": "SQLite Concurrent Access Improvement",
+      "description": "Improvement: Implement a connection pool or retry wrapper for SQLite to prevent database is locked errors during parallel execution.",
+      "allowed_paths": [
+        "magda_agent/utils/sqlite_pool.py",
+        "magda_agent/safety/audit_trail.py"
+      ],
+      "acceptance": [
+        "Concurrent writes do not fail",
+        "Tests verify multi-threaded access"
       ]
     }
   ]
