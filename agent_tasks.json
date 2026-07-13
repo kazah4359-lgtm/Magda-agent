@@ -7894,7 +7894,7 @@
     },
     {
       "id": "openclaw-online-rl-state-v5-1f0a1eb3",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "OpenClaw Online RL Next-State Signals v5",
@@ -17238,6 +17238,57 @@
       "acceptance": [
         "Stability tracker identifies rapid oscillations in skill weights.",
         "Logs stability metrics to the longitudinal quality store."
+      ]
+    },
+    {
+      "id": "mcp-composition-engine-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Multi-Step Tool Composition",
+      "description": "Inspired by OpenAI Agents SDK: Implement an engine that allows composing multiple MCP tools into a single logical transaction with rollback capability.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_composition.py",
+        "tests/test_mcp_composition.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Engine correctly sequences multiple MCP calls.",
+        "Rollback works on failure."
+      ]
+    },
+    {
+      "id": "a2a-security-mesh-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "high",
+      "title": "A2A Security Mesh Enforcement",
+      "description": "Inspired by ACS and A2A trends: Implement a security mesh that enforces zero-trust principles for all peer-to-peer A2A task delegations.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_security_mesh.py",
+        "tests/test_a2a_security_mesh.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "All A2A calls require cryptographic proof of identity.",
+        "Policy layer blocks unauthorized peers."
+      ]
+    },
+    {
+      "id": "rl-emotion-matching-v1",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL Emotion-Response Matching",
+      "description": "Inspired by OpenClaw-RL: Implement a module that uses RL to match response emotional tone to user PAD shifts in real-time, optimizing for long-term user satisfaction.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_emotion_matching.py",
+        "tests/test_rl_emotion_matching.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL agent optimizes tone based on user PAD feedback.",
+        "Tests verify weight updates on positive/negative shifts."
       ]
     }
   ]
