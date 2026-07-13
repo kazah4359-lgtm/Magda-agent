@@ -237,3 +237,5 @@
 * [x] FEATURE: OpenClaw-RL Interactive Feedback Formatter v2 (openclaw-rl-interactive-feedback-v2-uuid)
 * [x] FEATURE: OpenClaw RL Metrics System v2 (openclaw-rl-metrics-v2-unique)
 * [x] FEATURE: A2A Peer-to-Peer Delegation v4 (a2a-peer-delegation-v4-5d34cc13)
+
+* [x] FEATURE: Online Learning from Dialog Interactions (online-learning-interaction-loop-june-2026) (2026-06-08)

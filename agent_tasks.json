@@ -7809,7 +7809,7 @@
     },
     {
       "id": "online-learning-interaction-loop-june-2026",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "Online Learning from Dialog Interactions",
@@ -16976,6 +16976,60 @@
       "area": "safety",
       "risk": "high",
       "status": "todo"
+    },
+    {
+      "id": "a2a-discovery-agent-cards-v5-enterprise",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Agent Cards V5 with Enterprise Auth",
+      "description": "Inspired by A2A Protocol trend (June 2026): Implement Agent Cards V5 with built-in enterprise authentication tokens and capability-based access control for peer-to-peer delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_cards_v5.py",
+        "tests/test_a2a_cards_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent Cards V5 correctly include auth tokens.",
+        "Discovery service filters peers based on capability matching and valid tokens.",
+        "Tests verify secure exchange of Agent Cards."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-discovery-v6-runtime",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Discovery V6 Runtime Poller",
+      "description": "Inspired by MCP trend (June 2026): Implement a runtime poller for the MCP client that dynamically discovers and hot-swaps action tools from registered MCP servers without requiring a restart.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_discovery_v6.py",
+        "tests/test_mcp_discovery_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP client polling loop correctly identifies new tools.",
+        "Tools are injected into the SkillRegistry at runtime.",
+        "Tests mock MCP server tool addition and verify dynamic execution."
+      ]
+    },
+    {
+      "id": "audit-trail-sanitization-v5",
+      "status": "todo",
+      "area": "safety",
+      "risk": "low",
+      "title": "Audit Trail V5: Recursive PII Sanitization",
+      "description": "Inspired by Prempti and ACS trends (June 2026): Enhance the Audit Trail with recursive sanitization of tool arguments and results to ensure no PII or sensitive keys (API keys, passwords) are logged to the SQLite database.",
+      "allowed_paths": [
+        "magda_agent/safety/audit_trail_v5.py",
+        "tests/test_audit_trail_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Audit Trail V5 redacts sensitive keys recursively.",
+        "Sanitization handles nested dicts and lists.",
+        "Tests verify that sensitive data is masked in the database."
+      ]
     }
   ]
 }
