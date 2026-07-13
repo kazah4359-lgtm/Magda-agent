@@ -7877,7 +7877,7 @@
     },
     {
       "id": "openclaw-local-first-gateway-v4",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "high",
       "title": "OpenClaw Local-First Gateway V4",
@@ -17373,6 +17373,57 @@
       "acceptance": [
         "Concurrent writes do not fail",
         "Tests verify multi-threaded access"
+      ]
+    },
+    {
+      "id": "mcp-streaming-context-hooks-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MCP Streaming Context Hooks",
+      "description": "Inspired by MCP and OpenAI streaming trends (June 2026): Implement streaming context hooks in the Context Engine to process partial tool outputs in real-time.",
+      "allowed_paths": [
+        "magda_agent/memory/streaming_hooks_v1.py",
+        "tests/test_streaming_hooks_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Streaming hooks correctly process partial tool outputs.",
+        "Tests verify incremental context updates."
+      ]
+    },
+    {
+      "id": "a2a-zero-trust-negotiation-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Zero-Trust Capability Negotiation",
+      "description": "Inspired by A2A and ACS trends (June 2026): Implement a zero-trust capability negotiation layer for A2A peer discovery that requires cryptographic proof of identity before task delegation.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_zero_trust_v1.py",
+        "tests/test_a2a_zero_trust_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A delegation requires valid cryptographic proof.",
+        "Tests mock failed authentication and verify delegation block."
+      ]
+    },
+    {
+      "id": "rl-feedback-entropy-monitor-v1",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL Feedback Entropy Monitor",
+      "description": "Inspired by OpenClaw-RL trends (June 2026): Implement an entropy monitor for online RL feedback signals to detect and mitigate feedback noise or adversarial signals during habit adjustment.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_entropy_monitor_v1.py",
+        "tests/test_rl_entropy_monitor_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Entropy monitor identifies noisy feedback signals.",
+        "Tests verify that high-entropy signals are deprioritized in RL updates."
       ]
     }
   ]
