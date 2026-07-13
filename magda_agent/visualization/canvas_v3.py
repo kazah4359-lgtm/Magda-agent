@@ -44,7 +44,8 @@ class CanvasVisualizerV3:
             "skills": [],
             "planner": {},
             "drives": {},
-            "global_workspace": {}
+            "global_workspace": {},
+            "rl_metrics": {}
         }
 
         try:
@@ -133,6 +134,10 @@ class CanvasVisualizerV3:
                     "focused_event": getattr(workspace, 'focused_event', None),
                     "active": True
                 }
+
+            # 8. RL Metrics
+            if hasattr(self.consciousness, 'openclaw_rl_metrics') and self.consciousness.openclaw_rl_metrics:
+                state["rl_metrics"] = self.consciousness.openclaw_rl_metrics.get_visualization_data()
 
         except Exception as e:
             logger.error(f"Error formatting canvas v3 state: {e}")

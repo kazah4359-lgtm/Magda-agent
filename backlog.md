@@ -195,6 +195,9 @@
 * [ ] SKILL: **Image Generator (Генерация изображений)** — модуль `magda_agent/skills/image_gen.py`. Создание изображений по текстовому описанию (интеграция с DALL-E или Stable Diffusion).
 * [ ] SKILL: **Smart Home Control (Умный дом)** — модуль `magda_agent/skills/smart_home.py`. Интеграция с системами умного дома (Home Assistant, MQTT) для управления устройствами.
 * [ ] SKILL: **Crypto Prices (Курсы криптовалют)** — модуль `magda_agent/skills/crypto.py`. Получение актуальных курсов криптовалют с бирж (Binance, CoinMarketCap).
+* [ ] MODULE: **Agent Skills Self-Documentation** — `magda_agent/skills/documentation.py`. Generates natural language documentation for all registered skills.
+* [ ] MODULE: **A2A Delegation Cost Estimation** — `magda_agent/integration/a2a_cost_estimator.py`. Predicts token usage and latency for P2P delegation.
+* [ ] MODULE: **RL Interaction Loop Entropy Tracking** — `magda_agent/learning/entropy_tracker.py`. Tracks behavior entropy to detect loops.
 
 * [x] MODULE: **Curiosity Drive** — `magda_agent/exploration/curiosity.py`. (2026-06-05)
   Proactively suggests exploration tasks when boredom is high.
@@ -245,4 +248,5 @@
 * [x] FEATURE: A2A Task Delegation and Discovery (a2a-task-delegation-discovery-june-2026) (2026-06-08)
 * [x] FEATURE: A2A Protocol Discovery and Delegation (agent-to-agent-delegation) (2026-06-11)
 * [x] FEATURE: OpenClaw RL Metrics Tracker v4 (openclaw-rl-metrics-tracker-v4) (2026-06-10)
+* [x] FEATURE: OpenClaw RL Metrics and Visualization v3 (openclaw-rl-metrics-v3-unique) (2026-06-14)
 * [x] FEATURE: ACS Control Specification Persistence (acs-guardrail-persistence) (2026-06-12)
