@@ -24,7 +24,7 @@ def registry():
 
 @pytest.fixture
 def server(registry):
-    return MCPServer(MCPExporter(registry))
+    return MCPServer(MCPExporter(registry), server_id="")
 
 @pytest.fixture
 def handler(server):

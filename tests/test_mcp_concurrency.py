@@ -23,7 +23,9 @@ def registry():
 
 @pytest.fixture
 def server(registry):
-    return MCPServer(MCPExporter(registry))
+    # Set server_id to None to match expectations of existing handler tests
+    # or handle the fact that MCPServer now prefixes by default.
+    return MCPServer(MCPExporter(registry), server_id="")
 
 @pytest.fixture
 def handler(server):

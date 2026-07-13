@@ -14,15 +14,34 @@ def mock_exporter() -> MCPExporter:
     return exporter
 
 def test_list_tools(mock_exporter: MCPExporter) -> None:
-    """Tests listing tools."""
+    """Tests listing tools with default prefix."""
     server = MCPServer(mock_exporter)
     tools = server.list_tools()
     assert len(tools) == 1
-    assert tools[0]["name"] == "mock_tool"
+    assert tools[0]["name"] == "magda_mock_tool"
+
+def test_list_tools_custom_prefix(mock_exporter: MCPExporter) -> None:
+    """Tests listing tools with a custom prefix."""
+    server = MCPServer(mock_exporter, server_id="custom")
+    tools = server.list_tools()
+    assert len(tools) == 1
+    assert tools[0]["name"] == "custom_mock_tool"
 
 @pytest.mark.asyncio
-async def test_handle_request_valid_json(mock_exporter: MCPExporter) -> None:
-    """Tests handling a valid JSON-RPC payload."""
+async def test_handle_request_valid_json_prefixed(mock_exporter: MCPExporter) -> None:
+    """Tests handling a valid JSON-RPC payload with prefix."""
+    server = MCPServer(mock_exporter)
+    payload = json.dumps({"jsonrpc": "2.0", "method": "magda_mock_tool", "id": 1})
+    response_str = await server.handle_request(payload)
+    response = json.loads(response_str)
+    assert response["jsonrpc"] == "2.0"
+    assert response["result"] == "mock_result"
+    # Verify prefix was stripped before calling exporter
+    mock_exporter.handle_rpc_request.assert_called_once_with({"jsonrpc": "2.0", "method": "mock_tool", "id": 1})
+
+@pytest.mark.asyncio
+async def test_handle_request_valid_json_no_prefix(mock_exporter: MCPExporter) -> None:
+    """Tests handling a valid JSON-RPC payload without prefix."""
     server = MCPServer(mock_exporter)
     payload = json.dumps({"jsonrpc": "2.0", "method": "mock_tool", "id": 1})
     response_str = await server.handle_request(payload)

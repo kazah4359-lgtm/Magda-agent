@@ -7826,7 +7826,7 @@
     },
     {
       "id": "mcp-tool-export-skills",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Export Skills to MCP Tool Server",
@@ -17206,6 +17206,58 @@
         "Redundant long_term list removed from MemorySystem.",
         "All episodic persistence goes through EpisodicMemory (Hippocampus).",
         "Existing tests pass."
+      ]
+    },
+    {
+      "id": "mcp-capability-negotiation-v1-9a8b7c6d",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Capability Negotiation",
+      "description": "Inspired by A2A standard trend: Implement a multi-turn capability negotiation protocol for MCP tools to handle complex resource requirements dynamically.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_negotiation_v1.py",
+        "tests/test_mcp_negotiation_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Negotiation protocol handles multi-turn refinement of resource requirements.",
+        "Tests verify successful negotiation between mock client and server."
+      ]
+    },
+    {
+      "id": "rl-user-behavior-v4-2e3f4g5h",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL User Behavior Adaptation",
+      "description": "Inspired by OpenClaw-RL trend: Extract implicit feedback signals from user interaction frequency and session duration to adjust habit weights dynamically.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_user_behavior_v4.py",
+        "tests/test_rl_user_behavior_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Habit weights are adjusted based on interaction frequency and session duration.",
+        "Tests verify that increased frequency leads to weight reinforcement."
+      ]
+    },
+    {
+      "id": "guard-runtime-policy-v5-7i8j9k0l",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Agent Guard Runtime Policy Layer",
+      "description": "Inspired by ACS and Prempti trends: Implement a runtime policy layer that intercepts tool executions based on dynamic context rules, wrapping a PolicyLayer and DynamicPolicyManager.",
+      "allowed_paths": [
+        "magda_agent/safety/guard_runtime_policy_v5.py",
+        "tests/test_guard_runtime_policy_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool executions are intercepted and validated against dynamic policy rules.",
+        "Violations result in blocked execution with an explanatory message.",
+        "Tests cover rule-based allow and deny scenarios."
       ]
     }
   ]
