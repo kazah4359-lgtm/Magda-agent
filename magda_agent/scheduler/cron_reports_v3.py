@@ -31,13 +31,13 @@ class DailyReportManagerV3:
         Registers the report generation as a daily task.
         """
         async def _generate() -> str:
-            return await self.generate_report(name)
+            return await self.generate_aggregated_report(name)
 
         _generate.__name__ = f"report_{name}"
         self.scheduler.schedule(cron_expr, _generate, name=name)
         logger.info(f"Registered daily report '{name}' with schedule '{cron_expr}'")
 
-    async def generate_report(self, name: str) -> str:
+    async def generate_aggregated_report(self, name: str) -> str:
         """
         Aggregates data and uses LLM to generate a markdown report.
         """
@@ -79,6 +79,23 @@ class DailyReportManagerV3:
         except Exception as e:
             logger.error(f"Failed to generate report: {e}", exc_info=True)
             return f"Failed to generate report: {e}"
+
+    async def generate_report_now(self, name: str) -> Optional[str]:
+        """
+        Immediately runs a report task that has been registered.
+        """
+        func = self.scheduler._func_registry.get(name)
+        if not func:
+            logger.error(f"Cannot generate report '{name}', it is not registered.")
+            return None
+
+        logger.info(f"Generating daily report '{name}' immediately.")
+        try:
+            result = await func()
+            return result
+        except Exception as e:
+            logger.error(f"Error generating daily report '{name}': {e}", exc_info=True)
+            return None
 
     async def start(self) -> None:
         await self.scheduler.start()

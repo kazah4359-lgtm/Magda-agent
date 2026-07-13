@@ -1,7 +1,7 @@
 import pytest
 import os
 import glob
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 from magda_agent.scheduler.cron_reports_v3 import DailyReportManagerV3
 
 @pytest.mark.asyncio
@@ -29,7 +29,7 @@ async def test_generate_report_success():
     )
 
     # Run report generation
-    report = await manager.generate_report("Test Report")
+    report = await manager.generate_aggregated_report("Test Report")
 
     # Assertions
     assert report == "# Daily Report\nSummary of events."
@@ -53,11 +53,11 @@ async def test_generate_report_success():
 @pytest.mark.asyncio
 async def test_generate_report_missing_config():
     manager = DailyReportManagerV3(memory=None, procedural=None, llm=None)
-    report = await manager.generate_report("Fail Report")
+    report = await manager.generate_aggregated_report("Fail Report")
     assert "not configured" in report
 
 @pytest.mark.asyncio
-async def test_generate_report_empty_events():
+async def test_generate_report_no_events():
     mock_memory = MagicMock()
     mock_memory.get_all_events.return_value = []
     mock_procedural = MagicMock()
@@ -66,7 +66,7 @@ async def test_generate_report_empty_events():
     mock_llm.generate.return_value = "No events summary"
 
     manager = DailyReportManagerV3(memory=mock_memory, procedural=mock_procedural, llm=mock_llm)
-    report = await manager.generate_report("Empty Report")
+    report = await manager.generate_aggregated_report("Empty Report")
 
     assert report == "No events summary"
     prompt = mock_llm.generate.call_args[0][0]
@@ -89,3 +89,15 @@ async def test_register_daily_report():
     args, kwargs = mock_scheduler.schedule.call_args
     assert args[0] == "0 0 * * *"
     assert kwargs['name'] == "Daily Summary"
+
+@pytest.mark.asyncio
+async def test_generate_report_now():
+    mock_scheduler = MagicMock()
+    mock_func = AsyncMock(return_value="Now report")
+    mock_scheduler._func_registry = {"daily_update": mock_func}
+
+    manager = DailyReportManagerV3(scheduler=mock_scheduler)
+    report = await manager.generate_report_now("daily_update")
+
+    assert report == "Now report"
+    mock_func.assert_called_once()
