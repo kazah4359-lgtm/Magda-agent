@@ -7894,7 +7894,7 @@
     },
     {
       "id": "claude-evaluator-multi-agent-teams-v2",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Claude SDK Teams Orchestration Evaluator",
@@ -17424,6 +17424,60 @@
       "acceptance": [
         "Entropy monitor identifies noisy feedback signals.",
         "Tests verify that high-entropy signals are deprioritized in RL updates."
+      ]
+    },
+    {
+      "id": "a2a-trust-metrics-v2-5d34cc13",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Peer Trust and Reputation Metrics v2",
+      "description": "Inspired by A2A standard trend (June 2026): Implement a trust scoring system for peer agents based on successful delegation history, response latency, and verified results. Scores should be stored in a local SQLite database.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_trust_v2.py",
+        "tests/test_a2a_trust_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Trust scores are updated after each delegation",
+        "Low trust agents are deprioritized in selection",
+        "Tests verify scoring logic"
+      ]
+    },
+    {
+      "id": "mcp-federated-lessons-v1-9a8b7c6d",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "MCP Federated Lesson Exchange",
+      "description": "Inspired by Self-Improvement Loops and MCP trends (June 2026): Implement a module that allows Magda to exchange success/failure lessons with other MCP-compatible agents to accelerate collective learning.",
+      "allowed_paths": [
+        "magda_agent/learning/federated_lessons_v1.py",
+        "tests/test_federated_lessons_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Lessons can be serialized to standard MCP format",
+        "Agent can ingest lessons from external sources",
+        "Tests verify lesson ingestion and application"
+      ]
+    },
+    {
+      "id": "acs-guardrail-fallback-v2-2afa73c6",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "Context-Aware ACS Guardrail Fallback",
+      "description": "Inspired by ACS standard and Realtime guardrail fallback trends: Enhance the ACS guardrail system to provide context-aware fallbacks (e.g., automated simplification or safe-state reset) instead of just blocking execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_fallback_v2.py",
+        "tests/test_acs_fallback_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Guardrail violation triggers a context-specific fallback strategy",
+        "Fallback prevents system hang",
+        "Tests verify fallback execution on simulated violations"
       ]
     }
   ]
