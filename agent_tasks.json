@@ -7911,7 +7911,7 @@
     },
     {
       "id": "hermes-cron-daily-reports-export-v3",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "medium",
       "title": "Hermes Cron Daily Reports Export V3",
@@ -17478,6 +17478,57 @@
         "Guardrail violation triggers a context-specific fallback strategy",
         "Fallback prevents system hang",
         "Tests verify fallback execution on simulated violations"
+      ]
+    },
+    {
+      "id": "mcp-remote-tool-hotreload-v1-a1b2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Remote Tool Hot-Reload V1",
+      "description": "Implement a mechanism to dynamically reload MCP tools from remote servers when they broadcast a tool list change event, ensuring the agent always has the latest capabilities without restart.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_hotreload_v1.py",
+        "tests/test_mcp_hotreload_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCPServer list changes trigger a registry update.",
+        "Tests verify new tools become available immediately after reload signal."
+      ]
+    },
+    {
+      "id": "a2a-distributed-blackboard-v1-c3d4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Distributed Blackboard V1",
+      "description": "Implement a distributed blackboard system for A2A agents to share and synchronize intermediate task results and observations using CRDTs to avoid conflicts in a multi-agent environment.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_blackboard_v1.py",
+        "tests/test_a2a_blackboard_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Blackboard state is synchronized across A2A peers.",
+        "Tests verify eventual consistency of shared observations."
+      ]
+    },
+    {
+      "id": "online-rl-behavior-tuning-v1-e5f6",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL Behavior Tuning V1",
+      "description": "Implement an online reinforcement learning module that tunes agent behavioral parameters (e.g., response verbosity, technical depth) based on real-time user sentiment shifts detected by MirrorNeurons.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_behavior_v1.py",
+        "tests/test_rl_behavior_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent adjusts response parameters in real-time based on sentiment.",
+        "Tests verify parameter convergence toward user-preferred style."
       ]
     }
   ]

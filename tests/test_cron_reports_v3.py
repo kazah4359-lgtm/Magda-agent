@@ -1,76 +1,91 @@
 import pytest
-import pytest_asyncio
-import asyncio
-from unittest.mock import MagicMock, AsyncMock
+import os
+import glob
+from unittest.mock import AsyncMock, MagicMock, patch
+from magda_agent.scheduler.cron_reports_v3 import DailyReportManagerV3
 
-from magda_agent.operations.cron_v3 import HermesCronSchedulerV3
-from magda_agent.operations.cron_reports_v3 import DailyReportManagerV3
-from magda_agent.memory.episodic import EpisodicMemory
-from magda_agent.llm_client import LLMClient
-
-@pytest_asyncio.fixture
-async def scheduler():
-    sched = HermesCronSchedulerV3()
-    yield sched
-    await sched.stop()
-
-@pytest.fixture
-def mock_memory():
-    memory = MagicMock(spec=EpisodicMemory)
-    memory.get_all_events.return_value = [
-        {"text": "Event 1 happened"},
-        {"text": "Event 2 happened"}
+@pytest.mark.asyncio
+async def test_generate_report_success():
+    # Mock dependencies
+    mock_memory = MagicMock()
+    mock_memory.get_all_events.return_value = [
+        {"text": "Event 1"},
+        {"text": "Event 2"}
     ]
-    return memory
 
-@pytest.fixture
-def mock_llm():
-    llm = MagicMock(spec=LLMClient)
-    llm.generate = AsyncMock(return_value="This is a generated daily report.")
-    return llm
+    mock_procedural = MagicMock()
+    mock_procedural.collection.get.return_value = {"ids": ["id1", "id2"]}
 
-@pytest.mark.asyncio
-async def test_register_daily_report(scheduler, mock_memory, mock_llm):
-    manager = DailyReportManagerV3(scheduler=scheduler, memory=mock_memory, llm=mock_llm)
-    manager.register_daily_report("daily_update")
+    mock_llm = AsyncMock()
+    mock_llm.generate.return_value = "# Daily Report\nSummary of events."
 
-    assert "daily_update" in scheduler._func_registry
+    mock_scheduler = MagicMock()
 
-@pytest.mark.asyncio
-async def test_generate_aggregated_report(scheduler, mock_memory, mock_llm):
-    manager = DailyReportManagerV3(scheduler=scheduler, memory=mock_memory, llm=mock_llm)
+    manager = DailyReportManagerV3(
+        scheduler=mock_scheduler,
+        memory=mock_memory,
+        procedural=mock_procedural,
+        llm=mock_llm
+    )
 
-    report = await manager.generate_aggregated_report("daily_update")
+    # Run report generation
+    report = await manager.generate_report("Test Report")
 
-    assert report == "This is a generated daily report."
-    mock_memory.get_all_events.assert_called_once_with(limit=100)
+    # Assertions
+    assert report == "# Daily Report\nSummary of events."
     mock_llm.generate.assert_called_once()
 
-    call_args = mock_llm.generate.call_args[0][0]
-    assert "Event 1 happened" in call_args
-    assert "Event 2 happened" in call_args
-    assert "daily_update" in call_args
+    # Check if prompt contains expected stats
+    prompt = mock_llm.generate.call_args[0][0]
+    assert "Episodic Events: 2" in prompt
+    assert "Procedural Learnings: 2" in prompt
+    assert "- Event 1" in prompt
+    assert "- Event 2" in prompt
+
+    # Check if file is created
+    report_files = glob.glob("daily_report_*.md")
+    assert len(report_files) > 0
+
+    # Cleanup
+    for f in report_files:
+        os.remove(f)
 
 @pytest.mark.asyncio
-async def test_generate_report_now(scheduler, mock_memory, mock_llm):
-    manager = DailyReportManagerV3(scheduler=scheduler, memory=mock_memory, llm=mock_llm)
-    manager.register_daily_report("daily_update")
-
-    report = await manager.generate_report_now("daily_update")
-    assert report == "This is a generated daily report."
+async def test_generate_report_missing_config():
+    manager = DailyReportManagerV3(memory=None, procedural=None, llm=None)
+    report = await manager.generate_report("Fail Report")
+    assert "not configured" in report
 
 @pytest.mark.asyncio
-async def test_generate_report_no_events(scheduler, mock_memory, mock_llm):
+async def test_generate_report_empty_events():
+    mock_memory = MagicMock()
     mock_memory.get_all_events.return_value = []
-    manager = DailyReportManagerV3(scheduler=scheduler, memory=mock_memory, llm=mock_llm)
+    mock_procedural = MagicMock()
+    mock_procedural.collection.get.return_value = {"ids": []}
+    mock_llm = AsyncMock()
+    mock_llm.generate.return_value = "No events summary"
 
-    report = await manager.generate_aggregated_report("daily_update")
-    assert report == "Report daily_update: No recent events to report."
-    mock_llm.generate.assert_not_called()
+    manager = DailyReportManagerV3(memory=mock_memory, procedural=mock_procedural, llm=mock_llm)
+    report = await manager.generate_report("Empty Report")
+
+    assert report == "No events summary"
+    prompt = mock_llm.generate.call_args[0][0]
+    assert "Episodic Events: 0" in prompt
+    assert "Procedural Learnings: 0" in prompt
+
+    # Cleanup
+    report_files = glob.glob("daily_report_*.md")
+    for f in report_files:
+        os.remove(f)
 
 @pytest.mark.asyncio
-async def test_generate_report_missing_deps(scheduler):
-    manager = DailyReportManagerV3(scheduler=scheduler, memory=None, llm=None)
+async def test_register_daily_report():
+    mock_scheduler = MagicMock()
+    manager = DailyReportManagerV3(scheduler=mock_scheduler)
 
-    report = await manager.generate_aggregated_report("daily_update")
-    assert report == "Error: Memory or LLM not configured."
+    manager.register_daily_report("Daily Summary", "0 0 * * *")
+
+    mock_scheduler.schedule.assert_called_once()
+    args, kwargs = mock_scheduler.schedule.call_args
+    assert args[0] == "0 0 * * *"
+    assert kwargs['name'] == "Daily Summary"
