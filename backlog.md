@@ -241,3 +241,4 @@
 
 * [x] FEATURE: Online Learning from Dialog Interactions (online-learning-interaction-loop-june-2026) (2026-06-08)
 * [x] FEATURE: A2A Task Delegation and Discovery (a2a-task-delegation-discovery-june-2026) (2026-06-08)
+* [x] FEATURE: OpenClaw RL Metrics Tracker v4 (openclaw-rl-metrics-tracker-v4) (2026-06-10)
