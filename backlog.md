@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+- [x] mcp-tool-concurrency-integration-e80b41b0: MCP Tool Concurrency Integration v3
 - [x] claude-evaluator-multi-agent-teams-v2: Claude SDK Teams Orchestration Evaluator (2026-06-XX)
 * [x] FEATURE: Export Skills to MCP Tool Server (mcp-tool-export-skills) (2026-06-XX)
 * [x] FEATURE: Agent Guard ACS Checkpoints v6 (agent-guard-acs-checkpoints-v6)
