@@ -8151,7 +8151,7 @@
     },
     {
       "id": "openclaw-rl-trajectory-rollout-v6",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "OpenClaw-RL Multi-turn Trajectory Rollout",
@@ -18151,6 +18151,60 @@
         "Compliance module logs checkpoint details.",
         "Generates structured Markdown compliance reports with success rates.",
         "Tests verify correct report generation and formatting."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-auto-discovery-v1-98a2f",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Tool Auto-Discovery V1",
+      "description": "Inspired by June 2026 MCP trends: Implement a tool auto-discovery mechanism that scans a specified directory, dynamically registers Python modules as MCPTools using AST parsing, and updates the registry live without restarts.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_auto_discovery_v1.py",
+        "tests/test_mcp_auto_discovery_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Discovers and loads .py tool definitions from folder at runtime.",
+        "Schema generation maps type hints to JSON schema.",
+        "Tests verify registration and hot-reloading."
+      ]
+    },
+    {
+      "id": "a2a-decentralized-consensus-v1-671c2",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Decentralized Task Consensus V1",
+      "description": "Inspired by the A2A (Agent-to-Agent) Protocol standard trend (June 2026): Implement a multi-agent consensus module for collaborative tasks where peer agents negotiate, sign, and validate plan execution results prior to finalization.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_consensus_v1.py",
+        "tests/test_a2a_consensus_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2AConsensusV1 allows multiple peers to vote on result validity.",
+        "Reaches consensus or raises negotiation exception on conflict.",
+        "Tests verify voting logic with mocked peer responses."
+      ]
+    },
+    {
+      "id": "openclaw-rl-latency-optimizer-v1-b12e3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Latency Adaptive Behavior Optimizer V1",
+      "description": "Inspired by OpenClaw-RL trend (June 2026): Implement an online reinforcement learning optimizer that captures tool execution and API latency as implicit negative signals, adjusting behavior/directness weights to reduce latency.",
+      "allowed_paths": [
+        "magda_agent/learning/latency_optimizer_v1.py",
+        "tests/test_latency_optimizer_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Monitors execution latency as feedback signal.",
+        "Adjusts behavior weights (e.g., lower verbosity/higher directness) on high latency.",
+        "Tests verify weight adjustments based on latency thresholds."
       ]
     }
   ]
