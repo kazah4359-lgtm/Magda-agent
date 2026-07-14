@@ -95,6 +95,7 @@
 ---
 
 ## ✅ Выполнено
+- [x] hermes-whatsapp-gateway-v2-e8512f68: Hermes WhatsApp Channel Gateway v2
 - [x] mcp-tool-concurrency-integration-e80b41b0: MCP Tool Concurrency Integration v3
 - [x] claude-evaluator-multi-agent-teams-v2: Claude SDK Teams Orchestration Evaluator (2026-06-XX)
 * [x] FEATURE: Export Skills to MCP Tool Server (mcp-tool-export-skills) (2026-06-XX)
