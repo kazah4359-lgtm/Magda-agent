@@ -8032,7 +8032,7 @@
     },
     {
       "id": "hermes-whatsapp-gateway-v2-e8512f68",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Hermes WhatsApp Channel Gateway v2",
@@ -17785,6 +17785,57 @@
       "acceptance": [
         "Matcher scores and recommends optimal peer agents for delegation.",
         "Tests verify recommendations with mock Agent Cards."
+      ]
+    },
+    {
+      "id": "openai-agents-tool-routing-v3-f8a7e3d2",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK Tool Routing and Concurrency Layer v3",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a robust tool routing and concurrency manager that wraps tools to execute them in parallel using asyncio.gather.",
+      "allowed_paths": [
+        "magda_agent/skills/tool_routing_v3.py",
+        "tests/test_tool_routing_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool routing manager correctly handles parallel execution via asyncio.gather.",
+        "Tests verify concurrency behavior and error boundary isolation."
+      ]
+    },
+    {
+      "id": "claude-agent-teams-workspace-v3-e6b7d4a2",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Agent Teams Workspace Isolation v3",
+      "description": "Inspired by Claude Agent Teams: Implement directory workspace isolation for subagents executing parallel tasks to prevent context bleeding.",
+      "allowed_paths": [
+        "magda_agent/architecture/workspace_isolation_v3.py",
+        "tests/test_workspace_isolation_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Workspace isolation layer successfully instantiates separate temporary directory paths.",
+        "Tests verify isolated operations and clean-up."
+      ]
+    },
+    {
+      "id": "context-engine-memory-improvement-v2-b50e6f7a",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Context Engine Memory Consolidation Improvement v2",
+      "description": "Improvement: Optimize memory consolidation processes in the Context Engine by batching semantic fact extractions to reduce LLM overhead.",
+      "allowed_paths": [
+        "magda_agent/memory/consolidation_v2.py",
+        "tests/test_consolidation_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Fact consolidation is batched efficiently during the overnight cleanup.",
+        "Tests verify that consolidation operates with minimal latency compared to single-item processing."
       ]
     }
   ]
