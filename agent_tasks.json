@@ -8049,7 +8049,7 @@
     },
     {
       "id": "claude-evaluator-subagent-reflection-22907b7b",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "Claude Evaluator Subagent Reflection v3",
@@ -17836,6 +17836,57 @@
       "acceptance": [
         "Fact consolidation is batched efficiently during the overnight cleanup.",
         "Tests verify that consolidation operates with minimal latency compared to single-item processing."
+      ]
+    },
+    {
+      "id": "claude-multimodal-context-evaluator-v5-ea918b9f",
+      "status": "todo",
+      "area": "evaluation",
+      "risk": "medium",
+      "title": "Claude Multi-Modal Context Evaluator V5",
+      "description": "Inspired by Claude Agent Teams multi-modal context window trend: Implement an Evaluator extension that can analyze multi-modal context (images and text) and generate cross-modal reflection metrics.",
+      "allowed_paths": [
+        "magda_agent/evaluation/multimodal_eval_v5.py",
+        "tests/test_multimodal_eval_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluator parses both image and text inputs correctly.",
+        "Tests mock multi-modal LLM calls and verify output structure."
+      ]
+    },
+    {
+      "id": "hermes-skill-self-improvement-optimizer-v2-ab271d4a",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Skill Self-Improvement Optimizer V2",
+      "description": "Inspired by Hermes self-improving agents trend (June 2026): Implement an automated optimizer that profiles skill execution logs and dynamically tunes hyper-parameters or modifies prompts of procedural skills.",
+      "allowed_paths": [
+        "magda_agent/skills/improvement_optimizer_v2.py",
+        "tests/test_improvement_optimizer_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Optimizer correctly identifies performance degradation from logs.",
+        "Tests verify automated prompt/parameter tuning logic."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-state-sync-patching-v4-576f7a8b",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas State Sync Patching V4",
+      "description": "Inspired by OpenClaw Live Visualization trend: Create a Canvas state patch manager using standard JSON patch format to optimize websocket state synchronization between the backend brain and UI canvas.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_patching_v4.py",
+        "tests/test_canvas_patching_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Patch manager correctly generates and applies JSON state patches.",
+        "Tests verify that bandwidth is significantly reduced compared to full-state streaming."
       ]
     }
   ]
