@@ -7981,7 +7981,7 @@
     },
     {
       "id": "context-engine-selective-retrieval-v3",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine Selective Retrieval v3",
@@ -17633,6 +17633,54 @@
       "acceptance": [
         "A2ADiscoveryCardsV3 successfully fetches remote Agent Cards and parses capability schemas.",
         "Tests verify parsing of standard capabilities with mock endpoints using respx."
+      ]
+    },
+    {
+      "id": "openclaw-rl-multimodal-alignment-v3-f6a7b2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Multimodal Alignment V3",
+      "description": "Inspired by OpenClaw trends (June 2026): Implement an online reinforcement learning module that aligns tone and verbosity based on user reactions to multimodal image/text messages.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_multimodal_alignment_v3.py",
+        "tests/test_openclaw_rl_multimodal_alignment_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL agent dynamically tunes tone weights after processing multimodal user reactions. Tests mock reactions and verify weight updates."
+      ]
+    },
+    {
+      "id": "acs-safety-checkpoints-persistence-v10-def34",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Safety Checkpoints Persistence V10",
+      "description": "Inspired by Microsoft ACS (June 2026): Implement persistent storage using SQLite to save historical validation outcomes for the 5 safety checkpoints.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_persistence_v10.py",
+        "tests/test_acs_persistence_v10.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS checkpoint results are serialized and saved to SQLite. Tests verify querying historic failure rates."
+      ]
+    },
+    {
+      "id": "mcp-concurrency-scheduler-v15-123ab",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Concurrency Scheduler V15",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a specialized scheduler for concurrent MCP tool execution with built-in execution latency tracking.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_scheduler_v15.py",
+        "tests/test_mcp_scheduler_v15.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler initiates concurrent execution and monitors completion latency per tool. Tests verify correct scheduling and performance log output."
       ]
     }
   ]
