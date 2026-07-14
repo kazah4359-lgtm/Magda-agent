@@ -7964,7 +7964,7 @@
     },
     {
       "id": "claude-git-worktree-team-isolation-v4",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "high",
       "title": "Claude Git Worktree Team Isolation v4",
@@ -17582,6 +17582,57 @@
       "acceptance": [
         "Entropy tracker identifies repetitive behavior patterns",
         "High entropy score triggers curiosity drive update"
+      ]
+    },
+    {
+      "id": "openclaw-rl-metrics-tracker-v4-8f92a11b",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Metrics Tracker v4",
+      "description": "Inspired by OpenClaw-RL trend: Implement a metrics tracker that logs online reinforcement learning trajectory updates, tracking longitudinal reward trends and habit stability metrics.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_metrics_v4.py",
+        "tests/test_rl_metrics_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RLMetricsTrackerV4 successfully tracks reward trajectory updates and habit weight stability.",
+        "Unit tests verify metric logging and query operations."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-discovery-v4-cc21a4f5",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Discovery v4",
+      "description": "Inspired by Model Context Protocol trends: Enhance MCP dynamic discovery mechanism to scan a directory and dynamically load .py files as MCPTool instances using importlib without requiring a server restart.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_discovery_v4.py",
+        "tests/test_mcp_discovery_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCPDynamicDiscoveryV4 dynamically loads valid Python tool definitions from a folder at runtime.",
+        "Tests verify that hot-loading tool files registers them in the active MCP registry."
+      ]
+    },
+    {
+      "id": "a2a-discovery-cards-v3-e8a1d123",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Discovery Cards v3",
+      "description": "Inspired by Agent-to-Agent standard: Implement a discovery card manager to fetch and parse AgentCardV3 capabilities from A2A endpoints asynchronously using httpx.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_cards_v3.py",
+        "tests/test_a2a_discovery_cards_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2ADiscoveryCardsV3 successfully fetches remote Agent Cards and parses capability schemas.",
+        "Tests verify parsing of standard capabilities with mock endpoints using respx."
       ]
     }
   ]
