@@ -8015,7 +8015,7 @@
     },
     {
       "id": "mcp-tool-concurrency-integration-e80b41b0",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "high",
       "title": "MCP Tool Concurrency Integration v3",
@@ -17734,6 +17734,57 @@
       "acceptance": [
         "Context maps are completely cleared upon subagent cleanup.",
         "Tests verify that parent-child references do not cause cyclic reference leaks."
+      ]
+    },
+    {
+      "id": "mcp-multi-server-collision-resolver-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Multi-Server Tool Collisions Resolver",
+      "description": "Inspired by OpenAI Agents SDK namespacing trend: Implement a resolver module to automatically detect and handle name collisions between multiple registered MCP servers, using fallback heuristics.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_collision_resolver.py",
+        "tests/test_mcp_collision_resolver.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The resolver dynamically maps and resolves conflicting tools.",
+        "Tests mock multi-server setup and verify resolution logic."
+      ]
+    },
+    {
+      "id": "acs-policy-performance-benchmark-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "low",
+      "title": "ACS Policy Layer Performance Benchmark",
+      "description": "Inspired by ACS trend: Implement a benchmark tool to measure latency overhead introduced by the 5 validation checkpoints in safety workflows, saving execution metrics to a local SQLite table.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_performance_benchmark.py",
+        "tests/test_acs_performance_benchmark.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Benchmark tracks and records latency per checkpoint.",
+        "Tests verify metric insertion and retrieval."
+      ]
+    },
+    {
+      "id": "a2a-discoverer-capability-matcher-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "A2A Discoverer Capability Matcher",
+      "description": "Inspired by A2A standard trend: Implement a matching algorithm that compares discovered Agent Card capabilities with local unresolved task requirements to optimize task delegation selection.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_capability_matcher.py",
+        "tests/test_a2a_capability_matcher.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Matcher scores and recommends optimal peer agents for delegation.",
+        "Tests verify recommendations with mock Agent Cards."
       ]
     }
   ]
