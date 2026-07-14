@@ -7998,7 +7998,7 @@
     },
     {
       "id": "agent-guard-taint-tracking-v2",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "Agent Guard Taint Tracking v2",
@@ -17681,6 +17681,59 @@
       ],
       "acceptance": [
         "Scheduler initiates concurrent execution and monitors completion latency per tool. Tests verify correct scheduling and performance log output."
+      ]
+    },
+    {
+      "id": "a2a-peer-delegation-fallback-06a7",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Peer Delegation Error Handling and Fallback",
+      "description": "Inspired by A2A standard trend: Implement a robust retry-and-fallback mechanism when delegating tasks to external agents via the A2A network fails or times out.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_fallback_06a7.py",
+        "tests/test_a2a_fallback_06a7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A client correctly retries failed task delegations.",
+        "Falls back to a local planner or local tool execution on persistent peer failures.",
+        "Tests verify retry and fallback paths with mock peer endpoints."
+      ]
+    },
+    {
+      "id": "context-engine-plugin-instrumentation-06a8",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Context Engine Plugin Lifecycle Instrumentation",
+      "description": "Inspired by Context Engine trend: Instrument the Context Engine plugin registry with latency and performance metrics tracking for each hook execution (bootstrap, ingest, assemble, compact).",
+      "allowed_paths": [
+        "magda_agent/memory/context_instrumentation_06a8.py",
+        "tests/test_context_instrumentation_06a8.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Instrumented Context Engine measures and logs execution time for every plugin hook invocation.",
+        "Hook latency stats are stored in the longitudinal quality store.",
+        "Tests mock plugin executions and assert metrics generation."
+      ]
+    },
+    {
+      "id": "spawner-context-leak-fix-06a9",
+      "status": "todo",
+      "area": "stabilization",
+      "risk": "medium",
+      "title": "Fix Memory Leaks in Multi-Agent Context Spawner",
+      "description": "Improvement: Address memory leak in the Multi-Agent Context Spawner by ensuring parent-child references are cleanly disposed of and isolated context maps are explicitly cleared after subagent execution.",
+      "allowed_paths": [
+        "magda_agent/agents/spawner_leak_fix_06a9.py",
+        "tests/test_spawner_leak_fix_06a9.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context maps are completely cleared upon subagent cleanup.",
+        "Tests verify that parent-child references do not cause cyclic reference leaks."
       ]
     }
   ]
