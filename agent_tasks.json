@@ -41,6 +41,23 @@
   },
   "tasks": [
     {
+      "id": "openclaw-virtual-memory-plugin-4b3bcc28",
+      "status": "done",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Virtual Memory Pattern Integration",
+      "description": "Inspired by trend: Virtual context management (MemGPT/Letta pattern). Implement an explicit swapping mechanism to seamlessly transition large context windows into structured memory layers, preventing token limit exhaustion.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_memory.py",
+        "tests/test_virtual_memory.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A modular swap mechanism is implemented for Context Engine",
+        "Tests cover token exhaustion mitigation limits"
+      ]
+    },
+    {
       "id": "mcp-concurrency-wrapper-v3",
       "status": "done",
       "area": "skills",
@@ -8164,23 +8181,6 @@
       "acceptance": [
         "Trajectory buffers persist across turns",
         "Delayed reward is properly backpropagated to previous steps"
-      ]
-    },
-    {
-      "id": "openclaw-virtual-memory-plugin-4b3bcc28",
-      "status": "todo",
-      "area": "memory",
-      "risk": "medium",
-      "title": "OpenClaw Virtual Memory Pattern Integration",
-      "description": "Inspired by trend: Virtual context management (MemGPT/Letta pattern). Implement an explicit swapping mechanism to seamlessly transition large context windows into structured memory layers, preventing token limit exhaustion.",
-      "allowed_paths": [
-        "magda_agent/memory/virtual_memory.py",
-        "tests/test_virtual_memory.py",
-        "agent_tasks.json"
-      ],
-      "acceptance": [
-        "A modular swap mechanism is implemented for Context Engine",
-        "Tests cover token exhaustion mitigation limits"
       ]
     },
     {
@@ -18205,6 +18205,57 @@
         "Monitors execution latency as feedback signal.",
         "Adjusts behavior weights (e.g., lower verbosity/higher directness) on high latency.",
         "Tests verify weight adjustments based on latency thresholds."
+      ]
+    },
+    {
+      "id": "openclaw-rl-multimodal-alignment-v5",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Multimodal Alignments v5",
+      "description": "Inspired by OpenClaw trends: Implement real-time multimodal feedback processing in reinforcement learning loops by tracking user sentiment of image outputs to adapt verbosity weights.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_multimodal_v5.py",
+        "tests/test_openclaw_rl_multimodal_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL alignment loop adjusts weights upon image feedback.",
+        "Tests verify weight adjustments using mock multimodal sentiment signals."
+      ]
+    },
+    {
+      "id": "acs-security-checkpoints-persistence-v11",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Checkpoints Persistence and Auditing V11",
+      "description": "Inspired by Microsoft ACS (June 2026): Implement persistent SQL-based storage to record and audit historical outcomes across the 5 validation checkpoints for all agent workflows.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_persistence_v11.py",
+        "tests/test_acs_persistence_v11.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "SQL storage correctly serializes and saves checkpoint outcomes.",
+        "Tests verify querying historic checkpoint failures."
+      ]
+    },
+    {
+      "id": "mcp-oauth-client-refresher-v4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Client OAuth2 Token Refresher V4",
+      "description": "Inspired by MCP Auth trend (June 2026): Implement automated token refresh for remote MCP tool servers to support long-lived tool execution sessions.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_client_auth_v4.py",
+        "tests/test_mcp_auth_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "OAuth2 client handles token expiration and dynamically fetches refreshed tokens.",
+        "Tests mock token renewal and verify seamless continuation of sessions."
       ]
     }
   ]
