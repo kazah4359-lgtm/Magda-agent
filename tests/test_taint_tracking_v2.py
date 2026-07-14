@@ -1,5 +1,9 @@
-"""Tests for MCPKernel Taint Tracking V2."""
+"""Tests for MCPKernel Taint Tracking V2 and TaintTrackingAgentGuard."""
 import pytest
+from unittest.mock import MagicMock
+
+from magda_agent.safety.agent_guard import SecurityViolationError
+from magda_agent.safety.policy import PolicyLayer
 from magda_agent.safety.taint_tracking_v2 import (
     mark_tainted,
     is_tainted,
@@ -9,11 +13,12 @@ from magda_agent.safety.taint_tracking_v2 import (
     SandboxExecutionEnvironmentV2,
     MCPKernelV2,
     PolicyViolationError,
-    TaintedString
+    TaintedString,
+    TaintTrackingAgentGuard
 )
 
 
-def test_mark_tainted_and_is_tainted():
+def test_mark_tainted_and_is_tainted() -> None:
     """Test marking primitives and structures as tainted."""
     # Primitive string
     s = mark_tainted("hello", "user_input")
@@ -41,7 +46,7 @@ def test_mark_tainted_and_is_tainted():
     assert is_tainted(d["key"])
 
 
-def test_sanitize():
+def test_sanitize() -> None:
     """Test sanitizing tainted data."""
     s = mark_tainted("hello", "user_input")
     sanitized_s = sanitize(s)
@@ -56,7 +61,7 @@ def test_sanitize():
     assert not isinstance(sanitized_d["k"][0], TaintedString)
 
 
-def test_sandbox_execution_environment():
+def test_sandbox_execution_environment() -> None:
     """Test origin propagation through sandbox execution."""
     tracker = TaintTrackerV2()
     sandbox = SandboxExecutionEnvironmentV2(tracker)
@@ -84,11 +89,11 @@ def test_sandbox_execution_environment():
     assert "source_b" in origins
 
 
-def test_mcp_kernel_v2_policy_violation():
+def test_mcp_kernel_v2_policy_violation() -> None:
     """Test MCPKernelV2 policy violation on sensitive operations."""
     kernel = MCPKernelV2()
 
-    def mock_sensitive_tool(data: str):
+    def mock_sensitive_tool(data: str) -> str:
         """Mock sensitive tool."""
         return f"Executed: {data}"
 
@@ -107,12 +112,82 @@ def test_mcp_kernel_v2_policy_violation():
     assert "Tainted input to sensitive tool call from origins" in str(excinfo.value)
 
 
-def test_mcp_kernel_v2_execution_error():
+def test_mcp_kernel_v2_execution_error() -> None:
     """Test MCPKernelV2 handles regular exceptions properly."""
     kernel = MCPKernelV2()
 
-    def mock_failing_tool(data: str):
+    def mock_failing_tool(data: str) -> None:
         raise ValueError("Tool crashed")
 
     with pytest.raises(RuntimeError, match="Tool execution failed: Tool crashed"):
         kernel.execute_tool(mock_failing_tool, {"data": "test"})
+
+
+def test_taint_tracking_agent_guard_sync() -> None:
+    """Test TaintTrackingAgentGuard with synchronous tool and taint propagation."""
+    policy_mock = MagicMock(spec=PolicyLayer)
+    policy_mock.evaluate.return_value = (True, "Allowed")
+    guard = TaintTrackingAgentGuard(policy_layer=policy_mock)
+
+    # Taint an input entering context
+    external_input = guard.taint_input("unsafe_command", "external_api")
+    assert guard.tracker.is_tainted(external_input)
+    assert "external_api" in guard.tracker.get_origins(external_input)
+
+    def mock_sync_tool(cmd: str) -> str:
+        return f"run {cmd}"
+
+    # Execute tool
+    result = guard.execute_tool(mock_sync_tool, "test_tool", cmd=external_input)
+
+    # Assert taint propagates to output
+    assert guard.tracker.is_tainted(result)
+    assert "external_api" in guard.tracker.get_origins(result)
+    assert result == "run unsafe_command"
+
+
+@pytest.mark.asyncio
+async def test_taint_tracking_agent_guard_async() -> None:
+    """Test TaintTrackingAgentGuard with asynchronous tool and taint propagation."""
+    policy_mock = MagicMock(spec=PolicyLayer)
+    policy_mock.evaluate.return_value = (True, "Allowed")
+    guard = TaintTrackingAgentGuard(policy_layer=policy_mock)
+
+    # Taint an input entering context
+    external_input = guard.taint_input("unsafe_query", "webhook")
+    assert guard.tracker.is_tainted(external_input)
+    assert "webhook" in guard.tracker.get_origins(external_input)
+
+    async def mock_async_tool(query: str) -> str:
+        return f"query {query}"
+
+    # Execute async tool
+    coro = guard.execute_tool(mock_async_tool, "test_async_tool", query=external_input)
+    result = await coro
+
+    # Assert taint propagates to output
+    assert guard.tracker.is_tainted(result)
+    assert "webhook" in guard.tracker.get_origins(result)
+    assert result == "query unsafe_query"
+
+
+def test_taint_tracking_agent_guard_sensitive_block() -> None:
+    """Test TaintTrackingAgentGuard blocks sensitive tool calls with tainted inputs."""
+    policy_mock = MagicMock(spec=PolicyLayer)
+    policy_mock.evaluate.return_value = (True, "Allowed by policy")
+    guard = TaintTrackingAgentGuard(
+        policy_layer=policy_mock,
+        sensitive_tools={"dangerous_tool"}
+    )
+
+    external_input = guard.taint_input("dangerous_param", "untrusted_user")
+
+    def dangerous_tool(param: str) -> str:
+        return f"destroy {param}"
+
+    # Verify calling dangerous_tool with tainted input raises SecurityViolationError
+    with pytest.raises(SecurityViolationError) as excinfo:
+        guard.execute_tool(dangerous_tool, "dangerous_tool", param=external_input)
+
+    assert "untrusted_user" in str(excinfo.value)
+    assert "dangerous_tool" in str(excinfo.value)
