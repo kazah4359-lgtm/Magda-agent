@@ -8066,7 +8066,7 @@
     },
     {
       "id": "mcp-kernel-taint-tracking-v3-fe34585d",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCPKernel Taint Tracking Extension V3",
@@ -17887,6 +17887,60 @@
       "acceptance": [
         "Patch manager correctly generates and applies JSON state patches.",
         "Tests verify that bandwidth is significantly reduced compared to full-state streaming."
+      ]
+    },
+    {
+      "id": "a2a-agent-card-crypto-verify-40ab7f1d",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Secure Agent Card Cryptographic Verification",
+      "description": "Inspired by A2A Protocol standard trend (enterprise-ready security): Implement a validation layer that checks cryptographic signatures of remote Agent Cards before registering them or delegating tasks, preventing spoofing in peer-to-peer networks.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_crypto_verify.py",
+        "tests/test_a2a_crypto_verify.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Verification layer successfully validates signed Agent Card JSON payloads.",
+        "Rejects unsigned or corrupted signatures with a SecurityError.",
+        "Tests verify verification and rejection behavior using mock keys."
+      ]
+    },
+    {
+      "id": "context-engine-plugin-perf-monitor-87cb5d2c",
+      "status": "todo",
+      "area": "memory",
+      "risk": "low",
+      "title": "Context Engine Plugin Performance Monitor",
+      "description": "Inspired by OpenClaw plugin architecture trend: Develop a telemetry monitoring component within the Context Engine to track execution times and latency overhead of each active plugin hook (bootstrap, ingest, assemble, compact).",
+      "allowed_paths": [
+        "magda_agent/memory/plugin_perf_monitor.py",
+        "tests/test_plugin_perf_monitor.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Performance monitor records and logs latency per hook execution.",
+        "Allows querying of metrics for downstream longitudinal quality tracking.",
+        "Tests verify latency recording under simulated hook executions."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-rollback-manager-2b7e1f9a",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Action Tool Rollback Transaction Manager",
+      "description": "Inspired by OpenAI Agents SDK trend where action tools grew to 65%: Implement a transaction manager that sequences multiple state-mutating MCP tool calls and triggers a rollback of previous actions if a subsequent step in the sequence fails.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_transaction_manager.py",
+        "tests/test_mcp_transaction_manager.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Transaction manager sequences and executes tool calls.",
+        "Successfully rolls back registered actions on execution failure of subsequent steps.",
+        "Tests verify sequential execution and rollback functionality using mock stateful tools."
       ]
     }
   ]
