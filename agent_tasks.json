@@ -7947,7 +7947,7 @@
     },
     {
       "id": "hermes-skill-marketplace-export-v3",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Hermes Skill Marketplace Export V3",
