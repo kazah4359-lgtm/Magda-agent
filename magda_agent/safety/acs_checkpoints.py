@@ -1,6 +1,7 @@
 import logging
 import re
-from typing import Dict, Any, Tuple, Optional
+from enum import Enum
+from typing import Dict, Any, Tuple, Optional, List, Callable
 from magda_agent.safety.policy import PolicyLayer
 from magda_agent.safety.audit_trail import AuditTrail
 
@@ -15,15 +16,86 @@ class SecurityViolationError(Exception):
     """Exception raised when an action is blocked by ACS checkpoints."""
     pass
 
+class CheckpointStage(Enum):
+    """Stages of the Agent Control Specification validation pipeline."""
+    INPUT = "input"
+    EXECUTION = "execution"
+    OUTPUT = "output"
+
+class Checkpoint:
+    """Represents a discrete validation checkpoint within the ACS pipeline."""
+
+    def __init__(self, name: str, stage: CheckpointStage, validate_func: Callable[[Dict[str, Any]], Tuple[bool, str]]) -> None:
+        """
+        Initializes a Checkpoint instance.
+
+        Args:
+            name: Description/name of the checkpoint.
+            stage: CheckpointStage enum value.
+            validate_func: The validation function callable.
+        """
+        self.name = name
+        self.stage = stage
+        self.validate_func = validate_func
+
+    def run(self, action_data: Dict[str, Any]) -> Tuple[bool, str]:
+        """
+        Runs the checkpoint validation function.
+
+        Args:
+            action_data: The dictionary containing action context and payload.
+
+        Returns:
+            A tuple of (is_passed, message).
+        """
+        return self.validate_func(action_data)
+
 class ACSCheckpoints:
     """
     Implements 5 ACS validation checkpoints for agentic workflows.
-    Ensures all actions pass through 5 checks before execution.
+    Refactored to execute checkpoints through a formal pipeline of discrete stages.
     """
+
     def __init__(self, policy_layer: Optional[PolicyLayer] = None, audit_trail: Optional[AuditTrail] = None) -> None:
+        """
+        Initializes the ACSCheckpoints pipeline.
+
+        Args:
+            policy_layer: Optional PolicyLayer for tool evaluation.
+            audit_trail: Optional AuditTrail for recording evaluation results.
+        """
         self.logger = logging.getLogger(__name__)
         self.policy_layer = policy_layer or PolicyLayer()
         self.audit_trail = audit_trail or AuditTrail()
+
+        # Build the pipeline of formal checkpoints
+        self.pipeline: List[Checkpoint] = [
+            Checkpoint(
+                name="Input Validation",
+                stage=CheckpointStage.INPUT,
+                validate_func=self.checkpoint_1_input_validation
+            ),
+            Checkpoint(
+                name="Intent Authorization",
+                stage=CheckpointStage.INPUT,
+                validate_func=self.checkpoint_2_intent_authorization
+            ),
+            Checkpoint(
+                name="Tool Policy",
+                stage=CheckpointStage.EXECUTION,
+                validate_func=self.checkpoint_3_tool_policy
+            ),
+            Checkpoint(
+                name="State Transition",
+                stage=CheckpointStage.EXECUTION,
+                validate_func=self.checkpoint_4_state_transition
+            ),
+            Checkpoint(
+                name="Output Sanitization",
+                stage=CheckpointStage.OUTPUT,
+                validate_func=self.checkpoint_5_output_sanitization
+            )
+        ]
 
     def checkpoint_1_input_validation(self, action_data: Dict[str, Any]) -> Tuple[bool, str]:
         """Checkpoint 1: Input Validation. Ensures action data is well-formed."""
@@ -106,15 +178,36 @@ class ACSCheckpoints:
 
         return True, "Checkpoint 5 Passed."
 
+    def _run_stage(self, stage: CheckpointStage, action_data: Dict[str, Any]) -> Tuple[bool, str]:
+        """
+        Executes all checkpoints belonging to a specific CheckpointStage.
+
+        Args:
+            stage: The CheckpointStage to execute.
+            action_data: The dictionary containing action context and payload.
+
+        Returns:
+            A tuple of (is_passed, message).
+        """
+        for checkpoint in self.pipeline:
+            if checkpoint.stage == stage:
+                ok, reason = checkpoint.run(action_data)
+                if not ok:
+                    return False, reason
+        return True, f"{stage.name} validation stage passed."
+
     def validate_pre_execution(self, action_data: Dict[str, Any]) -> Tuple[bool, str]:
-        """Runs checkpoints 1 to 4 and logs to audit trail on failure."""
-        for i, cp in enumerate([
-            self.checkpoint_1_input_validation,
-            self.checkpoint_2_intent_authorization,
-            self.checkpoint_3_tool_policy,
-            self.checkpoint_4_state_transition
-        ], 1):
-            ok, reason = cp(action_data)
+        """
+        Runs INPUT and EXECUTION checkpoint stages and logs to audit trail on failure.
+
+        Args:
+            action_data: The dictionary containing action context and payload.
+
+        Returns:
+            A tuple of (is_passed, message).
+        """
+        for stage in [CheckpointStage.INPUT, CheckpointStage.EXECUTION]:
+            ok, reason = self._run_stage(stage, action_data)
             if not ok:
                 self.logger.warning(reason)
                 self.audit_trail.log_call(
@@ -129,8 +222,16 @@ class ACSCheckpoints:
         return True, "Pre-execution ACS checkpoints passed."
 
     def validate_post_execution(self, action_data: Dict[str, Any]) -> Tuple[bool, str]:
-        """Runs checkpoint 5 and logs to audit trail on failure."""
-        ok, reason = self.checkpoint_5_output_sanitization(action_data)
+        """
+        Runs OUTPUT checkpoint stage and logs to audit trail on failure.
+
+        Args:
+            action_data: The dictionary containing action context and payload.
+
+        Returns:
+            A tuple of (is_passed, message).
+        """
+        ok, reason = self._run_stage(CheckpointStage.OUTPUT, action_data)
         if not ok:
             self.logger.warning(reason)
             self.audit_trail.log_call(
@@ -145,7 +246,15 @@ class ACSCheckpoints:
         return True, reason
 
     def validate_action(self, action_data: Dict[str, Any]) -> bool:
-        """Runs all 5 checkpoints and returns True if all pass."""
+        """
+        Runs all 5 checkpoints across all stages and returns True if all pass.
+
+        Args:
+            action_data: The dictionary containing action context and payload.
+
+        Returns:
+            True if all checkpoints pass, False otherwise.
+        """
         ok_pre, reason_pre = self.validate_pre_execution(action_data)
         if not ok_pre:
             return False
@@ -166,22 +275,19 @@ class ACSCheckpoints:
     def intercept_action(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Intercepts an action, validates it, and raises SecurityViolationError on failure.
-        Useful for synchronous middleware-like validation.
+
+        Args:
+            action_data: The dictionary containing action context and payload.
+
+        Returns:
+            The input action_data if all checkpoints pass.
+
+        Raises:
+            SecurityViolationError: If any validation checkpoint fails.
         """
         if not self.validate_action(action_data):
-            # The reason is already logged in validate_action, but we need it for the exception.
-            # Re-running to get the exact failure if necessary, or just a generic error.
-            # For efficiency in a real system we'd return (bool, str) from validate_action.
-            # Let's just find the failing one.
-            checkpoints = [
-                self.checkpoint_1_input_validation,
-                self.checkpoint_2_intent_authorization,
-                self.checkpoint_3_tool_policy,
-                self.checkpoint_4_state_transition,
-                self.checkpoint_5_output_sanitization
-            ]
-            for checkpoint in checkpoints:
-                passed, reason = checkpoint(action_data)
+            for checkpoint in self.pipeline:
+                passed, reason = checkpoint.run(action_data)
                 if not passed:
                      raise SecurityViolationError(reason)
         return action_data

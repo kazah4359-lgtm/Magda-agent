@@ -156,6 +156,8 @@
 * [x] FEATURE: Healthcheck endpoint (2026-06-03)
 * [x] SECURITY: Изолировать system_execute_code — subprocess с таймаутом (2026-06-03)
 
+- [x] acs-guardrail-runtime-governance-621d3b4e: ACS Guardrail Checkpoint Refactor (2026-06-15)
+
 ---
 
 ## 🔍 Обнаружено (добавляется агентом автоматически)
@@ -200,6 +202,9 @@
 * [ ] MODULE: **Agent Skills Self-Documentation** — `magda_agent/skills/documentation.py`. Generates natural language documentation for all registered skills.
 * [ ] MODULE: **A2A Delegation Cost Estimation** — `magda_agent/integration/a2a_cost_estimator.py`. Predicts token usage and latency for P2P delegation.
 * [ ] MODULE: **RL Interaction Loop Entropy Tracking** — `magda_agent/learning/entropy_tracker.py`. Tracks behavior entropy to detect loops.
+* [ ] MODULE: **Hermes Online Skill Pruning** — `magda_agent/skills/pruning_v1.py`. Automatically prunes under-used skills from the registry.
+* [ ] MODULE: **OpenClaw WebSockets Session Heartbeat** — `magda_agent/visualization/canvas_heartbeat_v1.py`. Keeps WebSocket connections active.
+* [ ] MODULE: **ACS Policy Performance Logger** — `magda_agent/safety/acs_perf_logger_v1.py`. Tracks overhead of ACS Checkpoints.
 
 * [x] MODULE: **Curiosity Drive** — `magda_agent/exploration/curiosity.py`. (2026-06-05)
   Proactively suggests exploration tasks when boredom is high.

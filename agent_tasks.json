@@ -8100,7 +8100,7 @@
     },
     {
       "id": "acs-guardrail-runtime-governance-621d3b4e",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Guardrail Checkpoint Refactor",
@@ -17995,6 +17995,57 @@
         "Documentation is successfully generated from skill definitions.",
         "Schema conforms to agentskills.io documentation format.",
         "Tests verify correct documentation outputs."
+      ]
+    },
+    {
+      "id": "hermes-online-skill-pruning-9c1b3a5d",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Hermes Online Skill Pruning based on Habit Strength",
+      "description": "Inspired by Hermes self-improving skills trend (June 2026): Implement an automated pruning routine that sweeps the ProceduralMemory and archives or de-registers skills whose habit weights or selection probabilities fall below a minimum threshold over time.",
+      "allowed_paths": [
+        "magda_agent/skills/pruning_v1.py",
+        "tests/test_skills_pruning_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill pruning removes low-probability skills from the registry.",
+        "Tests verify archived/pruned state changes correctly."
+      ]
+    },
+    {
+      "id": "openclaw-ws-session-heartbeat-a1b2c3d4",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw WebSockets Session Heartbeat and Auto-Reconnect",
+      "description": "Inspired by OpenClaw live state streaming: Implement a robust WebSocket heartbeat mechanism in the CanvasServer to verify active web clients, prune dead connections automatically, and support client auto-reconnection with session state playback.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_heartbeat_v1.py",
+        "tests/test_canvas_heartbeat_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "CanvasServer tracks heartbeats, cleans up disconnected websocket clients, and resumes state playback on re-connect.",
+        "Tests verify websocket heartbeat logic using mock connections."
+      ]
+    },
+    {
+      "id": "acs-policy-performance-logger-3c4d5e6f",
+      "status": "todo",
+      "area": "safety",
+      "risk": "low",
+      "title": "ACS Policy Performance and Checkpoint Overhead Logger",
+      "description": "Inspired by Microsoft ACS safety controls: Implement a structured performance monitoring and logging class that records the precise execution overhead (in milliseconds) for each of the 5 validation checkpoints, storing the stats in a local SQLite performance log.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_perf_logger_v1.py",
+        "tests/test_acs_perf_logger_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS Checkpoint executions are wrapped with timers, and stats are saved to a separate database table.",
+        "Tests verify stats recording and querying."
       ]
     }
   ]
