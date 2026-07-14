@@ -1,5 +1,5 @@
 import pytest
-from magda_agent.safety.acs_checkpoints import ACSCheckpoints, SecurityViolationError
+from magda_agent.safety.acs_checkpoints import ACSCheckpoints, SecurityViolationError, CheckpointStage, Checkpoint
 from magda_agent.safety.policy import PolicyLayer
 from magda_agent.safety.audit_trail import AuditTrail
 
@@ -94,3 +94,33 @@ def test_audit_trail_logging():
 
     assert len(audit.get_all()) == 2
     assert audit.get_all()[1]["result"] == "allowed"
+
+def test_checkpoint_stage_enum():
+    assert CheckpointStage.INPUT.value == "input"
+    assert CheckpointStage.EXECUTION.value == "execution"
+    assert CheckpointStage.OUTPUT.value == "output"
+
+def test_checkpoint_class():
+    def dummy_validator(action_data):
+        return True, "Passed"
+
+    cp = Checkpoint(name="Dummy", stage=CheckpointStage.INPUT, validate_func=dummy_validator)
+    assert cp.name == "Dummy"
+    assert cp.stage == CheckpointStage.INPUT
+    assert cp.run({}) == (True, "Passed")
+
+def test_run_stage_explicitly():
+    checkpoints = ACSCheckpoints()
+    valid_data = {
+        "action_name": "test_action",
+        "tool_name": "allowed_tool"
+    }
+    # INPUT stage passes
+    passed, msg = checkpoints._run_stage(CheckpointStage.INPUT, valid_data)
+    assert passed is True
+
+    # Invalid input
+    invalid_data = {}
+    passed, msg = checkpoints._run_stage(CheckpointStage.INPUT, invalid_data)
+    assert passed is False
+    assert "Checkpoint 1 Failed" in msg
