@@ -8083,7 +8083,7 @@
     },
     {
       "id": "openclaw-rl-canvas-metrics-d42db27e",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw RL Canvas Visualization Module",
@@ -17941,6 +17941,60 @@
         "Transaction manager sequences and executes tool calls.",
         "Successfully rolls back registered actions on execution failure of subsequent steps.",
         "Tests verify sequential execution and rollback functionality using mock stateful tools."
+      ]
+    },
+    {
+      "id": "openai-agents-tool-parallel-optimizer-f38b1234",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "OpenAI Agents SDK Tool Parallel Execution Optimizer",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a wrapper helper to identify which tool executions in the plan are safe to run concurrently, executing them in parallel with bounded asyncio.gather limits.",
+      "allowed_paths": [
+        "magda_agent/skills/parallel_optimizer.py",
+        "tests/test_parallel_optimizer.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Wrapper successfully identifies and runs safe parallel tool execution.",
+        "Limit bounds are respected.",
+        "Tests verify concurrent execution and error containment."
+      ]
+    },
+    {
+      "id": "openclaw-rl-trajectory-logger-ab76cd34",
+      "status": "todo",
+      "area": "learning",
+      "risk": "low",
+      "title": "OpenClaw-RL Real-time Trajectory Logger",
+      "description": "Inspired by OpenClaw-RL trend: Create a trajectory logger that saves sequence of transitions (state, action, reward, next_state) of user replies and skill selections to a structured local store for future policy tuning.",
+      "allowed_paths": [
+        "magda_agent/learning/trajectory_logger.py",
+        "tests/test_trajectory_logger.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Transitions are successfully logged.",
+        "Trajectories are persistent across runs.",
+        "Tests verify correct logging formats."
+      ]
+    },
+    {
+      "id": "hermes-skill-doc-generator-89abef78",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Hermes Skill Auto-Documentation Generator",
+      "description": "Inspired by Hermes skills standard: Implement an automatic generator that parses the parameters and docstrings of newly created skills to generate agentskills.io-compatible documentation pages dynamically.",
+      "allowed_paths": [
+        "magda_agent/skills/doc_generator.py",
+        "tests/test_doc_generator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Documentation is successfully generated from skill definitions.",
+        "Schema conforms to agentskills.io documentation format.",
+        "Tests verify correct documentation outputs."
       ]
     }
   ]
