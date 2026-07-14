@@ -8117,7 +8117,7 @@
     },
     {
       "id": "mcp-action-tools-preflight-v4",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCP Action Tools Pre-flight Validation",
@@ -18046,6 +18046,57 @@
       "acceptance": [
         "ACS Checkpoint executions are wrapped with timers, and stats are saved to a separate database table.",
         "Tests verify stats recording and querying."
+      ]
+    },
+    {
+      "id": "mcp-tool-failure-tracker-v13-a4b5c6d7",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "MCP Tool Telemetry and Failure Rate Tracker",
+      "description": "Inspired by the MCP standard trend (June 2026): Implement an asynchronous telemetry logger that tracks success/failure metrics and response latency for each remote and local MCP tool invocation, saving stats to SQLite.",
+      "allowed_paths": [
+        "magda_agent/telemetry/mcp_failure_tracker_v13.py",
+        "tests/test_mcp_failure_tracker_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry records invocation success/failure and latency to SQLite.",
+        "Tests verify metric collection and query logic."
+      ]
+    },
+    {
+      "id": "a2a-discovery-rbac-v13-b5c6d7e8",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Peer Discovery with Role-Based Access Control",
+      "description": "Inspired by A2A Protocol and ACS safety standards: Implement role-based access control (RBAC) in the A2A Discovery manager to filter and restrict peer capability visibility based on requester roles.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_rbac_v13.py",
+        "tests/test_a2a_discovery_rbac_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2ADiscoveryService filters peer capabilities based on verified role tokens.",
+        "Tests verify RBAC constraints on mock requests."
+      ]
+    },
+    {
+      "id": "openclaw-rl-prompt-compressor-v13-c6d7e8f9",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Adaptive Prompt Compressor",
+      "description": "Inspired by OpenClaw-RL and virtual context management trends: Implement an adaptive prompt compression hook that triggers aggressive LLM-driven context summarization when reinforcement feedback/rewards drop below a threshold.",
+      "allowed_paths": [
+        "magda_agent/learning/adaptive_compressor_v13.py",
+        "tests/test_adaptive_compressor_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Adaptive compressor initiates prompt compression when low reward signals are encountered in RL.",
+        "Tests verify compression threshold trigger behavior."
       ]
     }
   ]
