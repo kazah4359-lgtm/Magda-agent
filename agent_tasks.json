@@ -8134,7 +8134,7 @@
     },
     {
       "id": "a2a-delegation-circuit-breaker-v5",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Delegation Circuit Breaker",
@@ -18097,6 +18097,60 @@
       "acceptance": [
         "Adaptive compressor initiates prompt compression when low reward signals are encountered in RL.",
         "Tests verify compression threshold trigger behavior."
+      ]
+    },
+    {
+      "id": "mcp-oauth-consent-v3-e8a2b5c6",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP OAuth2 Dynamic Consent",
+      "description": "Inspired by MCP Auth and consent flow trend (June 2026): Implement a dynamic user consent prompt manager for remote MCP servers that require OAuth2 authentication, allowing user confirmation before sharing sensitive context keys.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_consent_v3.py",
+        "tests/test_mcp_consent_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "User is prompted for consent when an MCP tool requires authentication.",
+        "Consent decisions are cached and respected in future calls.",
+        "Tests mock user prompt input and verify behavior."
+      ]
+    },
+    {
+      "id": "openclaw-rl-reward-heuristic-v1-a7d9f8c3",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Reward Heuristic",
+      "description": "Inspired by OpenClaw-RL trend (June 2026): Implement an interactive reward heuristic module that parses explicit user rating commands (e.g. '/rate 5', '/rate 1') inside the message content and maps them thread-safely to update procedural habit weights.",
+      "allowed_paths": [
+        "magda_agent/learning/reward_heuristic_v1.py",
+        "tests/test_reward_heuristic_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Reward heuristic parses '/rate X' command from user replies.",
+        "Maps ratings to numerical rewards (normalized from -1.0 to 1.0) and adjusts skill/habit weights.",
+        "Tests verify weight adjustments based on positive and negative rating commands."
+      ]
+    },
+    {
+      "id": "acs-compliance-report-v2-b9d8e5f4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Compliance Real-time Report",
+      "description": "Inspired by Microsoft ACS safety standard trend (June 2026): Implement a real-time compliance reporting module that tracks check outcomes across the 5 validation checkpoints and generates a formatted Markdown report for continuous auditing.",
+      "allowed_paths": [
+        "magda_agent/safety/compliance_report_v2.py",
+        "tests/test_compliance_report_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Compliance module logs checkpoint details.",
+        "Generates structured Markdown compliance reports with success rates.",
+        "Tests verify correct report generation and formatting."
       ]
     }
   ]
