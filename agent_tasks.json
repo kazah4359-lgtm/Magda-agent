@@ -8219,7 +8219,7 @@
     },
     {
       "id": "a2a-mdns-discovery",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A local network mDNS discovery",
@@ -18304,6 +18304,60 @@
       ],
       "acceptance": [
         "Active task count incremented and decremented thread-safely. Average execution duration calculated. Tests verify concurrency metrics under concurrent load."
+      ]
+    },
+    {
+      "id": "a2a-mdns-security-token-v1",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A mDNS Discovery Secure Token Authentication",
+      "description": "Inspired by A2A Protocol security standards (June 2026): Implement secure token exchange and cryptographic validation for mDNS-discovered agents to prevent rogue agents from spoofing capabilities in local networks.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_mdns_secure.py",
+        "tests/test_a2a_mdns_secure.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2AMDNSSecureDiscovery enforces token-based handshake with discovered peers.",
+        "Invalid tokens automatically disconnect/blacklist the peer.",
+        "Tests mock mDNS handshakes and verify authorization blocking."
+      ]
+    },
+    {
+      "id": "openclaw-rl-trajectory-evaluation-v2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Trajectory Quality Evaluation",
+      "description": "Inspired by OpenClaw-RL trend: Implement a trajectory quality evaluator that analyzes conversational rollouts to detect repetitiveness, loops, or frustration signals, mapping them to negative RL feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/trajectory_evaluator.py",
+        "tests/test_trajectory_evaluator.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "TrajectoryEvaluator detects conversation loops and frustration patterns.",
+        "Fitted weights are updated online using reinforcement learning signals.",
+        "Tests verify feedback loop updates with mock conversation inputs."
+      ]
+    },
+    {
+      "id": "claude-worktree-pruning-optimizer-v1",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Worktree Pruning and Resource Optimizer",
+      "description": "Inspired by Claude Agent SDK Agent Teams trend: Implement a daemon/worker class within GitWorktreeManager to monitor parallel subagent worktree allocations and aggressively prune abandoned or orphaned worktrees to optimize disk space.",
+      "allowed_paths": [
+        "magda_agent/isolation/worktree_pruner.py",
+        "tests/test_worktree_pruner.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Pruner daemon identifies inactive, timed-out, or orphaned subagent worktrees.",
+        "Safely prunes workspaces and deletes associated directories.",
+        "Tests mock subagent timelines and verify automatic cleanup."
       ]
     }
   ]
