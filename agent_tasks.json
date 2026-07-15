@@ -8202,7 +8202,7 @@
     },
     {
       "id": "mcp-realtime-guardrail-fallback-87b26189",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCP Realtime Guardrail Fallback mechanism",
@@ -18256,6 +18256,54 @@
       "acceptance": [
         "OAuth2 client handles token expiration and dynamically fetches refreshed tokens.",
         "Tests mock token renewal and verify seamless continuation of sessions."
+      ]
+    },
+    {
+      "id": "openclaw-rl-trajectory-rollout-v7",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Trajectory Rollout with Exponential Discounting",
+      "description": "Inspired by OpenClaw-RL trends: implement backpropagation of delayed rewards across multi-turn conversation trajectories in OpenClawRLTrajectoryRolloutV6 using a configurable discount factor gamma to refine historical Q-values.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_rl_rollout.py",
+        "tests/test_openclaw_rl_rollout.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Trajectory buffer correctly stores multiple turns. Delayed rewards are backpropagated correctly using exponential discounting. Tests verify Q-value convergence on mock reward signals."
+      ]
+    },
+    {
+      "id": "acs-persistence-granular-audit-v12",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Persistent Granular Audit Logger",
+      "description": "Inspired by ACS and Prempti trends: Implement a granular audit logger that extends ACSPersistence to store the detailed rule ID and evaluation logic details for each check in the SQLite database to facilitate longitudinal safety reviews.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_persistence.py",
+        "tests/test_acs_persistence.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Granular outcomes including rule ID and check context are logged. Tests verify querying and structure in SQLite."
+      ]
+    },
+    {
+      "id": "mcp-concurrency-active-task-monitoring-v4",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Concurrency Active Task Monitoring",
+      "description": "Inspired by OpenAI Agents SDK tool concurrency: Extend MCPConcurrentHandlerV3 to expose thread-safe active task counts and execution duration metrics to help the scheduler optimize parallel execution.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_concurrency_v3.py",
+        "tests/test_mcp_concurrency_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Active task count incremented and decremented thread-safely. Average execution duration calculated. Tests verify concurrency metrics under concurrent load."
       ]
     }
   ]
