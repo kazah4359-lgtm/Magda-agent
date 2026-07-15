@@ -8185,7 +8185,7 @@
     },
     {
       "id": "hermes-signal-channel-gateway-5570589e",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Hermes Signal Channel Gateway",
