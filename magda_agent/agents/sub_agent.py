@@ -1,15 +1,22 @@
 import logging
-from typing import Optional
+from typing import Optional, Any
 from magda_agent.llm_client import LLMClient
 from magda_agent.isolation.git_worktree import GitWorktreeManager
 from magda_agent.memory.subagent_compression import SubagentContextCompressor
+from magda_agent.agents.token_compression import SubagentTokenCompressor
 
 class SubAgent:
     """
     SubAgent for executing isolated tasks in a separate context.
     Inspired by Claude Agent Teams and Hermes sub-agents.
     """
-    def __init__(self, llm: LLMClient, system_prompt: Optional[str] = None, use_isolation: bool = False):
+    def __init__(
+        self,
+        llm: LLMClient,
+        system_prompt: Optional[str] = None,
+        use_isolation: bool = False,
+        use_enhanced_compression: bool = True
+    ) -> None:
         """
         Initializes the SubAgent.
         """
@@ -17,9 +24,12 @@ class SubAgent:
         self.system_prompt = system_prompt or "You are an isolated Sub-Agent executing a specific task."
         self.use_isolation = use_isolation
         self.worktree_manager = GitWorktreeManager() if use_isolation else None
-        self.context_compressor = SubagentContextCompressor(llm=llm)
+        if use_enhanced_compression:
+            self.context_compressor = SubagentTokenCompressor(llm=llm)
+        else:
+            self.context_compressor = SubagentContextCompressor(llm=llm)
 
-    async def execute(self, task: str, context: str, **kwargs) -> str:
+    async def execute(self, task: str, context: str, **kwargs: Any) -> str:
         """
         Executes a task given the context.
         """
@@ -38,8 +48,12 @@ class SubAgent:
                 return f"Error: Failed to create isolated worktree - {e}"
 
         # Compress the combined context if it's too large
-        full_context = f"Parent Context:\n{current_context}\n\nAssigned Task:\n{task}"
-        full_context = await self.context_compressor.compress_context(full_context)
+        if isinstance(self.context_compressor, SubagentTokenCompressor):
+            full_context = await self.context_compressor.compress_context(current_context, task)
+        else:
+            full_context = f"Parent Context:\n{current_context}\n\nAssigned Task:\n{task}"
+            full_context = await self.context_compressor.compress_context(full_context)
+
         messages = [
             {"role": "system", "content": self.system_prompt},
             {"role": "user", "content": full_context}

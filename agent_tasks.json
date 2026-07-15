@@ -8253,7 +8253,7 @@
     },
     {
       "id": "claude-subagent-token-compression",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Claude Subagent Token Compression",
@@ -18409,6 +18409,60 @@
       "acceptance": [
         "Streamer selectively triggers WebSocket updates based on state changes.",
         "Tests mock triggers and verify selective JSON delta streaming."
+      ]
+    },
+    {
+      "id": "mcp-server-side-streaming-v2-abc4ef71",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Tool Server Server-Side Streaming Support",
+      "description": "Inspired by June 2026 OpenAI and Anthropic streaming trends: Implement server-side streaming output capabilities for exported MCP tools in Magda, enabling external clients to stream token chunks directly from LLM-driven skills instead of waiting for full execution.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_streaming_v2.py",
+        "tests/test_mcp_streaming_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP server supports exporting tool schemas with streaming response metadata.",
+        "The server correctly emits streaming chunks over JSON-RPC when a tool is executed in streaming mode.",
+        "Tests verify chunked output generation and transmission."
+      ]
+    },
+    {
+      "id": "acs-file-taint-sandbox-v3-e6f7b1c4",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "ACS File-Level Taint Tracking and Sandboxing",
+      "description": "Inspired by Prempti and ACS standards: Enhance the sandbox policy layer to track file-level taint propagation when subagents read tainted inputs, ensuring any subsequent tool invocations that write to external destinations are strictly blocked if tainted files are involved.",
+      "allowed_paths": [
+        "magda_agent/safety/file_taint_sandbox_v3.py",
+        "tests/test_file_taint_sandbox_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sandbox environment tracks read-tainted files throughout the subagent lifecycle.",
+        "Write actions to external locations (like network or outside specified worktree) are blocked if they consume tainted files.",
+        "Tests verify file-level taint propagation and policy blocking."
+      ]
+    },
+    {
+      "id": "online-rl-emotion-decay-v4-d3a9f1b2",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "Online RL Sentiment Decay Heuristic for Response Tone",
+      "description": "Inspired by OpenClaw-RL trends: Implement a temporal sentiment decay heuristic in the reinforcement learning loop to prevent historical user sentiment from causing excessive rigidity in tone adjustments during multi-turn interactions.",
+      "allowed_paths": [
+        "magda_agent/learning/sentiment_decay_v4.py",
+        "tests/test_sentiment_decay_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sentiment decay calculation is applied to past sentiment scores over conversation turns.",
+        "RL habit weights adjust dynamically to newer sentiment signals faster than old ones.",
+        "Tests verify decay factor correctness over multi-turn simulation."
       ]
     }
   ]
