@@ -4,6 +4,7 @@ from unittest.mock import MagicMock, AsyncMock
 from magda_agent.agents.generator_agent import GeneratorAgent
 from magda_agent.safety.guardrails import RealtimeGuardrail, FallbackStrategy
 from magda_agent.safety.policy import PolicyLayer
+from magda_agent.safety.realtime_guardrail import MCPRealtimeGuardrailFallback
 
 @pytest.mark.asyncio
 async def test_guardrail_allows_legit_action():
@@ -132,3 +133,75 @@ async def test_guardrail_review_required():
     assert "Guardrail Fallback (REVIEW REQUIRED): Review needed" in result
     skills.execute_skill.assert_not_called()
     planner.clear_pending_plan.assert_called_once()
+
+
+@pytest.mark.asyncio
+async def test_mcp_realtime_guardrail_success() -> None:
+    """
+    Tests that a successful tool execution goes through without violations
+    and returns (True, result).
+    """
+    policy = MagicMock(spec=PolicyLayer)
+    policy.evaluate.return_value = (True, "Allowed")
+
+    async def mock_tool(arg1: str) -> str:
+        return f"Executed with {arg1}"
+
+    fallback = MCPRealtimeGuardrailFallback(policy_layer=policy)
+    success, result = await fallback.execute_with_reprompt_fallback(
+        tool_func=mock_tool,
+        tool_name="test_tool",
+        kwargs={"arg1": "hello"}
+    )
+
+    assert success is True
+    assert result == "Executed with hello"
+    policy.evaluate.assert_called_once_with("test_tool", arg1="hello")
+
+
+@pytest.mark.asyncio
+async def test_mcp_realtime_guardrail_policy_violation() -> None:
+    """
+    Tests that a policy violation is intercepted and returns a safety fallback reprompt.
+    """
+    policy = MagicMock(spec=PolicyLayer)
+    policy.evaluate.return_value = (False, "Command injection pattern detected")
+
+    async def mock_tool(arg1: str) -> str:
+        return f"Executed with {arg1}"
+
+    fallback = MCPRealtimeGuardrailFallback(policy_layer=policy)
+    success, result = await fallback.execute_with_reprompt_fallback(
+        tool_func=mock_tool,
+        tool_name="restricted_tool",
+        kwargs={"arg1": "unsafe_input"}
+    )
+
+    assert success is False
+    assert "SAFETY ALERT:" in result
+    assert "blocked due to a policy violation: Command injection pattern detected" in result
+    policy.evaluate.assert_called_once_with("restricted_tool", arg1="unsafe_input")
+
+
+@pytest.mark.asyncio
+async def test_mcp_realtime_guardrail_execution_failure() -> None:
+    """
+    Tests that a tool execution failure is caught and returns an execution failure fallback reprompt.
+    """
+    policy = MagicMock(spec=PolicyLayer)
+    policy.evaluate.return_value = (True, "Allowed")
+
+    async def mock_tool_failing(arg1: str) -> str:
+        raise ConnectionError("Timeout connecting to server")
+
+    fallback = MCPRealtimeGuardrailFallback(policy_layer=policy)
+    success, result = await fallback.execute_with_reprompt_fallback(
+        tool_func=mock_tool_failing,
+        tool_name="unstable_tool",
+        kwargs={"arg1": "retry_this"}
+    )
+
+    assert success is False
+    assert "EXECUTION FAILURE:" in result
+    assert "Timeout connecting to server" in result
+    policy.evaluate.assert_called_once_with("unstable_tool", arg1="retry_this")
