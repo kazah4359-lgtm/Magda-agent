@@ -8236,7 +8236,7 @@
     },
     {
       "id": "openclaw-live-canvas-streaming",
-      "status": "todo",
+      "status": "done",
       "area": "visualization",
       "risk": "low",
       "title": "OpenClaw Live Canvas Streaming",
@@ -18358,6 +18358,57 @@
         "Pruner daemon identifies inactive, timed-out, or orphaned subagent worktrees.",
         "Safely prunes workspaces and deletes associated directories.",
         "Tests mock subagent timelines and verify automatic cleanup."
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-auto-refinement-v6-ef92",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Agent Skills Auto-Refinement v6",
+      "description": "Inspired by Hermes self-improving agents trend (June 2026): Implement an automated routine within the ProceduralMemory system to refine and optimize skill execution schemas by parsing post-execution evaluation ratings and adjusting execution parameters.",
+      "allowed_paths": [
+        "magda_agent/skills/refinement_v6.py",
+        "tests/test_refinement_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill refinement successfully parses ratings and adjusts parameters.",
+        "Tests verify automated parameter adjustment logic."
+      ]
+    },
+    {
+      "id": "openai-agents-concurrency-prioritization-v4-bc5a",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK Concurrency Prioritization v4",
+      "description": "Inspired by OpenAI Agents SDK concurrent tool execution trend: Develop a priority-aware tool execution router that schedules and executes concurrent tool calls based on their priority and energy requirements.",
+      "allowed_paths": [
+        "magda_agent/skills/priority_concurrency_v4.py",
+        "tests/test_priority_concurrency_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Priority router executes high-priority tools first.",
+        "Tests verify concurrent scheduling and priority execution rules."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-custom-state-triggers-v5-df3a",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas Custom State Triggers v5",
+      "description": "Inspired by OpenClaw Canvas visualization trend: Implement customizable state thresholds and dynamic change triggers in the Canvas streaming backend to selectively stream specific high-priority cognitive state mutations.",
+      "allowed_paths": [
+        "magda_agent/visualization/state_triggers_v5.py",
+        "tests/test_state_triggers_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Streamer selectively triggers WebSocket updates based on state changes.",
+        "Tests mock triggers and verify selective JSON delta streaming."
       ]
     }
   ]
