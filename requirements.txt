@@ -24,3 +24,4 @@ PyYAML
 discord.py>=2.3.2
 aiofiles==24.1.0
 datasets==2.21.0
+zeroconf

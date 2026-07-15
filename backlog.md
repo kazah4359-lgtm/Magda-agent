@@ -257,3 +257,10 @@
 * [x] FEATURE: OpenClaw RL Metrics Tracker v4 (openclaw-rl-metrics-tracker-v4) (2026-06-10)
 * [x] FEATURE: OpenClaw RL Metrics and Visualization v3 (openclaw-rl-metrics-v3-unique) (2026-06-14)
 * [x] FEATURE: ACS Control Specification Persistence (acs-guardrail-persistence) (2026-06-12)
+
+
+## 📡 A2A mDNS & Self-Improvement Loops (June 2026 Trends)
+* [x] FEATURE: A2A local network mDNS discovery (a2a-mdns-discovery)
+* [ ] FEATURE: A2A mDNS Discovery Secure Token Authentication (a2a-mdns-security-token-v1)
+* [ ] FEATURE: OpenClaw RL Trajectory Quality Evaluation (openclaw-rl-trajectory-evaluation-v2)
+* [ ] FEATURE: Claude Worktree Pruning and Resource Optimizer (claude-worktree-pruning-optimizer-v1)
