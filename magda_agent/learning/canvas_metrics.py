@@ -1,4 +1,5 @@
 import logging
+import math
 from typing import Dict, List, Any, Optional
 from magda_agent.learning.openclaw_rl_metrics import OpenClawRLMetrics
 
@@ -120,6 +121,31 @@ class RLCanvasMetricsExporter:
 
         return formatted_stats
 
+    def get_skill_entropy(self) -> float:
+        """
+        Calculates the Shannon entropy of skill selections from recent rewards
+        to measure policy exploration or concentration.
+
+        Returns:
+            float: Shannon entropy in bits, or 0.0 if no skills are recorded.
+        """
+        rewards = self.metrics.recent_rewards
+        if not rewards:
+            return 0.0
+
+        counts: Dict[str, int] = {}
+        for entry in rewards:
+            skill = entry.get("skill_id", "unknown")
+            counts[skill] = counts.get(skill, 0) + 1
+
+        total = len(rewards)
+        entropy = 0.0
+        for count in counts.values():
+            p = count / total
+            entropy -= p * math.log2(p)
+
+        return entropy
+
     def export_canvas_payload(self) -> Dict[str, Any]:
         """
         Transforms and packages the metrics into a highly-structured payload
@@ -134,6 +160,7 @@ class RLCanvasMetricsExporter:
             moving_avg_5 = self.get_moving_average_reward(window_size=5)
             trend = self.detect_reward_trend()
             skill_stats = self.get_skill_activity_metrics()
+            entropy = self.get_skill_entropy()
 
             return {
                 "status": raw_data.get("status", "active"),
@@ -141,6 +168,7 @@ class RLCanvasMetricsExporter:
                 "global_average_q": raw_data.get("average_q", 0.0),
                 "moving_average_reward_5": moving_avg_5,
                 "trajectory_trend": trend,
+                "skill_distribution_entropy": entropy,
                 "skills_coverage": {
                     skill: {
                         "q_value": raw_val,
