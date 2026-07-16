@@ -90,7 +90,7 @@
       ],
       "risk": "medium",
       "area": "safety",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "openclaw-virtual-memory-plugin-4b3bcc28",
@@ -18871,6 +18871,59 @@
         "WorkingMemory correctly discards all context metadata during swap or reset operations.",
         "Tests verify that no lingering metadata exists after reset."
       ]
+    },
+    {
+      "id": "openai-agents-sdk-handover-routing-v13-unique",
+      "title": "OpenAI Agents SDK Handover Routing v13",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a specialized handover router that allows subagents to yield control back to the parent coordinator or delegate to another specialized subagent dynamically via structured 'handover' tool execution.",
+      "allowed_paths": [
+        "magda_agent/skills/handover_router_v13.py",
+        "tests/test_handover_router_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "HandoverRouter allows registering agents and defining handover tool signatures.",
+        "Dynamically routes control flow between agents upon handover execution.",
+        "Tests verify state preservation and successful routing across different handoffs."
+      ],
+      "risk": "medium",
+      "area": "skills",
+      "status": "todo"
+    },
+    {
+      "id": "claude-code-branch-protection-v13-unique",
+      "title": "Claude Code Branch Protection Subagent v13",
+      "description": "Inspired by Claude Code/CLI trends (June 2026): Implement a subagent that evaluates feature branch code changes against predefined safety and architectural guidelines before merging.",
+      "allowed_paths": [
+        "magda_agent/isolation/branch_protection_v13.py",
+        "tests/test_branch_protection_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent evaluates code changes on feature branches against safety guidelines before merging.",
+        "Tests cover blocking unsafe merges and permitting clean ones."
+      ],
+      "risk": "medium",
+      "area": "architecture",
+      "status": "todo"
+    },
+    {
+      "id": "openclaw-rl-trajectory-evaluation-v13-unique",
+      "title": "OpenClaw RL Trajectory Quality Evaluation v13",
+      "description": "Inspired by OpenClaw-RL trend: Implement a trajectory quality evaluator that analyzes conversational rollouts to detect repetitiveness, loops, or frustration signals, mapping them to negative RL feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/trajectory_evaluator_v13.py",
+        "tests/test_trajectory_evaluator_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "TrajectoryEvaluator detects conversation loops and frustration patterns.",
+        "Fitted weights are updated online using reinforcement learning signals.",
+        "Tests verify feedback loop updates with mock conversation inputs."
+      ],
+      "risk": "medium",
+      "area": "learning",
+      "status": "todo"
     }
   ]
 }
