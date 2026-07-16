@@ -73,7 +73,7 @@
       ],
       "risk": "high",
       "area": "architecture",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "acs-safety-checkpoints-persistence-v12",
@@ -18819,6 +18819,57 @@
         "Entropy tracker identifies repetitive behavior patterns.",
         "High entropy score triggers a behavior adjustment or curiosity shift.",
         "Tests verify tracking and adaptation using mocks."
+      ]
+    },
+    {
+      "id": "openclaw-rl-dynamic-habit-tuning-v13-8d2f1b4c",
+      "title": "OpenClaw RL Dynamic Habit Tuning V13",
+      "description": "Inspired by OpenClaw trends: Implement continuous online learning logic in Basal Ganglia to dynamically tune response style and directness weights based on sentiment-derived reward signals from user interactions.",
+      "area": "learning",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/learning/habit_tuning_v13.py",
+        "tests/test_habit_tuning_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Continuous RL loop correctly adjusts style directness parameter weights.",
+        "Tests verify parameter updates under positive and negative reward signals."
+      ]
+    },
+    {
+      "id": "mcp-server-capability-discovery-v13-5c9e3a7b",
+      "title": "MCP Server Capability Discovery V13",
+      "description": "Inspired by MCP standard trend: Enhance the MCP Client/Server communication by supporting dynamic negotiation of server capabilities and multi-turn resource templates parsing.",
+      "area": "integration",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_capabilities_v13.py",
+        "tests/test_mcp_capabilities_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP client discovers and lists server capabilities and parses parameterized resource templates.",
+        "Tests verify capability handshakes and resource query template parsing."
+      ]
+    },
+    {
+      "id": "bug-working-memory-context-leak-v13-1a9b2c3d",
+      "title": "Bug: Working Memory Context Leak V13",
+      "description": "Bug/Improvement: Currently, WorkingMemory doesn't discard metadata cleanly during rapid context swaps, which can leak system state across sessions. Ensure context is fully cleared and metadata is sanitized during reset/swap operations.",
+      "area": "stabilization",
+      "risk": "low",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/memory/working_leak_fix_v13.py",
+        "tests/test_working_leak_fix_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WorkingMemory correctly discards all context metadata during swap or reset operations.",
+        "Tests verify that no lingering metadata exists after reset."
       ]
     }
   ]
