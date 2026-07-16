@@ -8270,7 +8270,7 @@
     },
     {
       "id": "mcp-action-tool-preflight",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCP Action Tools Preflight Checks",
