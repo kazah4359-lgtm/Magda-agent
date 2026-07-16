@@ -15867,7 +15867,7 @@
     },
     {
       "id": "claude-agent-teams-isolation-v10-unique",
-      "status": "todo",
+      "status": "done",
       "area": "multi-agent",
       "risk": "medium",
       "title": "Claude Agent Teams Isolation V10",
@@ -18924,6 +18924,58 @@
       "risk": "medium",
       "area": "learning",
       "status": "todo"
+    },
+    {
+      "id": "openai-agents-sdk-concurrency-prioritization-v14-unique",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK Concurrency Prioritization V14",
+      "description": "Inspired by OpenAI Agents SDK concurrent tool execution trend: Develop a priority-aware tool execution router that schedules and executes concurrent tool calls based on their priority and energy requirements, integrated with a token usage optimizer.",
+      "allowed_paths": [
+        "magda_agent/skills/priority_concurrency_v14.py",
+        "tests/test_priority_concurrency_v14.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Priority router executes high-priority tools first.",
+        "Tests verify concurrent scheduling and priority execution rules."
+      ]
+    },
+    {
+      "id": "openclaw-rl-cognitive-overload-v14-unique",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Cognitive Overload Mitigator V14",
+      "description": "Inspired by OpenClaw-RL trend: Implement a feedback mechanism that monitors RL-associated memory consumption and reduces prompt token overhead when the agent detects a negative reward trend or high action complexity.",
+      "allowed_paths": [
+        "magda_agent/learning/cognitive_overload_v14.py",
+        "tests/test_cognitive_overload_v14.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Triggers prompt/context pruning when negative rewards signal high cognitive load.",
+        "Tests mock RL trends and verify reduction in simulated prompt size."
+      ]
+    },
+    {
+      "id": "claude-code-git-conflict-resolver-v14-unique",
+      "status": "todo",
+      "area": "multi-agent",
+      "risk": "medium",
+      "title": "Claude Code Git Conflict Auto-Resolver V14",
+      "description": "Inspired by Claude Code CLI trends: Implement an automated Git conflict resolver capability for subagents working on parallel branches, allowing them to parse conflict markers and propose clean resolutions.",
+      "allowed_paths": [
+        "magda_agent/isolation/git_conflict_resolver_v14.py",
+        "tests/test_git_conflict_resolver_v14.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The resolver parses and extracts Git conflict blocks from workspace files.",
+        "Proposes or applies resolution strategies cleanly based on simple rules.",
+        "Tests verify correct conflict block extraction and resolution."
+      ]
     }
   ]
 }
