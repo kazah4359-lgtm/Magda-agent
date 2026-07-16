@@ -41,6 +41,58 @@
   },
   "tasks": [
     {
+      "id": "openai-agents-sdk-concurrency-router-v5",
+      "title": "OpenAI Agents SDK Concurrency Router V5",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a concurrent tool router that optimizes parallel execution of server-prefixed tools and maintains safety isolation.",
+      "allowed_paths": [
+        "magda_agent/skills/concurrency_v5.py",
+        "tests/test_concurrency_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tool execution uses asyncio.gather for independent prefixed tools.",
+        "Tests verify correct parallel execution and error handling."
+      ],
+      "risk": "medium",
+      "area": "skills",
+      "status": "todo"
+    },
+    {
+      "id": "claude-agent-teams-git-worktree-v13",
+      "title": "Claude Agent Teams Git Worktree Isolation V13",
+      "description": "Inspired by Claude Agent SDK: Implement Git worktree isolation for spawned subagents to avoid context bleeding during concurrent multi-agent code modifications.",
+      "allowed_paths": [
+        "magda_agent/isolation/git_worktree_v13.py",
+        "tests/test_git_worktree_v13.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagents operate in isolated git worktrees.",
+        "Worktrees are cleared and deleted on completion or timeout.",
+        "Tests mock git operations and verify isolation."
+      ],
+      "risk": "high",
+      "area": "architecture",
+      "status": "todo"
+    },
+    {
+      "id": "acs-safety-checkpoints-persistence-v12",
+      "title": "ACS Safety Checkpoints Persistence V12",
+      "description": "Inspired by Microsoft ACS standard (June 2026): Implement persistent SQL-based logging to record historical outcomes for the 5 safety checkpoints.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_persistence_v12.py",
+        "tests/test_acs_persistence_v12.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Checkpoint results are serialized and saved to SQLite.",
+        "Tests verify querying historic safety outcomes."
+      ],
+      "risk": "medium",
+      "area": "safety",
+      "status": "todo"
+    },
+    {
       "id": "openclaw-virtual-memory-plugin-4b3bcc28",
       "status": "done",
       "area": "memory",
@@ -8392,7 +8444,7 @@
     },
     {
       "id": "live-context-engine-visualization",
-      "status": "todo",
+      "status": "done",
       "area": "visualization",
       "risk": "low",
       "title": "Live Context Engine Visualization",
