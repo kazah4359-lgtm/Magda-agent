@@ -60,3 +60,38 @@ async def test_handle_request_invalid_json(mock_exporter: MCPExporter) -> None:
     assert response["error"]["code"] == -32700
     assert response["error"]["message"] == "Parse error"
     mock_exporter.handle_rpc_request.assert_not_called()
+
+@pytest.mark.asyncio
+async def test_handle_request_notification(mock_exporter: MCPExporter) -> None:
+    """Tests handling of JSON-RPC notification (no 'id' field)."""
+    server = MCPServer(mock_exporter)
+    payload = json.dumps({"jsonrpc": "2.0", "method": "mock_tool"})
+    response_str = await server.handle_request(payload)
+    # Notifications should result in no response content
+    assert response_str == ""
+    mock_exporter.handle_rpc_request.assert_called_once_with({"jsonrpc": "2.0", "method": "mock_tool"})
+
+@pytest.mark.asyncio
+async def test_handle_request_batch_requests(mock_exporter: MCPExporter) -> None:
+    """Tests handling a batch of multiple JSON-RPC requests."""
+    server = MCPServer(mock_exporter)
+    payload = json.dumps([
+        {"jsonrpc": "2.0", "method": "mock_tool", "id": 1},
+        {"jsonrpc": "2.0", "method": "mock_tool", "id": 2}
+    ])
+    response_str = await server.handle_request(payload)
+    responses = json.loads(response_str)
+    assert isinstance(responses, list)
+    assert len(responses) == 2
+    assert responses[0]["result"] == "mock_result"
+    assert responses[1]["result"] == "mock_result"
+
+@pytest.mark.asyncio
+async def test_handle_request_empty_batch(mock_exporter: MCPExporter) -> None:
+    """Tests handling an empty batch list."""
+    server = MCPServer(mock_exporter)
+    payload = "[]"
+    response_str = await server.handle_request(payload)
+    response = json.loads(response_str)
+    assert response["error"]["code"] == -32600
+    assert "Invalid Request" in response["error"]["message"]
