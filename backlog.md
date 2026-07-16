@@ -276,3 +276,6 @@
 * [ ] FEATURE: OpenClaw RL Dynamic Habit Tuning V13 (openclaw-rl-dynamic-habit-tuning-v13-8d2f1b4c)
 * [ ] FEATURE: MCP Server Capability Discovery V13 (mcp-server-capability-discovery-v13-5c9e3a7b)
 * [ ] BUG: Working Memory Context Leak V13 (bug-working-memory-context-leak-v13-1a9b2c3d)
+* [ ] FEATURE: Claude Code Git Conflict Auto-Resolver V16 (claude-code-git-conflict-resolver-v16-unique)
+* [ ] FEATURE: OpenClaw RL Audio Feedback Alignment v2 (openclaw-rl-multimodal-audio-feedback-v2-unique)
+* [ ] FEATURE: ACS Compliance Real-time Report v3 (acs-compliance-report-v3-unique)
