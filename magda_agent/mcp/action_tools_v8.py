@@ -5,6 +5,7 @@ from typing import Dict, Any, List, Optional, Tuple
 
 from magda_agent.skills.registry import SkillRegistry
 from magda_agent.safety.policy import PolicyLayer
+from magda_agent.integration.mcp_preflight import MCPPreflightValidator
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,7 @@ class MCPActionToolManagerV8:
         self.registry = registry
         self.policy_layer = policy_layer
         self.action_tools: Dict[str, Dict[str, Any]] = {}
+        self.validator = MCPPreflightValidator(registry=self.registry)
 
     def register_action_tool(self, name: str, description: str, input_schema: Dict[str, Any]) -> None:
         """
@@ -80,6 +82,17 @@ class MCPActionToolManagerV8:
 
             if not tool_name:
                 return self._error_response(req_id, -32602, "Invalid params: 'name' is required")
+
+            # 1. Pre-flight Validation
+            virtual_request = {
+                "jsonrpc": "2.0",
+                "method": tool_name,
+                "params": arguments
+            }
+            is_valid, err_code, err_msg = self.validator.validate_request_dict(virtual_request)
+            if not is_valid:
+                logger.warning(f"MCP Action Tool '{tool_name}' failed pre-flight: {err_msg}")
+                return self._error_response(req_id, err_code, err_msg)
 
             if tool_name not in self.action_tools:
                 return self._error_response(req_id, -32601, f"Tool '{tool_name}' not found")

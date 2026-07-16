@@ -119,7 +119,8 @@ async def test_policy_gating_denied(manager, registry):
 
     assert "error" in response
     assert response["error"]["code"] == -32000
-    assert "Policy violation" in response["error"]["message"]
+    # Pre-flight validator catches hazardous patterns like '.env' before PolicyLayer
+    assert "Pre-flight Blocked" in response["error"]["message"]
 
 @pytest.mark.asyncio
 async def test_invalid_json(manager):
