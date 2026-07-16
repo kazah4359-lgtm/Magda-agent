@@ -8321,7 +8321,7 @@
     },
     {
       "id": "mcp-server-compatibility",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "Add MCP Server Compatibility Layer",
@@ -18570,6 +18570,61 @@
         "Sandbox successfully limits CPU time and throws a TimeoutError on limit breach.",
         "Limits file descriptor counts or memory and isolates dynamic execution.",
         "Tests verify resource-bound enforcement under simulated overload."
+      ]
+    },
+    {
+      "id": "openai-agents-sdk-handover-routing-a2b3c4d5",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK Dynamic Handover and Routing Module",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a specialized handover router that allows subagents to yield control back to the parent coordinator or delegate to another specialized subagent dynamically via structured 'handover' tool execution.",
+      "allowed_paths": [
+        "magda_agent/skills/handover_router.py",
+        "tests/test_handover_router.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "HandoverRouter allows registering agents and defining handover tool signatures.",
+        "Dynamically routes control flow between agents upon handover execution.",
+        "Tests verify state preservation and successful routing across different handoffs.",
+        "No external APIs are called, everything is mock-tested."
+      ]
+    },
+    {
+      "id": "hermes-agent-portal-nous-compatible-a1b2c3d4",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "Hermes Agent Nous Portal Compatibility Adapter",
+      "description": "Inspired by Nous Portal trends: Implement an interface adapter that enables Magda to connect directly to Nous Portal-compliant external orchestrators, formatting inputs/outputs according to Nous Portal specifications.",
+      "allowed_paths": [
+        "magda_agent/integration/nous_portal.py",
+        "tests/test_nous_portal.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "NousPortalAdapter translates Magda's internal message structure into Nous Portal JSON format.",
+        "Supports token-based streaming/chunking simulation and capability mapping.",
+        "Tests verify formatting correctness and request/response handshake using mocks."
+      ]
+    },
+    {
+      "id": "improvement-pineal-gland-timezone-config-e7c6b5a4",
+      "status": "todo",
+      "area": "rhythms",
+      "risk": "low",
+      "title": "Pineal Gland Timezone Configuration Improvement",
+      "description": "Improvement: Currently PinealGland defaults to local system timezone which can lead to timezone mismatches in cloud-deployed multi-user environments. Refactor PinealGland to support per-user timezone configuration fetched from the UserModel or fallback config.",
+      "allowed_paths": [
+        "magda_agent/rhythms/pineal_gland.py",
+        "tests/test_pineal_gland_timezone.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "PinealGland supports an optional timezone parameter in get_time_context().",
+        "Integrates with UserModel timezone property if available.",
+        "Tests verify that different timezones result in correct time contexts relative to UTC."
       ]
     }
   ]
