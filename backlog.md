@@ -202,7 +202,7 @@
 * [ ] SKILL: **Crypto Prices (Курсы криптовалют)** — модуль `magda_agent/skills/crypto.py`. Получение актуальных курсов криптовалют с бирж (Binance, CoinMarketCap).
 * [ ] MODULE: **Agent Skills Self-Documentation** — `magda_agent/skills/documentation.py`. Generates natural language documentation for all registered skills.
 * [ ] MODULE: **A2A Delegation Cost Estimation** — `magda_agent/integration/a2a_cost_estimator.py`. Predicts token usage and latency for P2P delegation.
-* [ ] MODULE: **RL Interaction Loop Entropy Tracking** — `magda_agent/learning/entropy_tracker.py`. Tracks behavior entropy to detect loops.
+* [ ] MODULE: **RL Interaction Loop Entropy Tracking V4** — `magda_agent/learning/entropy_tracker_v4.py`. Tracks behavior entropy to detect loops.
 * [ ] MODULE: **Hermes Online Skill Pruning** — `magda_agent/skills/pruning_v1.py`. Automatically prunes under-used skills from the registry.
 * [ ] MODULE: **OpenClaw WebSockets Session Heartbeat** — `magda_agent/visualization/canvas_heartbeat_v1.py`. Keeps WebSocket connections active.
 * [ ] MODULE: **ACS Policy Performance Logger** — `magda_agent/safety/acs_perf_logger_v1.py`. Tracks overhead of ACS Checkpoints.
@@ -261,6 +261,7 @@
 
 
 ## 📡 A2A mDNS & Self-Improvement Loops (June 2026 Trends)
+* [ ] FEATURE: MCP Dynamic Capability Negotiation V5 (mcp-dynamic-capability-negotiation-v5) — multi-turn capability negotiation for MCP tools.
 * [x] FEATURE: A2A local network mDNS discovery (a2a-mdns-discovery)
 * [ ] FEATURE: A2A mDNS Discovery Secure Token Authentication (a2a-mdns-security-token-v1)
 * [ ] FEATURE: OpenClaw RL Trajectory Quality Evaluation (openclaw-rl-trajectory-evaluation-v2)
