@@ -137,3 +137,37 @@ class OpenClawInteractiveLearner:
         # Save the updated user model back to disk
         self.user_model.save_model(user_id, model_data)
         logging.info(f"OpenClaw-RL: Updated user model for user {user_id}")
+
+    def get_behavior_weights_summary(self, user_id: Optional[str]) -> str:
+        """
+        Retrieves a natural language summary of the current behavior weights for a user.
+
+        Args:
+            user_id (Optional[str]): The user's ID.
+
+        Returns:
+            str: A formatted string summarizing exploration, verbosity, and directness weights.
+        """
+        model_data = self.user_model.get_model(user_id)
+        weights = model_data.get("behavior_weights", {
+            "exploration": 1.0,
+            "verbosity": 1.0,
+            "directness": 1.0
+        })
+        return f"Exploration: {weights.get('exploration', 1.0):.2f}, Verbosity: {weights.get('verbosity', 1.0):.2f}, Directness: {weights.get('directness', 1.0):.2f}"
+
+    def reset_behavior_weights(self, user_id: Optional[str]) -> None:
+        """
+        Resets the behavior weights to their default baseline values for a user.
+
+        Args:
+            user_id (Optional[str]): The user's ID.
+        """
+        model_data = self.user_model.get_model(user_id)
+        model_data["behavior_weights"] = {
+            "exploration": 1.0,
+            "verbosity": 1.0,
+            "directness": 1.0
+        }
+        self.user_model.save_model(user_id, model_data)
+        logging.info(f"OpenClaw-RL: Reset behavior weights for user {user_id}")
