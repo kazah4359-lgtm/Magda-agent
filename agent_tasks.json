@@ -15339,7 +15339,7 @@
     },
     {
       "id": "hermes-skill-marketplace-importer-v1",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "low",
       "title": "Hermes Skill Marketplace Importer V1",
@@ -18516,6 +18516,60 @@
       "acceptance": [
         "Triggers prompt/context pruning when negative rewards signal high cognitive load",
         "Tests mock RL trends and verify reduction in simulated prompt size"
+      ]
+    },
+    {
+      "id": "openai-agents-loop-recovery-v1-9f2a4c",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK Tool Loop Recovery",
+      "description": "Inspired by OpenAI Agents SDK tool execution trends (June 2026): Implement an automatic execution loop recovery mechanism that can detect tool-routing infinite loops (such as calling the same tool with identical parameters repetitively) and fallback to graceful recovery.",
+      "allowed_paths": [
+        "magda_agent/skills/loop_recovery_v1.py",
+        "tests/test_loop_recovery_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The loop recovery module correctly detects repetitive tool call loops.",
+        "System falls back to a graceful error or user query upon loop detection.",
+        "Tests verify loop detection and recovery flow."
+      ]
+    },
+    {
+      "id": "claude-code-git-conflict-resolver-v1-7d1a5e",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Code Git Conflict Auto-Resolver V1",
+      "description": "Inspired by Claude Code CLI trends (June 2026): Implement an automated Git conflict resolver capability for subagents working on parallel branches, allowing them to parse conflict markers and propose clean resolutions.",
+      "allowed_paths": [
+        "magda_agent/isolation/git_conflict_resolver_v1.py",
+        "tests/test_git_conflict_resolver_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The resolver parses and extracts Git conflict blocks from workspace files.",
+        "Proposes or applies resolution strategies cleanly based on simple rules.",
+        "Tests verify correct conflict block extraction and resolution."
+      ]
+    },
+    {
+      "id": "hermes-portal-resource-sandbox-v1-3c9b8a",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Hermes Portal Resource-Bounded Skill Sandbox",
+      "description": "Inspired by Hermes Portal trend: Implement a lightweight subagent execution sandbox wrapper that restricts CPU execution time, memory usage, and file descriptors to enforce resource safety boundaries.",
+      "allowed_paths": [
+        "magda_agent/safety/resource_sandbox_v1.py",
+        "tests/test_resource_sandbox_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sandbox successfully limits CPU time and throws a TimeoutError on limit breach.",
+        "Limits file descriptor counts or memory and isolates dynamic execution.",
+        "Tests verify resource-bound enforcement under simulated overload."
       ]
     }
   ]

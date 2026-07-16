@@ -264,3 +264,7 @@
 * [ ] FEATURE: A2A mDNS Discovery Secure Token Authentication (a2a-mdns-security-token-v1)
 * [ ] FEATURE: OpenClaw RL Trajectory Quality Evaluation (openclaw-rl-trajectory-evaluation-v2)
 * [ ] FEATURE: Claude Worktree Pruning and Resource Optimizer (claude-worktree-pruning-optimizer-v1)
+* [x] FEATURE: Hermes Skill Marketplace Importer V1 (hermes-skill-marketplace-importer-v1)
+* [ ] FEATURE: OpenAI Agents SDK Tool Loop Recovery (openai-agents-loop-recovery-v1-9f2a4c)
+* [ ] FEATURE: Claude Code Git Conflict Auto-Resolver V1 (claude-code-git-conflict-resolver-v1-7d1a5e)
+* [ ] FEATURE: Hermes Portal Resource-Bounded Skill Sandbox (hermes-portal-resource-sandbox-v1-3c9b8a)
