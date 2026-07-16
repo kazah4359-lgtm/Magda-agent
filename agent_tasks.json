@@ -8478,7 +8478,7 @@
     },
     {
       "id": "unified-notification-broadcast",
-      "status": "todo",
+      "status": "done",
       "area": "channels",
       "risk": "low",
       "title": "Cross-Platform Unified Notification Broadcast",
@@ -19026,6 +19026,59 @@
       "acceptance": [
         "Unregistering an adapter cleanly releases reference.",
         "Tests verify adapter cleanup."
+      ]
+    },
+    {
+      "id": "openclaw-rl-interactive-rating-9e2a4b8f",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Interactive Conversation Rating Command",
+      "description": "Inspired by OpenClaw-RL trend: Implement an interactive reward parser that detects explicit user rating commands (e.g., /rate 5, /rate 1) in the user message, translating them into normalized reinforcement learning reward signals to update procedural skill selection weights.",
+      "allowed_paths": [
+        "magda_agent/learning/reward_rating_parser_9e2a4b8f.py",
+        "tests/test_reward_rating_parser_9e2a4b8f.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A parser correctly extracts rating commands from message strings.",
+        "Ratings are mapped thread-safely to update skill habit weights.",
+        "Tests verify weight adjustments based on user rating inputs."
+      ]
+    },
+    {
+      "id": "claude-code-git-conflict-resolver-v15-f8a7e3d2",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Code Git Conflict Auto-Resolver V15",
+      "description": "Inspired by Claude Code/CLI trends: Implement an automated Git conflict auto-resolver capability for subagents working on parallel branches, allowing them to parse conflict markers and propose/apply clean resolutions.",
+      "allowed_paths": [
+        "magda_agent/isolation/git_conflict_resolver_v15.py",
+        "tests/test_git_conflict_resolver_v15.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The resolver parses and extracts Git conflict blocks from workspace files.",
+        "Proposes or applies resolution strategies cleanly based on simple rules.",
+        "Tests verify correct conflict block extraction and resolution."
+      ]
+    },
+    {
+      "id": "bug-channelhub-unregistration-leak-7c6d8e5f",
+      "status": "todo",
+      "area": "stabilization",
+      "risk": "low",
+      "title": "Bug: ChannelHub Adapter Unregistration Circular Reference Leak",
+      "description": "Bug: Fix a potential memory leak in ChannelHub by ensuring adapters are cleanly cleared and circular references are resolved upon unregistration.",
+      "allowed_paths": [
+        "magda_agent/channels/hub_cleanup_7c6d8e5f.py",
+        "tests/test_hub_cleanup_7c6d8e5f.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Unregistering an adapter cleanly releases references.",
+        "Tests verify adapter cleanup and absence of circular reference leaks."
       ]
     }
   ]
