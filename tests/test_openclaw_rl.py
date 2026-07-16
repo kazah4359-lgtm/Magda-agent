@@ -208,3 +208,21 @@ async def test_openclaw_rl_integration_weights_to_planner(mock_habit_tracker: Ma
     system_msg = plan_call[0][0][0]["content"]
     assert "High exploration mode" in system_msg
     assert "Behavioral Parameters:" in system_msg
+
+@pytest.mark.asyncio
+async def test_openclaw_rl_behavior_helpers(mock_habit_tracker: MagicMock, mock_mirror_neurons: MagicMock, user_model: UserModel) -> None:
+    """Tests the get_behavior_weights_summary and reset_behavior_weights methods of OpenClawInteractiveLearner."""
+    learner = OpenClawInteractiveLearner(mock_habit_tracker, mock_mirror_neurons, user_model)
+
+    user_model.save_model("helper_user", {"behavior_weights": {"exploration": 1.5, "verbosity": 1.2, "directness": 0.8}})
+
+    summary = learner.get_behavior_weights_summary("helper_user")
+    assert "Exploration: 1.50" in summary
+    assert "Verbosity: 1.20" in summary
+    assert "Directness: 0.80" in summary
+
+    learner.reset_behavior_weights("helper_user")
+    summary_reset = learner.get_behavior_weights_summary("helper_user")
+    assert "Exploration: 1.00" in summary_reset
+    assert "Verbosity: 1.00" in summary_reset
+    assert "Directness: 1.00" in summary_reset

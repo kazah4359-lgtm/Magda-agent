@@ -8357,7 +8357,7 @@
     },
     {
       "id": "openclaw-rl-online-learner",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "Implement OpenClaw-RL Online Learner",
@@ -18678,6 +18678,60 @@
       "acceptance": [
         "A stop reflex command can interrupt and cancel ongoing skill executions in Consciousness.",
         "Tests verify cancellation of simulated long-running skill tasks upon receiving the stop command."
+      ]
+    },
+    {
+      "id": "openclaw-rl-online-reward-decay-v12",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw Online RL Sentiment Decay Heuristic v12",
+      "description": "Implement a temporal sentiment decay heuristic in the reinforcement learning loop to prevent historical user sentiment from causing excessive rigidity in tone adjustments during multi-turn interactions.",
+      "allowed_paths": [
+        "magda_agent/learning/sentiment_decay_v12.py",
+        "tests/test_sentiment_decay_v12.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sentiment decay calculation is applied to past sentiment scores over conversation turns.",
+        "RL habit weights adjust dynamically to newer sentiment signals faster than old ones.",
+        "Tests verify decay factor correctness over multi-turn simulation."
+      ]
+    },
+    {
+      "id": "claude-code-git-conflict-resolver-v12",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Code Git Conflict Auto-Resolver V12",
+      "description": "Inspired by Claude Code CLI trends (June 2026): Implement an automated Git conflict resolver capability for subagents working on parallel branches, allowing them to parse conflict markers and propose clean resolutions.",
+      "allowed_paths": [
+        "magda_agent/isolation/git_conflict_resolver_v12.py",
+        "tests/test_git_conflict_resolver_v12.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The resolver parses and extracts Git conflict blocks from workspace files.",
+        "Proposes or applies resolution strategies cleanly based on simple rules.",
+        "Tests verify correct conflict block extraction and resolution."
+      ]
+    },
+    {
+      "id": "openai-agents-loop-recovery-v12",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK Tool Loop Recovery v12",
+      "description": "Inspired by OpenAI Agents SDK tool execution trends (June 2026): Implement an automatic execution loop recovery mechanism that can detect tool-routing infinite loops (such as calling the same tool with identical parameters repetitively) and fallback to graceful recovery.",
+      "allowed_paths": [
+        "magda_agent/skills/loop_recovery_v12.py",
+        "tests/test_loop_recovery_v12.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The loop recovery module correctly detects repetitive tool call loops.",
+        "System falls back to a graceful error or user query upon loop detection.",
+        "Tests verify loop detection and recovery flow."
       ]
     }
   ]
