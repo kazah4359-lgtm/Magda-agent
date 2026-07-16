@@ -273,3 +273,6 @@
 * [ ] FEATURE: Claude Code Feature Branch Protection Subagent (claude-code-branch-protection-v1-63f27a8b)
 * [ ] FEATURE: OpenAI Agents SDK Tool Schema Caching (openai-agents-schema-cache-v1-d24c8b9a)
 * [ ] BUG: Brainstem stop command does not halt active skills (bug-brainstem-stop-command-cancel-89fa2d4c)
+* [ ] FEATURE: OpenClaw RL Dynamic Habit Tuning V13 (openclaw-rl-dynamic-habit-tuning-v13-8d2f1b4c)
+* [ ] FEATURE: MCP Server Capability Discovery V13 (mcp-server-capability-discovery-v13-5c9e3a7b)
+* [ ] BUG: Working Memory Context Leak V13 (bug-working-memory-context-leak-v13-1a9b2c3d)
