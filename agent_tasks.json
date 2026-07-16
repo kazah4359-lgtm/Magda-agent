@@ -8287,7 +8287,7 @@
     },
     {
       "id": "openclaw-rl-canvas-ui-metrics",
-      "status": "todo",
+      "status": "done",
       "area": "UI",
       "risk": "low",
       "title": "OpenClaw Canvas Visualization Metrics",
@@ -18463,6 +18463,59 @@
         "Sentiment decay calculation is applied to past sentiment scores over conversation turns.",
         "RL habit weights adjust dynamically to newer sentiment signals faster than old ones.",
         "Tests verify decay factor correctness over multi-turn simulation."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-session-v1-a1b2c3d4",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "MCP Dynamic Session Management",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a session management layer that dynamically spins up isolated MCP sessions per user to maintain conversational security and prevent context leakage across concurrent user interactions.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_session_v1.py",
+        "tests/test_mcp_session_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP sessions are instantiated per user",
+        "Context is completely isolated between user sessions",
+        "Tests verify proper session separation"
+      ]
+    },
+    {
+      "id": "claude-task-progress-v1-b5c6d7e8",
+      "status": "todo",
+      "area": "planning",
+      "risk": "low",
+      "title": "Claude Code Task Progress Tracker",
+      "description": "Inspired by Claude Code/CLI trends (June 2026): Implement an in-memory/JSON progress tracker for hierarchical task delegation plans, offering percentage completion metrics and step dependency status queries.",
+      "allowed_paths": [
+        "magda_agent/planning/progress_tracker_v1.py",
+        "tests/test_progress_tracker_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Tracks progress of plans containing dependent and parallel tasks",
+        "Calculates completion percentages dynamically",
+        "Tests verify progress computation correctness"
+      ]
+    },
+    {
+      "id": "openclaw-rl-cognitive-overload-v1-f9e8d7c6",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Cognitive Overload Mitigator",
+      "description": "Inspired by OpenClaw-RL trend: Implement a feedback mechanism that monitors RL-associated memory consumption and reduces prompt token overhead when the agent detects a negative reward trend or high action complexity.",
+      "allowed_paths": [
+        "magda_agent/learning/cognitive_overload_v1.py",
+        "tests/test_cognitive_overload_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Triggers prompt/context pruning when negative rewards signal high cognitive load",
+        "Tests mock RL trends and verify reduction in simulated prompt size"
       ]
     }
   ]

@@ -1,4 +1,5 @@
 import pytest
+import math
 from magda_agent.learning.openclaw_rl_metrics import OpenClawRLMetrics
 from magda_agent.learning.canvas_metrics import RLCanvasMetricsExporter
 
@@ -11,11 +12,13 @@ def test_exporter_empty_metrics() -> None:
     assert exporter.get_moving_average_reward() == 0.0
     assert exporter.detect_reward_trend() == "insufficient_data"
     assert exporter.get_skill_activity_metrics() == {}
+    assert exporter.get_skill_entropy() == 0.0
 
     payload = exporter.export_canvas_payload()
     assert payload["status"] == "active"
     assert payload["total_rewards_received"] == 0
     assert payload["trajectory_trend"] == "insufficient_data"
+    assert payload["skill_distribution_entropy"] == 0.0
     assert payload["skills_coverage"] == {}
     assert payload["raw_rewards_trajectory"] == []
 
@@ -100,6 +103,26 @@ def test_exporter_skill_activity_metrics() -> None:
     assert stats["skill_alpha"] == {"count": 2, "average_reward": 1.5}
     assert stats["skill_beta"] == {"count": 1, "average_reward": 4.0}
 
+def test_exporter_skill_entropy() -> None:
+    """Test the computation of Shannon entropy of skill selections."""
+    metrics = OpenClawRLMetrics()
+    exporter = RLCanvasMetricsExporter(metrics)
+
+    # 1. Zero skills
+    assert exporter.get_skill_entropy() == 0.0
+
+    # 2. Single skill selected multiple times (perfect concentration, entropy 0)
+    metrics.add_reward("skill_alpha", 1.0)
+    metrics.add_reward("skill_alpha", 2.0)
+    assert exporter.get_skill_entropy() == 0.0
+
+    # 3. Two skills equally distributed (maximum uncertainty, entropy 1.0 bit)
+    metrics.add_reward("skill_beta", 3.0)
+    metrics.add_reward("skill_beta", 4.0)
+    # Counts: alpha=2, beta=2. Total=4. Probability alpha=0.5, beta=0.5.
+    # Entropy = -2 * (0.5 * math.log2(0.5)) = 1.0
+    assert math.isclose(exporter.get_skill_entropy(), 1.0)
+
 def test_exporter_canvas_payload_schema() -> None:
     """Test the structure and values of the complete Canvas payload."""
     metrics = OpenClawRLMetrics()
@@ -116,6 +139,7 @@ def test_exporter_canvas_payload_schema() -> None:
     assert payload["global_average_q"] == 1.5
     assert payload["moving_average_reward_5"] == 2.0
     assert payload["trajectory_trend"] == "insufficient_data"
+    assert payload["skill_distribution_entropy"] == 1.0
     assert "skill_a" in payload["skills_coverage"]
     assert "skill_b" in payload["skills_coverage"]
 
