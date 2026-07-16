@@ -8461,7 +8461,7 @@
     },
     {
       "id": "slack-channel-adapter-v1",
-      "status": "todo",
+      "status": "done",
       "area": "channels",
       "risk": "medium",
       "title": "Slack Channel Adapter",
@@ -18975,6 +18975,57 @@
         "The resolver parses and extracts Git conflict blocks from workspace files.",
         "Proposes or applies resolution strategies cleanly based on simple rules.",
         "Tests verify correct conflict block extraction and resolution."
+      ]
+    },
+    {
+      "id": "mcp-server-transport-websocket-67be1f90",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Server WebSocket Transport",
+      "description": "Implement a WebSocket transport for the MCP server to support real-time full-duplex communication with external agents.",
+      "allowed_paths": [
+        "magda_agent/mcp/websocket_transport.py",
+        "tests/test_mcp_websocket.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WebSocket transport successfully handles JSON-RPC messages.",
+        "Tests mock WebSocket connections."
+      ]
+    },
+    {
+      "id": "openclaw-rl-multimodal-audio-feedback-8d34c11b",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Audio Feedback Alignment",
+      "description": "Extend OpenClaw reinforcement learning to parse user audio tone/inflection shifts from voice inputs as next-state reward signals.",
+      "allowed_paths": [
+        "magda_agent/learning/audio_sentiment.py",
+        "tests/test_audio_sentiment.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Audio sentiment signals successfully update habit weights.",
+        "Tests verify weight adjustments using mock audio signals."
+      ]
+    },
+    {
+      "id": "bug-channel-hub-unregistration-leak-a19b2c3d",
+      "status": "todo",
+      "area": "stabilization",
+      "risk": "low",
+      "title": "Bug: ChannelHub adapter unregistration memory leak",
+      "description": "Fix a potential memory leak in ChannelHub by ensuring adapters are cleanly cleared and circular references are resolved upon unregistration.",
+      "allowed_paths": [
+        "magda_agent/channels/hub.py",
+        "tests/test_hub_cleanup.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Unregistering an adapter cleanly releases reference.",
+        "Tests verify adapter cleanup."
       ]
     }
   ]
