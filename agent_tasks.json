@@ -8339,7 +8339,7 @@
     },
     {
       "id": "a2a-delegation-subagent",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Create A2A Delegation Subagent",
@@ -18625,6 +18625,59 @@
         "PinealGland supports an optional timezone parameter in get_time_context().",
         "Integrates with UserModel timezone property if available.",
         "Tests verify that different timezones result in correct time contexts relative to UTC."
+      ]
+    },
+    {
+      "id": "claude-code-branch-protection-v1-63f27a8b",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "medium",
+      "title": "Claude Code Feature Branch Protection Subagent",
+      "description": "Inspired by Claude Code/CLI trends (June 2026): Implement a subagent that evaluates feature branch code changes against predefined safety and architectural guidelines before merging.",
+      "allowed_paths": [
+        "magda_agent/isolation/branch_protection.py",
+        "tests/test_branch_protection.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent evaluates code changes on feature branches against safety guidelines before merging.",
+        "Tests cover blocking unsafe merges and permitting clean ones."
+      ]
+    },
+    {
+      "id": "openai-agents-schema-cache-v1-d24c8b9a",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "OpenAI Agents SDK Tool Schema Caching",
+      "description": "Inspired by OpenAI Agents SDK tool concurrency: Implement a tool schema cache component that dynamically registers and caches tool JSON schemas to optimize prompt assembly latency.",
+      "allowed_paths": [
+        "magda_agent/skills/schema_cache.py",
+        "tests/test_schema_cache.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Caches generated JSON schema definitions for registered tools dynamically.",
+        "Optimizes LLM request prompt building latency.",
+        "Tests verify cache hit/miss behavior and performance log generation."
+      ]
+    },
+    {
+      "id": "bug-brainstem-stop-command-cancel-89fa2d4c",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Bug: Brainstem stop command does not halt active skills",
+      "description": "Bug fix: Implement a cancellation mechanism/token in Consciousness.process_input to immediately and gracefully cancel long-running active skills when a stop reflex command is triggered by the Brainstem.",
+      "allowed_paths": [
+        "magda_agent/reflexes/brainstem.py",
+        "magda_agent/consciousness/core.py",
+        "tests/test_brainstem_stop_cancellation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A stop reflex command can interrupt and cancel ongoing skill executions in Consciousness.",
+        "Tests verify cancellation of simulated long-running skill tasks upon receiving the stop command."
       ]
     }
   ]

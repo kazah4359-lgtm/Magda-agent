@@ -112,6 +112,7 @@
 * [x] FEATURE: Cross-platform reach: Telegram channel v2
 * [x] FEATURE: Agent Teams sub-agents spawning (agent-teams-sub-agents)
 
+- [x] a2a-delegation-subagent: Create A2A Delegation Subagent (2026-06-16)
 - [x] a2a-async-auth-tracing: A2A Enterprise-Ready Async Auth and Tracing
 - [x] a2a-json-rpc-server: A2A JSON-RPC Server Interface
 - [x] acs-runtime-safety-controls-v2: ACS runtime safety controls
@@ -268,3 +269,6 @@
 * [ ] FEATURE: OpenAI Agents SDK Tool Loop Recovery (openai-agents-loop-recovery-v1-9f2a4c)
 * [ ] FEATURE: Claude Code Git Conflict Auto-Resolver V1 (claude-code-git-conflict-resolver-v1-7d1a5e)
 * [ ] FEATURE: Hermes Portal Resource-Bounded Skill Sandbox (hermes-portal-resource-sandbox-v1-3c9b8a)
+* [ ] FEATURE: Claude Code Feature Branch Protection Subagent (claude-code-branch-protection-v1-63f27a8b)
+* [ ] FEATURE: OpenAI Agents SDK Tool Schema Caching (openai-agents-schema-cache-v1-d24c8b9a)
+* [ ] BUG: Brainstem stop command does not halt active skills (bug-brainstem-stop-command-cancel-89fa2d4c)
