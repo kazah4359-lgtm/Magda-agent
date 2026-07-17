@@ -3,6 +3,7 @@ import logging
 from magda_agent.integration.a2a_discovery import AgentCard, A2ADiscovery
 from magda_agent.integration.a2a_discovery_v2 import AgentCardV2, A2ADiscoveryV2
 from magda_agent.integration.a2a_cards import AgentCardV3, A2ADiscoveryV3
+from magda_agent.integration.a2a_discovery_v4 import AgentCardV4, A2ADiscoveryRegistryV4
 from magda_agent.integration.a2a_delegation import A2ADelegator
 
 class A2AManager:
@@ -11,21 +12,28 @@ class A2AManager:
     of sub-plans/tasks to capable peers in a peer-to-peer network.
     Inspired by A2A Protocol trends.
     """
-    def __init__(self, local_card: Union[AgentCard, AgentCardV2, AgentCardV3]) -> None:
+    def __init__(self, local_card: Union[AgentCard, AgentCardV2, AgentCardV3, AgentCardV4]) -> None:
         """
         Initializes the manager with the local agent's identity and capabilities.
 
         Args:
-            local_card: The AgentCard, AgentCardV2, or AgentCardV3 representing this agent.
+            local_card: The AgentCard, AgentCardV2, AgentCardV3, or AgentCardV4 representing this agent.
         """
-        if isinstance(local_card, AgentCardV3):
+        self.local_card_version = 1
+        if isinstance(local_card, AgentCardV4):
+            self.discovery = A2ADiscoveryRegistryV4()
+            self.discovery.register_agent(local_card)
+            self.local_card = local_card
+            self.local_card_version = 4
+        elif isinstance(local_card, AgentCardV3):
             self.discovery = A2ADiscoveryV3(local_card=local_card) # type: ignore
         elif isinstance(local_card, AgentCardV2):
             self.discovery = A2ADiscoveryV2(local_card=local_card) # type: ignore
         else:
             self.discovery = A2ADiscovery(local_card=local_card) # type: ignore
 
-        self.delegator = A2ADelegator(discovery=self.discovery) # type: ignore
+        if self.local_card_version != 4:
+            self.delegator = A2ADelegator(discovery=self.discovery) # type: ignore
 
     async def start(self) -> str:
         """
@@ -35,6 +43,8 @@ class A2AManager:
             The JSON representation of the broadcasted AgentCard.
         """
         logging.info("Starting A2AManager and broadcasting local capabilities...")
+        if self.local_card_version == 4:
+            return self.local_card.to_json()
         return await self.discovery.broadcast_card()
 
     async def discover_peers(self, mock_network_cards: Optional[List[str]] = None) -> None:
@@ -45,18 +55,23 @@ class A2AManager:
             mock_network_cards: Optional list of JSON strings representing mocked Agent Cards.
         """
         logging.info("A2AManager discovering peers...")
-        if isinstance(self.discovery, (A2ADiscoveryV2, A2ADiscoveryV3)):
+        if self.local_card_version == 4:
+            if mock_network_cards:
+                self.discovery.parse_and_register_cards(mock_network_cards)
+        elif isinstance(self.discovery, (A2ADiscoveryV2, A2ADiscoveryV3)):
             await self.discovery.fetch_cards(network_envelopes=mock_network_cards)
         else:
             await self.discovery.fetch_cards(mock_network_cards=mock_network_cards)
 
-    def get_known_peers(self) -> Union[List[AgentCard], List[AgentCardV2], List[AgentCardV3]]:
+    def get_known_peers(self) -> Union[List[AgentCard], List[AgentCardV2], List[AgentCardV3], List[AgentCardV4]]:
         """
         Retrieves all currently known peers discovered in the network.
 
         Returns:
             A list of discovered AgentCard objects.
         """
+        if self.local_card_version == 4:
+            return self.discovery.get_all_agents()
         return list(self.discovery._discovered_agents.values())
 
     async def delegate_task(self, capability: str, task_context: Dict[str, Any]) -> str:
@@ -71,4 +86,11 @@ class A2AManager:
             A string indicating the outcome of the delegation.
         """
         logging.info(f"A2AManager attempting to delegate task requiring capability: {capability}")
+        if self.local_card_version == 4:
+            # Simple matching for V4
+            for agent in self.discovery.get_all_agents():
+                if capability in agent.capabilities and agent.agent_id != self.local_card.agent_id:
+                    return f"Delegated to Agent {agent.name}"
+            return "No agent found"
+
         return await self.delegator.delegate_subplan(capability, task_context)

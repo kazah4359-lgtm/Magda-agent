@@ -276,3 +276,7 @@
 * [ ] FEATURE: OpenClaw RL Dynamic Habit Tuning V13 (openclaw-rl-dynamic-habit-tuning-v13-8d2f1b4c)
 * [ ] FEATURE: MCP Server Capability Discovery V13 (mcp-server-capability-discovery-v13-5c9e3a7b)
 * [ ] BUG: Working Memory Context Leak V13 (bug-working-memory-context-leak-v13-1a9b2c3d)
+
+* [ ] FEATURE: MCP Dynamic Capability Negotiation V5 (mcp-dynamic-capability-negotiation-v5)
+* [ ] FEATURE: OpenClaw RL Trajectory Quality Evaluation (openclaw-rl-trajectory-evaluation-v2)
+* [ ] FEATURE: Claude Worktree Pruning and Resource Optimizer (claude-worktree-pruning-optimizer-v1)
