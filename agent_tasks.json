@@ -41,6 +41,60 @@
   },
   "tasks": [
     {
+      "id": "openclaw-rl-behavior-plugin",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw RL Behavior Plugin",
+      "description": "Inspired by trend: Online reinforcement learning from user feedback. Implement a ContextEngine lifecycle plugin that logs multi-turn trajectories to update User behavior weights.",
+      "allowed_paths": [
+        "magda_agent/learning/openclaw_behavior_plugin.py",
+        "tests/test_openclaw_behavior_plugin.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ContextPlugin implementation created for RL trajectory buffering.",
+        "Plugin hooks into before_write and on_context_update lifecycle events.",
+        "Unit tests verify correct hook integration using mocks."
+      ]
+    },
+    {
+      "id": "acs-security-evaluation-task",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Security Evaluation Task",
+      "description": "Inspired by trend: ACS Agent Control Specification. Implement a periodic daily cron task that evaluates the ACS checkpoint persistence DB for policy violation trends.",
+      "allowed_paths": [
+        "magda_agent/scheduler/acs_evaluation_task.py",
+        "tests/test_acs_evaluation_task.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Evaluation task logic queries acs_checkpoints_log_v12 DB for failures.",
+        "Alerting mechanism implemented if failure rates exceed a threshold.",
+        "Unit tests mock the SQLite backend and verify correct alerting logic."
+      ]
+    },
+    {
+      "id": "claude-evaluator-subagent-gitworktree",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Claude Evaluator Subagent Spawn",
+      "description": "Inspired by trend: Multi-Agent Git Worktrees and Planner/Evaluator pattern. Implement an Evaluator subagent factory utilizing GitWorktreeMultiManager.",
+      "allowed_paths": [
+        "magda_agent/agents/evaluator_subagent.py",
+        "tests/test_evaluator_subagent.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "EvaluatorSubagent class spawns in isolated Git worktree.",
+        "Agent runs review against Planner graphs.",
+        "Unit tests simulate Worktree creation using mocks."
+      ]
+    },
+    {
       "id": "openai-agents-sdk-concurrency-router-v5",
       "title": "OpenAI Agents SDK Concurrency Router V5",
       "description": "Inspired by OpenAI Agents SDK trend: Implement a concurrent tool router that optimizes parallel execution of server-prefixed tools and maintains safety isolation.",
@@ -8580,7 +8634,7 @@
     },
     {
       "id": "mcp-context-export-tool-v2",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "MCP Context Export Tool",
