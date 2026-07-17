@@ -8547,7 +8547,7 @@
     },
     {
       "id": "a2a-async-tracing-v4",
-      "status": "todo",
+      "status": "done",
       "area": "monitoring",
       "risk": "low",
       "title": "A2A Async-first Tracing V4",
@@ -19165,6 +19165,57 @@
       "area": "learning",
       "risk": "medium",
       "status": "todo"
+    },
+    {
+      "id": "mcp-dynamic-capability-negotiation-v5-34ab8e",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Capability Negotiation V5",
+      "description": "Inspired by MCP Trend: Implement multi-turn capability negotiation for MCP tools, allowing dynamic capability discovery at runtime.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_capability_negotiation_v5.py",
+        "tests/test_mcp_capability_negotiation_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Capability Negotiation V5 module is created.",
+        "Tests verify multi-turn negotiation and fallback."
+      ]
+    },
+    {
+      "id": "openclaw-rl-trajectory-evaluation-v2-12fc90",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Trajectory Quality Evaluation",
+      "description": "Inspired by OpenClaw RL Trend: Implement trajectory quality evaluation module to assess full multi-turn conversational rollouts against standard metrics for online learning.",
+      "allowed_paths": [
+        "magda_agent/learning/trajectory_quality_v2.py",
+        "tests/test_trajectory_quality_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Trajectory Quality Evaluator module is created.",
+        "Tests mock trajectory parsing and metric calculation."
+      ]
+    },
+    {
+      "id": "claude-worktree-pruning-optimizer-v1-98acb4",
+      "status": "todo",
+      "area": "isolation",
+      "risk": "medium",
+      "title": "Claude Worktree Pruning and Resource Optimizer",
+      "description": "Inspired by Claude Agent Teams Trend: Create an optimizer to prune inactive Git worktrees and manage disk resources utilized by concurrent parallel subagents.",
+      "allowed_paths": [
+        "magda_agent/isolation/worktree_pruning_v1.py",
+        "tests/test_worktree_pruning_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Worktree Pruning Optimizer module is created.",
+        "Tests mock disk operations and verify correct worktrees are pruned based on TTL."
+      ]
     }
   ]
 }
