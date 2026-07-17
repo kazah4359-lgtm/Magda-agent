@@ -16658,7 +16658,7 @@
     },
     {
       "id": "acs-validation-checkpoints-v2",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "ACS Guardrail Checkpoints Integration v2",
@@ -19602,6 +19602,57 @@
       "acceptance": [
         "Inactive context blocks are successfully paged to storage",
         "Unit tests confirm memory threshold triggers correctly"
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-metrics-visualization",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw RL Canvas Metrics Visualization",
+      "description": "Inspired by OpenClaw trends: Implement a Canvas module to visually stream live RL metric updates, including Q-value shifts and habit weights, directly to the web UI.",
+      "allowed_paths": [
+        "magda_agent/visualization/rl_metrics_canvas.py",
+        "tests/test_rl_metrics_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL Metrics Canvas visualizer broadcasts RL updates to websocket clients.",
+        "Tests verify format and payload correctness."
+      ]
+    },
+    {
+      "id": "hermes-agent-skills-auto-refinement-v7",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "Hermes Agent Skills Auto-Refinement v7",
+      "description": "Inspired by Hermes self-improving agents trend: Extend ProceduralMemory with a skill refiner that processes episodic feedback to iteratively optimize skill performance over time.",
+      "allowed_paths": [
+        "magda_agent/skills/refinement_v7.py",
+        "tests/test_refinement_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill refiner aggregates past feedback and adjusts procedural schemas.",
+        "Tests verify optimization logic using mock logs."
+      ]
+    },
+    {
+      "id": "acs-realtime-fallback-heuristics",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Real-Time Guardrail Fallback Heuristics",
+      "description": "Inspired by ACS standard: Introduce heuristic-based graceful fallbacks for failed safety checkpoints to recover autonomously rather than throwing blocking exceptions.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_fallback_heuristics.py",
+        "tests/test_acs_fallback_heuristics.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS fallback heuristics process GuardrailViolationError exceptions and compute safe alternatives.",
+        "Tests verify fallback generation logic."
       ]
     }
   ]
