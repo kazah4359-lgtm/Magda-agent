@@ -37,6 +37,7 @@ from magda_agent.scheduler.cron_reports import DailyReportScheduler
 from magda_agent.scheduler.cron_backups import perform_sqlite_backups
 
 from magda_agent.operations.cron_v3 import HermesCronSchedulerV3
+from magda_agent.scheduler.cron_diagnostics import DiagnosticScheduler
 from magda_agent.scheduler.autonomous_tasks import run_health_check, report_quality_metrics
 from magda_agent.autonomy.task_store import TaskStore, TaskStatus
 from magda_agent.autonomy.executor import AutonomousExecutor
@@ -207,6 +208,7 @@ subconsciousness = Subconsciousness(
 cron_scheduler = CronScheduler()
 daily_report_scheduler = DailyReportScheduler(scheduler=cron_scheduler)
 operations_scheduler = HermesCronSchedulerV3(db_path="operations.sqlite3")
+diagnostic_scheduler = DiagnosticScheduler(scheduler=operations_scheduler)
 
 # Schedule Subconsciousness reflection
 # Default interval was 300 seconds, which is every 5 minutes
