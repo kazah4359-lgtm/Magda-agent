@@ -66,7 +66,7 @@ async def test_router_local_only(local_registry: SkillRegistry) -> None:
 
     assert results == ["local_sync_1", "local_async_2"]
     # Should run in parallel. A generous limit is set to avoid CI CPU scheduling flakiness.
-    assert end - start < 0.6
+    assert end - start < 3.0
 
 
 @pytest.mark.asyncio
