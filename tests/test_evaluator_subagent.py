@@ -1,9 +1,10 @@
 import pytest
 import json
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock, MagicMock, patch
 from magda_agent.agents.evaluator_subagent import EvaluatorSubagent
 from magda_agent.llm_client import LLMClient
 from magda_agent.memory.storage import MemorySystem
+from magda_agent.isolation.git_worktree_multi import GitWorktreeMultiManager
 
 @pytest.fixture
 def mock_llm_client():
@@ -16,8 +17,13 @@ def mock_memory_system():
     return mock
 
 @pytest.fixture
-def evaluator_subagent(mock_llm_client, mock_memory_system):
-    return EvaluatorSubagent(llm=mock_llm_client, memory=mock_memory_system)
+def mock_worktree_manager():
+    mock = AsyncMock(spec=GitWorktreeMultiManager)
+    return mock
+
+@pytest.fixture
+def evaluator_subagent(mock_llm_client, mock_memory_system, mock_worktree_manager):
+    return EvaluatorSubagent(llm=mock_llm_client, memory=mock_memory_system, worktree_manager=mock_worktree_manager)
 
 @pytest.mark.asyncio
 async def test_evaluate_response_success(evaluator_subagent, mock_memory_system):
@@ -158,3 +164,53 @@ async def test_evaluate_response_with_policies(evaluator_subagent):
     assert "Evaluate against these specific policies:" in task_str
     assert "- Be polite" in task_str
     assert "- Be concise" in task_str
+
+@pytest.mark.asyncio
+@patch('magda_agent.agents.evaluator_subagent.DependencyGraph')
+async def test_evaluate_planner_graph(mock_dep_graph, evaluator_subagent, mock_worktree_manager):
+    # Setup DependencyGraph mock to not raise ValueError (i.e. valid topological sort)
+    mock_dep_graph.topological_sort.return_value = []
+
+    mock_result_json = '{"analysis": "looks good", "score": 9}'
+    mock_worktree_manager.execute_concurrently.return_value = [mock_result_json]
+
+    plan = {
+        "steps": [
+            {"id": "step1", "dependencies": []},
+            {"id": "step2", "dependencies": ["step1"]}
+        ]
+    }
+
+    results = await evaluator_subagent.evaluate_planner_graph(plan)
+
+    assert results == [mock_result_json]
+    mock_dep_graph.topological_sort.assert_called_once_with(plan["steps"])
+    mock_worktree_manager.execute_concurrently.assert_called_once()
+
+    # Assert that the task passed to execute_concurrently is a callable (our nested async function)
+    args, _ = mock_worktree_manager.execute_concurrently.call_args
+    assert len(args[0]) == 1
+    assert callable(args[0][0])
+
+@pytest.mark.asyncio
+@patch('magda_agent.agents.evaluator_subagent.DependencyGraph')
+async def test_evaluate_planner_graph_cycle(mock_dep_graph, evaluator_subagent, mock_worktree_manager):
+    # Setup DependencyGraph mock to raise ValueError indicating a cycle
+    mock_dep_graph.topological_sort.side_effect = ValueError("cycle found")
+
+    mock_result_json = '{"analysis": "cycle detected", "score": 1}'
+    mock_worktree_manager.execute_concurrently.return_value = [mock_result_json]
+
+    plan = {
+        "steps": [
+            {"id": "step1", "dependencies": ["step2"]},
+            {"id": "step2", "dependencies": ["step1"]}
+        ]
+    }
+
+    results = await evaluator_subagent.evaluate_planner_graph(plan)
+
+    assert results == [mock_result_json]
+    mock_worktree_manager.execute_concurrently.assert_called_once()
+    args, _ = mock_worktree_manager.execute_concurrently.call_args
+    assert len(args[0]) == 1
