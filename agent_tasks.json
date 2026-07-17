@@ -8495,7 +8495,7 @@
     },
     {
       "id": "channel-hub-rate-limiter",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Channel Hub Rate Limiter",

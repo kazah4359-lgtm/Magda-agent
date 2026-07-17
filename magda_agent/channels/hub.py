@@ -1,13 +1,21 @@
 from typing import Any, Dict, Optional
 from magda_agent.channels.base import ChannelAdapter
+from magda_agent.channels.rate_limiter import ChannelRateLimiter
 
 class ChannelHub:
     """
     Centralized messaging hub that abstracts multiple channel adapters.
     Manages a collection of ChannelAdapter instances and allows receiving and sending messages across them.
     """
-    def __init__(self):
+    def __init__(self, rate_limiter: Optional[ChannelRateLimiter] = None):
         self._adapters: Dict[str, ChannelAdapter] = {}
+        self.rate_limiter = rate_limiter
+
+    def set_rate_limiter(self, rate_limiter: ChannelRateLimiter) -> None:
+        """
+        Set or update the active rate limiter for this hub.
+        """
+        self.rate_limiter = rate_limiter
 
     def register_adapter(self, adapter: ChannelAdapter) -> None:
         """
@@ -61,5 +69,7 @@ class ChannelHub:
         """
         adapter = self.get_adapter(channel_id)
         if adapter:
+            if self.rate_limiter:
+                await self.rate_limiter.acquire(channel_id)
             return await adapter.send(recipient_id, text, metadata)
         return f"Error: Channel '{channel_id}' not found."
