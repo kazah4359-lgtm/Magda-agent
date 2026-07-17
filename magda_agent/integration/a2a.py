@@ -5,6 +5,7 @@ from magda_agent.integration.a2a_discovery_v2 import AgentCardV2, A2ADiscoveryV2
 from magda_agent.integration.a2a_cards import AgentCardV3, A2ADiscoveryV3
 from magda_agent.integration.a2a_discovery_v4 import AgentCardV4, A2ADiscoveryRegistryV4
 from magda_agent.integration.a2a_delegation import A2ADelegator
+from magda_agent.integration.a2a_status_broadcaster import A2AStatusBroadcaster
 
 class A2AManager:
     """
@@ -32,8 +33,14 @@ class A2AManager:
         else:
             self.discovery = A2ADiscovery(local_card=local_card) # type: ignore
 
+
         if self.local_card_version != 4:
             self.delegator = A2ADelegator(discovery=self.discovery) # type: ignore
+            if self.local_card_version == 1:
+                self.broadcaster = A2AStatusBroadcaster(local_card, "http://default-registry/broadcast")
+            else:
+                self.broadcaster = None
+
 
     async def start(self) -> str:
         """
@@ -94,3 +101,12 @@ class A2AManager:
             return "No agent found"
 
         return await self.delegator.delegate_subplan(capability, task_context)
+
+
+    async def broadcast_status(self, is_available: bool, active_tasks: int) -> bool:
+        """
+        Broadcasts the current agent status using the A2AStatusBroadcaster.
+        """
+        if hasattr(self, 'broadcaster') and self.broadcaster:
+            return await self.broadcaster.broadcast_status(is_available, active_tasks)
+        return False

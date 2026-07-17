@@ -8652,7 +8652,7 @@
     },
     {
       "id": "a2a-status-broadcaster-v2",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Status Broadcaster",
@@ -19462,6 +19462,58 @@
       "acceptance": [
         "Exporter pushes structured telemetry via A2A protocol.",
         "Tests verify format and mocked broadcast execution."
+      ]
+    },
+    {
+      "id": "acs-dynamic-checkpoint-v2-080372",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Dynamic Checkpoint Configuration V2",
+      "description": "Inspired by ACS Agent Control Specification trend: Implement dynamic, configurable safety checkpoints that can be enabled or disabled per agent sub-task based on trust levels.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_dynamic_config_v2.py",
+        "tests/test_acs_dynamic_config_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS checkpoints can be dynamically toggled.",
+        "Module integrates correctly with existing checkpoint pipeline.",
+        "Unit tests verify configuration application and checkpoint bypassing."
+      ]
+    },
+    {
+      "id": "memgpt-virtual-context-storage-9f064f",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "MemGPT Virtual Context Storage Plugin",
+      "description": "Inspired by MemGPT / Letta virtual context trend: Implement a specific storage backend integration for the virtual context layer that pages context blocks to the filesystem for extreme long-term memory scenarios.",
+      "allowed_paths": [
+        "magda_agent/memory/virtual_context_storage.py",
+        "tests/test_virtual_context_storage.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context blocks can be paged out to and read from the filesystem.",
+        "Tests verify correct reading and writing of paged context chunks."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-metric-sync-0fee8b",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas Metric Sync WebSocket",
+      "description": "Inspired by OpenClaw Live Visualization trend: Create a dedicated WebSocket synchronization hook that periodically emits RL quality metrics to the live canvas UI without interrupting the main task loop.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_metric_sync.py",
+        "tests/test_canvas_metric_sync.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WebSocket hook collects and transmits RL metrics periodically.",
+        "Tests mock the WebSocket connection and verify metric transmission format."
       ]
     }
   ]
