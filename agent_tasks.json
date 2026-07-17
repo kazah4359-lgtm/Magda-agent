@@ -42,7 +42,7 @@
   "tasks": [
     {
       "id": "openclaw-rl-behavior-plugin",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw RL Behavior Plugin",
@@ -19323,6 +19323,57 @@
         "Dynamically routes control flow between agents upon handover execution.",
         "Tests verify state preservation and successful routing across different handoffs.",
         "No external APIs are called, everything is mock-tested."
+      ]
+    },
+    {
+      "id": "agentskills-io-export-v1",
+      "title": "Hermes agentskills.io Format Exporter v1",
+      "description": "Inspired by Hermes Agent trend 'Открытый стандарт skills: agentskills.io', implement an exporter to convert internal magda skills to the agentskills.io open standard.",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "allowed_paths": [
+        "magda_agent/skills/agentskills_exporter.py",
+        "tests/test_agentskills_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Exporter implemented for agentskills.io format",
+        "Tests verify JSON output schema matches standard via mock"
+      ]
+    },
+    {
+      "id": "claude-agent-teams-subagent-spawner-v1",
+      "title": "Claude Agent Teams Subagent Spawner",
+      "description": "Inspired by Claude Agent SDK trend 'Agent Teams: multi-agent с git worktree isolation', implement a subagent spawner for parallel tasks.",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "allowed_paths": [
+        "magda_agent/agents/subagent_spawner.py",
+        "tests/test_subagent_spawner.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Spawner can spawn independent agents",
+        "Tests mock worktree provisioning and agent execution"
+      ]
+    },
+    {
+      "id": "mcpkernel-taint-tracking-v1",
+      "title": "MCPKernel Taint Tracking Sandbox v1",
+      "description": "Inspired by trend 'MCPKernel: taint tracking + sandboxed execution', implement a sandbox boundary module for MCP tool execution to enforce strict taint tracking.",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_kernel_sandbox.py",
+        "tests/test_mcp_kernel_sandbox.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sandbox blocks execution of tainted arguments",
+        "Tests verify sandboxed behavior using mock policies"
       ]
     }
   ]
