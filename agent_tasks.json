@@ -60,7 +60,7 @@
     },
     {
       "id": "acs-security-evaluation-task",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "ACS Security Evaluation Task",
@@ -19374,6 +19374,60 @@
       "acceptance": [
         "Sandbox blocks execution of tainted arguments",
         "Tests verify sandboxed behavior using mock policies"
+      ]
+    },
+    {
+      "id": "acs-policy-performance-logger-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "low",
+      "title": "ACS Policy Performance Logger",
+      "description": "Inspired by trend: ACS Agent Control Specification. Implement a module to track the overhead of ACS Checkpoints.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_perf_logger_v1.py",
+        "tests/test_acs_perf_logger_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Logger module tracks execution time of ACS checkpoints.",
+        "Generates statistics (average, max, min overhead).",
+        "Unit tests verify correct logging and statistics calculation."
+      ]
+    },
+    {
+      "id": "agent-teams-shared-virtual-memory",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Agent Teams Shared Virtual Memory Module",
+      "description": "Inspired by MemGPT/Letta virtual context pattern. Implement a shared virtual memory system allowing subagents to safely access and update global semantic context across parallel executions.",
+      "allowed_paths": [
+        "magda_agent/memory/shared_virtual_memory.py",
+        "tests/test_shared_virtual_memory.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Shared virtual memory module provides async atomic read/write context operations.",
+        "Integrates with existing VirtualMemoryPlugin architecture.",
+        "Unit tests mock DBs and verify safe concurrent memory access."
+      ]
+    },
+    {
+      "id": "openclaw-rl-online-reward-backprop",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Online Reward Backpropagation Scheduler",
+      "description": "Inspired by OpenClaw-RL trend. Implement a cron task that backpropagates delayed rewards across historical dialog states (next-state signals) for online reinforcement learning.",
+      "allowed_paths": [
+        "magda_agent/scheduler/rl_reward_backprop.py",
+        "tests/test_rl_reward_backprop.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Scheduler task fetches unrewarded conversational states and applies exponential discounting backpropagation.",
+        "Integrates with OpenClawRLMetrics and Consciousness context.",
+        "Unit tests verify correct reward calculation and discounting."
       ]
     }
   ]
