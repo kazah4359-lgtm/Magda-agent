@@ -184,6 +184,10 @@
 
 * [ ] BUG: `Brainstem` integration in `Consciousness.process_input` does not halt long-running skills gracefully upon a 'stop' command. Need to implement a cancellation token or mechanism for active background tasks when a stop reflex is triggered. (2026-06-04)
 * [x] FEATURE: Claude Task System with Dependency Graphs v3 (claude-dependency-graph-planner-v3)
+* [x] FEATURE: Claude Agent Teams Dependency Graph (claude-agent-teams-dependency-graph-a5bf63e6)
+* [ ] FEATURE: MCP Tool Sandboxing Enhancements (mcp-tool-sandboxing-enhancements)
+* [ ] FEATURE: Context Engine Paging Pattern (openclaw-context-engine-paging-pattern)
+
 ## 🛠️ Запланированные Skills
 * [x] FEATURE: OpenClaw Canvas Live Visualization (2026-06-15)
 * [x] FEATURE: OpenClaw RL Next-State Signals

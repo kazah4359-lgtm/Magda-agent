@@ -8689,7 +8689,7 @@
     },
     {
       "id": "claude-agent-teams-dependency-graph-a5bf63e6",
-      "status": "todo",
+      "status": "done",
       "area": "planning",
       "risk": "medium",
       "title": "Claude Agent Teams Dependency Graph",
@@ -19568,6 +19568,40 @@
         "Context engine lifecycle correctly prioritizes high-salience tokens during context truncation.",
         "Module implements hook interfaces accurately.",
         "Tests verify truncation skips prioritized context items."
+      ]
+    },
+    {
+      "id": "mcp-tool-sandboxing-enhancements",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Tool Sandboxing Enhancements",
+      "description": "Inspired by MCPKernel: taint tracking + sandboxed execution trend. Implement stricter validation and isolation for MCP tools.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_sandbox_strict.py",
+        "tests/test_mcp_sandbox_strict.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Strict sandbox restricts network and filesystem access for MCP tools",
+        "Integration tests confirm malicious tool execution is blocked"
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-paging-pattern",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Context Engine Paging Pattern",
+      "description": "Inspired by OpenClaw virtual context management trend. Implement a paging mechanism to automatically swap inactive context blocks out of working memory.",
+      "allowed_paths": [
+        "magda_agent/memory/context_paging.py",
+        "tests/test_context_paging.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Inactive context blocks are successfully paged to storage",
+        "Unit tests confirm memory threshold triggers correctly"
       ]
     }
   ]
