@@ -8564,7 +8564,7 @@
     },
     {
       "id": "post-merge-smoke-tests-loop-v2",
-      "status": "todo",
+      "status": "done",
       "area": "testing",
       "risk": "medium",
       "title": "Post-Merge Smoke Tests Loop",
@@ -19215,6 +19215,60 @@
       "acceptance": [
         "Worktree Pruning Optimizer module is created.",
         "Tests mock disk operations and verify correct worktrees are pruned based on TTL."
+      ]
+    },
+    {
+      "id": "mcp-server-side-streaming-v2-xyz123",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Tool Server Server-Side Streaming Support v2",
+      "description": "Inspired by June 2026 OpenAI and Anthropic streaming trends: Implement server-side streaming output capabilities for exported MCP tools in Magda, enabling external clients to stream token chunks directly from LLM-driven skills instead of waiting for full execution.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_streaming_v2_xyz.py",
+        "tests/test_mcp_streaming_v2_xyz.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP server supports exporting tool schemas with streaming response metadata.",
+        "The server correctly emits streaming chunks over JSON-RPC when a tool is executed in streaming mode.",
+        "Tests verify chunked output generation and transmission."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-state-sync-patching-v4-xyz456",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "low",
+      "title": "OpenClaw Canvas State Sync Patching V4 xyz",
+      "description": "Inspired by OpenClaw Live Visualization trend: Create a Canvas state patch manager using standard JSON patch format to optimize websocket state synchronization between the backend brain and UI canvas.",
+      "allowed_paths": [
+        "magda_agent/visualization/canvas_patching_v4_xyz.py",
+        "tests/test_canvas_patching_v4_xyz.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Patch manager correctly generates and applies JSON state patches.",
+        "Tests verify that bandwidth is significantly reduced compared to full-state streaming."
+      ]
+    },
+    {
+      "id": "openai-agents-sdk-handover-routing-a2b3c4d5-xyz789",
+      "status": "todo",
+      "area": "skills",
+      "risk": "medium",
+      "title": "OpenAI Agents SDK Dynamic Handover and Routing Module xyz",
+      "description": "Inspired by OpenAI Agents SDK trend: Implement a specialized handover router that allows subagents to yield control back to the parent coordinator or delegate to another specialized subagent dynamically via structured handover tool execution.",
+      "allowed_paths": [
+        "magda_agent/skills/handover_router_xyz.py",
+        "tests/test_handover_router_xyz.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "HandoverRouter allows registering agents and defining handover tool signatures.",
+        "Dynamically routes control flow between agents upon handover execution.",
+        "Tests verify state preservation and successful routing across different handoffs.",
+        "No external APIs are called, everything is mock-tested."
       ]
     }
   ]
