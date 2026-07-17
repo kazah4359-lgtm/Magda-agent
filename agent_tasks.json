@@ -8530,7 +8530,7 @@
     },
     {
       "id": "a2a-peer-task-delegation-v4",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "A2A Peer Task Delegation V4",
@@ -19131,6 +19131,40 @@
         "Worktree Pruning Optimizer module is created.",
         "Tests mock disk operations and verify correct worktrees are pruned based on TTL."
       ]
+    },
+    {
+      "id": "a2a-swarm-intelligence-v1",
+      "title": "A2A Swarm Intelligence Strategy v1",
+      "description": "Inspired by Anthropic swarm patterns: Add dynamic task redistribution across peer agents when latency spikes are detected.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_swarm.py",
+        "tests/test_a2a_swarm.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Task redistribution triggers on high latency",
+        "Tests simulate latency and verify routing"
+      ],
+      "area": "integration",
+      "risk": "medium",
+      "status": "todo"
+    },
+    {
+      "id": "openclaw-rl-multiagent-feedback-v1",
+      "title": "OpenClaw RL Multi-agent Feedback Exchange",
+      "description": "Inspired by OpenClaw trends: Enable agents to share RL habit weights to bootstrap new peers in an A2A network.",
+      "allowed_paths": [
+        "magda_agent/learning/a2a_rl_exchange.py",
+        "tests/test_a2a_rl_exchange.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "RL weights can be exported and imported",
+        "Tests verify cross-agent weight synchronization"
+      ],
+      "area": "learning",
+      "risk": "medium",
+      "status": "todo"
     }
   ]
 }
