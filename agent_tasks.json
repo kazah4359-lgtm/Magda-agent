@@ -8706,7 +8706,7 @@
     },
     {
       "id": "openai-agents-sdk-mcp-server-prefixed-tool-names-04d16c9f",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "OpenAI Agents SDK MCP Server Prefixed Tool Names",
@@ -19653,6 +19653,60 @@
       "acceptance": [
         "ACS fallback heuristics process GuardrailViolationError exceptions and compute safe alternatives.",
         "Tests verify fallback generation logic."
+      ]
+    },
+    {
+      "id": "openai-agents-sdk-realtime-guardrail-metrics-29733803",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Realtime Guardrail Metrics Tracking",
+      "description": "Inspired by OpenAI Agents SDK trend: Realtime Guardrail Fallback. Implement metrics tracking for guardrail interceptions, capturing the frequency and context of tool execution overrides. Track moving averages and expose for visualization.",
+      "allowed_paths": [
+        "magda_agent/safety/guardrail_metrics_v2.py",
+        "tests/test_guardrail_metrics_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Metrics tracking class intercepts and logs guardrail overrides",
+        "Moving average calculation is implemented",
+        "Tests verify metrics aggregation and tracking logic"
+      ]
+    },
+    {
+      "id": "openclaw-rl-entropy-visualizer-dd742c2d",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Shannon Entropy Visualizer Export",
+      "description": "Inspired by OpenClaw RL trend: Live Visualization. Extend RLCanvasMetricsExporter to calculate and include Shannon Entropy of skill distributions in its structured export for Canvas UI ingestion.",
+      "allowed_paths": [
+        "magda_agent/learning/canvas_metrics_entropy.py",
+        "tests/test_canvas_metrics_entropy.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Shannon entropy calculation is implemented for skill distributions",
+        "Exporter includes entropy metrics in structured JSON output",
+        "Tests verify entropy calculation accuracy and edge cases"
+      ]
+    },
+    {
+      "id": "hermes-agent-cron-scheduler-diagnostics-5989c08b",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Hermes Agent Cron Diagnostics Reporter",
+      "description": "Inspired by Hermes Agent trend: Scheduled operations. Implement a background diagnostic reporter task that uses HermesCronSchedulerV3 to periodically compile system health and error density metrics into a structured report.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_diagnostics_reporter.py",
+        "tests/test_cron_diagnostics_reporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Diagnostic reporter gathers error density and health metrics",
+        "Reporter integrates with HermesCronSchedulerV3",
+        "Tests verify metric compilation logic with mocked scheduler"
       ]
     }
   ]
