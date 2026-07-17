@@ -8670,7 +8670,7 @@
     },
     {
       "id": "scheduled-diagnostic-report-v2",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "low",
       "title": "Scheduled Diagnostic Report",
@@ -19514,6 +19514,60 @@
       "acceptance": [
         "WebSocket hook collects and transmits RL metrics periodically.",
         "Tests mock the WebSocket connection and verify metric transmission format."
+      ]
+    },
+    {
+      "id": "acs-telemetry-pipeline-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Telemetry Pipeline V1",
+      "description": "Inspired by Microsoft ACS (Agent Control Specification) trend: Implement a telemetry pipeline that exports the 5 validation checkpoint metrics and guardrail failure rates asynchronously via an MCP or A2A endpoint.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_telemetry_v1.py",
+        "tests/test_acs_telemetry_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Telemetry pipeline accurately collects metrics from checkpoints.",
+        "Module exposes a standard exporter format for downstream consumers.",
+        "Tests verify accurate recording and formatting using mocks."
+      ]
+    },
+    {
+      "id": "hermes-memory-unification-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Hermes Agent Memory Unification V1",
+      "description": "Inspired by Hermes Agent trend: Unify the fragmented Working, Episodic, Semantic, and Procedural memory interfaces behind a single unified MemGPT/Letta style interface, simplifying long-term context retention.",
+      "allowed_paths": [
+        "magda_agent/memory/unified_memory_v1.py",
+        "tests/test_unified_memory_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Unified memory layer seamlessly routes read/write operations to the appropriate subsystem.",
+        "Reduces Cognitive Architecture complexity by abstracting away explicit chroma DB calls.",
+        "Tests mock subsystem writes and verify routing logic."
+      ]
+    },
+    {
+      "id": "openclaw-context-engine-hooks-v5",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Context Engine Advanced Hooks V5",
+      "description": "Inspired by OpenClaw trend: Extend the ContextEngine to support dynamic priority-based token weighting in lifecycle hooks, ensuring high-salience task tokens are never truncated during compression.",
+      "allowed_paths": [
+        "magda_agent/memory/advanced_context_hooks_v5.py",
+        "tests/test_advanced_context_hooks_v5.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context engine lifecycle correctly prioritizes high-salience tokens during context truncation.",
+        "Module implements hook interfaces accurately.",
+        "Tests verify truncation skips prioritized context items."
       ]
     }
   ]
