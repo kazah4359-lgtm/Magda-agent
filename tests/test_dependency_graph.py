@@ -1,5 +1,5 @@
 import pytest
-from magda_agent.architecture.dependency_graph import DependencyGraph
+from magda_agent.planning.dependency_graph import DependencyGraph
 
 def test_topological_sort_empty():
     """Test that topological sort works on an empty list of tasks."""
@@ -65,3 +65,46 @@ def test_topological_sort_missing_dependency():
     sorted_steps = DependencyGraph.topological_sort(plan_steps)
     assert len(sorted_steps) == 1
     assert sorted_steps[0]["id"] == "step1"
+
+def test_get_execution_layers():
+    plan_steps = [
+        {"id": "A", "dependencies": []},
+        {"id": "B", "dependencies": ["A"]},
+        {"id": "C", "dependencies": ["A"]},
+        {"id": "D", "dependencies": ["B", "C"]},
+        {"id": "E", "dependencies": ["C"]},
+        {"id": "F", "dependencies": ["D", "E"]}
+    ]
+    layers = DependencyGraph.get_execution_layers(plan_steps)
+    # Expected layers:
+    # Layer 0: A
+    # Layer 1: B, C
+    # Layer 2: D, E
+    # Layer 3: F
+    assert len(layers) == 4
+    assert [step["id"] for step in layers[0]] == ["A"]
+    assert set(step["id"] for step in layers[1]) == {"B", "C"}
+    assert set(step["id"] for step in layers[2]) == {"D", "E"}
+    assert [step["id"] for step in layers[3]] == ["F"]
+
+def test_get_execution_layers_cycle():
+    plan_steps = [
+        {"id": "A", "dependencies": ["B"]},
+        {"id": "B", "dependencies": ["A"]}
+    ]
+    with pytest.raises(ValueError, match="Cycle detected"):
+        DependencyGraph.get_execution_layers(plan_steps)
+
+def test_get_critical_path():
+    plan_steps = [
+        {"id": "A", "dependencies": []},
+        {"id": "B", "dependencies": ["A"]},
+        {"id": "C", "dependencies": ["A"]},
+        {"id": "D", "dependencies": ["B"]},
+        {"id": "E", "dependencies": ["D"]},
+        {"id": "F", "dependencies": ["C", "E"]}
+    ]
+    path = DependencyGraph.get_critical_path(plan_steps)
+    # The longest path is A -> B -> D -> E -> F (length 5)
+    # A -> C -> F is length 3
+    assert [step["id"] for step in path] == ["A", "B", "D", "E", "F"]
