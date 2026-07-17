@@ -78,7 +78,7 @@
     },
     {
       "id": "claude-evaluator-subagent-gitworktree",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "Claude Evaluator Subagent Spawn",
@@ -19428,6 +19428,40 @@
         "Scheduler task fetches unrewarded conversational states and applies exponential discounting backpropagation.",
         "Integrates with OpenClawRLMetrics and Consciousness context.",
         "Unit tests verify correct reward calculation and discounting."
+      ]
+    },
+    {
+      "id": "openclaw-memory-virtualization-v1",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "OpenClaw Memory Virtualization Pattern V1",
+      "description": "Inspired by MemGPT / OpenClaw memory virtualization trends: Implement a context virtualization layer that swaps context to episodic memory when approaching LLM context window limits.",
+      "allowed_paths": [
+        "magda_agent/memory/virtualization_v1.py",
+        "tests/test_virtualization_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Virtualization layer automatically pages context into ChromaDB when max tokens are reached.",
+        "Tests mock LLM context token counts and verify paging behavior."
+      ]
+    },
+    {
+      "id": "a2a-telemetry-exporter-v1",
+      "status": "todo",
+      "area": "telemetry",
+      "risk": "low",
+      "title": "A2A Telemetry Exporter V1",
+      "description": "Inspired by A2A standard trend (June 2026): Implement an exporter that broadcasts agent execution metrics and telemetry to an A2A observability mesh for decentralized monitoring.",
+      "allowed_paths": [
+        "magda_agent/telemetry/a2a_exporter_v1.py",
+        "tests/test_a2a_exporter_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Exporter pushes structured telemetry via A2A protocol.",
+        "Tests verify format and mocked broadcast execution."
       ]
     }
   ]

@@ -6,6 +6,8 @@ from magda_agent.llm_client import LLMClient
 from magda_agent.memory.storage import MemorySystem
 from magda_agent.emotions.engine import PADState
 from magda_agent.agents.sub_agent import SubAgent
+from magda_agent.isolation.git_worktree_multi import GitWorktreeMultiManager
+from magda_agent.planning.dependency_graph import DependencyGraph
 
 class EvaluatorSubagent:
     """
@@ -13,19 +15,22 @@ class EvaluatorSubagent:
     Evaluates the agent's responses based on usefulness, accuracy, completeness, and emotional adequacy.
     Inspired by Claude Agent SDK Subagent evaluation pattern.
     """
-    def __init__(self, llm: LLMClient, memory: MemorySystem):
+    def __init__(self, llm: LLMClient, memory: MemorySystem, worktree_manager: Optional[GitWorktreeMultiManager] = None):
         """
         Initializes the EvaluatorSubagent.
 
         Args:
             llm: The Language Model client.
             memory: The memory system to store evaluations.
+            worktree_manager: Optional GitWorktreeMultiManager for multi-agent isolation.
         """
+        self.llm = llm
         self.memory = memory
+        self.worktree_manager = worktree_manager or GitWorktreeMultiManager()
         self.last_evaluation: Optional[Dict[str, Any]] = None
         self.sub_agent = SubAgent(
             llm=llm,
-            system_prompt="You are an isolated SubAgent responsible for strictly evaluating responses.",
+            system_prompt="You are an isolated SubAgent responsible for strictly evaluating responses and plans.",
             use_isolation=True
         )
 
@@ -119,3 +124,45 @@ class EvaluatorSubagent:
             feedback = self.last_evaluation.get("feedback", "Improve response quality.")
             return f"Note: Your previous response received a low evaluation score ({avg_score}/10). Feedback: {feedback}. Please improve your response quality, accuracy, and emotional adequacy."
         return ""
+
+    async def evaluate_planner_graph(self, plan: Dict[str, Any]) -> List[Any]:
+        """
+        Spawns a subagent in an isolated git worktree via GitWorktreeMultiManager
+        to review a Planner dependency graph.
+
+        Args:
+            plan: The plan containing steps and dependencies.
+
+        Returns:
+            A list of evaluation results.
+        """
+        # Validate dependency graph
+        steps = plan.get("steps", [])
+        try:
+            DependencyGraph.topological_sort(steps)
+            structural_status = "Valid topological sort."
+        except ValueError as e:
+            structural_status = f"Cycle detected: {e}"
+
+        context = f"Plan structural validation: {structural_status}\nSteps:\n" + json.dumps(steps, indent=2)
+        task = (
+            "Review the provided AI Agent dependency graph for logical soundness and parallelization opportunities. "
+            "Evaluate if steps with missing dependencies can lead to failure. "
+            "Output your findings as a JSON object."
+        )
+
+        # Create a SubAgent that doesn't use its own worktree manager since we are
+        # wrapping it in GitWorktreeMultiManager.execute_concurrently
+        graph_evaluator = SubAgent(
+            llm=self.llm,
+            system_prompt="You are an isolated SubAgent responsible for strictly evaluating responses and plans.",
+            use_isolation=False
+        )
+
+        async def evaluation_task(worktree_path: str) -> str:
+            # Inject worktree path context
+            full_context = context + f"\nIsolated Worktree Context: {worktree_path}"
+            return await graph_evaluator.execute(task=task, context=full_context, temperature=0.1)
+
+        results = await self.worktree_manager.execute_concurrently([evaluation_task])
+        return results
