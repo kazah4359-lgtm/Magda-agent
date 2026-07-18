@@ -8842,7 +8842,7 @@
     },
     {
       "id": "openclaw-canvas-visualizer-v2",
-      "status": "todo",
+      "status": "done",
       "area": "visualization",
       "risk": "medium",
       "title": "OpenClaw Canvas Detailed Logging",
@@ -19990,6 +19990,57 @@
         "MCP tool execution pipeline is modified to integrate the ACS policy layer.",
         "Execution blocks on strict policy violation.",
         "Tests verify failure scenarios using mock inputs."
+      ]
+    },
+    {
+      "id": "acs-runtime-safety-controls-v7-202606",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Agent Control Specification - Runtime Safety Controls",
+      "description": "Implement robust runtime safety controls for the agent using the 5 validation checkpoints specified in ACS.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_checkpoints_v7.py",
+        "tests/test_acs_checkpoints_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Implement the 5 ACS validation checkpoints in acs_checkpoints_v7.py.",
+        "Write pytest tests verifying that policy violations correctly trigger guardrails."
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-cards-v3-202606",
+      "status": "todo",
+      "area": "multi_agent",
+      "risk": "medium",
+      "title": "A2A Agent Discovery via Agent Cards",
+      "description": "Implement a discovery service module that parses and publishes A2A Agent Cards for local network peers.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery_cards_v3.py",
+        "tests/test_a2a_discovery_cards_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Implement a discovery service reading and writing Agent Cards.",
+        "Write pytest tests mocking peer discovery via Agent Cards."
+      ]
+    },
+    {
+      "id": "a2a-peer-task-delegation-v7-202606",
+      "status": "todo",
+      "area": "multi_agent",
+      "risk": "medium",
+      "title": "A2A Peer-to-Peer Task Delegation V7",
+      "description": "Implement a secure peer-to-peer task delegation client using the A2A spec.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_task_delegation_v7.py",
+        "tests/test_a2a_task_delegation_v7.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Implement peer-to-peer task delegation client logic.",
+        "Write pytest tests verifying task delegation flow."
       ]
     }
   ]

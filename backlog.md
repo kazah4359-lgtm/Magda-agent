@@ -284,3 +284,7 @@
 * [ ] FEATURE: MCP Dynamic Capability Negotiation V5 (mcp-dynamic-capability-negotiation-v5)
 * [ ] FEATURE: OpenClaw RL Trajectory Quality Evaluation (openclaw-rl-trajectory-evaluation-v2)
 * [ ] FEATURE: Claude Worktree Pruning and Resource Optimizer (claude-worktree-pruning-optimizer-v1)
+
+* [ ] FEATURE: ACS Agent Control Specification - Runtime Safety Controls (acs-runtime-safety-controls-v7-202606)
+* [ ] FEATURE: A2A Agent Discovery via Agent Cards (a2a-agent-discovery-cards-v3-202606)
+* [ ] FEATURE: A2A Peer-to-Peer Task Delegation V7 (a2a-peer-task-delegation-v7-202606)
