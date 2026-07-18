@@ -8757,7 +8757,7 @@
     },
     {
       "id": "hermes-agent-skills-marketplace-sync",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Hermes Agent Skills Marketplace Sync",
@@ -19761,6 +19761,59 @@
         "ProceduralMemory uses Q-values from OpenClawRLMetrics to rank recalled skills",
         "Module implements an update loop to cache these metrics",
         "Tests verify Q-value ranking works successfully"
+      ]
+    },
+    {
+      "id": "mcp-server-telemetry-endpoint",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "MCP Server Telemetry Endpoint",
+      "description": "Inspired by MCP trends: Expose a JSON-RPC notification endpoint in MCPServer to broadcast agent telemetry metrics (e.g. queue size, successful task completions) to external MCP clients without expecting responses.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_telemetry.py",
+        "tests/test_mcp_telemetry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP Server successfully exposes a telemetry JSON-RPC notification endpoint",
+        "Tests mock MCP clients and verify that telemetry notification signals are broadcasted without blocking"
+      ]
+    },
+    {
+      "id": "openclaw-rl-canvas-attention-weights",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw RL Canvas Attention Weights Visualizer",
+      "description": "Inspired by OpenClaw trends: Implement a Canvas module to stream real-time Context Engine attention weight distributions (how many tokens per priority tier) to websocket clients.",
+      "allowed_paths": [
+        "magda_agent/visualization/attention_canvas.py",
+        "tests/test_attention_canvas.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Attention Weights Canvas visualizer processes Context Engine priority tier token counts",
+        "Broadcaster correctly serializes payload and streams over websocket to clients",
+        "Tests verify format and payload correctness using mocked websockets"
+      ]
+    },
+    {
+      "id": "a2a-delegator-status-reconciliation",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Delegator Status Reconciliation Worker",
+      "description": "Inspired by A2A Protocol and multi-agent standards: Implement an asynchronous background worker that uses A2ADiscoveryServiceV3Unique to query known active peer agents and reconcile the local delegator task status with peer remote states, handling orphaned tasks.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_status_reconciliation.py",
+        "tests/test_a2a_status_reconciliation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Background worker correctly queries remote states of delegated tasks",
+        "Local delegator correctly handles orphaned or failed remote tasks (e.g. re-queuing)",
+        "Tests mock A2ADiscoveryServiceV3Unique and verify state reconciliation logic"
       ]
     }
   ]

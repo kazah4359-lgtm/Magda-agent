@@ -136,6 +136,34 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
         description="Advanced web navigation skill v2 inspired by WebArena. Provides load, click, type, scroll, and submit actions. Input: 'action' string and kwargs."
     )
 
+
+    # Register Marketplace Sync Routine
+    from magda_agent.skills.marketplace_sync import MarketplaceSyncRoutine
+    def sync_marketplace_sync() -> int:
+        import asyncio
+        routine = MarketplaceSyncRoutine(registry=registry)
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                import threading
+                result = None
+                def run_in_thread():
+                    nonlocal result
+                    result = asyncio.run(routine.run_sync_cycle())
+                t = threading.Thread(target=run_in_thread)
+                t.start()
+                t.join()
+                return result
+        except RuntimeError:
+            pass
+        return asyncio.run(routine.run_sync_cycle())
+
+    registry.register_skill(
+        name="marketplace_sync",
+        func=sync_marketplace_sync,
+        description="Periodically fetches and synchronizes new skills from the external agentskills.io marketplace into the agent's skill registry."
+    )
+
     return registry
 
 from magda_agent.skills.marketplace import fetch_and_register_skills
