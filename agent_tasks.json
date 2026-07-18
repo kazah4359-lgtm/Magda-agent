@@ -8723,7 +8723,7 @@
     },
     {
       "id": "openclaw-rl-interactions-v3",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "Online RL from Interactions (OpenClaw-RL)",
