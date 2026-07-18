@@ -8740,7 +8740,7 @@
     },
     {
       "id": "selective-context-compression-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Context Compression + Selective Retrieval",
@@ -19707,6 +19707,60 @@
         "Diagnostic reporter gathers error density and health metrics",
         "Reporter integrates with HermesCronSchedulerV3",
         "Tests verify metric compilation logic with mocked scheduler"
+      ]
+    },
+    {
+      "id": "mcp-acs-telemetry-exporter",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Server ACS Telemetry Exporter",
+      "description": "Inspired by MCP and ACS trends: Implement an MCP tool within the MCPServer that securely exports ACS telemetry metrics (from ACSPersistenceV12) for external diagnostic consumption via JSON-RPC.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_acs_telemetry.py",
+        "tests/test_mcp_acs_telemetry.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tool is correctly registered for telemetry export",
+        "Tool queries ACSPersistenceV12 and formats metrics properly",
+        "Tests verify tool execution using mocks"
+      ]
+    },
+    {
+      "id": "a2a-delegator-retry-circuit-breaker",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "A2A Delegator Retry Circuit Breaker",
+      "description": "Inspired by A2A Protocol and enterprise readiness trends: Add an explicit retry wrapper using A2ADelegationCircuitBreaker into A2ADelegatorV4 to prevent retry storms on peer agent timeout.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_delegator_v4_breaker.py",
+        "tests/test_a2a_delegator_v4_breaker.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2ADelegatorV4 utilizes A2ADelegationCircuitBreaker for task delegation",
+        "Retry logic respects circuit breaker states (HALF_OPEN, CLOSED)",
+        "Tests mock peer timeouts and verify circuit breaker opens correctly"
+      ]
+    },
+    {
+      "id": "openclaw-procedural-memory-rl-updater",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Procedural Memory RL Updater",
+      "description": "Inspired by OpenClaw RL trends: Extend ProceduralMemory to automatically update skill success rates and Q-values retrieved from OpenClawRLMetrics when recalling reusable successful procedures.",
+      "allowed_paths": [
+        "magda_agent/memory/procedural_rl_updater.py",
+        "tests/test_procedural_rl_updater.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ProceduralMemory uses Q-values from OpenClawRLMetrics to rank recalled skills",
+        "Module implements an update loop to cache these metrics",
+        "Tests verify Q-value ranking works successfully"
       ]
     }
   ]
