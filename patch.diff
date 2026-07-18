@@ -1,0 +1,51 @@
+--- magda_agent/safety/policy_layer.py
++++ magda_agent/safety/policy_layer.py
+@@ -62,7 +62,6 @@
+         # 1. Run global rules
+         for rule in self._global_rules:
+             allow, explanation = rule(tool_name, kwargs)
+             if not allow:
+-                self._log_decision(tool_name, kwargs, allow, explanation)
++                self._log_decision(tool_name, kwargs, explanation)
+                 return allow, explanation
+
+         # 2. Run tool-specific rules
+         canonical_tool = self._canonical_tool_name(tool_name)
+         for rule in self._tool_rules.get(canonical_tool, []):
+             allow, explanation = rule(tool_name, kwargs)
+             if not allow:
+-                self._log_decision(tool_name, kwargs, allow, explanation)
++                self._log_decision(tool_name, kwargs, explanation)
+                 return allow, explanation
+
+         # 3. Fallback to base PolicyLayer checks
+         return super().evaluate(tool_name, **kwargs)
+
+     def _log_decision(
+-        self, tool_name: str, kwargs: Dict[str, Any], allow: bool, explanation: str
++        self, tool_name: str, kwargs: Dict[str, Any], explanation: str
+     ) -> None:
+         """
+-        Log an allowed or denied action via the AuditLogger.
++        Log a denied action via the AuditLogger.
+
+         Args:
+             tool_name: Name of the tool.
+             kwargs: Tool arguments.
+-            allow: True if allowed, False if denied.
+             explanation: Reason for the decision.
+         """
+         self.audit_logger.log_call(
+             tool_name=tool_name,
+             kwargs=kwargs,
+             why=kwargs.get("why", "Granular rule intervention"),
+-            result={"allowed": allow, "explanation": explanation},
++            result={"allowed": False, "explanation": explanation},
+             duration=0.0,
+         )
+
+-        if allow:
+-            logging.info(f"AgentGuardPolicyLayer: ALLOW - {tool_name} with args {kwargs}")
+-        else:
+-            logging.warning(f"AgentGuardPolicyLayer: DENY - {tool_name} with args {kwargs}. Reason: {explanation}")
++        logging.warning(f"AgentGuardPolicyLayer: DENY - {tool_name} with args {kwargs}. Reason: {explanation}")
