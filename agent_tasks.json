@@ -17180,7 +17180,7 @@
     },
     {
       "id": "rl-skill-weight-stability-v1",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "low",
       "title": "Online RL Skill Weight Stability Tracker",
@@ -20092,6 +20092,60 @@
       "acceptance": [
         "A2A discovery service module added.",
         "Agent card generation and resolution verified in tests."
+      ]
+    },
+    {
+      "id": "openclaw-rl-curiosity-exploration-v1",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw RL Curiosity Exploration Mechanism",
+      "description": "Inspired by OpenClaw trends: Implement a curiosity-driven exploration strategy that temporarily boosts exploration weights for rarely used skills to discover new efficient pathways in the reinforcement learning loop.",
+      "allowed_paths": [
+        "magda_agent/learning/curiosity_exploration_v1.py",
+        "tests/test_curiosity_exploration_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Curiosity module calculates the rarity of skills.",
+        "Temporarily adjusts the exploration behavior weight.",
+        "Tests mock usage metrics and verify weight boost logic."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-caching-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "MCP Action Tool Caching Layer",
+      "description": "Inspired by MCP trends: Implement an intelligent caching layer for deterministic read-only MCP action tools to reduce redundant external calls and improve context assembly speed.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_caching_v1.py",
+        "tests/test_mcp_caching_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Caching layer intercepts MCP calls and caches responses.",
+        "Respects TTL and cache-invalidation signals.",
+        "Tests verify cache hit and miss behavior with mock tools."
+      ]
+    },
+    {
+      "id": "acs-guardrail-context-awareness-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "ACS Guardrail Context Awareness",
+      "description": "Inspired by ACS and Prempti trends: Enhance the ACS runtime policy layer to be context-aware, allowing it to evaluate tool arguments against the active Working Memory to detect semantic-level hallucinations before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/acs_context_awareness_v1.py",
+        "tests/test_acs_context_awareness_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "ACS policy layer extracts semantic entities from Working Memory.",
+        "Flags tool arguments that semantically conflict with the active context.",
+        "Tests verify false positives and true positive detection."
       ]
     }
   ]
