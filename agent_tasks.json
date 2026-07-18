@@ -8825,7 +8825,7 @@
     },
     {
       "id": "claude-subagent-spawning-v2",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "high",
       "title": "Subagent Context Compression",
@@ -19955,6 +19955,42 @@
       "risk": "medium",
       "area": "agents",
       "status": "todo"
+    },
+    {
+      "id": "hermes-cron-diagnostics-v4",
+      "status": "todo",
+      "area": "operations",
+      "risk": "medium",
+      "title": "Hermes Cron Diagnostics Reporter V4",
+      "description": "Inspired by Hermes trends: Expand the cron scheduler with a diagnostic reporter module that analyzes safety checkpoint failure rates across workflows.",
+      "allowed_paths": [
+        "magda_agent/operations/cron_diagnostics_v4.py",
+        "tests/test_cron_diagnostics_v4.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Diagnostic task correctly retrieves data from the safety persistence table.",
+        "Generates a report summary of failure rates.",
+        "Tests verify generation logic via mock database access."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-governance-v2",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "MCP Action Tool Governance V2",
+      "description": "Inspired by MCP trends: Apply the new ACS policy layer explicitly over the MCP Action Tool wrapper to block executions that violate local access policies.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_action_governance_v2.py",
+        "tests/test_mcp_action_governance_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP tool execution pipeline is modified to integrate the ACS policy layer.",
+        "Execution blocks on strict policy violation.",
+        "Tests verify failure scenarios using mock inputs."
+      ]
     }
   ]
 }
