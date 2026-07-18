@@ -8808,7 +8808,7 @@
     },
     {
       "id": "mcpkernel-taint-tracking-db-v1",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCPKernel Taint Tracking Enhancements",
@@ -19920,6 +19920,41 @@
         "Creates a hierarchical breakdown of tokens/costs (Parent -> Child Subagents).",
         "Tests mock LLM completions and verify correct sum and hierarchical allocation."
       ]
+    },
+    {
+      "id": "openclaw-rl-tone-adaptation-v6",
+      "title": "Online RL Tone Adaptation V6",
+      "description": "Inspired by OpenClaw-RL trend (June 2026): Implement a behavior modifier that uses online reinforcement learning to adjust the agent's response tone based on user PAD shifts.",
+      "allowed_paths": [
+        "magda_agent/learning/rl_tone_adaptation_v6.py",
+        "tests/test_rl_tone_adaptation_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Agent tone shifts in response to positive/negative user feedback.",
+        "Tests verify weight adjustments."
+      ],
+      "risk": "medium",
+      "area": "learning",
+      "status": "todo"
+    },
+    {
+      "id": "claude-subagent-spawning-v3",
+      "title": "Subagent Context Compression V3",
+      "description": "Inspired by Claude Agent Teams multi-agent architectures: Implement a feature that compresses subagent context windows significantly before sending results back to the parent orchestrator.",
+      "allowed_paths": [
+        "magda_agent/agents/context_compression_v3.py",
+        "tests/test_context_compression_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Subagent context is compressed without losing key data.",
+        "Parent receives summarized data.",
+        "Tests verify correct compression ratio and data loss bounds."
+      ],
+      "risk": "medium",
+      "area": "agents",
+      "status": "todo"
     }
   ]
 }
