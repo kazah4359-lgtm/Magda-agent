@@ -8774,7 +8774,7 @@
     },
     {
       "id": "openai-agents-runtime-concurrency-manager",
-      "status": "todo",
+      "status": "done",
       "area": "execution",
       "risk": "high",
       "title": "OpenAI Agents SDK Runtime Concurrency",
@@ -19814,6 +19814,57 @@
         "Background worker correctly queries remote states of delegated tasks",
         "Local delegator correctly handles orphaned or failed remote tasks (e.g. re-queuing)",
         "Tests mock A2ADiscoveryServiceV3Unique and verify state reconciliation logic"
+      ]
+    },
+    {
+      "id": "mcp-context-engine-integration",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Context Engine Integration",
+      "description": "Inspired by MCP trend: build an integration to allow exporting Magda skills as MCP tools so external agents can consume Magdas Context Engine.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_context_exporter.py",
+        "tests/test_mcp_context_exporter.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Implement MCPContextExporter class",
+        "Tests mock exporting tools and returning JSON-RPC compliant schemas"
+      ]
+    },
+    {
+      "id": "openclaw-online-rl-feedback-loop",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw Online RL Feedback Loop",
+      "description": "Inspired by OpenClaw trend: learn online from user interactions. Implement a module that updates procedural memory/skill weights directly from post-action user feedback.",
+      "allowed_paths": [
+        "magda_agent/learning/online_rl_updater.py",
+        "tests/test_online_rl_updater.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Implement OnlineRLUpdater with update_weights method",
+        "Tests show skill weights shifting based on simulated positive/negative feedback"
+      ]
+    },
+    {
+      "id": "a2a-task-delegation-discovery",
+      "status": "todo",
+      "area": "multi_agent",
+      "risk": "medium",
+      "title": "A2A Task Delegation Discovery",
+      "description": "Inspired by A2A Protocol trend: Add A2A discovery mechanism to dynamically find peer agents with needed capabilities before delegation.",
+      "allowed_paths": [
+        "magda_agent/multi_agent/a2a_discovery.py",
+        "tests/test_a2a_discovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Implement A2ADiscovery service reading Agent Cards",
+        "Tests mock discovery and filtering by capabilities"
       ]
     }
   ]
