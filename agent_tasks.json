@@ -8791,7 +8791,7 @@
     },
     {
       "id": "claude-code-evaluation-subagent-v2",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "high",
       "title": "Claude SDK Evaluator Subagent",
@@ -19865,6 +19865,60 @@
       "acceptance": [
         "Implement A2ADiscovery service reading Agent Cards",
         "Tests mock discovery and filtering by capabilities"
+      ]
+    },
+    {
+      "id": "openclaw-canvas-context-lens-v1",
+      "status": "todo",
+      "area": "visualization",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Context Lens",
+      "description": "Inspired by OpenClaw Live Visualization trend: Create a 'Context Lens' feature in CanvasServer that isolates and highlights the exact token spans in Working Memory responsible for triggering the current action, improving explainability.",
+      "allowed_paths": [
+        "magda_agent/visualization/context_lens_v1.py",
+        "tests/test_context_lens_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Context Lens tracks token spans and maps them to emitted actions.",
+        "CanvasServer broadcasts these mapped spans via JSON Patch.",
+        "Tests mock token mapping and verify correct highlighting data is exported."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-security-clearance-v1",
+      "status": "todo",
+      "area": "safety",
+      "risk": "high",
+      "title": "MCP Dynamic Security Clearance Tokens",
+      "description": "Inspired by MCP Auth and enterprise safety trends: Implement a dynamic clearance token system that issues temporary, cryptographically-signed access tokens for specific MCP actions, validated by the ACS Checkpoints before execution.",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_clearance_v1.py",
+        "tests/test_mcp_clearance_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "The system issues signed clearance tokens for MCP action tools.",
+        "ACS Checkpoints strictly validate the token signature and expiration.",
+        "Tests verify token generation, valid execution, and rejection of expired/tampered tokens."
+      ]
+    },
+    {
+      "id": "claude-subagent-cost-allocation-v1",
+      "status": "todo",
+      "area": "operations",
+      "risk": "low",
+      "title": "Claude Subagent Cost Allocation Tracker",
+      "description": "Inspired by Claude Agent Teams multi-agent architectures: Implement a token tracking component that allocates LLM token usage and estimated costs hierarchically to the specific spawned subagent, rolling up to the parent orchestrator.",
+      "allowed_paths": [
+        "magda_agent/operations/cost_allocation_v1.py",
+        "tests/test_cost_allocation_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Cost allocator hooks into the LLM Client to intercept token counts per SubAgent execution.",
+        "Creates a hierarchical breakdown of tokens/costs (Parent -> Child Subagents).",
+        "Tests mock LLM completions and verify correct sum and hierarchical allocation."
       ]
     }
   ]
