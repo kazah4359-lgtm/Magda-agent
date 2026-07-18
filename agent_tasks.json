@@ -8859,7 +8859,7 @@
     },
     {
       "id": "agent-guard-policy-extension-v1",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "Agent Guard Policy Extension",
@@ -20041,6 +20041,57 @@
       "acceptance": [
         "Implement peer-to-peer task delegation client logic.",
         "Write pytest tests verifying task delegation flow."
+      ]
+    },
+    {
+      "id": "agent-teams-isolation-v1",
+      "status": "todo",
+      "area": "agents",
+      "risk": "medium",
+      "title": "Agent Teams Git Worktree Isolation",
+      "description": "Inspired by trend: Agent Teams (Claude) git worktree isolation. Implement an isolation layer where each spawned subagent operates in its own git worktree to prevent conflict.",
+      "allowed_paths": [
+        "magda_agent/isolation/git_worktree_manager.py",
+        "tests/test_git_worktree_manager.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Git worktree manager implemented.",
+        "Tests verify subagent execution within isolated git worktrees."
+      ]
+    },
+    {
+      "id": "openclaw-rl-next-state-processor",
+      "status": "todo",
+      "area": "learning",
+      "risk": "medium",
+      "title": "OpenClaw-RL Next-State Feedback Processor",
+      "description": "Inspired by trend: OpenClaw-RL online reinforcement learning. Implement a processor that extracts next-state signals (e.g. user replies or tool outputs) and routes them as reinforcement signals to the behavior module.",
+      "allowed_paths": [
+        "magda_agent/learning/next_state_processor.py",
+        "tests/test_next_state_processor.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Next-state feedback processor implemented.",
+        "Tests pass validating signal extraction and routing."
+      ]
+    },
+    {
+      "id": "a2a-agent-discovery-service",
+      "status": "todo",
+      "area": "integration",
+      "risk": "low",
+      "title": "A2A Protocol Agent Discovery Service",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol). Build a basic agent discovery service using Agent Cards that allows peering with other agents.",
+      "allowed_paths": [
+        "magda_agent/integration/a2a_discovery.py",
+        "tests/test_a2a_discovery.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "A2A discovery service module added.",
+        "Agent card generation and resolution verified in tests."
       ]
     }
   ]
