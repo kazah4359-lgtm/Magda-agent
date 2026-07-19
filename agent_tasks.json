@@ -8876,7 +8876,7 @@
     },
     {
       "id": "assert-evaluation-framework-v1",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "ASSERT Evaluation Framework",
