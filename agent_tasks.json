@@ -8893,7 +8893,7 @@
     },
     {
       "id": "a2a-peer-delegation-v4-5d34cc14",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "A2A Peer-to-Peer Delegation v5",
@@ -20146,6 +20146,41 @@
         "ACS policy layer extracts semantic entities from Working Memory.",
         "Flags tool arguments that semantically conflict with the active context.",
         "Tests verify false positives and true positive detection."
+      ]
+    },
+    {
+      "id": "claude-agent-teams-subagent-isolation-v2-dbdef95a",
+      "status": "todo",
+      "area": "architecture",
+      "risk": "high",
+      "title": "Claude Agent Teams Subagent Directory Isolation",
+      "description": "Inspired by Claude Agent SDK multi-agent orchestration trends: Implement directory workspace isolation for spawned subagents working on parallel tasks to prevent context bleeding.",
+      "allowed_paths": [
+        "magda_agent/architecture/workspace_isolation.py",
+        "tests/test_workspace_isolation.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Workspace isolation module successfully instantiates separate temporary directory paths.",
+        "Tests verify isolated operations and clean-up."
+      ]
+    },
+    {
+      "id": "mcp-action-tools-caching-v2-6b72903c",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "MCP Action Tools Caching Optimization",
+      "description": "Inspired by MCP trends where action tools grew to 65%: Implement an intelligent caching layer for deterministic read-only MCP action tools to reduce redundant external calls.",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_action_caching.py",
+        "tests/test_mcp_action_caching.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Caching layer intercepts MCP calls and caches responses.",
+        "Respects TTL and cache-invalidation signals.",
+        "Tests verify cache hit and miss behavior."
       ]
     }
   ]
