@@ -8911,7 +8911,7 @@
     },
     {
       "id": "hermes-skill-marketplace-sync-v1-new-suffix-789",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Hermes Skill Marketplace Integration v4",
@@ -20146,6 +20146,60 @@
         "ACS policy layer extracts semantic entities from Working Memory.",
         "Flags tool arguments that semantically conflict with the active context.",
         "Tests verify false positives and true positive detection."
+      ]
+    },
+    {
+      "id": "mcp-action-tool-caching-v2-unique",
+      "title": "MCP Action Tool Caching V2",
+      "description": "Inspired by MCP trends: Implement an intelligent caching layer for deterministic read-only MCP action tools to reduce redundant external calls.",
+      "area": "skills",
+      "risk": "low",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/skills/mcp_caching_v2.py",
+        "tests/test_mcp_caching_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Caching layer intercepts MCP calls and caches responses.",
+        "Respects TTL and cache-invalidation signals.",
+        "Tests verify cache hit and miss behavior with mock tools."
+      ]
+    },
+    {
+      "id": "openclaw-rl-trajectory-evaluation-v3-unique",
+      "title": "OpenClaw RL Trajectory Quality Evaluation V3",
+      "description": "Inspired by OpenClaw-RL trend: Implement a trajectory quality evaluator that analyzes conversational rollouts to detect repetitiveness, loops, or frustration signals.",
+      "area": "learning",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/learning/trajectory_evaluator_v3.py",
+        "tests/test_trajectory_evaluator_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "TrajectoryEvaluator detects conversation loops and frustration patterns.",
+        "Fitted weights are updated online using reinforcement learning signals.",
+        "Tests verify feedback loop updates with mock conversation inputs."
+      ]
+    },
+    {
+      "id": "claude-worktree-pruning-optimizer-v2-unique",
+      "title": "Claude Worktree Pruning and Resource Optimizer V2",
+      "description": "Inspired by Claude Agent SDK Agent Teams trend: Implement a daemon/worker class within GitWorktreeManager to monitor parallel subagent worktree allocations and aggressively prune abandoned or orphaned worktrees.",
+      "area": "architecture",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/isolation/worktree_pruner_v2.py",
+        "tests/test_worktree_pruner_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Pruner daemon identifies inactive, timed-out, or orphaned subagent worktrees.",
+        "Safely prunes workspaces and deletes associated directories.",
+        "Tests mock subagent timelines and verify automatic cleanup."
       ]
     }
   ]
