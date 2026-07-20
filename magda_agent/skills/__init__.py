@@ -138,10 +138,10 @@ def initialize_skills(policy_layer: Optional["PolicyLayer"] = None) -> SkillRegi
 
 
     # Register Marketplace Sync Routine
-    from magda_agent.skills.marketplace_sync import MarketplaceSyncRoutine
+    from magda_agent.skills.marketplace_sync_v4 import MarketplaceSyncRoutineV4
     def sync_marketplace_sync() -> int:
         import asyncio
-        routine = MarketplaceSyncRoutine(registry=registry)
+        routine = MarketplaceSyncRoutineV4(registry=registry)
         try:
             loop = asyncio.get_event_loop()
             if loop.is_running():
