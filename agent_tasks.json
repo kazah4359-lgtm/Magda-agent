@@ -8893,7 +8893,7 @@
     },
     {
       "id": "a2a-peer-delegation-v4-5d34cc14",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "medium",
       "title": "A2A Peer-to-Peer Delegation v5",
