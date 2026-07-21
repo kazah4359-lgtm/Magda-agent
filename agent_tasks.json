@@ -8911,7 +8911,7 @@
     },
     {
       "id": "hermes-skill-marketplace-sync-v1-new-suffix-789",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "Hermes Skill Marketplace Integration v4",
