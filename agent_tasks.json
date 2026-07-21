@@ -8929,7 +8929,7 @@
     },
     {
       "id": "openclaw-online-rl-dialogue-v5-new-suffix-123",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "high",
       "title": "OpenClaw Online RL from Dialogue Interactions",
@@ -20146,6 +20146,40 @@
         "ACS policy layer extracts semantic entities from Working Memory.",
         "Flags tool arguments that semantically conflict with the active context.",
         "Tests verify false positives and true positive detection."
+      ]
+    },
+    {
+      "id": "hermes-online-skill-pruning-v1",
+      "status": "todo",
+      "area": "skills",
+      "risk": "low",
+      "title": "Hermes Online Skill Pruning V1",
+      "description": "Inspired by Hermes trends: Automatically prune under-used skills from the registry based on usage frequency and success rate.",
+      "allowed_paths": [
+        "magda_agent/skills/pruning_v1.py",
+        "tests/test_pruning_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Skill pruning module is implemented.",
+        "Tests verify under-used skills are correctly identified and pruned."
+      ]
+    },
+    {
+      "id": "mcp-dynamic-capability-negotiation-v6",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "MCP Dynamic Capability Negotiation V6",
+      "description": "Inspired by MCP trends: Implement multi-turn capability negotiation for MCP tools to ensure both client and server agree on supported features before execution.",
+      "allowed_paths": [
+        "magda_agent/integration/mcp_negotiation_v6.py",
+        "tests/test_mcp_negotiation_v6.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MCP negotiation logic handles capabilities handshake.",
+        "Tests mock negotiation and verify fallback behaviors."
       ]
     }
   ]

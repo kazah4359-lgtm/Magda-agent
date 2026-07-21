@@ -27,6 +27,8 @@ from magda_agent.emotions.style_adapter import StyleAdapter
 from magda_agent.user_model.model import UserModel
 from magda_agent.learning.online import OnlineLearner
 from magda_agent.learning.dialogue_v3 import DialogueOnlineLearnerV3
+from magda_agent.learning.dialogue_online_learner_v4 import DialogueOnlineLearnerV4
+
 from magda_agent.learning.online_rl import OnlineRLIntegrator
 from magda_agent.learning.openclaw_rl_v5 import OnlineRLIntegrator as OpenClawRLV5Integrator
 from magda_agent.learning.online_rl_v6 import OnlineRLFeedbackLoopV6
@@ -115,6 +117,7 @@ class Consciousness:
         self.online_rl_v6 = online_rl_v6
         self.rl_user_behavior_v4 = rl_user_behavior_v4
         self.dialogue_online_learner_v3 = dialogue_online_learner_v3
+        self.dialogue_online_learner_v4 = kwargs.get('dialogue_online_learner_v4')
         self.openclaw_rl = openclaw_rl
         self.online_feedback_rl = OnlineFeedbackRL(habit_tracker, mirror_neurons) if habit_tracker and mirror_neurons else None
         self.feedback_loop = feedback_loop
@@ -198,6 +201,8 @@ class Consciousness:
 
         if getattr(self, 'dialogue_online_learner_v3', None):
             self.dialogue_online_learner_v3.process_turn(user_input, None)
+        if getattr(self, 'dialogue_online_learner_v4', None):
+            self.dialogue_online_learner_v4.process_turn(user_input, None)
 
 
         if self.thalamus and not self.thalamus.filter_input(user_input):
@@ -370,6 +375,10 @@ class Consciousness:
                 v3_mods = self.dialogue_online_learner_v3.get_context_modifiers()
                 if v3_mods:
                     system_prompt += f"\n\n{v3_mods}"
+            if getattr(self, 'dialogue_online_learner_v4', None):
+                v4_mods = self.dialogue_online_learner_v4.get_context_modifiers()
+                if v4_mods:
+                    system_prompt += f"\n\n{v4_mods}"
 
             if plan_str:
                 system_prompt += f"\n\n{plan_str}\nUse the plan results to generate the final response."
@@ -450,6 +459,9 @@ class Consciousness:
             tags=["conversation"],
             user_id=user_id
         )
+
+        if getattr(self, 'dialogue_online_learner_v4', None):
+            self.dialogue_online_learner_v4.capture_state_action(user_input, response)
 
         if self.online_rl_integrator:
             await self.online_rl_integrator.process_feedback(user_input, "last_action_context", user_id)
