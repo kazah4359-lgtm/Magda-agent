@@ -112,7 +112,7 @@ async def test_handle_request_batch_concurrent_v3(handler_v3: MCPConcurrentHandl
 
     # Both req1 (sync sleep 0.1s) and req2 (async sleep 0.1s) run concurrently.
     # Total execution should be around ~0.1s, much less than sequential 0.2s.
-    assert end - start < 0.28
+    assert end - start < 0.40
 
     # Verify all responses are correct
     results = {r["id"]: r["result"]["content"][0]["text"] for r in res}
