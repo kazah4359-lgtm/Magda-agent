@@ -17282,7 +17282,7 @@
     },
     {
       "id": "acs-adaptive-guardrails-v1-2afa73c6",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "ACS Adaptive Guardrails v1",
@@ -20180,6 +20180,42 @@
       "acceptance": [
         "MCP negotiation logic handles capabilities handshake.",
         "Tests mock negotiation and verify fallback behaviors."
+      ]
+    },
+    {
+      "id": "openclaw-rl-conversation-momentum-v1",
+      "title": "OpenClaw RL Conversation Momentum Tracking",
+      "description": "Inspired by OpenClaw trends: Implement a conversational momentum tracker that monitors interaction speed and depth, using it as an implicit RL reward signal to tune agent response brevity.",
+      "area": "learning",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/learning/momentum_tracker_v1.py",
+        "tests/test_momentum_tracker_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "MomentumTracker calculates interaction speed and depth.",
+        "RL weights are updated based on momentum shifts.",
+        "Tests verify calculations and updates using mock interaction data."
+      ]
+    },
+    {
+      "id": "mcp-tool-rate-limiter-v1",
+      "title": "MCP Tool Execution Rate Limiter",
+      "description": "Inspired by MCP standard trend: Implement an execution rate limiter for MCP tools that prevents abuse or accidental infinite loops by throttling tool calls per session based on a token bucket algorithm.",
+      "area": "safety",
+      "risk": "medium",
+      "status": "todo",
+      "allowed_paths": [
+        "magda_agent/safety/mcp_rate_limiter_v1.py",
+        "tests/test_mcp_rate_limiter_v1.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Rate limiter tracks tool executions per session using a token bucket approach.",
+        "Exceeding the limit raises a RateLimitExceeded error.",
+        "Tests verify the rate limiting logic and error raising."
       ]
     }
   ]
