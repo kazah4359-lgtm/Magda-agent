@@ -3,6 +3,8 @@ import pytest
 from magda_agent.memory.virtual_context import VirtualContextManager, CoreMemory
 from magda_agent.memory.working import WorkingMemory, MemoryEntry
 from magda_agent.memory.episodic import EpisodicMemory
+from magda_agent.memory.semantic import SemanticMemory
+from magda_agent.memory.procedural import ProceduralMemory
 from magda_agent.emotions.engine import PADState
 import asyncio
 
@@ -148,3 +150,42 @@ async def test_maintain_working_memory_limits_pages_out():
     assert len(entries) == 2
     assert entries[0].content == "word5 word6 word7 word8"
     assert entries[1].content == "word9 word10 word11 word12"
+
+@pytest.mark.asyncio
+async def test_virtual_context_hierarchical_layers():
+    # 1. Verify standard instantiation with hierarchical partitioning
+    vcm = VirtualContextManager()
+    assert isinstance(vcm.working_memory, WorkingMemory)
+    assert isinstance(vcm.episodic_memory, EpisodicMemory)
+    assert isinstance(vcm.semantic_memory, SemanticMemory)
+    assert isinstance(vcm.procedural_memory, ProceduralMemory)
+
+    # 2. Verify wrapper helper methods for Semantic Memory
+    vcm.store_fact("Paris is the capital of France", metadata={"category": "geography"}, user_id="user_abc")
+    vcm.store_fact("Water boils at 100 degrees Celsius", metadata={"category": "physics"}, user_id="user_abc")
+
+    recalled_facts = vcm.recall_facts("capital", top_k=1, user_id="user_abc")
+    assert len(recalled_facts) == 1
+    assert "Paris" in recalled_facts[0]
+
+    # 3. Verify wrapper helper methods for Procedural Memory
+    vcm.store_procedure("make_coffee", "Boil water, grind beans, brew, serve", metadata={"difficulty": "easy"}, user_id="user_abc")
+
+    recalled_procs = vcm.recall_procedure("make_coffee", top_k=1, user_id="user_abc")
+    assert len(recalled_procs) == 1
+    assert "coffee" in recalled_procs[0]
+
+    # 4. Verify default fallback behavior (None as argument uses partitioned instances)
+    state = PADState(0.1, 0.2, 0.3)
+    entry = MemoryEntry("Internal working item", 0.9, state, user_id="user_abc")
+    await vcm.working_memory.add(entry)
+
+    # Calling page_out_explicit with None fallback
+    await vcm.page_out_explicit(working_memory=None, episodic_memory=None, user_id="user_abc", count=1)
+
+    # Assert working memory is cleared
+    assert len(vcm.working_memory.get_entries(user_id="user_abc")) == 0
+    # Assert episodic memory has the event
+    events = vcm.episodic_memory.get_all_events(user_id="user_abc")
+    assert len(events) == 1
+    assert events[0]["text"] == "Internal working item"

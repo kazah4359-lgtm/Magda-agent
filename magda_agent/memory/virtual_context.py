@@ -2,11 +2,10 @@ import logging
 from typing import TYPE_CHECKING, List, Optional, Dict, Any
 from magda_agent.llm_client import LLMClient
 from magda_agent.emotions.engine import PADState
-from magda_agent.memory.working import MemoryEntry
-
-if TYPE_CHECKING:
-    from magda_agent.memory.working import WorkingMemory
-    from magda_agent.memory.episodic import EpisodicMemory
+from magda_agent.memory.working import WorkingMemory, MemoryEntry
+from magda_agent.memory.episodic import EpisodicMemory
+from magda_agent.memory.semantic import SemanticMemory
+from magda_agent.memory.procedural import ProceduralMemory
 
 class CoreMemory:
     """
@@ -42,18 +41,41 @@ class VirtualContextManager:
     VirtualContextManager handles multi-layered core memory and paging out
     old short-term memory (WorkingMemory) into EpisodicMemory.
     Implements ContextPlugin protocol for integration with ContextEngine.
+    Partitions memory into standard hierarchical layers: Working, Episodic, Semantic, and Procedural.
     """
-    def __init__(self, llm_client: Optional['LLMClient'] = None, section_limit: int = 1000) -> None:
+    def __init__(self,
+                 llm_client: Optional['LLMClient'] = None,
+                 section_limit: int = 1000,
+                 persist_directory: str = ":memory:",
+                 working_memory: Optional['WorkingMemory'] = None,
+                 episodic_memory: Optional['EpisodicMemory'] = None,
+                 semantic_memory: Optional['SemanticMemory'] = None,
+                 procedural_memory: Optional['ProceduralMemory'] = None) -> None:
         """
         Initializes the VirtualContextManager.
 
         Args:
             llm_client: Optional LLM client for summarization.
             section_limit: Heuristic word limit for core memory sections.
+            persist_directory: Path for ChromaDB storage, defaults to ':memory:'.
+            working_memory: Optional custom WorkingMemory instance.
+            episodic_memory: Optional custom EpisodicMemory instance.
+            semantic_memory: Optional custom SemanticMemory instance.
+            procedural_memory: Optional custom ProceduralMemory instance.
         """
         self.llm_client = llm_client
         self.core_memories: Dict[str, CoreMemory] = {}
         self.section_limit = section_limit
+
+        # Partitioned memory layers
+        self.working_memory = working_memory or WorkingMemory(limit=10)
+        self.episodic_memory = episodic_memory or EpisodicMemory(persist_directory=persist_directory)
+        self.semantic_memory = semantic_memory or SemanticMemory(persist_directory=persist_directory)
+        self.procedural_memory = procedural_memory or ProceduralMemory(persist_directory=persist_directory)
+
+        # Backwards compatibility linkages
+        self.working_memory.virtual_context_manager = self
+        self.working_memory.episodic_memory = self.episodic_memory
 
     # --- ContextPlugin Protocol Hooks ---
 
@@ -157,8 +179,17 @@ class VirtualContextManager:
         total_words = sum(len(e.content.split()) for e in entries)
         return int(total_words * 1.3)
 
-    async def maintain_working_memory_limits(self, working_memory: 'WorkingMemory', episodic_memory: 'EpisodicMemory', user_id: Optional[str], max_tokens: int = 4000) -> None:
+    async def maintain_working_memory_limits(self,
+                                             working_memory: Optional['WorkingMemory'] = None,
+                                             episodic_memory: Optional['EpisodicMemory'] = None,
+                                             user_id: Optional[str] = None,
+                                             max_tokens: int = 4000) -> None:
         """Pages out older memories if the token limit is exceeded."""
+        if working_memory is None:
+            working_memory = self.working_memory
+        if episodic_memory is None:
+            episodic_memory = self.episodic_memory
+
         entries = working_memory.get_entries(user_id=user_id)
         if not entries:
             return
@@ -207,10 +238,19 @@ class VirtualContextManager:
 
     # --- Explicit Paging Methods ---
 
-    async def page_out_explicit(self, working_memory: 'WorkingMemory', episodic_memory: 'EpisodicMemory', user_id: Optional[str], count: int = 1) -> None:
+    async def page_out_explicit(self,
+                                working_memory: Optional['WorkingMemory'] = None,
+                                episodic_memory: Optional['EpisodicMemory'] = None,
+                                user_id: Optional[str] = None,
+                                count: int = 1) -> None:
         """
         Explicitly move the oldest `count` entries from WorkingMemory to EpisodicMemory.
         """
+        if working_memory is None:
+            working_memory = self.working_memory
+        if episodic_memory is None:
+            episodic_memory = self.episodic_memory
+
         entries: List['MemoryEntry'] = working_memory.get_entries(user_id=user_id)
         if not entries:
             return
@@ -250,10 +290,20 @@ class VirtualContextManager:
             working_memory.remove(eid, user_id=user_id)
 
 
-    async def page_in_explicit(self, working_memory: 'WorkingMemory', episodic_memory: 'EpisodicMemory', user_id: Optional[str], query: str, top_k: int = 5) -> None:
+    async def page_in_explicit(self,
+                               working_memory: Optional['WorkingMemory'] = None,
+                               episodic_memory: Optional['EpisodicMemory'] = None,
+                               user_id: Optional[str] = None,
+                               query: str = "",
+                               top_k: int = 5) -> None:
         """
         Recall relevant events from EpisodicMemory and load them into WorkingMemory.
         """
+        if working_memory is None:
+            working_memory = self.working_memory
+        if episodic_memory is None:
+            episodic_memory = self.episodic_memory
+
         events = episodic_memory.recall_events(query=query, top_k=top_k, user_id=user_id)
         for event_text in events:
             entry = MemoryEntry(
@@ -266,8 +316,34 @@ class VirtualContextManager:
 
     # --- Compatibility Aliases ---
 
-    async def page_out(self, working_memory: 'WorkingMemory', episodic_memory: 'EpisodicMemory', user_id: Optional[str], count: int = 1) -> None:
+    async def page_out(self,
+                       working_memory: Optional['WorkingMemory'] = None,
+                       episodic_memory: Optional['EpisodicMemory'] = None,
+                       user_id: Optional[str] = None,
+                       count: int = 1) -> None:
         await self.page_out_explicit(working_memory, episodic_memory, user_id, count)
 
-    async def page_in(self, working_memory: 'WorkingMemory', episodic_memory: 'EpisodicMemory', user_id: Optional[str], query: str) -> None:
+    async def page_in(self,
+                      working_memory: Optional['WorkingMemory'] = None,
+                      episodic_memory: Optional['EpisodicMemory'] = None,
+                      user_id: Optional[str] = None,
+                      query: str = "") -> None:
         await self.page_in_explicit(working_memory, episodic_memory, user_id, query)
+
+    # --- Semantic & Procedural Wrapper Helpers ---
+
+    def store_fact(self, text: str, metadata: dict = None, user_id: Any = None) -> None:
+        """Stores a stable fact in Semantic Memory."""
+        self.semantic_memory.store_fact(text, metadata, user_id)
+
+    def recall_facts(self, query: str, top_k: int = 5, user_id: Any = None) -> List[str]:
+        """Recalls relevant facts from Semantic Memory."""
+        return self.semantic_memory.recall_facts(query, top_k, user_id)
+
+    def store_procedure(self, name: str, procedure: str, metadata: dict = None, user_id: Any = None) -> None:
+        """Stores a procedure in Procedural Memory."""
+        self.procedural_memory.store_procedure(name, procedure, metadata, user_id)
+
+    def recall_procedure(self, query: str, top_k: int = 5, user_id: Any = None) -> List[str]:
+        """Recalls relevant procedures from Procedural Memory."""
+        return self.procedural_memory.recall_procedure(query, top_k, user_id)

@@ -28,7 +28,7 @@
       "low",
       "medium"
     ],
-    "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks — never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
+    "instruction": "Add new todo tasks ONLY when the pool falls below minimum_todo_tasks. Before adding, scan existing done and blocked tasks \u2014 never recreate implemented features. Prefer stabilization, wiring, and test coverage over new trend modules. Read docs/trends.md for inspiration when replenishment is needed.",
     "max_todo_tasks": 5000
   },
   "autonomous_loop_policy": {
@@ -832,7 +832,7 @@
       "area": "learning",
       "risk": "medium",
       "title": "Online learning from user replies (next-state signal)",
-      "description": "Inspired by OpenClaw-RL: treat each user reply as a next-state signal. Positive signals reinforce approach, negative signals trigger reflection and adjustment. No external RL infra needed — use simple reward heuristics.",
+      "description": "Inspired by OpenClaw-RL: treat each user reply as a next-state signal. Positive signals reinforce approach, negative signals trigger reflection and adjustment. No external RL infra needed \u2014 use simple reward heuristics.",
       "allowed_paths": [
         "magda_agent/learning/**",
         "magda_agent/metacognition/**",
@@ -1050,7 +1050,7 @@
       "area": "attention",
       "risk": "medium",
       "title": "Global Workspace broadcast mechanism",
-      "description": "When workspace selects a focused event, broadcast context to all subsystems (memory, planner, emotions). Currently process_input is monolithic — workspace should mediate.",
+      "description": "When workspace selects a focused event, broadcast context to all subsystems (memory, planner, emotions). Currently process_input is monolithic \u2014 workspace should mediate.",
       "allowed_paths": [
         "magda_agent/attention/**",
         "magda_agent/consciousness/**",
@@ -1109,7 +1109,7 @@
       "status": "done",
       "area": "memory",
       "risk": "low",
-      "title": "Periodic consolidation of episodic → semantic memory",
+      "title": "Periodic consolidation of episodic \u2192 semantic memory",
       "description": "Subconsciousness periodically reviews episodic memories, extracts stable facts, and promotes them to semantic memory. Decay irrelevant episodes. Inspired by sleep consolidation in neuroscience.",
       "allowed_paths": [
         "magda_agent/subconsciousness/**",
@@ -1150,7 +1150,7 @@
       "area": "metacognition",
       "risk": "low",
       "title": "Confidence calibration for responses",
-      "description": "Agent should estimate confidence in its responses. Low confidence → add caveats, suggest verification. High confidence → direct answer. Track calibration accuracy over time.",
+      "description": "Agent should estimate confidence in its responses. Low confidence \u2192 add caveats, suggest verification. High confidence \u2192 direct answer. Track calibration accuracy over time.",
       "allowed_paths": [
         "magda_agent/metacognition/**",
         "magda_agent/consciousness/**",
@@ -1851,7 +1851,7 @@
       "area": "UI",
       "risk": "low",
       "title": "Context Engine Canvas Visualization",
-      "description": "Inspired by OpenClaw Canvas trend. Create a live visualization adapter for the Context Engine to broadcast the agent’s working memory and current focused tasks to an external Canvas client via websocket. [blocked: duplicate of done task 'context-engine-plugin']",
+      "description": "Inspired by OpenClaw Canvas trend. Create a live visualization adapter for the Context Engine to broadcast the agent\u2019s working memory and current focused tasks to an external Canvas client via websocket. [blocked: duplicate of done task 'context-engine-plugin']",
       "allowed_paths": [
         "magda_agent/memory/canvas.py",
         "tests/test_canvas*.py",
@@ -2996,7 +2996,7 @@
       "area": "operations",
       "risk": "medium",
       "title": "Scheduled operations cron-like tasks",
-      "description": "Inspired by trend: Scheduled operations — cron-подобные задачи без участия пользователя. Implement cron-like scheduled tasks that the agent can run autonomously.",
+      "description": "Inspired by trend: Scheduled operations \u2014 cron-\u043f\u043e\u0434\u043e\u0431\u043d\u044b\u0435 \u0437\u0430\u0434\u0430\u0447\u0438 \u0431\u0435\u0437 \u0443\u0447\u0430\u0441\u0442\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f. Implement cron-like scheduled tasks that the agent can run autonomously.",
       "allowed_paths": [
         "magda_agent/operations/cron.py",
         "tests/test_cron.py",
@@ -3015,7 +3015,7 @@
       "area": "integration",
       "risk": "medium",
       "title": "Skill marketplace compatibility",
-      "description": "Inspired by trend: Skill marketplace — совместимость с agentskills.io. Ensure skills are compatible with standard skill marketplace formats.",
+      "description": "Inspired by trend: Skill marketplace \u2014 \u0441\u043e\u0432\u043c\u0435\u0441\u0442\u0438\u043c\u043e\u0441\u0442\u044c \u0441 agentskills.io. Ensure skills are compatible with standard skill marketplace formats.",
       "allowed_paths": [
         "magda_agent/integration/skill_marketplace.py",
         "tests/test_skill_marketplace_integration.py",
@@ -3070,7 +3070,7 @@
       "area": "memory",
       "risk": "medium",
       "title": "Context Engine plugin architecture",
-      "description": "Inspired by trend 'Context Engine — plugin-архитектура для управления контекстом': Implement a plugin interface with lifecycle hooks for managing working memory context.",
+      "description": "Inspired by trend 'Context Engine \u2014 plugin-\u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430 \u0434\u043b\u044f \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u043a\u043e\u043d\u0442\u0435\u043a\u0441\u0442\u043e\u043c': Implement a plugin interface with lifecycle hooks for managing working memory context.",
       "allowed_paths": [
         "magda_agent/memory/context_engine.py",
         "tests/test_context_engine*.py",
@@ -3088,7 +3088,7 @@
       "area": "multi-agent",
       "risk": "high",
       "title": "Agent Teams sub-agents spawning",
-      "description": "Inspired by trend 'Agent Teams — порождение sub-agents для параллельных задач': Enable the Planner/Manager to spawn isolated sub-agents for parallel task execution.",
+      "description": "Inspired by trend 'Agent Teams \u2014 \u043f\u043e\u0440\u043e\u0436\u0434\u0435\u043d\u0438\u0435 sub-agents \u0434\u043b\u044f \u043f\u0430\u0440\u0430\u043b\u043b\u0435\u043b\u044c\u043d\u044b\u0445 \u0437\u0430\u0434\u0430\u0447': Enable the Planner/Manager to spawn isolated sub-agents for parallel task execution.",
       "allowed_paths": [
         "magda_agent/agents/teams.py",
         "tests/test_agent_teams*.py",
@@ -3106,7 +3106,7 @@
       "area": "gateway",
       "risk": "low",
       "title": "Cross-platform reach across channels",
-      "description": "Inspired by trend 'Cross-platform reach — один агент, много каналов': Expand the Multi-channel Gateway to support more platforms beyond Telegram.",
+      "description": "Inspired by trend 'Cross-platform reach \u2014 \u043e\u0434\u0438\u043d \u0430\u0433\u0435\u043d\u0442, \u043c\u043d\u043e\u0433\u043e \u043a\u0430\u043d\u0430\u043b\u043e\u0432': Expand the Multi-channel Gateway to support more platforms beyond Telegram.",
       "allowed_paths": [
         "magda_agent/gateway/channels.py",
         "tests/test_gateway_channels*.py",
@@ -3141,7 +3141,7 @@
       "area": "gateway",
       "risk": "medium",
       "title": "Canvas live visualization support",
-      "description": "Inspired by trend: OpenClaw - Canvas для live визуализации. Add visualization capabilities and state streaming to the context engine.",
+      "description": "Inspired by trend: OpenClaw - Canvas \u0434\u043b\u044f live \u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438. Add visualization capabilities and state streaming to the context engine.",
       "allowed_paths": [
         "magda_agent/gateway/canvas.py",
         "tests/test_canvas*.py",
@@ -3292,7 +3292,7 @@
       "area": "integration",
       "risk": "medium",
       "title": "Hermes agentskills.io export compatibility",
-      "description": "Inspired by Hermes Agent trend: Skill marketplace — совместимость с agentskills.io. Ensure magda can export skills using the open agentskills.io standard.",
+      "description": "Inspired by Hermes Agent trend: Skill marketplace \u2014 \u0441\u043e\u0432\u043c\u0435\u0441\u0442\u0438\u043c\u043e\u0441\u0442\u044c \u0441 agentskills.io. Ensure magda can export skills using the open agentskills.io standard.",
       "allowed_paths": [
         "magda_agent/skills/agentskills_export.py",
         "tests/test_agentskills_export.py",
@@ -3397,7 +3397,7 @@
       "area": "memory",
       "risk": "medium",
       "title": "Hermes Persistent Memory",
-      "description": "Inspired by Hermes Agent trend: Persistent memory: чем дольше работает, тем лучше знает пользователя. Implement a persistent user profile memory.",
+      "description": "Inspired by Hermes Agent trend: Persistent memory: \u0447\u0435\u043c \u0434\u043e\u043b\u044c\u0448\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442, \u0442\u0435\u043c \u043b\u0443\u0447\u0448\u0435 \u0437\u043d\u0430\u0435\u0442 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f. Implement a persistent user profile memory.",
       "allowed_paths": [
         "magda_agent/memory/hermes_persistent.py",
         "tests/test_hermes_persistent.py",
@@ -3414,7 +3414,7 @@
       "area": "architecture",
       "risk": "high",
       "title": "OpenClaw Context Engine Lifecycle Hooks",
-      "description": "Inspired by OpenClaw trend: Context Engine plugin interface с lifecycle hooks. Implement lifecycle hooks for plugins.",
+      "description": "Inspired by OpenClaw trend: Context Engine plugin interface \u0441 lifecycle hooks. Implement lifecycle hooks for plugins.",
       "allowed_paths": [
         "magda_agent/architecture/context_hooks.py",
         "tests/test_context_hooks.py",
@@ -3432,7 +3432,7 @@
       "area": "architecture",
       "risk": "medium",
       "title": "A2A Discovery via Agent Cards",
-      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol) Agent discovery через Agent Cards. Implement a discovery service that locates and connects to other agents using standard Agent Cards.",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol) Agent discovery \u0447\u0435\u0440\u0435\u0437 Agent Cards. Implement a discovery service that locates and connects to other agents using standard Agent Cards.",
       "allowed_paths": [
         "magda_agent/architecture/a2a_discovery.py",
         "tests/test_a2a_discovery*.py",
@@ -3468,7 +3468,7 @@
       "area": "ui",
       "risk": "medium",
       "title": "OpenClaw Canvas Live Visualization",
-      "description": "Inspired by trend: OpenClaw Canvas для live визуализации. Implement an interface for live visualization of the agent's internal state and working memory.",
+      "description": "Inspired by trend: OpenClaw Canvas \u0434\u043b\u044f live \u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438. Implement an interface for live visualization of the agent's internal state and working memory.",
       "allowed_paths": [
         "magda_agent/ui/canvas.py",
         "tests/test_canvas*.py",
@@ -3486,7 +3486,7 @@
       "area": "multi-agent",
       "risk": "high",
       "title": "Agent Teams Subagent Spawning",
-      "description": "Inspired by trend: Agent Teams: multi-agent с git worktree isolation / Subagent spawning. Implement a dedicated service to dynamically spawn, monitor, and clean up task-specific subagents.",
+      "description": "Inspired by trend: Agent Teams: multi-agent \u0441 git worktree isolation / Subagent spawning. Implement a dedicated service to dynamically spawn, monitor, and clean up task-specific subagents.",
       "allowed_paths": [
         "magda_agent/multi_agent/team_spawner.py",
         "tests/test_team_spawner*.py",
@@ -3521,7 +3521,7 @@
       "area": "memory",
       "risk": "medium",
       "title": "OpenClaw Context Engine Lifecycle Plugins",
-      "description": "Inspired by OpenClaw trend: Context Engine plugin interface с lifecycle hooks. Enhance Context Engine with pre_retrieval and post_retrieval hooks.",
+      "description": "Inspired by OpenClaw trend: Context Engine plugin interface \u0441 lifecycle hooks. Enhance Context Engine with pre_retrieval and post_retrieval hooks.",
       "allowed_paths": [
         "magda_agent/memory/context_engine_lifecycle.py",
         "tests/test_context_engine_lifecycle.py",
@@ -3555,7 +3555,7 @@
       "area": "integration",
       "risk": "medium",
       "title": "Cross-platform reach implementation",
-      "description": "Inspired by trend: Cross-platform reach — один агент, много каналов. Implement cross-platform capabilities to reach across multiple chat platforms simultaneously.",
+      "description": "Inspired by trend: Cross-platform reach \u2014 \u043e\u0434\u0438\u043d \u0430\u0433\u0435\u043d\u0442, \u043c\u043d\u043e\u0433\u043e \u043a\u0430\u043d\u0430\u043b\u043e\u0432. Implement cross-platform capabilities to reach across multiple chat platforms simultaneously.",
       "allowed_paths": [
         "magda_agent/integration/cross_platform.py",
         "tests/test_cross_platform.py",
@@ -3572,7 +3572,7 @@
       "area": "evaluation",
       "risk": "low",
       "title": "Quality metrics longitudinal tracking",
-      "description": "Inspired by trend: Quality metrics — longitudinal tracking, не одноразовый pytest. Implement longitudinal tracking of code quality metrics.",
+      "description": "Inspired by trend: Quality metrics \u2014 longitudinal tracking, \u043d\u0435 \u043e\u0434\u043d\u043e\u0440\u0430\u0437\u043e\u0432\u044b\u0439 pytest. Implement longitudinal tracking of code quality metrics.",
       "allowed_paths": [
         "magda_agent/evaluation/longitudinal_metrics.py",
         "tests/test_longitudinal_metrics.py",
@@ -3589,7 +3589,7 @@
       "area": "integration",
       "risk": "medium",
       "title": "MCP Action Tool Exporter v6",
-      "description": "Inspired by the MCP-совместимость trend: Magda должна уметь экспортировать skills как MCP tools.",
+      "description": "Inspired by the MCP-\u0441\u043e\u0432\u043c\u0435\u0441\u0442\u0438\u043c\u043e\u0441\u0442\u044c trend: Magda \u0434\u043e\u043b\u0436\u043d\u0430 \u0443\u043c\u0435\u0442\u044c \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c skills \u043a\u0430\u043a MCP tools.",
       "allowed_paths": [
         "magda_agent/integration/mcp_exporter.py",
         "tests/test_mcp_exporter*.py",
@@ -3606,7 +3606,7 @@
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A delegation v6",
-      "description": "Inspired by trend: A2A поддержка — возможность делегировать задачи другим агентам.",
+      "description": "Inspired by trend: A2A \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0430 \u2014 \u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u044c \u0434\u0435\u043b\u0435\u0433\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u0430\u0434\u0430\u0447\u0438 \u0434\u0440\u0443\u0433\u0438\u043c \u0430\u0433\u0435\u043d\u0442\u0430\u043c.",
       "allowed_paths": [
         "magda_agent/multi_agent/a2a_delegator.py",
         "tests/test_a2a_delegator*.py",
@@ -3623,7 +3623,7 @@
       "area": "learning",
       "risk": "medium",
       "title": "Online learning v6",
-      "description": "Inspired by trend: Online learning — учиться на каждом диалоге (не только reflections).",
+      "description": "Inspired by trend: Online learning \u2014 \u0443\u0447\u0438\u0442\u044c\u0441\u044f \u043d\u0430 \u043a\u0430\u0436\u0434\u043e\u043c \u0434\u0438\u0430\u043b\u043e\u0433\u0435 (\u043d\u0435 \u0442\u043e\u043b\u044c\u043a\u043e reflections).",
       "allowed_paths": [
         "magda_agent/learning/online_learning.py",
         "tests/test_online_learning*.py",
@@ -3691,7 +3691,7 @@
       "area": "skills",
       "risk": "medium",
       "title": "Hermes Skill Creation from Experience",
-      "description": "Inspired by Hermes Agent trend: Self-improving agent с built-in learning loop that creates skills from experience. Implement a service that dynamically synthesizes executable python scripts for new agent skills based on repeated user queries.",
+      "description": "Inspired by Hermes Agent trend: Self-improving agent \u0441 built-in learning loop that creates skills from experience. Implement a service that dynamically synthesizes executable python scripts for new agent skills based on repeated user queries.",
       "allowed_paths": [
         "magda_agent/skills/skill_generator.py",
         "tests/test_skill_generator*.py",
@@ -3709,7 +3709,7 @@
       "area": "multi-agent",
       "risk": "high",
       "title": "Claude Triad Architecture",
-      "description": "Inspired by Claude Agent SDK trend: Трёхагентная архитектура Planner, Generator, Evaluator. Refactor the main autonomous loop to instantiate a distinct PlannerAgent, GeneratorAgent, and EvaluatorAgent working in sequence.",
+      "description": "Inspired by Claude Agent SDK trend: \u0422\u0440\u0451\u0445\u0430\u0433\u0435\u043d\u0442\u043d\u0430\u044f \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430 Planner, Generator, Evaluator. Refactor the main autonomous loop to instantiate a distinct PlannerAgent, GeneratorAgent, and EvaluatorAgent working in sequence.",
       "allowed_paths": [
         "magda_agent/agents/triad_coordinator.py",
         "tests/test_triad_coordinator*.py",
@@ -4055,7 +4055,7 @@
       "area": "skills",
       "risk": "medium",
       "title": "MCP JSON-RPC Interface",
-      "description": "Inspired by trend: MCP-совместимость (JSON-RPC client-server interface). Implement an MCP JSON-RPC protocol server interface.",
+      "description": "Inspired by trend: MCP-\u0441\u043e\u0432\u043c\u0435\u0441\u0442\u0438\u043c\u043e\u0441\u0442\u044c (JSON-RPC client-server interface). Implement an MCP JSON-RPC protocol server interface.",
       "allowed_paths": [
         "magda_agent/integration/mcp_server.py",
         "tests/test_mcp_server*.py",
@@ -4072,7 +4072,7 @@
       "area": "evaluation",
       "risk": "medium",
       "title": "AgentBench Multi-Domain Evaluation",
-      "description": "Inspired by trend: Evaluation (бенчмарки) - AgentBench: multi-domain. Integrate AgentBench framework to test Magda's performance.",
+      "description": "Inspired by trend: Evaluation (\u0431\u0435\u043d\u0447\u043c\u0430\u0440\u043a\u0438) - AgentBench: multi-domain. Integrate AgentBench framework to test Magda's performance.",
       "allowed_paths": [
         "magda_agent/evaluation/agentbench.py",
         "tests/test_agentbench*.py",
@@ -4105,7 +4105,7 @@
       "area": "visualization",
       "risk": "low",
       "title": "Canvas Live Visualization API v2",
-      "description": "Inspired by OpenClaw trend: Canvas для live визуализации. Implement API endpoints for the canvas streaming.",
+      "description": "Inspired by OpenClaw trend: Canvas \u0434\u043b\u044f live \u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438. Implement API endpoints for the canvas streaming.",
       "allowed_paths": [
         "magda_agent/visualization/canvas_api_v2.py",
         "tests/test_canvas_api_v2.py",
@@ -4137,7 +4137,7 @@
       "area": "architecture",
       "risk": "medium",
       "title": "Scheduled operations: daily reports",
-      "description": "Inspired by trend: Scheduled operations — cron-подобные задачи без участия пользователя. Implement scheduled daily reports capability.",
+      "description": "Inspired by trend: Scheduled operations \u2014 cron-\u043f\u043e\u0434\u043e\u0431\u043d\u044b\u0435 \u0437\u0430\u0434\u0430\u0447\u0438 \u0431\u0435\u0437 \u0443\u0447\u0430\u0441\u0442\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f. Implement scheduled daily reports capability.",
       "allowed_paths": [
         "magda_agent/scheduler/cron.py",
         "tests/test_cron*.py",
@@ -4154,7 +4154,7 @@
       "area": "integration",
       "risk": "medium",
       "title": "Cross-platform reach: Telegram channel v2",
-      "description": "Inspired by trend: Cross-platform reach — один агент, много каналов. Add improved Telegram messenger integration.",
+      "description": "Inspired by trend: Cross-platform reach \u2014 \u043e\u0434\u0438\u043d \u0430\u0433\u0435\u043d\u0442, \u043c\u043d\u043e\u0433\u043e \u043a\u0430\u043d\u0430\u043b\u043e\u0432. Add improved Telegram messenger integration.",
       "allowed_paths": [
         "magda_agent/channels/telegram.py",
         "tests/test_telegram*.py",
@@ -4288,7 +4288,7 @@
       "area": "execution",
       "risk": "high",
       "title": "Agent Teams Worktree Isolation",
-      "description": "Inspired by trend: Agent Teams: multi-agent с git worktree isolation (Claude Agent SDK). Implement SubAgent isolation.",
+      "description": "Inspired by trend: Agent Teams: multi-agent \u0441 git worktree isolation (Claude Agent SDK). Implement SubAgent isolation.",
       "allowed_paths": [
         "magda_agent/agents/subagent.py",
         "magda_agent/isolation/git_worktree.py",
@@ -4307,7 +4307,7 @@
       "area": "safety",
       "risk": "high",
       "title": "ACS Control Checkpoints Interface",
-      "description": "Inspired by trend: ACS (Agent Control Specification) — 5 validation checkpoints. Implement formal interface for ACS checkpoints.",
+      "description": "Inspired by trend: ACS (Agent Control Specification) \u2014 5 validation checkpoints. Implement formal interface for ACS checkpoints.",
       "allowed_paths": [
         "magda_agent/safety/acs_guard.py",
         "tests/test_acs_guard.py",
@@ -4379,7 +4379,7 @@
       "area": "channels",
       "risk": "medium",
       "title": "Cross-platform reach channels",
-      "description": "Inspired by trend: Cross-platform reach — один агент, много каналов. Expand channel adapters for more platforms.",
+      "description": "Inspired by trend: Cross-platform reach \u2014 \u043e\u0434\u0438\u043d \u0430\u0433\u0435\u043d\u0442, \u043c\u043d\u043e\u0433\u043e \u043a\u0430\u043d\u0430\u043b\u043e\u0432. Expand channel adapters for more platforms.",
       "allowed_paths": [
         "magda_agent/channels/reach_v2.py",
         "tests/test_reach_v2.py",
@@ -4396,7 +4396,7 @@
       "area": "learning",
       "risk": "medium",
       "title": "Online learning from dialogue v3",
-      "description": "Inspired by trend: Online learning — учиться на каждом диалоге (не только reflections). Implement immediate context integration.",
+      "description": "Inspired by trend: Online learning \u2014 \u0443\u0447\u0438\u0442\u044c\u0441\u044f \u043d\u0430 \u043a\u0430\u0436\u0434\u043e\u043c \u0434\u0438\u0430\u043b\u043e\u0433\u0435 (\u043d\u0435 \u0442\u043e\u043b\u044c\u043a\u043e reflections). Implement immediate context integration.",
       "allowed_paths": [
         "magda_agent/learning/dialogue_v3.py",
         "tests/test_dialogue_v3.py",
@@ -4532,7 +4532,7 @@
       "area": "integration",
       "risk": "high",
       "title": "A2A Agent Discovery via Cards v2",
-      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol) Agent discovery через Agent Cards. Add discovery components to the network layer.",
+      "description": "Inspired by trend: A2A (Agent-to-Agent Protocol) Agent discovery \u0447\u0435\u0440\u0435\u0437 Agent Cards. Add discovery components to the network layer.",
       "allowed_paths": [
         "magda_agent/integration/a2a_discovery_v2.py",
         "tests/test_a2a_discovery_v2.py",
@@ -5542,7 +5542,7 @@
       "area": "memory",
       "risk": "medium",
       "title": "MemGPT Virtual Context Management v1",
-      "description": "Inspired by the trend: 'Virtual context management (MemGPT/Letta pattern -> стандарт)'. Implement a virtual context window manager that pages episodic memory in and out of the LLM context automatically.",
+      "description": "Inspired by the trend: 'Virtual context management (MemGPT/Letta pattern -> \u0441\u0442\u0430\u043d\u0434\u0430\u0440\u0442)'. Implement a virtual context window manager that pages episodic memory in and out of the LLM context automatically.",
       "allowed_paths": [
         "magda_agent/memory/virtual_context.py",
         "tests/test_virtual_context.py",
@@ -5560,7 +5560,7 @@
       "area": "safety",
       "risk": "high",
       "title": "ACS Agent Control Specification Checkpoints v3",
-      "description": "Inspired by the June 2026 standard: 'ACS (Agent Control Specification) — 5 validation checkpoints in agentic workflows'. Implement the 5 explicit validation checkpoints for tool execution.",
+      "description": "Inspired by the June 2026 standard: 'ACS (Agent Control Specification) \u2014 5 validation checkpoints in agentic workflows'. Implement the 5 explicit validation checkpoints for tool execution.",
       "allowed_paths": [
         "magda_agent/safety/acs_checkpoints_v3.py",
         "tests/test_acs_checkpoints_v3.py",
@@ -8693,7 +8693,7 @@
       "area": "planning",
       "risk": "medium",
       "title": "Claude Agent Teams Dependency Graph",
-      "description": "Inspired by Claude Agent SDK trend: Task system с dependency graphs. Update planning to utilize dependency graphs.",
+      "description": "Inspired by Claude Agent SDK trend: Task system \u0441 dependency graphs. Update planning to utilize dependency graphs.",
       "allowed_paths": [
         "magda_agent/planning/dependency_graph.py",
         "tests/test_dependency_graph.py",
@@ -8846,7 +8846,7 @@
       "area": "visualization",
       "risk": "medium",
       "title": "OpenClaw Canvas Detailed Logging",
-      "description": "Inspired by trend: Canvas для live визуализации. Expand OpenClaw Canvas to intercept specific Context Engine lifecycle hooks (before_retrieval, after_retrieval).",
+      "description": "Inspired by trend: Canvas \u0434\u043b\u044f live \u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438. Expand OpenClaw Canvas to intercept specific Context Engine lifecycle hooks (before_retrieval, after_retrieval).",
       "allowed_paths": [
         "magda_agent/visualization/canvas_logger.py",
         "tests/test_canvas_logger.py",
@@ -8947,7 +8947,7 @@
     },
     {
       "id": "letta-virtual-context-management-v1",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Letta Virtual Context Management",
@@ -8985,7 +8985,7 @@
       "area": "visualization",
       "risk": "medium",
       "title": "OpenClaw Canvas Detailed Logging V3",
-      "description": "Inspired by trend: Canvas для live визуализации. Expand OpenClaw Canvas to provide real-time agent thought process visualization.",
+      "description": "Inspired by trend: Canvas \u0434\u043b\u044f live \u0432\u0438\u0437\u0443\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u0438. Expand OpenClaw Canvas to provide real-time agent thought process visualization.",
       "allowed_paths": [
         "magda_agent/visualization/canvas_logger_v3.py",
         "tests/test_canvas_logger_v3.py",
@@ -11864,7 +11864,7 @@
       "area": "multi-agent",
       "risk": "medium",
       "title": "A2A Discovery Agent Cards v4",
-      "description": "Inspired by trend: Agent discovery через Agent Cards (A2A protocol). Implement an updated agent discovery mechanism for peer-to-peer network discovery using the new Agent Cards v4 standard.",
+      "description": "Inspired by trend: Agent discovery \u0447\u0435\u0440\u0435\u0437 Agent Cards (A2A protocol). Implement an updated agent discovery mechanism for peer-to-peer network discovery using the new Agent Cards v4 standard.",
       "allowed_paths": [
         "magda_agent/integration/a2a_cards.py",
         "tests/test_a2a_cards.py",
@@ -12116,7 +12116,7 @@
       "area": "integration",
       "risk": "high",
       "title": "A2A Protocol Discovery Mesh",
-      "description": "Inspired by trend: Agent discovery через Agent Cards. Implement a peer-to-peer discovery mesh to actively broadcast Agent Cards to neighboring nodes over A2A.",
+      "description": "Inspired by trend: Agent discovery \u0447\u0435\u0440\u0435\u0437 Agent Cards. Implement a peer-to-peer discovery mesh to actively broadcast Agent Cards to neighboring nodes over A2A.",
       "allowed_paths": [
         "magda_agent/integration/a2a_cards.py",
         "tests/test_a2a_cards.py",
@@ -19328,7 +19328,7 @@
     {
       "id": "agentskills-io-export-v1",
       "title": "Hermes agentskills.io Format Exporter v1",
-      "description": "Inspired by Hermes Agent trend 'Открытый стандарт skills: agentskills.io', implement an exporter to convert internal magda skills to the agentskills.io open standard.",
+      "description": "Inspired by Hermes Agent trend '\u041e\u0442\u043a\u0440\u044b\u0442\u044b\u0439 \u0441\u0442\u0430\u043d\u0434\u0430\u0440\u0442 skills: agentskills.io', implement an exporter to convert internal magda skills to the agentskills.io open standard.",
       "status": "todo",
       "area": "skills",
       "risk": "medium",
@@ -19345,7 +19345,7 @@
     {
       "id": "claude-agent-teams-subagent-spawner-v1",
       "title": "Claude Agent Teams Subagent Spawner",
-      "description": "Inspired by Claude Agent SDK trend 'Agent Teams: multi-agent с git worktree isolation', implement a subagent spawner for parallel tasks.",
+      "description": "Inspired by Claude Agent SDK trend 'Agent Teams: multi-agent \u0441 git worktree isolation', implement a subagent spawner for parallel tasks.",
       "status": "todo",
       "area": "agents",
       "risk": "medium",
