@@ -2,7 +2,7 @@ import pytest
 import json
 from unittest.mock import AsyncMock
 from magda_agent.llm_client import LLMClient
-from magda_agent.architecture.magentic_one import MagenticOneOrchestrator
+from magda_agent.agents.magentic_one import MagenticOneOrchestrator, MagenticOneWorker
 
 @pytest.mark.asyncio
 async def test_magentic_one_orchestrator_success():
@@ -83,3 +83,43 @@ async def test_magentic_one_orchestrator_dynamic_scaling():
 
     # 1 plan + 5 exec + 1 review = 7 calls
     assert mock_llm.chat_completion.call_count == 7
+
+
+@pytest.mark.asyncio
+async def test_magentic_one_orchestrator_hierarchical_delegation():
+    mock_llm = AsyncMock(spec=LLMClient)
+
+    # Set up mock responses to simulate:
+    # 1. Planning: returns a plan with nested subtasks
+    # 2. Execution of child_1
+    # 3. Execution of child_2
+    # 4. Review call: returns YES and complete message
+    mock_llm.chat_completion.side_effect = [
+        '[{"id": "parent_1", "description": "Parent task", "subtasks": [{"id": "child_1", "description": "Child task 1"}, {"id": "child_2", "description": "Child task 2"}]}]',
+        "Child 1 done",
+        "Child 2 done",
+        "YES Complete"
+    ]
+
+    orchestrator = MagenticOneOrchestrator(llm=mock_llm)
+    result = await orchestrator.orchestrate("Complex hierarchical task")
+
+    assert result == "YES Complete"
+    # Plan + Child 1 + Child 2 + Review = 4 calls
+    assert mock_llm.chat_completion.call_count == 4
+
+
+@pytest.mark.asyncio
+async def test_magentic_one_worker_execution():
+    mock_llm = AsyncMock(spec=LLMClient)
+    mock_llm.chat_completion.return_value = "Web surfing result"
+
+    worker = MagenticOneWorker("WebSurfer", "browses web", llm=mock_llm)
+    result = await worker.execute_subtask("search query", ["past_context"])
+
+    assert "Web surfing result" in result
+    mock_llm.chat_completion.assert_called_once()
+    args, kwargs = mock_llm.chat_completion.call_args
+    assert "WebSurfer" in args[0][0]["content"]
+    assert "browses web" in args[0][0]["content"]
+    assert "search query" in args[0][0]["content"]

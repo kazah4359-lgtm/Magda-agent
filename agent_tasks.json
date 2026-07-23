@@ -8964,7 +8964,7 @@
     },
     {
       "id": "magentic-one-orchestration-v1",
-      "status": "todo",
+      "status": "done",
       "area": "agents",
       "risk": "high",
       "title": "Magentic-One Multi-Agent Pattern",
