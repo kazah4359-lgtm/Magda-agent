@@ -2,6 +2,7 @@ import time
 import copy
 import json
 import sqlite3
+from magda_agent.utils.sqlite_pool import get_connection
 from collections import deque
 from typing import Any, Deque, Dict, List, Optional
 
@@ -33,7 +34,7 @@ class AuditTrail:
             return
 
         try:
-            with sqlite3.connect(self.db_path) as conn:
+            with get_connection(self.db_path) as conn:
                 cursor = conn.cursor()
                 cursor.execute(
                     '''
@@ -115,7 +116,7 @@ class AuditTrail:
 
         if self.db_path:
             try:
-                with sqlite3.connect(self.db_path) as conn:
+                with get_connection(self.db_path) as conn:
                     cursor = conn.cursor()
                     cursor.execute(
                         '''
@@ -158,7 +159,7 @@ class AuditTrail:
 
         results = []
         try:
-            with sqlite3.connect(self.db_path) as conn:
+            with get_connection(self.db_path) as conn:
                 cursor = conn.cursor()
                 query = "SELECT timestamp, tool_name, kwargs, why, result, duration FROM audit_logs WHERE 1=1"
                 params = []
@@ -211,7 +212,7 @@ class AuditTrail:
 
         if self.db_path:
             try:
-                with sqlite3.connect(self.db_path) as conn:
+                with get_connection(self.db_path) as conn:
                     cursor = conn.cursor()
                     cursor.execute("DELETE FROM audit_logs")
                     conn.commit()
