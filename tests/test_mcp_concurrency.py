@@ -323,3 +323,106 @@ async def test_mcp_manager_backpressure(mcp_manager):
 
     backpressure_errors = [r for r in results if isinstance(r, str) and "BackpressureError" in r]
     assert len(backpressure_errors) > 0
+
+
+# --- New tests verifying ConcurrentSkillExecutor enhancements ---
+from magda_agent.skills.mcp_concurrency import ConcurrentSkillExecutor
+
+@pytest.mark.asyncio
+async def test_concurrent_skill_executor_alias():
+    """
+    Ensure the ConcurrentSkillExecutor alias works identically.
+    """
+    class MockClient:
+        async def execute(self, name, kwargs):
+            return f"ok_{name}"
+
+    mock_client = MockClient()
+    executor = ConcurrentSkillExecutor(mock_client)
+    tool_calls = [{"name": "test-tool", "kwargs": {}}]
+    results = await executor.execute_mcp_tools_concurrently(tool_calls)
+    assert results == ["ok_test-tool"]
+
+
+@pytest.mark.asyncio
+async def test_mcp_prefix_separators():
+    """
+    Ensure different prefix separators (__, -, :) are handled correctly, especially
+    when server names themselves contain a hyphen (e.g. google-search:web_search).
+    """
+    batches_recorded = []
+
+    class MockClient:
+        async def execute_batch(self, server, calls):
+            batches_recorded.append((server, len(calls)))
+            return [f"{c['name']}_done" for c in calls]
+
+    mock_client = MockClient()
+    executor = MCPConcurrentSkillExecutor(mock_client)
+
+    tool_calls = [
+        {"name": "math_server__add", "kwargs": {}},
+        {"name": "math_server-subtract", "kwargs": {}},
+        {"name": "math_server:multiply", "kwargs": {}},
+        {"name": "other_server__foo", "kwargs": {}},
+        {"name": "google-search:web_search", "kwargs": {}}
+    ]
+
+    results = await executor.execute_mcp_tools_concurrently(tool_calls)
+    assert len(batches_recorded) == 3
+    # "math_server", "other_server", and "google-search" (not "google") should be identified
+    servers_batched = {b[0] for b in batches_recorded}
+    assert "math_server" in servers_batched
+    assert "other_server" in servers_batched
+    assert "google-search" in servers_batched
+    assert "google" not in servers_batched
+    assert results == [
+        "math_server__add_done",
+        "math_server-subtract_done",
+        "math_server:multiply_done",
+        "other_server__foo_done",
+        "google-search:web_search_done"
+    ]
+
+
+@pytest.mark.asyncio
+async def test_performance_concurrency_vs_sequential():
+    """
+    Performance test: verify that executing MCP tools concurrently demonstrates
+    substantial time savings versus sequential execution.
+    """
+    class MockSlowClient:
+        async def execute(self, name, kwargs):
+            await asyncio.sleep(0.05)
+            return f"{name}_done"
+
+    mock_client = MockSlowClient()
+    executor = MCPConcurrentSkillExecutor(mock_client)
+
+    tool_calls = [
+        {"name": "server1-tool_a", "kwargs": {}},
+        {"name": "server2-tool_b", "kwargs": {}},
+        {"name": "server3-tool_c", "kwargs": {}}
+    ]
+
+    # Measure concurrent execution time
+    start_concurrent = asyncio.get_event_loop().time()
+    concurrent_results = await executor.execute_mcp_tools_concurrently(tool_calls)
+    end_concurrent = asyncio.get_event_loop().time()
+    concurrent_duration = end_concurrent - start_concurrent
+
+    # Measure sequential execution time (manually calling mock client sequentially)
+    start_sequential = asyncio.get_event_loop().time()
+    sequential_results = []
+    for call in tool_calls:
+        res = await mock_client.execute(call["name"], call["kwargs"])
+        sequential_results.append(res)
+    end_sequential = asyncio.get_event_loop().time()
+    sequential_duration = end_sequential - start_sequential
+
+    # Assert correctness
+    assert concurrent_results == sequential_results
+
+    # Assert performance: concurrent should be significantly faster than sequential.
+    # 3 calls executed sequentially take ~0.15s, while concurrently they take ~0.05s.
+    assert concurrent_duration < sequential_duration * 0.7
