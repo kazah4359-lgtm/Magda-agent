@@ -9812,7 +9812,7 @@
     },
     {
       "id": "openai-mcp-tool-concurrency-3ce889ad-9455-4502-9a20-88ba0f70038f",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "OpenAI Agents SDK MCP Tool Concurrency",

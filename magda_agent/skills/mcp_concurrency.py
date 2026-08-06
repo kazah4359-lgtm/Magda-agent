@@ -39,8 +39,14 @@ class MCPConcurrentSkillExecutor:
             name = call.get("name", "")
             kwargs = call.get("kwargs", {})
 
-            # Extract server prefix (e.g. 'math_server-add' -> 'math_server')
-            server_prefix = name.split("-")[0] if "-" in name else name
+            # Extract server prefix (supports '__', ':', '-')
+            # Specific delimiters like '__' and ':' must be checked before '-'
+            # to handle server names with hyphens (e.g. google-search:web_search)
+            server_prefix = name
+            for sep in ["__", ":", "-"]:
+                if sep in name:
+                    server_prefix = name.split(sep)[0]
+                    break
 
             if server_prefix not in batches:
                 batches[server_prefix] = []
@@ -139,3 +145,7 @@ class MCPConcurrentSkillExecutor:
                         break
 
         return final_results
+
+
+# Alias for compatibility with trend specifications referring to ConcurrentSkillExecutor
+ConcurrentSkillExecutor = MCPConcurrentSkillExecutor
