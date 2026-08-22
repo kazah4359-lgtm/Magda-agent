@@ -27421,7 +27421,7 @@
     },
     {
       "id": "hermes-cron-nightly-benchmark-v2-8af5da74",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "medium",
       "title": "Hermes Cron Nightly Benchmark V2",
@@ -27626,6 +27626,57 @@
         "Plugin hooks into Context Engine to intercept context generation.",
         "Semantic similarity search is mocked to select relevant prior context.",
         "Tests verify working memory contains retrieved context based on a given query."
+      ]
+    },
+    {
+      "id": "openclaw-canvas-metrics-visualizer-v3-d090e8b8",
+      "status": "todo",
+      "area": "integration",
+      "risk": "medium",
+      "title": "OpenClaw Canvas Metrics Visualizer V3",
+      "description": "Inspired by OpenClaw Canvas trends (June 2026): Create a WebSocket integration module that streams real-time memory pressure and RL reward metrics to the canvas frontend for visual analysis.",
+      "allowed_paths": [
+        "magda_agent/integration/canvas_metrics_v3.py",
+        "tests/test_canvas_metrics_v3.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "WebSocket metric stream initializes and sends metrics payload.",
+        "Tests mock the WebSocket and assert correct payload structure."
+      ]
+    },
+    {
+      "id": "claude-subagent-context-boundary-v2-f0a8b453",
+      "status": "todo",
+      "area": "safety",
+      "risk": "medium",
+      "title": "Claude Code Subagent Context Boundary V2",
+      "description": "Inspired by Claude Agent Teams (June 2026): Implement an isolation decorator or interceptor that strictly prevents subagent processes from leaking their working memory back into the main global context unless explicitly passed as the return value.",
+      "allowed_paths": [
+        "magda_agent/safety/subagent_context_boundary_v2.py",
+        "tests/test_subagent_context_boundary_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Isolation boundary successfully blocks unreturned memory state.",
+        "Tests verify that main context remains unmodified when subagent errors or completes."
+      ]
+    },
+    {
+      "id": "hermes-cross-platform-memory-sync-v2-3403f99f",
+      "status": "todo",
+      "area": "memory",
+      "risk": "medium",
+      "title": "Hermes Cross-Platform Memory Synchronization V2",
+      "description": "Inspired by Hermes Multi-platform trends (June 2026): Implement a sync manager that aggregates episodic memory chunks across different user channels (Telegram, CLI) into a single consolidated semantic user profile.",
+      "allowed_paths": [
+        "magda_agent/memory/cross_platform_sync_v2.py",
+        "tests/test_cross_platform_sync_v2.py",
+        "agent_tasks.json"
+      ],
+      "acceptance": [
+        "Sync manager successfully aggregates records based on user id across platforms.",
+        "Tests mock memory stores and verify the consolidated output."
       ]
     }
   ]
