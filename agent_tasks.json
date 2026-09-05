@@ -13668,7 +13668,7 @@
     },
     {
       "id": "7fb16e93-1c84-4e9e-b85f-42b18bc3f423",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Magentic-One Multi-Agent Orchestration V3",
