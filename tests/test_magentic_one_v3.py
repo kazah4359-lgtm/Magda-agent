@@ -2,7 +2,7 @@ import pytest
 import json
 from unittest.mock import AsyncMock
 from magda_agent.llm_client import LLMClient
-from magda_agent.agents.magentic_one_v3 import MagenticOneOrchestratorV3, MagenticOneWorkerV3
+from magda_agent.architecture.magentic_one_v3 import MagenticOneOrchestratorV3, MagenticOneWorkerV3
 
 @pytest.mark.asyncio
 async def test_magentic_one_v3_orchestrator_success():
