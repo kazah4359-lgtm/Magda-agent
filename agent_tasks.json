@@ -13685,7 +13685,7 @@
     },
     {
       "id": "3a7bb365-8d58-4c05-bfba-cf78ee024091",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCP Tool Runtime Execution Policy Sandbox V4",
