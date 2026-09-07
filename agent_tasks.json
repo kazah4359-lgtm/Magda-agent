@@ -13702,7 +13702,7 @@
     },
     {
       "id": "d11098fc-9600-4fb2-a17b-68efa4eab388",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Workflow Auth Delegation Tokens",
