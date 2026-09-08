@@ -13719,7 +13719,7 @@
     },
     {
       "id": "e7fb872a-ebce-4600-acca-7d6ba7ac4739",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Hierarchical Delegation Telemetry Exporter v2",
