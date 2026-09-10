@@ -13753,7 +13753,7 @@
     },
     {
       "id": "2d0966fd-8abe-4b49-8ac8-73aa7d00068a",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Magentic-One Task Dependency Resolution Engine v4",
