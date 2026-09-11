@@ -13771,7 +13771,7 @@
     },
     {
       "id": "640fdf1f-cd6c-4543-9eb5-dbaffad4e745",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "MemGPT Semantic Cluster Virtual Context Pager v2",
