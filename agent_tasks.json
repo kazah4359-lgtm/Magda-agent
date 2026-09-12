@@ -13789,7 +13789,7 @@
     },
     {
       "id": "6d8ad2d6-3cec-40d9-b1bf-68c2995ab826",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Online Reward Propagator v6",
