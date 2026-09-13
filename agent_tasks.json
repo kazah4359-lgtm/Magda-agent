@@ -13807,7 +13807,7 @@
     },
     {
       "id": "eae22bdf-ac48-486d-ba69-38dbb06ecf2a",
-      "status": "todo",
+      "status": "done",
       "area": "telemetry",
       "risk": "low",
       "title": "A2A Distributed Telemetry Collection v8",
