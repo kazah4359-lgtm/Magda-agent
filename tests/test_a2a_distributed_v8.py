@@ -23,24 +23,24 @@ def test_track_event(telemetry: A2ADistributedTelemetryV8) -> None:
     }
 
 
-@pytest.mark.asyncio
-async def test_broadcast_events_empty(telemetry: A2ADistributedTelemetryV8) -> None:
+def test_broadcast_events_empty(telemetry: A2ADistributedTelemetryV8) -> None:
     """Test broadcasting when there are no events."""
+    import asyncio
     with patch.object(telemetry, '_mock_broadcast', new_callable=AsyncMock) as mock_broadcast:
-        await telemetry.broadcast_events()
+        asyncio.run(telemetry.broadcast_events())
         mock_broadcast.assert_not_called()
 
 
-@pytest.mark.asyncio
-async def test_broadcast_events(telemetry: A2ADistributedTelemetryV8) -> None:
+def test_broadcast_events(telemetry: A2ADistributedTelemetryV8) -> None:
     """Test broadcasting collected events."""
+    import asyncio
     telemetry.track_event("sub_1", "task_start", {"task_id": 101})
     telemetry.track_event("sub_2", "task_end", {"task_id": 102})
 
     assert len(telemetry.events) == 2
 
     with patch.object(telemetry, '_mock_broadcast', new_callable=AsyncMock) as mock_broadcast:
-        await telemetry.broadcast_events()
+        asyncio.run(telemetry.broadcast_events())
 
         mock_broadcast.assert_called_once()
         args, _ = mock_broadcast.call_args
