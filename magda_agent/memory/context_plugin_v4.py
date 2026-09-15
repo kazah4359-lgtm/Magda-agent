@@ -8,14 +8,16 @@ class ContextPluginV4(ContextPlugin):
     Implements full lifecycle hooks to manage context dynamically.
     """
 
-    def __init__(self, llm: Optional[Any] = None) -> None:
+    def __init__(self, llm: Optional[Any] = None, episodic_memory: Optional[Any] = None) -> None:
         """
         Initializes the ContextPluginV4.
 
         Args:
             llm: Optional language model integration for intelligent compaction.
+            episodic_memory: Optional memory store for offloading compacted/evicted context.
         """
         self.llm = llm
+        self.episodic_memory = episodic_memory
         self.config: Dict[str, Any] = {}
         logging.debug("Initialized ContextPluginV4")
 
@@ -64,7 +66,8 @@ class ContextPluginV4(ContextPlugin):
 
     async def compact(self, context_items: List[Any], metadata: Dict[str, Any]) -> List[Any]:
         """
-        Compact lifecycle hook. Reduces context size using LLM or truncation.
+        Compact lifecycle hook. Reduces context size using LLM or truncation,
+        and offloads evicted items to episodic memory stores if provided.
 
         Args:
             context_items: Existing context items.
@@ -77,13 +80,29 @@ class ContextPluginV4(ContextPlugin):
         if len(context_items) <= limit:
             return context_items
 
+        to_compact = context_items[: len(context_items) - limit] if limit > 0 else context_items
+        remaining = context_items[len(context_items) - limit :] if limit > 0 else []
+
+        episodic_store = metadata.get("episodic_memory")
+        if episodic_store is None:
+            episodic_store = metadata.get("memory_store")
+        if episodic_store is None:
+            episodic_store = self.episodic_memory
+
+        if episodic_store is not None:
+            user_id = metadata.get("user_id")
+            for item in to_compact:
+                text = getattr(item, "content", str(item))
+                if hasattr(episodic_store, "store_event"):
+                    episodic_store.store_event(text, metadata={"tags": ["v4_compacted"]}, user_id=user_id)
+                elif hasattr(episodic_store, "add_memory"):
+                    episodic_store.add_memory(text)
+                elif hasattr(episodic_store, "append"):
+                    episodic_store.append(text)
+
         if not self.llm:
             logging.warning("ContextPluginV4: No LLM available for intelligent compaction. Truncating.")
             return context_items[-limit:]
-
-        # Simplistic OpenClaw compaction
-        to_compact = context_items[:2]
-        remaining = context_items[2:]
 
         combined = "\n".join([getattr(i, 'content', str(i)) for i in to_compact])
         prompt = f"Compact the following interaction into a short bullet point:\n{combined}"
