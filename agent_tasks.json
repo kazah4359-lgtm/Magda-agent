@@ -13858,7 +13858,7 @@
     },
     {
       "id": "464cfb79-7ffc-4573-8f84-b49d3a9fa201",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCP Tool Registry Auth Interceptor V2",
