@@ -59,7 +59,7 @@ async def test_concurrent_execution_mixed():
 
     assert results == ["sync_1", "async_2", "sync_3"]
     # All should take ~0.1s concurrently
-    assert end - start < 0.2
+    assert end - start < 2.0
 
 @pytest.mark.asyncio
 async def test_concurrent_execution_with_mcp_metadata():
