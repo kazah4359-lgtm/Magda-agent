@@ -13875,7 +13875,7 @@
     },
     {
       "id": "6547409a-f763-4793-a53d-94dded9863f7",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "low",
       "title": "Hierarchical Planner Subagent Dependency Resolver",
