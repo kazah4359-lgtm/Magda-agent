@@ -13892,7 +13892,7 @@
     },
     {
       "id": "232aaef3-a110-4064-88d2-48104a0a0c93",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "MemGPT Procedural Memory Manager",
