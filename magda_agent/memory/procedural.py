@@ -1,12 +1,16 @@
-import chromadb
-import uuid
 import logging
+import uuid
+from typing import Any, Dict, List, Optional
+
+import chromadb
+
 
 class ProceduralMemory:
     """
-    Procedural memory stores reusable successful methods and procedures.
-    Uses ChromaDB for vector-based semantic retrieval of procedures.
+    Procedural memory stores reusable successful methods, skills, and procedures.
+    Uses ChromaDB for vector-based semantic retrieval of procedural memories.
     """
+
     def __init__(self, persist_directory: str = "./procedural_memory_db") -> None:
         """Initialize ProceduralMemory with an ephemeral or persistent ChromaDB client."""
         if persist_directory == ":memory:":
@@ -17,7 +21,13 @@ class ProceduralMemory:
             logging.info(f"Initialized ProceduralMemory with persistent directory: {persist_directory}")
         self.collection = self.client.get_or_create_collection(name="procedural_memory")
 
-    def store_procedure(self, name: str, procedure: str, metadata: dict = None, user_id: int = None) -> None:
+    def store_procedure(
+        self,
+        name: str,
+        procedure: str,
+        metadata: Optional[Dict[str, Any]] = None,
+        user_id: Optional[int] = None,
+    ) -> None:
         """
         Store a procedural memory (e.g., a method or steps) with optional metadata.
         """
@@ -35,21 +45,26 @@ class ProceduralMemory:
             self.collection.add(
                 documents=[content],
                 metadatas=[meta],
-                ids=[memory_id]
+                ids=[memory_id],
             )
             logging.debug(f"Stored procedure: {name}")
         except Exception as e:
             logging.error(f"Failed to store procedure: {e}")
 
-    def recall_procedure(self, query: str, top_k: int = 5, user_id: int = None) -> list[str]:
+    def recall_procedure(
+        self,
+        query: str,
+        top_k: int = 5,
+        user_id: Optional[int] = None,
+    ) -> List[str]:
         """
         Recall relevant procedures based on semantic similarity to the query.
         Returns the procedural documents that match.
         """
         try:
-            query_kwargs = {
+            query_kwargs: Dict[str, Any] = {
                 "query_texts": [query],
-                "n_results": top_k
+                "n_results": top_k,
             }
             if user_id is not None:
                 query_kwargs["where"] = {"user_id": user_id}
@@ -62,12 +77,12 @@ class ProceduralMemory:
             logging.error(f"Failed to recall procedures: {e}")
             return []
 
-    def get_procedure_versions(self, name: str, user_id: int = None) -> dict:
+    def get_procedure_versions(self, name: str, user_id: Optional[int] = None) -> Dict[str, Any]:
         """
         Retrieve all versions of a skill procedure by name.
         """
         try:
-            where_clause = {"name": name}
+            where_clause: Dict[str, Any] = {"name": name}
             if user_id is not None:
                 where_clause = {"$and": [{"name": name}, {"user_id": user_id}]}
 
