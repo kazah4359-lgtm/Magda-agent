@@ -13909,7 +13909,7 @@
     },
     {
       "id": "96c3b83b-8572-42d7-9ec1-e4041374df51",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Discovery Agent Card Broadcaster V4",
