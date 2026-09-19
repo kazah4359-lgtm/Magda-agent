@@ -58,9 +58,17 @@ async def test_a2a_manager_discover_and_delegate(local_card: AgentCard, remote_c
     result_missing = await manager.delegate_task("image_generation", {"prompt": "cat"})
     assert result_missing == "No agent found"
 
+import asyncio
 import logging
 from unittest.mock import patch
-from magda_agent.integration.a2a_discovery_v4 import AgentCardV4, A2ADiscoveryRegistryV4
+import httpx
+import respx
+from magda_agent.integration.a2a_discovery_v4 import (
+    AgentCardV4,
+    A2ADiscoveryRegistryV4,
+    AgentCardBroadcasterV4,
+    A2AAgentCardBroadcasterV4,
+)
 
 @pytest.fixture
 def valid_card_dict() -> dict:
@@ -158,3 +166,93 @@ def test_registry_parse_logging_errors(mock_logging_error) -> None:
 
     assert mock_logging_error.called
     assert "Failed to parse AgentCardV4" in mock_logging_error.call_args[0][0]
+
+
+def test_broadcaster_v4_generate_payload(valid_card_json: str) -> None:
+    """
+    Test that AgentCardBroadcasterV4 generates correct broadcast envelope payload.
+    """
+    card = AgentCardV4.from_json(valid_card_json)
+    broadcaster = AgentCardBroadcasterV4(agent_card=card, endpoints=["http://peer-node/broadcast"])
+
+    payload = broadcaster.generate_broadcast_payload()
+
+    assert payload["type"] == "a2a_discovery_broadcast"
+    assert payload["version"] == "4.0"
+    assert payload["agent_id"] == "test-agent-001"
+    assert "test_capability_1" in payload["capabilities"]
+    assert payload["agent_card"]["name"] == "TestAgent"
+
+
+@pytest.mark.asyncio
+async def test_broadcaster_v4_broadcast_once_no_endpoints(valid_card_json: str) -> None:
+    """
+    Test that broadcast_once returns empty dict if no endpoints are provided.
+    """
+    card = AgentCardV4.from_json(valid_card_json)
+    broadcaster = AgentCardBroadcasterV4(agent_card=card)
+
+    results = await broadcaster.broadcast_once()
+    assert results == {}
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_broadcaster_v4_broadcast_once_success(valid_card_json: str) -> None:
+    """
+    Test successful broadcast to multiple endpoints using respx mock.
+    """
+    card = AgentCardV4.from_json(valid_card_json)
+    url = "http://peer-node-1:8080/a2a/broadcast"
+    route = respx.post(url).mock(return_value=httpx.Response(200, json={"status": "ok"}))
+
+    broadcaster = AgentCardBroadcasterV4(agent_card=card, endpoints=[url])
+    results = await broadcaster.broadcast_once()
+
+    assert results[url] is True
+    assert route.called
+
+    sent_data = json.loads(route.calls.last.request.content)
+    assert sent_data["type"] == "a2a_discovery_broadcast"
+    assert sent_data["version"] == "4.0"
+    assert sent_data["agent_id"] == "test-agent-001"
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_broadcaster_v4_broadcast_once_http_and_network_error(valid_card_json: str) -> None:
+    """
+    Test broadcast_once handles HTTP error codes and network exceptions gracefully.
+    """
+    card = AgentCardV4.from_json(valid_card_json)
+    url_500 = "http://peer-node-500:8080/a2a/broadcast"
+    url_net_err = "http://peer-node-down:8080/a2a/broadcast"
+
+    respx.post(url_500).mock(return_value=httpx.Response(500))
+    respx.post(url_net_err).mock(side_effect=httpx.NetworkError("Network unreachable"))
+
+    broadcaster = AgentCardBroadcasterV4(agent_card=card)
+    results = await broadcaster.broadcast_once(target_endpoints=[url_500, url_net_err])
+
+    assert results[url_500] is False
+    assert results[url_net_err] is False
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_broadcaster_v4_periodic_broadcast_lifecycle(valid_card_json: str) -> None:
+    """
+    Test starting and stopping periodic background broadcasting.
+    """
+    card = AgentCardV4.from_json(valid_card_json)
+    url = "http://peer-periodic:8080/a2a/broadcast"
+    route = respx.post(url).mock(return_value=httpx.Response(200))
+
+    broadcaster = A2AAgentCardBroadcasterV4(agent_card=card, endpoints=[url])
+
+    await broadcaster.start_periodic_broadcast(interval=0.05)
+    await asyncio.sleep(0.12)
+    await broadcaster.stop_periodic_broadcast()
+
+    assert route.call_count >= 1
+    assert broadcaster._running is False
