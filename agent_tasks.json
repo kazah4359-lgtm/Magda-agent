@@ -13926,7 +13926,7 @@
     },
     {
       "id": "f5a908a1-4008-47a8-8cb1-60faf53ff94a",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCP Dynamic Verification Sandbox Hook V2",
