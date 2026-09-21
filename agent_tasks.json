@@ -13943,7 +13943,7 @@
     },
     {
       "id": "69833305-d25f-4b77-9472-65747ad0e5f4",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "MemGPT Virtual Context Compression Trigger V3",
