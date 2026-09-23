@@ -13978,7 +13978,7 @@
     },
     {
       "id": "ff002869-57a4-4a3b-a7ae-f96da0500728",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "high",
       "title": "MCPKernel Taint Tracking Sandbox V3",
