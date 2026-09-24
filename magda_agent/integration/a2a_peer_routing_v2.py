@@ -141,10 +141,21 @@ class A2APeerRouterV2:
         """
         eval_result = self.evaluate_complexity(task_payload)
 
-        # Match peer based on capabilities
-        matched_peer = self.find_matching_peer(eval_result.required_capabilities)
-
-        if not eval_result.is_complex and not matched_peer:
+        # If explicit capabilities are required by the task
+        if eval_result.required_capabilities:
+            matched_peer = self.find_matching_peer(eval_result.required_capabilities)
+            if not matched_peer:
+                logger.warning(f"No peer found with required capabilities: {eval_result.required_capabilities}")
+                raise ValueError(f"No peer agent found matching required capabilities: {eval_result.required_capabilities}")
+        elif eval_result.is_complex:
+            # Task is complex but has no specific capability filter
+            all_agents = self.discovery.get_all_agents() if self.discovery else []
+            if all_agents:
+                matched_peer = all_agents[0]
+            else:
+                raise ValueError("Task is complex but no peer agents are available for delegation")
+        else:
+            # Simple task with no required capabilities
             logger.info(f"Task {eval_result.task_id} is simple and has no explicit peer requirement. Handling locally.")
             return {
                 "status": "local_execution",
@@ -152,19 +163,6 @@ class A2APeerRouterV2:
                 "complexity_score": eval_result.complexity_score,
                 "message": "Task processed locally"
             }
-
-        if not matched_peer and eval_result.required_capabilities:
-            # Check if any capability is required but no matching peer
-            logger.warning(f"No peer found with required capabilities: {eval_result.required_capabilities}")
-            raise ValueError(f"No peer agent found matching required capabilities: {eval_result.required_capabilities}")
-
-        if not matched_peer:
-            # Task is complex, but no specific peer found
-            all_agents = self.discovery.get_all_agents() if self.discovery else []
-            if all_agents:
-                matched_peer = all_agents[0]
-            else:
-                raise ValueError("Task is complex but no peer agents are available for delegation")
 
         # Select endpoint (rpc or mcp)
         endpoint = matched_peer.endpoints.get("rpc") or matched_peer.endpoints.get("mcp") or matched_peer.endpoints.get("main")
