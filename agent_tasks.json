@@ -13996,7 +13996,7 @@
     },
     {
       "id": "ffcc3daa-d337-460a-8e3d-9686ec7a1ede",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "A2A Peer Delegation Routing V2",
