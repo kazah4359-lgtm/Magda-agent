@@ -1,5 +1,6 @@
 import pytest
 import json
+import jsonschema
 from unittest.mock import patch, AsyncMock
 from magda_agent.integration.a2a_discovery_v5 import AgentCardV5, A2ADiscoveryServiceV5
 
@@ -41,6 +42,22 @@ def test_agent_card_v5_serialization(valid_card_dict: dict, valid_card_json: str
     assert re_dict["protocol_version"] == "v5"
     assert re_dict["health_status"] == "online"
 
+def test_agent_card_v5_schema_validation_type_mismatch(valid_card_dict: dict) -> None:
+    """
+    Test that AgentCardV5.from_json raises ValidationError on schema/type mismatches.
+    """
+    bad_card_dict = valid_card_dict.copy()
+    bad_card_dict["capabilities"] = "not-a-list"
+
+    with pytest.raises(jsonschema.ValidationError):
+        AgentCardV5.from_json(json.dumps(bad_card_dict))
+
+    bad_endpoints_dict = valid_card_dict.copy()
+    bad_endpoints_dict["endpoints"] = "not-an-object"
+
+    with pytest.raises(jsonschema.ValidationError):
+        AgentCardV5.from_json(json.dumps(bad_endpoints_dict))
+
 def test_service_filters_offline_agents(valid_card_dict: dict) -> None:
     """
     Test that the service filters out offline agents correctly.
@@ -81,6 +98,48 @@ def test_service_register_and_get(valid_card_json: str) -> None:
     assert len(all_agents) == 1
     assert all_agents[0].agent_id == "test-agent-005"
 
+def test_discovery_service_validate_card(valid_card_dict: dict) -> None:
+    """
+    Test A2ADiscoveryServiceV5.validate_card with valid and invalid card dicts.
+    """
+    service = A2ADiscoveryServiceV5()
+    assert service.validate_card(valid_card_dict) is True
+
+    invalid_dict = valid_card_dict.copy()
+    del invalid_dict["capabilities"]
+    assert service.validate_card(invalid_dict) is False
+
+def test_discovery_service_register_invalid_card_raises() -> None:
+    """
+    Test that register_agent raises ValueError if card fails schema validation.
+    """
+    service = A2ADiscoveryServiceV5()
+    invalid_card = AgentCardV5(
+        agent_id="",
+        name="",
+        description="test",
+        capabilities=["test"],
+        endpoints={"rpc": "http://localhost"}
+    )
+    with pytest.raises(ValueError, match="failed schema validation"):
+        service.register_agent(invalid_card)
+
+def test_discovery_service_custom_schema(valid_card_dict: dict) -> None:
+    """
+    Test A2ADiscoveryServiceV5 with a custom schema constraint.
+    """
+    custom_schema = {
+        "type": "object",
+        "properties": {
+            "agent_id": {"type": "string"},
+            "custom_field": {"type": "string"}
+        },
+        "required": ["agent_id", "custom_field"]
+    }
+    service = A2ADiscoveryServiceV5(schema=custom_schema)
+    assert service.validate_card({"agent_id": "a1"}) is False
+    assert service.validate_card({"agent_id": "a1", "custom_field": "val1"}) is True
+
 def test_service_unregister(valid_card_json: str) -> None:
     """
     Test unregistering an agent card from the service.
@@ -105,8 +164,9 @@ def test_service_parse_and_register_cards(valid_card_json: str) -> None:
 
     invalid_card_json = '{"agent_id": "bad", "name": "bad"}' # missing description, capabilities, endpoints
     malformed_json = '{"agent_id": "bad", "name":' # Syntax error
+    type_mismatch_json = json.dumps({"agent_id": "a", "name": "b", "description": "c", "capabilities": 123, "endpoints": {}})
 
-    cards_to_parse = [valid_card_json, invalid_card_json, malformed_json]
+    cards_to_parse = [valid_card_json, invalid_card_json, malformed_json, type_mismatch_json]
 
     successfully_parsed = service.parse_and_register_cards(cards_to_parse)
 
