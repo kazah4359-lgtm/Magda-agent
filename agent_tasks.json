@@ -14032,7 +14032,7 @@
     },
     {
       "id": "acs-guard-checkpoint-runtime-v7-4e1d186a",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "ACS Agent Control Specification Runtime Guard V7",
