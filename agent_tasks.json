@@ -14050,7 +14050,7 @@
     },
     {
       "id": "agent-teams-git-worktree-isolation-v4-6cee8930",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Agent Teams Git Worktree Isolation V4",
