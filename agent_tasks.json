@@ -14068,7 +14068,7 @@
     },
     {
       "id": "782bc0da-552a-4121-bb33-04f21a8d56b0",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Agent Teams Git Worktree Synchronization V5",
