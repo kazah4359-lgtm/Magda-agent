@@ -1,6 +1,6 @@
 import asyncio
 import pytest
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 
 from magda_agent.emotions.engine import PADState
 from magda_agent.llm_client import LLMClient
@@ -15,12 +15,24 @@ from magda_agent.memory.working import MemoryEntry, WorkingMemory
 
 @pytest.fixture
 def episodic_mem():
-    return EpisodicMemory(persist_directory=":memory:")
+    mem = EpisodicMemory(persist_directory=":memory:")
+    try:
+        mem.client.delete_collection("episodic_memory")
+    except Exception:
+        pass
+    mem.collection = mem.client.get_or_create_collection("episodic_memory")
+    return mem
 
 
 @pytest.fixture
 def semantic_mem():
-    return SemanticMemory(persist_directory=":memory:")
+    mem = SemanticMemory(persist_directory=":memory:")
+    try:
+        mem.client.delete_collection("semantic_memory")
+    except Exception:
+        pass
+    mem.collection = mem.client.get_or_create_collection("semantic_memory")
+    return mem
 
 
 @pytest.fixture
@@ -42,20 +54,21 @@ async def test_compress_episodic_to_semantic_success(episodic_mem, semantic_mem,
         min_events_threshold=2,
     )
 
-    episodic_mem.store_event("User said they prefer Python for backend services", user_id=42)
-    episodic_mem.store_event("User discussed architecture of Magda AGI framework", user_id=42)
-    episodic_mem.store_event("User discussed deployment to Linux sandbox", user_id=42)
+    uid = 998877
+    episodic_mem.store_event("User said they prefer Python for backend services", user_id=uid)
+    episodic_mem.store_event("User discussed architecture of Magda AGI framework", user_id=uid)
+    episodic_mem.store_event("User discussed deployment to Linux sandbox", user_id=uid)
 
-    facts = await compressor.compress_episodic_to_semantic(user_id=42)
+    facts = await compressor.compress_episodic_to_semantic(user_id=uid)
 
     assert len(facts) == 2
     assert "User prefers Python over TypeScript for backend" in facts
     assert "User is building Magda AGI framework" in facts
 
-    recalled = semantic_mem.recall_facts("Python", user_id=42)
+    recalled = semantic_mem.recall_facts("Python", user_id=uid)
     assert len(recalled) > 0
 
-    remaining_events = episodic_mem.get_all_events(user_id=42, include_decayed=False)
+    remaining_events = episodic_mem.get_all_events(user_id=uid, include_decayed=False)
     assert len(remaining_events) == 0
 
     assert compressor.total_compressions == 1
@@ -73,9 +86,10 @@ async def test_compress_below_threshold(episodic_mem, semantic_mem, mock_llm):
         min_events_threshold=3,
     )
 
-    episodic_mem.store_event("Single event in episodic memory", user_id=10)
+    uid = 998878
+    episodic_mem.store_event("Single event in episodic memory", user_id=uid)
 
-    facts = await compressor.compress_episodic_to_semantic(user_id=10)
+    facts = await compressor.compress_episodic_to_semantic(user_id=uid)
 
     assert facts == []
     mock_llm.generate.assert_not_called()
@@ -86,10 +100,11 @@ async def test_compress_below_threshold(episodic_mem, semantic_mem, mock_llm):
 async def test_compress_with_working_memory_clearing(episodic_mem, semantic_mem, mock_llm):
     working_mem = WorkingMemory()
     state = PADState(0.1, 0.2, 0.3)
-    await working_mem.add(MemoryEntry("entry 1", importance=0.5, emotional_state=state, user_id=1))
-    await working_mem.add(MemoryEntry("entry 2", importance=0.5, emotional_state=state, user_id=1))
-    await working_mem.add(MemoryEntry("entry 3", importance=0.5, emotional_state=state, user_id=1))
-    await working_mem.add(MemoryEntry("entry 4", importance=0.5, emotional_state=state, user_id=1))
+    uid = 998879
+    await working_mem.add(MemoryEntry("entry 1", importance=0.5, emotional_state=state, user_id=uid))
+    await working_mem.add(MemoryEntry("entry 2", importance=0.5, emotional_state=state, user_id=uid))
+    await working_mem.add(MemoryEntry("entry 3", importance=0.5, emotional_state=state, user_id=uid))
+    await working_mem.add(MemoryEntry("entry 4", importance=0.5, emotional_state=state, user_id=uid))
 
     compressor = MemGPTVirtualCompressionV5(
         episodic_memory=episodic_mem,
@@ -99,13 +114,13 @@ async def test_compress_with_working_memory_clearing(episodic_mem, semantic_mem,
         min_events_threshold=2,
     )
 
-    episodic_mem.store_event("Event A", user_id=1)
-    episodic_mem.store_event("Event B", user_id=1)
+    episodic_mem.store_event("Event A", user_id=uid)
+    episodic_mem.store_event("Event B", user_id=uid)
 
-    facts = await compressor.compress_episodic_to_semantic(user_id=1)
+    facts = await compressor.compress_episodic_to_semantic(user_id=uid)
 
     assert len(facts) == 2
-    remaining_wm = working_mem.get_entries(user_id=1)
+    remaining_wm = working_mem.get_entries(user_id=uid)
     assert len(remaining_wm) == 2
 
 
@@ -121,10 +136,11 @@ async def test_llm_error_handling(episodic_mem, semantic_mem):
         min_events_threshold=2,
     )
 
-    episodic_mem.store_event("Event A", user_id=1)
-    episodic_mem.store_event("Event B", user_id=1)
+    uid = 998880
+    episodic_mem.store_event("Event A", user_id=uid)
+    episodic_mem.store_event("Event B", user_id=uid)
 
-    facts = await compressor.compress_episodic_to_semantic(user_id=1)
+    facts = await compressor.compress_episodic_to_semantic(user_id=uid)
 
     assert facts == []
     assert compressor.total_compressions == 0
@@ -139,10 +155,11 @@ async def test_background_loop_lifecycle(episodic_mem, semantic_mem, mock_llm):
         min_events_threshold=2,
     )
 
-    episodic_mem.store_event("Event 1", user_id=1)
-    episodic_mem.store_event("Event 2", user_id=1)
+    uid = 998881
+    episodic_mem.store_event("Event 1", user_id=uid)
+    episodic_mem.store_event("Event 2", user_id=uid)
 
-    task = compressor.start_background_loop(interval_seconds=0.05, user_id=1)
+    task = compressor.start_background_loop(interval_seconds=0.05, user_id=uid)
     await asyncio.sleep(0.12)
     await compressor.stop_background_loop()
 
