@@ -14085,7 +14085,7 @@
     },
     {
       "id": "a173247b-c719-4ce6-8a17-f5a87d18ddfc",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "MemGPT Virtual Context Semantic Compressor V5",
