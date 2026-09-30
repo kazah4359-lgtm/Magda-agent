@@ -14102,7 +14102,7 @@
     },
     {
       "id": "6075b249-f42e-4786-b0a8-aececa6a2c80",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCPKernel A2A Guardrail Runtime Checkpoint V4",
