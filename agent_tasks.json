@@ -14136,7 +14136,7 @@
     },
     {
       "id": "6fed0f15-f976-4ce8-afe4-187237a11c25",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Agent Teams Worktree State Diffing V1",
