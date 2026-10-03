@@ -14153,7 +14153,7 @@
     },
     {
       "id": "8de63680-bfd0-44c1-a314-23b76d215261",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCP Action Tool Rate Limiting V1",
