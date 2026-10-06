@@ -14204,7 +14204,7 @@
     },
     {
       "id": "9d27c5fc-0ce1-4476-b12a-b13b32e3e37a",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Agent Teams Distributed Tracing V9",
