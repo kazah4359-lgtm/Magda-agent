@@ -14238,7 +14238,7 @@
     },
     {
       "id": "openclaw-rl-interactive-learning-v4-7cdc8b40",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Interactive Learning Integration V4",
