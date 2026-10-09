@@ -14255,7 +14255,7 @@
     },
     {
       "id": "a2a-agent-discovery-cards-v3-5578da62",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Agent Discovery Cards Integration V3",
