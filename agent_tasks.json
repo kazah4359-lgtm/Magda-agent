@@ -14272,7 +14272,7 @@
     },
     {
       "id": "hermes-agent-nightly-backups-bb325590",
-      "status": "todo",
+      "status": "done",
       "area": "operations",
       "risk": "low",
       "title": "Hermes Agent Scheduled Nightly Backups",
