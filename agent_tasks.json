@@ -14289,7 +14289,7 @@
     },
     {
       "id": "claude-subagent-dependency-graph-0641a915",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Claude Subagent Dependency Graph V2",
