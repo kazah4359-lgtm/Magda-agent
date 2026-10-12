@@ -14306,7 +14306,7 @@
     },
     {
       "id": "mcp-action-tools-export-v2-58dbbdbc",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "MCP Action Tools Export Compatibility V2",
