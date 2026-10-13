@@ -14323,7 +14323,7 @@
     },
     {
       "id": "0e0bb8a5-f4ce-4dde-bbc2-a8546536550d",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Claude Agent SDK Hierarchical Planner V3",
