@@ -14340,7 +14340,7 @@
     },
     {
       "id": "b056049d-7c41-4464-af65-5fd6a1342101",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Magentic-One Pattern Agent Teams V2",
