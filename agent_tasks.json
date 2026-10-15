@@ -14357,7 +14357,7 @@
     },
     {
       "id": "c6b00e16-7b87-4313-b486-2e5e9fb0e9f9",
-      "status": "todo",
+      "status": "done",
       "area": "evaluation",
       "risk": "low",
       "title": "Aider Style Post-Merge Smoke Tests V1",
