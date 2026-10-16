@@ -14374,7 +14374,7 @@
     },
     {
       "id": "4d3e907f-d2e9-44f1-b4f8-f9b4733e731a",
-      "status": "todo",
+      "status": "done",
       "area": "telemetry",
       "risk": "low",
       "title": "OpenClaw Canvas Live Reflection Tracing",
