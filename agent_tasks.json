@@ -14391,7 +14391,7 @@
     },
     {
       "id": "1a68b69f-2238-495c-9a7c-57c1447a365c",
-      "status": "todo",
+      "status": "done",
       "area": "safety",
       "risk": "medium",
       "title": "MCP Server Taint Context Isolation",
