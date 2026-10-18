@@ -14408,7 +14408,7 @@
     },
     {
       "id": "81d7564a-5ff7-4a2b-9e9f-4776e139f832",
-      "status": "todo",
+      "status": "done",
       "area": "memory",
       "risk": "medium",
       "title": "Letta Virtual Context Routine Builder",
