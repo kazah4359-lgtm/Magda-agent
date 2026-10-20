@@ -14443,7 +14443,7 @@
     },
     {
       "id": "c639a867-2e61-43c5-aac4-0f20995f7a93",
-      "status": "todo",
+      "status": "done",
       "area": "telemetry",
       "risk": "medium",
       "title": "OpenClaw Context Engine Canvas Visualization V2",
