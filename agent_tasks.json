@@ -14460,7 +14460,7 @@
     },
     {
       "id": "689bf4c3-d060-4f17-aae1-3fa0bed483b0",
-      "status": "todo",
+      "status": "done",
       "area": "integration",
       "risk": "medium",
       "title": "A2A Agent Peer Authentication V2",
