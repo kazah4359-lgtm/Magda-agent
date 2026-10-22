@@ -14494,7 +14494,7 @@
     },
     {
       "id": "4d78fb0f-566e-4a65-965c-10a9bb2fee26",
-      "status": "todo",
+      "status": "done",
       "area": "learning",
       "risk": "medium",
       "title": "OpenClaw-RL Habit Decay Parameterization",
