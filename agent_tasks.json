@@ -14596,7 +14596,7 @@
     },
     {
       "id": "claude-agent-subagent-spawning-v4-efgh",
-      "status": "todo",
+      "status": "done",
       "area": "architecture",
       "risk": "medium",
       "title": "Claude Agent Teams Context Compression V4",
