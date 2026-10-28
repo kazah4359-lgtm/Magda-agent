@@ -14613,7 +14613,7 @@
     },
     {
       "id": "mcp-kernel-runtime-function-concurrency-v1-ijkl",
-      "status": "todo",
+      "status": "done",
       "area": "skills",
       "risk": "medium",
       "title": "OpenAI SDK Runtime Function Tool Concurrency V1",
