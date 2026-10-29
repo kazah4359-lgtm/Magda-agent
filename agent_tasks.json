@@ -14633,7 +14633,7 @@
       "title": "Agent Teams Parallel Subagents V6",
       "area": "architecture",
       "risk": "medium",
-      "status": "todo",
+      "status": "done",
       "description": "Inspired by Agent Teams isolation trend: Implement parallel execution manager for subagents operating in isolated git worktrees.",
       "allowed_paths": [
         "magda_agent/architecture/parallel_execution_v6.py",
