@@ -14650,7 +14650,7 @@
       "title": "MCP Dynamic Skill Marketplace Poller V2",
       "area": "integration",
       "risk": "medium",
-      "status": "todo",
+      "status": "done",
       "description": "Inspired by agentskills.io standard: Implement a background cron job that periodically syncs with the agentskills.io marketplace.",
       "allowed_paths": [
         "magda_agent/integration/mcp_marketplace_poller_v2.py",
