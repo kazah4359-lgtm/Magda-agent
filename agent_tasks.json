@@ -14667,7 +14667,7 @@
       "title": "OpenClaw Memory Compaction Cron V2",
       "area": "memory",
       "risk": "medium",
-      "status": "todo",
+      "status": "done",
       "description": "Inspired by OpenClaw virtual context: Implement a cron job that automatically compacts episodic memory overnight.",
       "allowed_paths": [
         "magda_agent/scheduler/memory_compaction_cron_v2.py",
