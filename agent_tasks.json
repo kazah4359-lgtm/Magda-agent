@@ -14698,7 +14698,7 @@
     },
     {
       "id": "claude-dependency-graph-planner-v4",
-      "status": "todo",
+      "status": "done",
       "area": "planning",
       "risk": "medium",
       "title": "Claude Dependency Graph Planner Export V2",
