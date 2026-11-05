@@ -14735,7 +14735,7 @@
       "title": "OpenClaw MCP Subagent Router Plugin",
       "area": "architecture",
       "risk": "medium",
-      "status": "todo",
+      "status": "done",
       "description": "Inspired by OpenClaw gateway patterns: Build a subagent routing plugin using MCP to delegate user prompts efficiently.",
       "allowed_paths": [
         "magda_agent/architecture/mcp_router_plugin_v1.py",
