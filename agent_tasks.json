@@ -14752,7 +14752,7 @@
       "title": "A2A Secure Payload Validation",
       "area": "integration",
       "risk": "medium",
-      "status": "todo",
+      "status": "done",
       "description": "Inspired by A2A Protocol standard trends: Enhance the payload validation to ensure secure agent-to-agent communication payloads.",
       "allowed_paths": [
         "magda_agent/integration/a2a_payload_validation_v2.py",
