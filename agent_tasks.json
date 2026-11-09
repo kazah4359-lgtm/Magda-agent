@@ -14769,7 +14769,7 @@
       "title": "Virtual Context Semantic Pruning",
       "area": "memory",
       "risk": "medium",
-      "status": "todo",
+      "status": "done",
       "description": "Inspired by Letta context patterns: Implement a semantic pruning hook for virtual context, removing decayed short-term entries dynamically.",
       "allowed_paths": [
         "magda_agent/memory/semantic_pruning_v3.py",
