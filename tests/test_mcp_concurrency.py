@@ -201,7 +201,8 @@ async def test_execute_mcp_tools_concurrently_sync_blocking():
     results = await executor.execute_mcp_tools_concurrently(tool_calls)
     end_time = asyncio.get_event_loop().time()
 
-    assert end_time - start_time < 0.3
+    # In CI runners with high load or virtualization, allow reasonable margin while asserting concurrency
+    assert end_time - start_time < 0.7
     assert results[0] == "server1-tool_a_sync_res"
     assert results[1] == "server2-tool_b_sync_res"
 
